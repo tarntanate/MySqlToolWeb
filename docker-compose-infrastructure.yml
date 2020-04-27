@@ -1,0 +1,111 @@
+version: "3.6"
+
+services:
+
+    mongo:
+        image: mongo
+        container_name: mongo
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=pwd1234
+            - MONGO_INITDB_DATABASE=ookbee-ads
+        ports:
+            - 27017:27017
+        networks:
+            - ookbee
+        volumes:
+            - mongo:/data/db
+
+    postgres:
+        image: postgres
+        container_name: postgres
+        environment:
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=pwd1234
+            - POSTGRES_DB=ookbee-ads
+        ports:
+            - 5432:5432
+        networks:
+            - ookbee
+        # network_mode: host
+        volumes:
+            - postgres:/var/lib/postgresql/data
+
+    redis:
+        image: redis
+        container_name: redis
+        command: redis-server --requirepass pwd1234
+        ports:
+            - 6379:6379
+        networks:
+            - ookbee
+        # network_mode: host
+        volumes:
+            - redis:/data
+
+    consul:
+        image: consul
+        container_name: consul
+        ports:
+            - 8500:8500
+        networks:
+            - ookbee
+        # network_mode: host
+        volumes:
+            - consul:/consul/data
+
+    fabio:
+        image: fabiolb/fabio
+        container_name: fabio
+        environment:
+            - FABIO_REGISTRY_CONSUL_ADDR=consul:8500
+        networks:
+            - ookbee
+        # network_mode: host
+        ports:
+            - 9998:9998
+            - 9999:9999
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        container_name: rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+        networks:
+            - ookbee
+        # network_mode: host
+        volumes:
+            - rabbitmq:/var/lib/rabbitmq
+
+    vault:
+        image: vault
+        container_name: vault
+        ports:
+            - 8200:8200
+        networks:
+            - ookbee
+        # network_mode: host
+        environment:
+            - VAULT_ADDR=http://127.0.0.1:8200
+            - VAULT_DEV_ROOT_TOKEN_ID=secret
+        cap_add:
+            - IPC_LOCK
+            
+networks:
+
+    ookbee:
+        name: ookbee-network
+
+volumes:
+
+    consul:
+        driver: local
+    mongo:
+        driver: local
+    postgres:
+        driver: local
+    rabbitmq:
+        driver: local
+    redis:
+        driver: local
