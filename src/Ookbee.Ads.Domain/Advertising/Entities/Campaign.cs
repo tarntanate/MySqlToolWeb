@@ -4,5 +4,6 @@ namespace Ookbee.Ads.Domain.Advertising.Entity
 {
     public class Campaign : BaseEntity
     {
+        public string Name { get; set; }
     }
 }

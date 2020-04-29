@@ -1,9 +1,13 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Anna.Common.MongoDB.Domain
 {
     public abstract class BaseDocument : IBaseDocument
     {
-        public long Id { get; set; }
+        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
     }
 }

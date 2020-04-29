@@ -4,6 +4,6 @@ namespace Anna.Common.MongoDB.Domain
 {
     public interface IBaseDocument
     {
-        long Id { get; set; }
+        string Id { get; set; }
     }
 }

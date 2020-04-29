@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -48,6 +49,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                         options.Filters.Add(typeof(CustomExceptionFilterAttribute));
                         options.OutputFormatters.Insert(0, new ApiOutputFormatter());
                     })
+			        .AddFluentValidation(fv=> fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
                     .AddNewtonsoftJson((options) => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // Configure
