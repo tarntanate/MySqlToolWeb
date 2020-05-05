@@ -7,8 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization.Conventions;
 using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
-using Ookbee.Ads.Persistence.Advertising.EntityFrameworkCore;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
@@ -18,12 +18,12 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             // RDBMS
-            services.AddDbContext<OokbeeAdsEfContext>();
-            services.AddScoped(typeof(OokbeeAdsEfRepository<>));
+            services.AddDbContext<OokbeeAdsEFCoreContext>();
+            services.AddScoped(typeof(OokbeeAdsEFCoreRepository<>));
 
             // MongoDB
-            services.AddSingleton<OokbeeAdsMongoContext>();
-            services.AddScoped(typeof(OokbeeAdsMongoRepository<>));
+            services.AddSingleton<OokbeeAdsMongoDBContext>();
+            services.AddScoped(typeof(OokbeeAdsMongoDBRepository<>));
             ConventionRegistry.Register("CamelCaseElementName", new ConventionPack { new CamelCaseElementNameConvention() }, _ => true);
 
             // Redis

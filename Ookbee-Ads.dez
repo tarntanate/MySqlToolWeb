@@ -279,7 +279,7 @@
 </DEFCON>
 </ATTR>
 <ATTR>
-<NAME>AdvertiserId</NAME>
+<NAME>CampaignAdvertiserId</NAME>
 <ID>12</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
@@ -401,7 +401,7 @@
 <ID>11</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
-<DESC>¨Ó¹Ç¹¤ÃÑé§·Õè¤¹¨ÐàËç¹¤Í¹à·¹µì¹Ñé¹</DESC>
+<DESC>ï¿½Ó¹Ç¹ï¿½ï¿½ï¿½é§·ï¿½è¤¹ï¿½ï¿½ï¿½ï¿½ç¹¤Í¹à·¹ï¿½ï¿½ï¿½ï¿½</DESC>
 <NOTE></NOTE>
 <DOMAINID>-1</DOMAINID>
 <DT>
@@ -514,7 +514,7 @@
 <ID>9</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
-<DESC>àÇÅÒ·ÕèàÃÔèÁµé¹¡ÒÃãªé§Ò¹</DESC>
+<DESC>ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é¹¡ï¿½ï¿½ï¿½ï¿½Ò¹</DESC>
 <NOTE></NOTE>
 <DOMAINID>-1</DOMAINID>
 <DT>
@@ -543,7 +543,7 @@
 <ID>10</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
-<DESC>àÇÅÒ·ÕèÊÔé¹ÊØ´¡ÒÃãªé§Ò¹</DESC>
+<DESC>ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½Ò¹</DESC>
 <NOTE></NOTE>
 <DOMAINID>-1</DOMAINID>
 <DT>
@@ -684,7 +684,7 @@
 <AUTOIDXTYPE>0</AUTOIDXTYPE>
 <IDXCOLS>
 <IDXCOL>
-<NAME>AdvertiserId</NAME>
+<NAME>CampaignAdvertiserId</NAME>
 <ID>0</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
@@ -782,7 +782,7 @@
 </INDEXES>
 </ENT>
 <ENT>
-<NAME>CampaignAdvertiser</NAME>
+<NAME>CampaignCampaignAdvertiser</NAME>
 <ID>6</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
@@ -793,7 +793,7 @@
 <TRGLASTID>1</TRGLASTID>
 <CONLASTID>1</CONLASTID>
 <PKCON>
-<NAME>PK_CampaignAdvertiser</NAME>
+<NAME>PK_CampaignCampaignAdvertiser</NAME>
 <NAMETEMPLATE>PK_%table%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -845,7 +845,7 @@
 <SCHEMA></SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
-<VALUE>nextval('&quot;SEQ_CampignAdvertiser&quot;')</VALUE>
+<VALUE>nextval('&quot;SEQ_CampignCampaignAdvertiser&quot;')</VALUE>
 <CONLEVEL>1</CONLEVEL>
 <CONTYPE>6</CONTYPE>
 <ATTRIBUTEIDS>
@@ -1003,7 +1003,7 @@
 </ATTRIBUTES>
 <INDEXES>
 <INDEX>
-<NAME>IDX_CampaignAdvertiser_1</NAME>
+<NAME>IDX_CampaignCampaignAdvertiser_1</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>2</ID>
 <POSNR>0</POSNR>
@@ -1034,7 +1034,7 @@
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_CampaignAdvertiser_2</NAME>
+<NAME>IDX_CampaignCampaignAdvertiser_2</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>3</ID>
 <POSNR>0</POSNR>
@@ -1058,7 +1058,7 @@
 </INDEXES>
 </ENT>
 <ENT>
-<NAME>CampaignPricingModel</NAME>
+<NAME>CampaignPricingModelModel</NAME>
 <ID>10</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
@@ -1069,7 +1069,7 @@
 <TRGLASTID>1</TRGLASTID>
 <CONLASTID>1</CONLASTID>
 <PKCON>
-<NAME>PK_CampaignPricingModel</NAME>
+<NAME>PK_CampaignPricingModelModel</NAME>
 <NAMETEMPLATE>PK_%table%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -1234,7 +1234,7 @@
 </ATTRIBUTES>
 <INDEXES>
 <INDEX>
-<NAME>IDX_CampaignPricingModel_1</NAME>
+<NAME>IDX_CampaignPricingModelModel_1</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>3</ID>
 <POSNR>0</POSNR>
@@ -1265,7 +1265,7 @@
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_CampaignPricingModel_2</NAME>
+<NAME>IDX_CampaignPricingModelModel_2</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>2</ID>
 <POSNR>0</POSNR>
@@ -3761,7 +3761,7 @@
 </STAMPS>
 <SEQUENCES>
 <SEQUENCE>
-<NAME>SEQ_CampignAdvertiser</NAME>
+<NAME>SEQ_CampignCampaignAdvertiser</NAME>
 <ID>43</ID>
 <POSNR>1</POSNR>
 <SCHEMA></SCHEMA>
@@ -3954,7 +3954,7 @@
 </VIEWS>
 <RELATIONSHIPS>
 <REL>
-<NAME>CampaignAdvertiser_Campaign</NAME>
+<NAME>CampaignCampaignAdvertiser_Campaign</NAME>
 <NAMETEMPLATE>%parent%_%child%</NAMETEMPLATE>
 <ID>8</ID>
 <POSNR>0</POSNR>
@@ -3996,7 +3996,7 @@
 </PAIRS>
 </REL>
 <REL>
-<NAME>CampaignPricingModel_Campaign</NAME>
+<NAME>CampaignPricingModelModel_Campaign</NAME>
 <NAMETEMPLATE>%parent%_%child%</NAMETEMPLATE>
 <ID>11</ID>
 <POSNR>0</POSNR>

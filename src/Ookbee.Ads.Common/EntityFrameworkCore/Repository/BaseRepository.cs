@@ -264,9 +264,9 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
-                    ((IBaseEntity)entity.Entity).CreatedDate = DateTimeHelper.UtcNow;
+                    ((IBaseEntity)entity.Entity).CreatedDate = MechineDateTime.UtcNow;
 
-                ((IBaseEntity)entity.Entity).UpdatedDate = DateTimeHelper.UtcNow;
+                ((IBaseEntity)entity.Entity).UpdatedDate = MechineDateTime.UtcNow;
             }
 
             return DbContext.SaveChanges();
@@ -546,9 +546,9 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
-                    ((IBaseEntity)entity.Entity).CreatedDate = DateTimeHelper.UtcNow;
+                    ((IBaseEntity)entity.Entity).CreatedDate = MechineDateTime.UtcNow;
 
-                ((IBaseEntity)entity.Entity).UpdatedDate = DateTimeHelper.UtcNow;
+                ((IBaseEntity)entity.Entity).UpdatedDate = MechineDateTime.UtcNow;
             }
 
             return await DbContext.SaveChangesAsync();
