@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Advertising.Controllers
 {
     [ApiController]
-    [Route("api/campaigns/item-types")]
+    [Route("api/campaigns/items/types")]
     public class ItemTypesController : BaseController
     {
         [HttpGet]

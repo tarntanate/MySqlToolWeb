@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Advertising.Controllers
 {
     [ApiController]
-    [Route("api/campaigns/item-assets")]
+    [Route("api/campaigns/items/assets")]
     public class CampaignItemAssetsController : BaseController
     {
         [HttpGet]
