@@ -236,7 +236,7 @@ _Pvt_Extensions
 .fake/
 
 # AppSettings
-**/appsettings*
+**/appsettings*.json
 
 # Visual Studio Code
 .vscode/*
