@@ -5,7 +5,7 @@
 <PROJECTSETTINGS>
 <COMMONSETTINGS>
 <PROJECTFILENAME>D:\Workstation\dotnetcore\Ookbee-Ads\Ookbee-Ads.dez</PROJECTFILENAME>
-<MODIFIED>2020-04-15</MODIFIED>
+<MODIFIED>2020-05-08</MODIFIED>
 <CREATED>2020-04-08</CREATED>
 <CREATED2></CREATED2>
 <PROJECTNAME></PROJECTNAME>
@@ -782,7 +782,7 @@
 </INDEXES>
 </ENT>
 <ENT>
-<NAME>CampaignCampaignAdvertiser</NAME>
+<NAME>CampaignAdvertiser</NAME>
 <ID>6</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
@@ -793,7 +793,7 @@
 <TRGLASTID>1</TRGLASTID>
 <CONLASTID>1</CONLASTID>
 <PKCON>
-<NAME>PK_CampaignCampaignAdvertiser</NAME>
+<NAME>PK_CampaignAdvertiser</NAME>
 <NAMETEMPLATE>PK_%table%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -1003,7 +1003,7 @@
 </ATTRIBUTES>
 <INDEXES>
 <INDEX>
-<NAME>IDX_CampaignCampaignAdvertiser_1</NAME>
+<NAME>IDX_CampaignAdvertiser_1</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>2</ID>
 <POSNR>0</POSNR>
@@ -1034,7 +1034,7 @@
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_CampaignCampaignAdvertiser_2</NAME>
+<NAME>IDX_CampaignAdvertiser_2</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>3</ID>
 <POSNR>0</POSNR>
@@ -3954,7 +3954,7 @@
 </VIEWS>
 <RELATIONSHIPS>
 <REL>
-<NAME>CampaignCampaignAdvertiser_Campaign</NAME>
+<NAME>CampaignAdvertiser_Campaign</NAME>
 <NAMETEMPLATE>%parent%_%child%</NAMETEMPLATE>
 <ID>8</ID>
 <POSNR>0</POSNR>
