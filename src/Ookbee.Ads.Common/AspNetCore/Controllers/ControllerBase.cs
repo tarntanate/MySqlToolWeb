@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Common.AspNetCore.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public abstract class BaseController : Controller
+    public abstract class ApiControllerBase : ControllerBase
     {
         private IMediator _mediator;
 

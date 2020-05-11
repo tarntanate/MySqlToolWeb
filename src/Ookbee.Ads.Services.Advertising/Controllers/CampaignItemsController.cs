@@ -15,7 +15,7 @@ namespace Ookbee.Ads.Services.Advertising.Controllers
 {
     [ApiController]
     [Route("api/campaigns/items")]
-    public class CampaignItemsController : BaseController
+    public class CampaignItemsController : ApiControllerBase
     {
         [HttpGet]
         public async Task<HttpResult<IEnumerable<CampaignItemDto>>> GetList([FromQuery]int start, [FromQuery] int length)

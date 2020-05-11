@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Services.Advertising.Controllers
 {
     [ApiController]
     [Route("api/campaigns/pricing-models")]
-    public class PricingModelsController : BaseController
+    public class PricingModelsController : ApiControllerBase
     {
         [HttpGet]
         public async Task<HttpResult<IEnumerable<CampaignPricingModelDto>>> GetList([FromQuery]int start, [FromQuery] int length)
