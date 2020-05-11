@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Ookbee.Ads.Services.Analytics": {
+    "Development": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/health",
