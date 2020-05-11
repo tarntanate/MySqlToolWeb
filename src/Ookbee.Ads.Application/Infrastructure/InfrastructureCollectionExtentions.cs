@@ -55,7 +55,10 @@ namespace Ookbee.Ads.Application.Infrastructure
             services.AddCors(options => {
                         options.AddPolicy(
                             name: "AllowSpecificOrigins",
-                            policy: corsPolicyBuilder.AllowAnyMethod().Build()
+                            policy: corsPolicyBuilder.AllowAnyHeader()
+                                                     .AllowCredentials()
+                                                     .AllowAnyMethod()
+                                                     .Build()
                         );
                     });
             services.AddControllers((options) => {
