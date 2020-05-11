@@ -52,15 +52,13 @@ namespace Ookbee.Ads.Application.Infrastructure
                 corsPolicyBuilder.AllowAnyOrigin();
             else
                 corsPolicyBuilder.WithOrigins(allowedHosts.Split(";"));
-            services.AddCors(options =>
-                    {
+            services.AddCors(options => {
                         options.AddPolicy(
                             name: "AllowSpecificOrigins",
                             policy: corsPolicyBuilder.Build()
                         );
                     });
-            services.AddControllers((options) =>
-                    {
+            services.AddControllers((options) => {
                         options.Filters.Add(typeof(CustomExceptionFilterAttribute));
                         options.OutputFormatters.Insert(0, new ApiOutputFormatter());
                     })
