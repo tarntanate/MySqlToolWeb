@@ -1,6 +1,6 @@
 using MongoDB.Bson.Serialization.Attributes;
-using Ookbee.Ads.Application.Business.CampaignAdvertiser;
-using Ookbee.Ads.Application.Business.CampaignPricingModel;
+using Ookbee.Ads.Application.Business.Advertiser;
+using Ookbee.Ads.Application.Business.PricingModel;
 using System;
 
 namespace Ookbee.Ads.Application.Business.Campaign
@@ -36,8 +36,8 @@ namespace Ookbee.Ads.Application.Business.Campaign
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime EndDate { get; set; }
 
-        public CampaignAdvertiserDto Advertiser{ get; set; }
+        public AdvertiserDto Advertiser{ get; set; }
 
-        public CampaignPricingModelDto PricingModel { get; set; }
+        public PricingModelDto PricingModel { get; set; }
     }
 }

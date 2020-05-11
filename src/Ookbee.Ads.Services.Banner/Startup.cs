@@ -6,8 +6,7 @@ using Ookbee.Ads.Application.Infrastructure;
 
 namespace Ookbee.Ads.Services.Banner
 {
-    
-public class Startup
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -27,3 +26,4 @@ public class Startup
         }
     }
 }
+

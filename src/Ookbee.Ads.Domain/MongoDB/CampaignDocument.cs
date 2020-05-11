@@ -43,8 +43,8 @@ namespace Ookbee.Ads.Domain.MongoDB
 
         public bool EnableFlag { get; set; }
 
-        public CampaignAdvertiserDocument Advertiser { get; set; }
+        public AdvertiserDocument Advertiser { get; set; }
         
-        public CampaignPricingModelDocument PricingModel { get; set; }
+        public PricingModelDocument PricingModel { get; set; }
     }
 }

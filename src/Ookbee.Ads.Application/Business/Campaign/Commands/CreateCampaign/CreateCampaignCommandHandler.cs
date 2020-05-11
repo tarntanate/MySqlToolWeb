@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.CampaignAdvertiser.Queries.GetByIdCampaignAdvertiser;
-using Ookbee.Ads.Application.Business.CampaignPricingModel.Queries.GetByIdCampaignPricingModel;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetByIdAdvertiser;
+using Ookbee.Ads.Application.Business.PricingModel.Queries.GetByIdPricingModel;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -36,18 +36,18 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
             var result = new HttpResult<string>();
             try
             {
-                var advertiserResult = await Mediatr.Send(new GetByIdCampaignAdvertiserCommand(request.AdvertiserId));
+                var advertiserResult = await Mediatr.Send(new GetByIdAdvertiserCommand(request.AdvertiserId));
                 if (!advertiserResult.Ok)
                     return result.Fail(400, advertiserResult.Message);
 
-                var pricingModelResult = await Mediatr.Send(new GetByIdCampaignPricingModelCommand(request.PricingModelId));
+                var pricingModelResult = await Mediatr.Send(new GetByIdPricingModelCommand(request.PricingModelId));
                 if (!pricingModelResult.Ok)
                     return result.Fail(400, pricingModelResult.Message);
 
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<CampaignDocument>();
-                document.Advertiser = Mapper.Map(advertiserResult.Data).ToANew<CampaignAdvertiserDocument>();
-                document.PricingModel = Mapper.Map(pricingModelResult.Data).ToANew<CampaignPricingModelDocument>();
+                document.Advertiser = Mapper.Map(advertiserResult.Data).ToANew<AdvertiserDocument>();
+                document.PricingModel = Mapper.Map(pricingModelResult.Data).ToANew<PricingModelDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await CampaignMongoDB.AddAsync(document);

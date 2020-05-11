@@ -4,12 +4,12 @@ using System;
 
 namespace Ookbee.Ads.Domain.MongoDB
 {
-    [CollectionName("CampaignItem")]
-    public class CampaignItemDocument : BaseDocument
+    [CollectionName("Banner")]
+    public class BannerDocument : BaseDocument
     {
         public string CampaignId { get; set; }
 
-        public string CampaignItemTypeId { get; set; }
+        public string UnitTypeId { get; set; }
 
         public string Name { get; set; }
 

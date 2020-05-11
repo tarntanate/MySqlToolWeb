@@ -4,8 +4,8 @@ using System;
 
 namespace Ookbee.Ads.Domain.MongoDB
 {
-    [CollectionName("CampaignItemType")]
-    public class CampaignItemTypeDocument : BaseDocument
+    [CollectionName("UnitType")]
+    public class UnitTypeDocument : BaseDocument
     {
         public string Name { get; set; }
 

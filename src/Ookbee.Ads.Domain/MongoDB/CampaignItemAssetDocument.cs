@@ -4,10 +4,10 @@ using System;
 
 namespace Ookbee.Ads.Domain.MongoDB
 {
-    [CollectionName("CampaignItemAsset")]
-    public class CampaignItemAssetDocument : BaseDocument
+    [CollectionName("MediaFile")]
+    public class MediaFileDocument : BaseDocument
     {
-        public string CampaignItemId { get; set; }
+        public string BannerId { get; set; }
         public string Name { get; set; }
 
         public string Description { get; set; }
