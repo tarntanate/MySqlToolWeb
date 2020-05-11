@@ -20,6 +20,7 @@ namespace Ookbee.Ads.Application.Infrastructure
             {
                 builder.UseDeveloperExceptionPage();
             }
+            builder.UseCors("AllowedHosts");
             builder.UseRouting();
             builder.UseAuthorization();
             builder.UseEndpoints(config =>

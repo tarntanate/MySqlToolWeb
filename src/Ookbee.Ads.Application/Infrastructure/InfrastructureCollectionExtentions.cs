@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,12 +45,26 @@ namespace Ookbee.Ads.Application.Infrastructure
                     .AddRedis(configuration["AppSettings:ConnectionStrings:Redis"]);
 
             // Options
+            var allowedHosts = configuration.GetValue<string>("AllowedHosts");
+            var corsPolicyBuilder = new CorsPolicyBuilder();
             services.AddHttpContextAccessor();
-            services.AddControllers((options) => {
+            if (allowedHosts == "*")
+                corsPolicyBuilder.AllowAnyOrigin();
+            else
+                corsPolicyBuilder.WithOrigins(allowedHosts.Split(";"));
+            services.AddCors(options =>
+                    {
+                        options.AddPolicy(
+                            name: "AllowSpecificOrigins",
+                            policy: corsPolicyBuilder.Build()
+                        );
+                    });
+            services.AddControllers((options) =>
+                    {
                         options.Filters.Add(typeof(CustomExceptionFilterAttribute));
                         options.OutputFormatters.Insert(0, new ApiOutputFormatter());
                     })
-			        .AddFluentValidation(fv=> fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
+                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
                     .AddNewtonsoftJson((options) => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // Configure
