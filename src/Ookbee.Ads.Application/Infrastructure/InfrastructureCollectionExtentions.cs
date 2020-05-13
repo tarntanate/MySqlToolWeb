@@ -1,12 +1,12 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization.Conventions;
 using Ookbee.Ads.Common.AspNetCore.Attributes;
+using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using Ookbee.Ads.Persistence.EFCore;
@@ -45,26 +45,8 @@ namespace Ookbee.Ads.Application.Infrastructure
                     .AddRedis(configuration["AppSettings:ConnectionStrings:Redis"]);
 
             // Options
-            var allowedHosts = configuration.GetValue<string>("AllowedHosts");
-            var corsPolicyBuilder = new CorsPolicyBuilder();
+            services.AddAllowedHosts(configuration);
             services.AddHttpContextAccessor();
-            if (allowedHosts == "*") {
-                corsPolicyBuilder.AllowAnyOrigin();
-            }
-            else
-            {
-                corsPolicyBuilder.WithOrigins(allowedHosts.Split(";"))
-                                 .AllowCredentials();
-            }
-            services.AddCors(options =>
-            {
-                options.AddPolicy(
-                    name: "AllowSpecificOrigins",
-                    policy: corsPolicyBuilder.AllowAnyHeader()
-                                             .AllowAnyMethod()
-                                             .Build()
-                );
-            });
             services.AddControllers((options) =>
             {
                 options.Filters.Add(typeof(CustomExceptionFilterAttribute));
