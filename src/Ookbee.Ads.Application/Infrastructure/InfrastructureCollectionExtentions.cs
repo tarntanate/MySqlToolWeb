@@ -48,23 +48,28 @@ namespace Ookbee.Ads.Application.Infrastructure
             var allowedHosts = configuration.GetValue<string>("AllowedHosts");
             var corsPolicyBuilder = new CorsPolicyBuilder();
             services.AddHttpContextAccessor();
-            if (allowedHosts == "*")
+            if (allowedHosts == "*") {
                 corsPolicyBuilder.AllowAnyOrigin();
+            }
             else
-                corsPolicyBuilder.WithOrigins(allowedHosts.Split(";"));
-            services.AddCors(options => {
-                        options.AddPolicy(
-                            name: "AllowSpecificOrigins",
-                            policy: corsPolicyBuilder.AllowAnyHeader()
-                                                     .AllowCredentials()
-                                                     .AllowAnyMethod()
-                                                     .Build()
-                        );
-                    });
-            services.AddControllers((options) => {
-                        options.Filters.Add(typeof(CustomExceptionFilterAttribute));
-                        options.OutputFormatters.Insert(0, new ApiOutputFormatter());
-                    })
+            {
+                corsPolicyBuilder.WithOrigins(allowedHosts.Split(";"))
+                                 .AllowCredentials();
+            }
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    name: "AllowSpecificOrigins",
+                    policy: corsPolicyBuilder.AllowAnyHeader()
+                                             .AllowAnyMethod()
+                                             .Build()
+                );
+            });
+            services.AddControllers((options) =>
+            {
+                options.Filters.Add(typeof(CustomExceptionFilterAttribute));
+                options.OutputFormatters.Insert(0, new ApiOutputFormatter());
+            })
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
                     .AddNewtonsoftJson((options) => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
