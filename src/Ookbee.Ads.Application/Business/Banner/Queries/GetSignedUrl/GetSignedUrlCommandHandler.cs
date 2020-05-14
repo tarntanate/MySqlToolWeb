@@ -7,7 +7,7 @@ using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Banner.Queries.GetSignedUrlCommand
+namespace Ookbee.Ads.Application.Business.Banner.Queries.GetSignedUrl
 {
     public class GetSignedUrlCommandHandler : IRequestHandler<GetSignedUrlCommand, HttpResult<string>>
     {

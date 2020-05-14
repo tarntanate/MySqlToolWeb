@@ -7,7 +7,7 @@ using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrl
+namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetByIdUploadUrl
 {
     public class GetByIdUploadUrlCommandHandler : IRequestHandler<GetByIdUploadUrlCommand, HttpResult<UploadUrlDto>>
     {

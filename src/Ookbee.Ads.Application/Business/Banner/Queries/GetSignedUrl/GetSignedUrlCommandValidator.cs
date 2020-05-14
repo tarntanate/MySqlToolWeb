@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Ookbee.Ads.Common.Extensions;
 
-namespace Ookbee.Ads.Application.Business.Banner.Queries.GetSignedUrlCommand
+namespace Ookbee.Ads.Application.Business.Banner.Queries.GetSignedUrl
 {
     public class GetSignedUrlCommandValidator : AbstractValidator<GetSignedUrlCommand>
     {
@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetSignedUrlCommand
 
         private bool BeAValidJpg(string fileExtension)
         {
-            return fileExtension.IsValidJpg();
+            return fileExtension.IsValidJpeg();
         }
     }
 }

@@ -2,7 +2,7 @@
 using Ookbee.Ads.Application.Business.SlotType;
 using Ookbee.Ads.Common.Result;
 
-namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrl
+namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetByIdUploadUrl
 {
     public class GetByIdUploadUrlCommand : IRequest<HttpResult<UploadUrlDto>>
     {

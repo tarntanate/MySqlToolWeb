@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Common.Extensions
             return regex.IsMatch(value);
         }
 
-        public static bool IsValidJpg(this string value)
+        public static bool IsValidJpeg(this string value)
         {
             var regex = new Regex("^.(jpg|jpeg)$");
             return regex.IsMatch(value.ToLower());

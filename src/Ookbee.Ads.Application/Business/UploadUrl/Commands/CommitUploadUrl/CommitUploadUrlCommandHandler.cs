@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFileUrl;
-using Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrl;
+using Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl;
+using Ookbee.Ads.Application.Business.UploadUrl.Queries.GetByIdUploadUrl;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Infrastructure;
@@ -42,9 +42,9 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.CommitUploadUrl
             if (!isSuccessCopyObject)
                 return result.Fail(500);
 
-            var updateFileUrlResult = await Mediator.Send(new UpdateFileUrlCommand(uploadUrlData.Id, uploadUrlData.SignUrl));
-            if (!updateFileUrlResult.Ok)
-                return updateFileUrlResult;
+            var UpdateMediaUrlResult = await Mediator.Send(new UpdateMediaUrlCommand(uploadUrlData.Id, uploadUrlData.SignUrl));
+            if (!UpdateMediaUrlResult.Ok)
+                return UpdateMediaUrlResult;
 
             return result.Success(true);
         }

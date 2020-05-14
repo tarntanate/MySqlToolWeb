@@ -13,13 +13,15 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
 
         public string Description { get; set; }
 
-        public string MediaType { get; set; }
+        public string MimeType { get; set; }
 
         public string MediaUrl { get; set; }
 
-        public string LinkUrl { get; set; }
-
         public string Position { get; set; }
+
+        public string AppLink { get; set; }
+
+        public string WebLink { get; set; }
 
         public UpdateMediaFileCommand(string id)
         {
@@ -32,10 +34,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
             BannerId = request.BannerId;
             Name = request.Name;
             Description = request.Description;
-            MediaType = request.MediaType;
+            MimeType = request.MimeType;
             MediaUrl = request.MediaUrl;
-            LinkUrl = request.LinkUrl;
             Position = request.Position;
+            AppLink = request.AppLink;
+            WebLink = request.WebLink;
         }
     }
 }

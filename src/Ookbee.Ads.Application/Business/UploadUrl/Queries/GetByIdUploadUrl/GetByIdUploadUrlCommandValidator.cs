@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using System.Text.RegularExpressions;
 
-namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrl
+namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetByIdUploadUrl
 {
     public class GetByIdUploadUrlCommandValidator : AbstractValidator<GetByIdUploadUrlCommand>
     {

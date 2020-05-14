@@ -13,13 +13,15 @@ namespace Ookbee.Ads.Domain.MongoDB
 
         public string Description { get; set; }
 
-        public string FileType { get; set; }
+        public string MimeType { get; set; }
 
-        public string FileUrl { get; set; }
-
-        public string LinkUrl { get; set; }
+        public string MediaUrl { get; set; }
 
         public string Position { get; set; }
+
+        public string AppLink { get; set; }
+
+        public string WebLink { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreatedDate { get; set; }

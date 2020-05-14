@@ -9,14 +9,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFileUrl
+namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
 {
-    public class UpdateFileUrlCommandHandler : IRequestHandler<UpdateFileUrlCommand, HttpResult<bool>>
+    public class UpdateMediaUrlCommandHandler : IRequestHandler<UpdateMediaUrlCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
-        public UpdateFileUrlCommandHandler(
+        public UpdateMediaUrlCommandHandler(
             IMediator mediator,
             OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
@@ -24,9 +24,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFileUrl
             MediaFileMongoDB = mediaFileMongoDB;
         }
 
-        public async Task<HttpResult<bool>> Handle(UpdateFileUrlCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(UpdateMediaUrlCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnMongo(request.Id, request.FileUrl);
+            var result = await UpdateOnMongo(request.Id, request.MediaUrl);
             return result;
         }
 
@@ -43,7 +43,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFileUrl
                 await MediaFileMongoDB.UpdateManyPartialAsync(
                     filter: f => f.Id == id,
                     update: Builders<MediaFileDocument>.Update
-                            .Set(f => f.FileUrl, fileUrl)
+                            .Set(f => f.MediaUrl, fileUrl)
                             .Set(f => f.UpdatedDate, now.DateTime)
                 );
                 return result.Success(true);

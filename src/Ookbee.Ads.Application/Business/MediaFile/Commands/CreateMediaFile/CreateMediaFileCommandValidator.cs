@@ -1,8 +1,8 @@
 ﻿using System;
 using FluentValidation;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using MongoDB.Bson;
 using Ookbee.Ads.Application.Infrastructure.Enums;
-using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Common;
 
 namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
 {
@@ -10,27 +10,33 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
     {
         public CreateMediaFileCommandValidator()
         {
+            RuleFor(p => p.BannerId).Must(BeAValidObjectId).WithMessage(p => $"BannerId '{p.Id}' is not a valid 24 digit hex string.");
             RuleFor(p => p.Name).MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.MediaType).NotEmpty().MaximumLength(40);
-            RuleFor(p => p.MediaUrl).MaximumLength(250);
-            RuleFor(p => p.LinkUrl).MaximumLength(250);
+            RuleFor(p => p.MimeType).NotEmpty().NotNull().Must(BeAValidMediaType).WithMessage(p => $"The MediaType '{p.MimeType}' is not supported.");
+            RuleFor(p => p.AppLink).Must(BeAValidUri).WithMessage(p => $"The AppLink '{p.AppLink}' is not supported.");
+            RuleFor(p => p.WebLink).Must(BeAValidUri).WithMessage(p => $"The WebLink '{p.WebLink}' is not supported.");
             RuleFor(p => p.Position).Must(BeAValidPosition).WithMessage(p => $"The Position '{p.Position}' is not supported.");
         }
 
         private bool BeAValidMediaType(string value)
         {
-            return Enum.TryParse(value, true, out MediaType mediaType);
+            return value == MimeTypes.Image.Jpeg || value == MimeTypes.Video.Mpeg;
         }
 
-        private bool BeAValidMediaUrl(string value)
+        private bool BeAValidObjectId(string id)
         {
-            return value.IsValidUri();
+            return ObjectId.TryParse(id, out ObjectId objectId);
         }
 
         private bool BeAValidPosition(string value)
         {
             return Enum.TryParse(value, true, out Position position);
+        }
+
+        private bool BeAValidUri(string value)
+        {
+            return true;
         }
     }
 }
