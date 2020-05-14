@@ -10,14 +10,14 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.DeletePricingMod
 {
     public class DeletePricingModelCommandHandler : IRequestHandler<DeletePricingModelCommand, HttpResult<bool>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
         public DeletePricingModelCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             PricingModelMongoDB = pricingModelMongoDB;
         }
 
@@ -31,9 +31,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.DeletePricingMod
         {
             var result = new HttpResult<bool>();
 
-            var isExistsByNameResult = await Mediatr.Send(new IsExistsByIdPricingModelCommand(id));
-            if (!isExistsByNameResult.Data)
-                return result.Fail(404, $"PricingModel '{id}' doesn't exist.");
+            var isExistsResult = await Mediator.Send(new IsExistsByIdPricingModelCommand(id));
+            if (!isExistsResult.Ok)
+                return isExistsResult;
 
             await PricingModelMongoDB.DeleteAsync(id);
             return result.Success(true);

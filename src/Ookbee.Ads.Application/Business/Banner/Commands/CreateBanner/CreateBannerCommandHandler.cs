@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetByIdCampaign;
-using Ookbee.Ads.Application.Business.UnitType.Queries.GetByIdUnitType;
+using Ookbee.Ads.Application.Business.SlotType.Queries.GetByIdSlotType;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -14,14 +14,14 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.CreateBanner
 {
     public class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand, HttpResult<string>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
         public CreateBannerCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             BannerMongoDB = bannerMongoDB;
         }
 
@@ -37,25 +37,24 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.CreateBanner
             var result = new HttpResult<string>();
             try
             {
-                var campaignResult = await Mediatr.Send(new GetByIdCampaignCommand(document.CampaignId));
+                var campaignResult = await Mediator.Send(new GetByIdCampaignCommand(document.CampaignId));
                 if (!campaignResult.Ok)
                     return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
-                var UnitTypeResult = await Mediatr.Send(new GetByIdUnitTypeCommand(document.CampaignId));
-                if (!UnitTypeResult.Ok)
-                    return result.Fail(UnitTypeResult.StatusCode, UnitTypeResult.Message);
+                var slotTypeResult = await Mediator.Send(new GetByIdSlotTypeCommand(document.SlotTypeId));
+                if (!slotTypeResult.Ok)
+                    return result.Fail(slotTypeResult.StatusCode, slotTypeResult.Message);
 
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await BannerMongoDB.AddAsync(document);
-                return result.Success(document.Id.ToString());
+                return result.Success(document.Id);
             }
             catch (Exception ex)
             {
                 return result.Fail(500, ex.Message);
             }
         }
-
     }
 }

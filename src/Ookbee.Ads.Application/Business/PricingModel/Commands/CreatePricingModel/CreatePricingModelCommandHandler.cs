@@ -12,14 +12,14 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
 {
     public class CreatePricingModelCommandHandler : IRequestHandler<CreatePricingModelCommand, HttpResult<string>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
         public CreatePricingModelCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             PricingModelMongoDB = pricingModelMongoDB;
         }
 
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await PricingModelMongoDB.AddAsync(document);
-                return result.Success(document.Id.ToString());
+                return result.Success(document.Id);
             }
             catch (Exception ex)
             {

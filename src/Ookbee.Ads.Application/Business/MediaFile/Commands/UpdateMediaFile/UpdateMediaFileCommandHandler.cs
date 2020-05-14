@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.GetByIdMediaFile;
+using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsByIdMediaFile;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -13,14 +14,14 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
 {
     public class UpdateMediaFileCommandHandler : IRequestHandler<UpdateMediaFileCommand, HttpResult<bool>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public UpdateMediaFileCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;
         }
 
@@ -36,9 +37,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
             var result = new HttpResult<bool>();
             try
             {
-                var BannerResult = await Mediatr.Send(new GetByIdMediaFileCommand(document.Id));
-                if (!BannerResult.Ok)
-                    return result.Fail(BannerResult.StatusCode, BannerResult.Message);
+                var isExistsResult = await Mediator.Send(new IsExistsByIdMediaFileCommand(document.Id));
+                if (!isExistsResult.Ok)
+                    return isExistsResult;
 
                 var now = MechineDateTime.Now;
                 document.UpdatedDate = now.DateTime;

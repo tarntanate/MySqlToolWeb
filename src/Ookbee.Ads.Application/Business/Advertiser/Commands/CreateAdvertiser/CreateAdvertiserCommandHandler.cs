@@ -13,14 +13,14 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
 {
     public class CreateAdvertiserCommandHandler : IRequestHandler<CreateAdvertiserCommand, HttpResult<string>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
 
         public CreateAdvertiserCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             AdvertiserMongoDB = advertiserMongoDB;
         }
 
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
             var result = new HttpResult<string>();
             try
             {
-                var isExistsByNameResult = await Mediatr.Send(new IsExistsByNameAdvertiserCommand(document.Name));
+                var isExistsByNameResult = await Mediator.Send(new IsExistsByNameAdvertiserCommand(document.Name));
                 if (isExistsByNameResult.Data)
                     return result.Fail(409, $"Advertiser already exists.");
 
@@ -44,13 +44,12 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await AdvertiserMongoDB.AddAsync(document);
-                return result.Success(document.Id.ToString());
+                return result.Success(document.Id);
             }
             catch (Exception ex)
             {
                 return result.Fail(500, ex.Message);
             }
         }
-
     }
 }

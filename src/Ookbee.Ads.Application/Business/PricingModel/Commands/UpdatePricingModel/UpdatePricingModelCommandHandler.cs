@@ -13,14 +13,14 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
 {
     public class UpdatePricingModelCommandHandler : IRequestHandler<UpdatePricingModelCommand, HttpResult<bool>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
         public UpdatePricingModelCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             PricingModelMongoDB = pricingModelMongoDB;
         }
 
@@ -36,9 +36,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByNameResult = await Mediatr.Send(new IsExistsByIdPricingModelCommand(document.Id));
-                if (!isExistsByNameResult.Data)
-                    return result.Fail(404, $"PricingModel '{document.Id}' doesn't exist.");
+                var isExistsResult = await Mediator.Send(new IsExistsByIdPricingModelCommand(document.Id));
+                if (!isExistsResult.Ok)
+                    return isExistsResult;
 
                 var now = MechineDateTime.Now;
                 document.UpdatedDate = now.DateTime;

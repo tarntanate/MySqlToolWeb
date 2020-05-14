@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 {
     public class CreateCampaignCommand : IRequest<HttpResult<string>>
     {
-        public string Id { get; set; }
+        public string Id => ObjectId.GenerateNewId().ToString();
 
         public string AdvertiserId { get; set; }
 
@@ -41,12 +41,11 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 
         public CreateCampaignCommand()
         {
-            Id = ObjectId.GenerateNewId().ToString();
+            
         }
 
         public CreateCampaignCommand(CreateCampaignCommand request)
         {
-            Id = request.Id;
             AdvertiserId = request.AdvertiserId;
             PricingModelId = request.PricingModelId;
             Name = request.Name;
@@ -62,26 +61,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
             IsExpire = request.IsExpire;
             StartDate = request.StartDate;
             EndDate = request.EndDate;
-        }
-
-        public CreateCampaignCommand(string id, string advertiserId, string pricingModelId, string name, string description, string imageUrl, decimal budget, int limitViewTotal, int limitViewPerPerson, TimeSpan limitViewResetAfter, int pricingClick, int pricingImpressions, decimal pricingRate, bool isExpire, DateTime startDate, DateTime endDate)
-        {
-            Id = id;
-            AdvertiserId = advertiserId;
-            PricingModelId = pricingModelId;
-            Name = name;
-            Description = description;
-            ImageUrl = imageUrl;
-            Budget = budget;
-            LimitViewTotal = limitViewTotal;
-            LimitViewPerPerson = limitViewPerPerson;
-            LimitViewResetAfter = limitViewResetAfter;
-            PricingClick = pricingClick;
-            PricingImpressions = pricingImpressions;
-            PricingRate = pricingRate;
-            IsExpire = isExpire;
-            StartDate = startDate;
-            EndDate = endDate;
         }
     }
 }

@@ -6,18 +6,17 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
 {
     public class CreatePricingModelCommand : IRequest<HttpResult<string>>
     {
-        public string Id { get; set; }
+        public string Id => ObjectId.GenerateNewId().ToString();
         public string Name { get; set; }
         public string Description { get; set; }
 
         public CreatePricingModelCommand()
         {
-            Id = ObjectId.GenerateNewId().ToString();
+            
         }
 
         public CreatePricingModelCommand(CreatePricingModelCommand request)
         {
-            Id = ObjectId.GenerateNewId().ToString();
             Name = request.Name;
             Description = request.Description;
         }

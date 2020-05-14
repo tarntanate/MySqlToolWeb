@@ -25,7 +25,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.IsExistsByIdBanner
         {
             var result = new HttpResult<bool>();
             var isExists = await BannerMongoDB.AnyAsync(filter: f => f.Id == id);
-            return result.Success(isExists);
+            if (isExists)
+                return result.Success(true);
+            return result.Fail(404, $"Banner '{id}' doesn't exist.");
         }
     }
 }

@@ -12,7 +12,7 @@ services:
         ports:
             - 27017:27017
         networks:
-            - ookbee
+            - ookbee-ads
         volumes:
             - mongo:/data/db
 
@@ -26,7 +26,7 @@ services:
         ports:
             - 5432:5432
         networks:
-            - ookbee
+            - ookbee-ads
         # network_mode: host
         volumes:
             - postgres:/var/lib/postgresql/data
@@ -38,7 +38,7 @@ services:
         ports:
             - 6379:6379
         networks:
-            - ookbee
+            - ookbee-ads
         # network_mode: host
         volumes:
             - redis:/data
@@ -49,7 +49,7 @@ services:
         ports:
             - 8500:8500
         networks:
-            - ookbee
+            - ookbee-ads
         # network_mode: host
         volumes:
             - consul:/consul/data
@@ -60,7 +60,7 @@ services:
         environment:
             - FABIO_REGISTRY_CONSUL_ADDR=consul:8500
         networks:
-            - ookbee
+            - ookbee-ads
         # network_mode: host
         ports:
             - 9998:9998
@@ -73,7 +73,7 @@ services:
             - 5672:5672
             - 15672:15672
         networks:
-            - ookbee
+            - ookbee-ads
         # network_mode: host
         volumes:
             - rabbitmq:/var/lib/rabbitmq
@@ -84,7 +84,7 @@ services:
         ports:
             - 8200:8200
         networks:
-            - ookbee
+            - ookbee-ads
         # network_mode: host
         environment:
             - VAULT_ADDR=http://127.0.0.1:8200
@@ -94,7 +94,7 @@ services:
             
 networks:
 
-    ookbee:
+    ookbee-ads:
         name: ookbee-network
 
 volumes:

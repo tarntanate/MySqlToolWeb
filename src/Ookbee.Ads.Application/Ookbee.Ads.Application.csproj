@@ -3,7 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="5.4.*" />
+  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\Ookbee.Ads.Infrastructure\Ookbee.Ads.Infrastructure.csproj" />
     <ProjectReference Include="..\Ookbee.Ads.Persistence\Ookbee.Ads.Persistence.csproj" />

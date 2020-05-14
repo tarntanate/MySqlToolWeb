@@ -6,6 +6,7 @@ using Ookbee.Ads.Application.Business.Banner.Commands.DeleteBanner;
 using Ookbee.Ads.Application.Business.Banner.Commands.UpdateBanner;
 using Ookbee.Ads.Application.Business.Banner.Queries.GetByIdBanner;
 using Ookbee.Ads.Application.Business.Banner.Queries.GetListBanner;
+using Ookbee.Ads.Application.Business.Banner.Queries.GetSignedUrlCommand;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Advertising.Controllers
 {
     [ApiController]
-    [Route("api/campaigns/[controller]")]
+    [Route("api/[controller]")]
     public class BannersController : ApiController
     {
         [HttpGet]
@@ -24,6 +25,10 @@ namespace Ookbee.Ads.Services.Advertising.Controllers
         [HttpGet("{id}")]
         public async Task<HttpResult<BannerDto>> GetById([FromRoute]string id)
             => await Mediator.Send(new GetByIdBannerCommand(id));
+
+        [HttpGet("signed-url")]
+        public async Task<HttpResult<string>> GetByIdSignedUrl([FromRoute]string id)
+            => await Mediator.Send(new GetSignedUrlCommand());
 
         [HttpPost]
         public async Task<HttpResult<string>> Create([FromBody]CreateBannerCommand request)

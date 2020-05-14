@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Application.Business.Banner.Queries.IsExistsByIdBanner;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -9,14 +10,14 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.DeleteBanner
 {
     public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand, HttpResult<bool>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
         public DeleteBannerCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             BannerMongoDB = bannerMongoDB;
         }
 
@@ -29,6 +30,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.DeleteBanner
         private async Task<HttpResult<bool>> DeleteMongoDB(string id)
         {
             var result = new HttpResult<bool>();
+
+            var isExistsResult = await Mediator.Send(new IsExistsByIdBannerCommand(id));
+            if (!isExistsResult.Ok)
+                return isExistsResult;
+
             await BannerMongoDB.DeleteAsync(id);
             return result.Success(true);
         }

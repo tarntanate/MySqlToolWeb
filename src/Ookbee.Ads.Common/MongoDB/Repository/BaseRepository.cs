@@ -69,6 +69,11 @@ namespace Anna.Common.MongoDB
             return Collection.Find(filter).FirstOrDefaultAsync();
         }
 
+        public Task<TResult> FirstOrDefaultAsync<TResult>(Expression<Func<TDocument, TResult>> selector, Expression<Func<TDocument, bool>> filter)
+        {
+            return Collection.Find(filter).Project(selector).FirstOrDefaultAsync();
+        }
+
         public IEnumerable<TDocument> Find(SortDefinition<TDocument> sort = null, int start = 0, int length = 10)
         {
             return Collection.Find(new BsonDocument()).Sort(sort).Skip(start).Limit(length).ToList();

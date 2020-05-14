@@ -25,7 +25,9 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsByNameAdver
         {
             var result = new HttpResult<bool>();
             var isExists = await AdvertiserMongoDB.AnyAsync(filter: f => f.Name == name);
-            return result.Success(isExists);
+            if (isExists)
+                return result.Success(true);
+            return result.Fail(404, $"Advertiser '{name}' doesn't exist.");
         }
     }
 }

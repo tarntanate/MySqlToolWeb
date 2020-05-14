@@ -10,14 +10,14 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.DeleteAdvertiser
 {
     public class DeleteAdvertiserCommandHandler : IRequestHandler<DeleteAdvertiserCommand, HttpResult<bool>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
 
         public DeleteAdvertiserCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             AdvertiserMongoDB = advertiserMongoDB;
         }
 
@@ -31,9 +31,9 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.DeleteAdvertiser
         {
             var result = new HttpResult<bool>();
 
-            var isExistsByNameResult = await Mediatr.Send(new IsExistsByIdAdvertiserCommand(id));
-            if (!isExistsByNameResult.Data)
-                return result.Fail(404, $"Advertiser '{id}' doesn't exist.");
+            var isExistsResult = await Mediator.Send(new IsExistsByIdAdvertiserCommand(id));
+            if (!isExistsResult.Ok)
+                return isExistsResult;
 
             await AdvertiserMongoDB.DeleteAsync(id);
             return result.Success(true);

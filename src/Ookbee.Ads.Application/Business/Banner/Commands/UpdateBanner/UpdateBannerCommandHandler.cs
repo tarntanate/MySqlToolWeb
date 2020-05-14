@@ -1,5 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Banner.Queries.IsExistsByIdBanner;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -12,14 +13,14 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.UpdateBanner
 {
     public class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand, HttpResult<bool>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
         public UpdateBannerCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             BannerMongoDB = bannerMongoDB;
         }
 
@@ -35,6 +36,10 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.UpdateBanner
             var result = new HttpResult<bool>();
             try
             {
+                var isExistsResult = await Mediator.Send(new IsExistsByIdBannerCommand(document.Id));
+                if (!isExistsResult.Ok)
+                    return isExistsResult;
+
                 var now = MechineDateTime.Now;
                 document.UpdatedDate = now.DateTime;
                 await BannerMongoDB.UpdateAsync(document.Id, document);

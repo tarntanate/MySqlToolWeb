@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Advertising.Controllers
 {
     [ApiController]
-    [Route("api/campaigns/pricing-models")]
+    [Route("api/pricing-models")]
     public class PricingModelsController : ApiController
     {
         [HttpGet]

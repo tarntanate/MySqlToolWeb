@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Advertising.Controllers
 {
     [ApiController]
-    [Route("api/campaigns/[controller]")]
+    [Route("api/[controller]")]
     public class AdvertisersController : ApiController
     {
         [HttpGet]
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Services.Advertising.Controllers
             => await Mediator.Send(new CreateAdvertiserCommand(request));
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<string>> Update([FromRoute]string id, [FromBody]UpdateAdvertiserCommand request)
+        public async Task<HttpResult<bool>> Update([FromRoute]string id, [FromBody]UpdateAdvertiserCommand request)
             => await Mediator.Send(new UpdateAdvertiserCommand(id, request));
 
         [HttpDelete("{id}")]

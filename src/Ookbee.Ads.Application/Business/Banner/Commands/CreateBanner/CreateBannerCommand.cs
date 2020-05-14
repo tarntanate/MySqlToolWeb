@@ -1,33 +1,42 @@
 ﻿using MediatR;
 using MongoDB.Bson;
 using Ookbee.Ads.Common.Result;
+using System;
 
 namespace Ookbee.Ads.Application.Business.Banner.Commands.CreateBanner
 {
     public class CreateBannerCommand : IRequest<HttpResult<string>>
     {
-        public string Id { get; set; }
+        public string Id => ObjectId.GenerateNewId().ToString();
+
+        public string CampaignId { get; set; }
+
+        public string SlotTypeId { get; set; }
+
         public string Name { get; set; }
+
         public string Description { get; set; }
-        public string ImageUrl { get; set; }
-        public string Contact { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
+
+        public TimeSpan Cooldown { get; set; }
+
+        public string ForegroundColor { get; set; }
+
+        public string BackgroundColor { get; set; }
 
         public CreateBannerCommand()
         {
-            Id = ObjectId.GenerateNewId().ToString();
+            
         }
 
         public CreateBannerCommand(CreateBannerCommand request)
         {
-            Id = ObjectId.GenerateNewId().ToString();
+            CampaignId =request.CampaignId;
+            SlotTypeId = request.SlotTypeId;
             Name = request.Name;
             Description = request.Description;
-            ImageUrl = request.ImageUrl;
-            Contact = request.Contact;
-            Email = request.Email;
-            PhoneNumber = request.PhoneNumber;
+            Cooldown = request.Cooldown;
+            ForegroundColor = request.ForegroundColor;
+            BackgroundColor = request.BackgroundColor;
         }
     }
 }

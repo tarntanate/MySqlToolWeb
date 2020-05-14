@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿using System;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Ookbee.Ads.Application.Infrastructure.Enums;
 using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
@@ -7,22 +10,27 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
     {
         public CreateMediaFileCommandValidator()
         {
-            RuleFor(p => p.Name).NotEmpty().MaximumLength(40);
+            RuleFor(p => p.Name).MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.ImageUrl).MaximumLength(250);
-            RuleFor(p => p.Contact).MaximumLength(5000);
-            RuleFor(p => p.Email).Must(BeAValidEmailAddress).WithMessage("Please specify a valid 'Email'.").MaximumLength(20);
-            RuleFor(p => p.PhoneNumber).Must(BeAValidPhoneNumber).WithMessage("Please specify a valid 'PhoneNumber'.").MaximumLength(10);
+            RuleFor(p => p.MediaType).NotEmpty().MaximumLength(40);
+            RuleFor(p => p.MediaUrl).MaximumLength(250);
+            RuleFor(p => p.LinkUrl).MaximumLength(250);
+            RuleFor(p => p.Position).Must(BeAValidPosition).WithMessage(p => $"The Position '{p.Position}' is not supported.");
         }
 
-        private bool BeAValidEmailAddress(string email)
+        private bool BeAValidMediaType(string value)
         {
-            return email.IsValidEmailAddress();
+            return Enum.TryParse(value, true, out MediaType mediaType);
         }
 
-        private bool BeAValidPhoneNumber(string phoneNumber)
+        private bool BeAValidMediaUrl(string value)
         {
-            return phoneNumber.IsValidPhoneNumber();
+            return value.IsValidUri();
+        }
+
+        private bool BeAValidPosition(string value)
+        {
+            return Enum.TryParse(value, true, out Position position);
         }
     }
 }

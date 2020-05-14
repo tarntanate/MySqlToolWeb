@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Advertising.Controllers
 {
     [ApiController]
-    [Route("api/campaigns/banners/[controller]")]
+    [Route("api/media-files")]
     public class MediaFilesController : ApiController
     {
         [HttpGet]

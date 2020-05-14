@@ -8,13 +8,14 @@ namespace Ookbee.Ads.Domain.MongoDB
     public class MediaFileDocument : BaseDocument
     {
         public string BannerId { get; set; }
+        
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public string MediaType { get; set; }
+        public string FileType { get; set; }
 
-        public string MediaUrl { get; set; }
+        public string FileUrl { get; set; }
 
         public string LinkUrl { get; set; }
 

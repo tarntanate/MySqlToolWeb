@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetByIdMediaFile
             var result = new HttpResult<MediaFileDto>();
             var item = await MediaFileMongoDB.FirstOrDefaultAsync(filter: f => f.Id == id);
             if (item == null)
-                return result.Fail(404, $"Advertiser '{id}' doesn't exist.");
+                return result.Fail(404, $"MediaFile '{id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<MediaFileDto>();
             return result.Success(data);
         }

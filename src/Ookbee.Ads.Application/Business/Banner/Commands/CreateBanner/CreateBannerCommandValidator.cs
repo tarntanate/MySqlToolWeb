@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using System;
+using FluentValidation;
+using Ookbee.Ads.Application.Infrastructure.Enums;
 using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.Banner.Commands.CreateBanner
@@ -9,20 +11,14 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.CreateBanner
         {
             RuleFor(p => p.Name).NotEmpty().MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.ImageUrl).MaximumLength(250);
-            RuleFor(p => p.Contact).MaximumLength(5000);
-            RuleFor(p => p.Email).Must(BeAValidEmailAddress).WithMessage("Please specify a valid 'Email'.").MaximumLength(20);
-            RuleFor(p => p.PhoneNumber).Must(BeAValidPhoneNumber).WithMessage("Please specify a valid 'PhoneNumber'.").MaximumLength(10);
+            RuleFor(p => p.Cooldown).GreaterThan(TimeSpan.FromSeconds(0)).LessThanOrEqualTo(TimeSpan.FromSeconds(30));
+            RuleFor(p => p.BackgroundColor).Must(BeARGBHexColor).WithMessage("BackgroundColor only support rgb format.");
+            RuleFor(p => p.ForegroundColor).Must(BeARGBHexColor).WithMessage("ForegroundColor only support rgb format.");
         }
 
-        private bool BeAValidEmailAddress(string email)
+        private bool BeARGBHexColor(string value)
         {
-            return email.IsValidEmailAddress();
-        }
-
-        private bool BeAValidPhoneNumber(string phoneNumber)
-        {
-            return phoneNumber.IsValidPhoneNumber();
+            return value.IsValidRGBHexColor();
         }
     }
 }

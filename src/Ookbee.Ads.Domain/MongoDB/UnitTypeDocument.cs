@@ -4,14 +4,12 @@ using System;
 
 namespace Ookbee.Ads.Domain.MongoDB
 {
-    [CollectionName("UnitType")]
-    public class UnitTypeDocument : BaseDocument
+    [CollectionName("SlotType")]
+    public class SlotTypeDocument : BaseDocument
     {
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        public string ImageUrl { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreatedDate { get; set; }

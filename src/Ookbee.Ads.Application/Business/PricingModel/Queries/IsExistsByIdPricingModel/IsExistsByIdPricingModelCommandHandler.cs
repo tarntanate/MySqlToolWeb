@@ -25,7 +25,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsByIdPrici
         {
             var result = new HttpResult<bool>();
             var isExists = await PricingModelMongoDB.AnyAsync(filter: f => f.Id == id);
-            return result.Success(isExists);
+            if (isExists)
+                return result.Success(true);
+            return result.Fail(404, $"PricingModel '{id}' doesn't exist.");
         }
     }
 }

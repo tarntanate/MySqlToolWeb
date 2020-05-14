@@ -13,14 +13,14 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
 {
     public class CreateMediaFileCommandHandler : IRequestHandler<CreateMediaFileCommand, HttpResult<string>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public CreateMediaFileCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;
         }
 
@@ -36,21 +36,20 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
             var result = new HttpResult<string>();
             try
             {
-                var campaignResult = await Mediatr.Send(new GetByIdBannerCommand(document.BannerId));
-                if (!campaignResult.Ok)
-                    return result.Fail(campaignResult.StatusCode, campaignResult.Message);
+                var bannerResult = await Mediator.Send(new GetByIdBannerCommand(document.BannerId));
+                if (!bannerResult.Ok)
+                    return result.Fail(bannerResult.StatusCode, bannerResult.Message);
 
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await MediaFileMongoDB.AddAsync(document);
-                return result.Success(document.Id.ToString());
+                return result.Success(document.Id);
             }
             catch (Exception ex)
             {
                 return result.Fail(500, ex.Message);
             }
         }
-
     }
 }

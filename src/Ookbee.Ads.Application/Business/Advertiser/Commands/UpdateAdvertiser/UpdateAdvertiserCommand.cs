@@ -3,7 +3,7 @@ using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 {
-    public class UpdateAdvertiserCommand : IRequest<HttpResult<string>>
+    public class UpdateAdvertiserCommand : IRequest<HttpResult<bool>>
     {
         public string Id { get; set; }
         public string Name { get; set; }

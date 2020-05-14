@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Domain.MongoDB
     {
         public string CampaignId { get; set; }
 
-        public string UnitTypeId { get; set; }
+        public string SlotTypeId { get; set; }
 
         public string Name { get; set; }
 

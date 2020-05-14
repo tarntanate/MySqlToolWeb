@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.MediaFile.Queries.GetByIdMediaFile;
+using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsByIdMediaFile;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -10,14 +10,14 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
 {
     public class DeleteMediaFileCommandHandler : IRequestHandler<DeleteMediaFileCommand, HttpResult<bool>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public DeleteMediaFileCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;
         }
 
@@ -30,10 +30,10 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
         private async Task<HttpResult<bool>> DeleteMongoDB(string id)
         {
             var result = new HttpResult<bool>();
-            
-            var BannerResult = await Mediatr.Send(new GetByIdMediaFileCommand(id));
-            if (!BannerResult.Ok)
-                return result.Fail(BannerResult.StatusCode, BannerResult.Message);
+
+            var isExistsResult = await Mediator.Send(new IsExistsByIdMediaFileCommand(id));
+            if (!isExistsResult.Ok)
+                return isExistsResult;
 
             await MediaFileMongoDB.DeleteAsync(id);
             return result.Success(true);

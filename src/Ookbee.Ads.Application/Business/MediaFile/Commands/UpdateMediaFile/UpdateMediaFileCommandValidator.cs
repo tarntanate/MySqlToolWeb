@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Ookbee.Ads.Common.Extensions;
+using MongoDB.Bson;
 
 namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
 {
@@ -7,22 +7,18 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
     {
         public UpdateMediaFileCommandValidator()
         {
-            RuleFor(p => p.Name).NotEmpty().MaximumLength(40);
+            RuleFor(p => p.Id).Length(24).Must(BeAValidObjectId).WithMessage(p => $"MediaFileId '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.Name).MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.ImageUrl).MaximumLength(250);
-            RuleFor(p => p.Contact).MaximumLength(5000);
-            RuleFor(p => p.Email).Must(BeAValidEmailAddress).WithMessage("Please specify a valid 'Email'.").MaximumLength(20);
-            RuleFor(p => p.PhoneNumber).Must(BeAValidPhoneNumber).WithMessage("Please specify a valid 'PhoneNumber'.").MaximumLength(10);
+            RuleFor(p => p.MediaType).NotEmpty().MaximumLength(40);
+            RuleFor(p => p.MediaUrl).MaximumLength(250);
+            RuleFor(p => p.LinkUrl).MaximumLength(250);
+            RuleFor(p => p.Position).NotEmpty().MaximumLength(40);
         }
 
-        private bool BeAValidEmailAddress(string email)
+        private bool BeAValidObjectId(string id)
         {
-            return email.IsValidEmailAddress();
-        }
-
-        private bool BeAValidPhoneNumber(string phoneNumber)
-        {
-            return phoneNumber.IsValidPhoneNumber();
+            return ObjectId.TryParse(id, out ObjectId objectId);
         }
     }
 }

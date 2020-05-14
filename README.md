@@ -29,16 +29,11 @@ docker run --name rabbitmq -d -p 5672:5672 -p 15672:15672 --hostname rabbitmq ra
 docker run --name redis -d -p 6379:6379-e REDIS_PASSWORD=pwd1234 redis
 
 Or using Docker compose (first, create a new `docker-compose.yml` file and then execute `docker-compose up` command):
-You can also find this file `docker-compose-mongo-postgres-rabbit-redis.yml`, which includes custom network and volumes. 
+You can also find this file `docker-compose-infrastructure.yml`, which includes custom network and volumes. 
 In order to start it, execute `docker-compose -f ` up -d` (-d will run containers in the background).
 
-docker-compose -f docker-compose-mongo-postgres-rabbit-redis.yml up -d --force-recreate
-docker-compose -f docker-compose-mongo-postgres-rabbit-redis.yml down --remove-orphans --volumes
-
-If you want to start additional infrastructural services e.g. Consul, Fabio and Vault, execute `docker-compose-consul-fabio-rabbit-vault.yml up -d` command.
-
-docker-compose -f docker-compose-consul-fabio-vault.yml up -d --force-recreate
-docker-compose -f docker-compose-consul-fabio-vault.yml down --remove-orphans --volumes
+docker-compose -f docker-compose-infrastructure.yml up -d --force-recreate
+docker-compose -f docker-compose-infrastructure.yml down --remove-orphans --volumes
 
 Restart All
 

@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetByIdBanner
             var result = new HttpResult<BannerDto>();
             var item = await BannerMongoDB.FirstOrDefaultAsync(filter: f => f.Id == id);
             if (item == null)
-                return result.Fail(404, $"Advertiser '{id}' doesn't exist.");
+                return result.Fail(404, $"Banner '{id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<BannerDto>();
             return result.Success(data);
         }

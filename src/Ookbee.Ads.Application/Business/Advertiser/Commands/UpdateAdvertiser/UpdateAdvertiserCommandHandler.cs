@@ -11,39 +11,39 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 {
-    public class UpdateAdvertiserCommandHandler : IRequestHandler<UpdateAdvertiserCommand, HttpResult<string>>
+    public class UpdateAdvertiserCommandHandler : IRequestHandler<UpdateAdvertiserCommand, HttpResult<bool>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
 
         public UpdateAdvertiserCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
         {
-            Mediatr = mediatr;
+            Mediator = mediator;
             AdvertiserMongoDB = advertiserMongoDB;
         }
 
-        public async Task<HttpResult<string>> Handle(UpdateAdvertiserCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(UpdateAdvertiserCommand request, CancellationToken cancellationToken)
         {
             var document = Mapper.Map(request).ToANew<AdvertiserDocument>();
             var result = await UpdateOnMongo(document);
             return result;
         }
 
-        private async Task<HttpResult<string>> UpdateOnMongo(AdvertiserDocument document)
+        private async Task<HttpResult<bool>> UpdateOnMongo(AdvertiserDocument document)
         {
-            var result = new HttpResult<string>();
+            var result = new HttpResult<bool>();
             try
             {
-                var isExistsByNameResult = await Mediatr.Send(new IsExistsByIdAdvertiserCommand(document.Id));
-                if (!isExistsByNameResult.Data)
-                    return result.Fail(404, $"Advertiser doesn't exist.");
+                var isExistsResult = await Mediator.Send(new IsExistsByIdAdvertiserCommand(document.Id));
+                if (!isExistsResult.Ok)
+                    return isExistsResult;
 
                 var now = MechineDateTime.Now;
                 document.UpdatedDate = now.DateTime;
                 await AdvertiserMongoDB.UpdateAsync(document.Id, document);
-                return result.Success(document.Id.ToString());
+                return result.Success(true);
             }
             catch (Exception ex)
             {

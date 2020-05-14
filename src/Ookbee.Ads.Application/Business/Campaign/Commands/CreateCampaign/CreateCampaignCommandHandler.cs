@@ -14,15 +14,15 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 {
     public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, HttpResult<string>>
     {
-        private IMediator Mediatr { get; }
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
 
         public CreateCampaignCommandHandler(
-            IMediator mediatr,
+            IMediator mediator,
             OokbeeAdsMongoDBRepository<CampaignDocument> campaignMongoDB)
         {
             CampaignMongoDB = campaignMongoDB;
-            Mediatr = mediatr;
+            Mediator = mediator;
         }
 
         public async Task<HttpResult<string>> Handle(CreateCampaignCommand request, CancellationToken cancellationToken)
@@ -36,11 +36,11 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
             var result = new HttpResult<string>();
             try
             {
-                var advertiserResult = await Mediatr.Send(new GetByIdAdvertiserCommand(request.AdvertiserId));
+                var advertiserResult = await Mediator.Send(new GetByIdAdvertiserCommand(request.AdvertiserId));
                 if (!advertiserResult.Ok)
                     return result.Fail(400, advertiserResult.Message);
 
-                var pricingModelResult = await Mediatr.Send(new GetByIdPricingModelCommand(request.PricingModelId));
+                var pricingModelResult = await Mediator.Send(new GetByIdPricingModelCommand(request.PricingModelId));
                 if (!pricingModelResult.Ok)
                     return result.Fail(400, pricingModelResult.Message);
 
@@ -51,7 +51,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await CampaignMongoDB.AddAsync(document);
-                return result.Success(document.Id.ToString());
+                return result.Success(document.Id);
             }
             catch (Exception ex)
             {
