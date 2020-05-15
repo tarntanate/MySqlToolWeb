@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using MongoDB.Driver;
+using Ookbee.Ads.Application.Business.Banner.Queries.IsExistsBannerById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -12,10 +13,14 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByBanner
 {
     public class GetMediaFileByBannerIdQueryHandler : IRequestHandler<GetMediaFileByBannerIdQuery, HttpResult<IEnumerable<MediaFileDto>>>
     {
-        private OokbeeAdsMongoDBRepository<BannerDocument> MediaFileMongoDB { get; }
+        private IMediator Mediator { get; set; }
+        private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
-        public GetMediaFileByBannerIdQueryHandler(OokbeeAdsMongoDBRepository<BannerDocument> mediaFileMongoDB)
+        public GetMediaFileByBannerIdQueryHandler(
+            IMediator mediator,
+            OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
+            Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;
         }
 
@@ -27,8 +32,14 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByBanner
         private async Task<HttpResult<IEnumerable<MediaFileDto>>> GetOnMongo(string bannerId, int start, int length)
         {
             var result = new HttpResult<IEnumerable<MediaFileDto>>();
+
+            var isExistsCampaignResult = await Mediator.Send(new IsExistsBannerByIdQuery(bannerId));
+            if (!isExistsCampaignResult.Ok)
+                return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
+
             var items = await MediaFileMongoDB.FindAsync(
-                sort: Builders<BannerDocument>.Sort.Descending(nameof(BannerDocument.Name)),
+                filter: f => f.BannerId == bannerId,
+                sort: Builders<MediaFileDocument>.Sort.Descending(nameof(MediaFileDocument.Name)),
                 start: start,
                 length: length
             );
