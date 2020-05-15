@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetSignedUrlById
 {
-    public class GGetSignedUrlByIdQueryHandler : IRequestHandler<GetSignedUrlByIdQuery, HttpResult<string>>
+    public class GetSignedUrlByIdQueryHandler : IRequestHandler<GetSignedUrlByIdQuery, HttpResult<string>>
     {
         private AdsMongoRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
 
-        public GGetSignedUrlByIdQueryHandler(AdsMongoRepository<UploadUrlDocument> uploadUrlMongoDB)
+        public GetSignedUrlByIdQueryHandler(AdsMongoRepository<UploadUrlDocument> uploadUrlMongoDB)
         {
             UploadUrlMongoDB = uploadUrlMongoDB;
         }
