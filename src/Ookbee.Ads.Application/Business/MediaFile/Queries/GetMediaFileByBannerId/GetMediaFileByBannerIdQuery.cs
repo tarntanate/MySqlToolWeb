@@ -2,19 +2,19 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 
-namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByBannerId
+namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
 {
-    public class GetMediaFileByBannerIdQuery : IRequest<HttpResult<IEnumerable<MediaFileDto>>>
+    public class GetMediaFileByAdIdQuery : IRequest<HttpResult<IEnumerable<MediaFileDto>>>
     {
-        public string BannerId { get; set; }
+        public string AdId { get; set; }
 
         public int Start { get; set; }
 
         public int Length { get; set; }
 
-        public GetMediaFileByBannerIdQuery(string bannerId, int start, int length)
+        public GetMediaFileByAdIdQuery(string bannerId, int start, int length)
         {
-            BannerId = bannerId;
+            AdId = bannerId;
             Start = start;
             Length = length;
         }

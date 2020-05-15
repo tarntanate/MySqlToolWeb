@@ -1,6 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Banner.Queries.GetBannerById;
+using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
             var result = new HttpResult<string>();
             try
             {
-                var bannerResult = await Mediator.Send(new GetBannerByIdQuery(document.BannerId));
+                var bannerResult = await Mediator.Send(new GetAdByIdQuery(document.AdId));
                 if (!bannerResult.Ok)
                     return result.Fail(bannerResult.StatusCode, bannerResult.Message);
 

@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
     {
         public CreateMediaFileCommandValidator()
         {
-            RuleFor(p => p.BannerId).Must(BeAValidObjectId).WithMessage(p => $"BannerId '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"AdId '{p.Id}' is not a valid 24 digit hex string.");
             RuleFor(p => p.Name).MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
             RuleFor(p => p.MimeType).NotEmpty().NotNull().Must(BeAValidMediaType).WithMessage(p => $"The MediaType '{p.MimeType}' is not supported.");

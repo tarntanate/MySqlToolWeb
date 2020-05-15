@@ -4,7 +4,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile
     {
         public string Id { get; set; }
         
-        public string BannerId { get; set; }
+        public string AdId { get; set; }
         
         public string Name { get; set; }
 

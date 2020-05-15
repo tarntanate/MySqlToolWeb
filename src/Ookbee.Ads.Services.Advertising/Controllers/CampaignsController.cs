@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Banner;
-using Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByCampaingId;
+using Ookbee.Ads.Application.Business.Ad;
+using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaingId;
 using Ookbee.Ads.Application.Business.Campaign;
 using Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign;
 using Ookbee.Ads.Application.Business.Campaign.Commands.DeleteCampaign;
@@ -28,8 +28,8 @@ namespace Ookbee.Ads.Services.Advertising.Controllers
             => await Mediator.Send(new GetCampaignByIdQuery(id));
 
         [HttpGet("{id}/banners")]
-        public async Task<HttpResult<IEnumerable<BannerDto>>> GetBannerList([FromRoute] string id, [FromQuery] int start, [FromQuery] int length)
-            => await Mediator.Send(new GetBannerByCampaingIdQuery(id, start, length));
+        public async Task<HttpResult<IEnumerable<AdDto>>> GetAdList([FromRoute] string id, [FromQuery] int start, [FromQuery] int length)
+            => await Mediator.Send(new GetAdByCampaingIdQuery(id, start, length));
 
         [HttpPost]
         public async Task<HttpResult<string>> Create([FromBody]CreateCampaignCommand request)

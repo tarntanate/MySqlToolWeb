@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
     {
         public string Id => ObjectId.GenerateNewId().ToString();
 
-        public string BannerId { get; set; }
+        public string AdId { get; set; }
 
         public string Name { get; set; }
 
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
 
         public CreateMediaFileCommand(CreateMediaFileCommand request)
         {
-            BannerId = request.BannerId;
+            AdId = request.AdId;
             Name = request.Name;
             Description = request.Description;
             MimeType = request.MimeType;

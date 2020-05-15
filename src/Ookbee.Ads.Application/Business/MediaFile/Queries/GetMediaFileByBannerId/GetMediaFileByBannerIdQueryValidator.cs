@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using MongoDB.Bson;
 
-namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByBannerId
+namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
 {
-    public class GetMediaFileByBannerIdQueryValidator : AbstractValidator<GetMediaFileByBannerIdQuery>
+    public class GetMediaFileByAdIdQueryValidator : AbstractValidator<GetMediaFileByAdIdQuery>
     {
-        public GetMediaFileByBannerIdQueryValidator()
+        public GetMediaFileByAdIdQueryValidator()
         {
-            RuleFor(p => p.BannerId).Must(BeAValidObjectId).WithMessage(p => $"Id '{p.BannerId}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Id '{p.AdId}' is not a valid 24 digit hex string.");
             RuleFor(p => p.Start).GreaterThanOrEqualTo(0);
             RuleFor(p => p.Length).GreaterThan(0).LessThanOrEqualTo(100);
         }
