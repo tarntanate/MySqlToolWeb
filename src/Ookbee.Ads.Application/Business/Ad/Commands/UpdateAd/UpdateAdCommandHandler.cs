@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
+using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
+using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -36,9 +37,13 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsAdByIdQuery(document.Id));
-                if (!isExistsResult.Ok)
-                    return isExistsResult;
+                var campaignResult = await Mediator.Send(new GetCampaignByIdQuery(document.CampaignId));
+                if (!campaignResult.Ok)
+                    return result.Fail(campaignResult.StatusCode, campaignResult.Message);
+
+                var slotTypeResult = await Mediator.Send(new GetSlotTypeByIdQuery(document.AdSlotId));
+                if (!slotTypeResult.Ok)
+                    return result.Fail(slotTypeResult.StatusCode, slotTypeResult.Message);
 
                 var now = MechineDateTime.Now;
                 document.UpdatedDate = now.DateTime;

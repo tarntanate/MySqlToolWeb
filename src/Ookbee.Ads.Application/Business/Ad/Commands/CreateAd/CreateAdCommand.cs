@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
         public string CampaignId { get; set; }
 
-        public string SlotTypeId { get; set; }
+        public string AdSlotId { get; set; }
 
         public string Name { get; set; }
 
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
         public CreateAdCommand(CreateAdCommand request)
         {
             CampaignId =request.CampaignId;
-            SlotTypeId = request.SlotTypeId;
+            AdSlotId = request.AdSlotId;
             Name = request.Name;
             Description = request.Description;
             Cooldown = request.Cooldown;

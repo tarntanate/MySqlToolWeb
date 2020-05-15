@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById;
+using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeByName;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -36,9 +37,13 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.UpdateSlotType
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsSlotTypeByIdQuery(document.Id));
-                if (!isExistsResult.Ok)
-                    return isExistsResult;
+                var isExistsByIdResult = await Mediator.Send(new IsExistsSlotTypeByIdQuery(document.Id));
+                if (!isExistsByIdResult.Ok)
+                    return isExistsByIdResult;
+                
+                var isExistsByNameResult = await Mediator.Send(new IsExistsSlotTypeByNameQuery(document.Name));
+                if (isExistsByNameResult.Data)
+                    return result.Fail(409, $"SlotType '{document.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
                 document.UpdatedDate = now.DateTime;

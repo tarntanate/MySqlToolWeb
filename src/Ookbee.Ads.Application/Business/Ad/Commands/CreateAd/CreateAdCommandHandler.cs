@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
                 if (!campaignResult.Ok)
                     return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
-                var slotTypeResult = await Mediator.Send(new GetSlotTypeByIdQuery(document.SlotTypeId));
+                var slotTypeResult = await Mediator.Send(new GetSlotTypeByIdQuery(document.AdSlotId));
                 if (!slotTypeResult.Ok)
                     return result.Fail(slotTypeResult.StatusCode, slotTypeResult.Message);
 

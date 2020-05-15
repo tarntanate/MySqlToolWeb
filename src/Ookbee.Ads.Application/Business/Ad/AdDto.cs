@@ -6,6 +6,10 @@ namespace Ookbee.Ads.Application.Business.Ad
     {
         public string Id { get; set; }
 
+        public string CampaignId { get; set; }
+
+        public string AppSlotId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

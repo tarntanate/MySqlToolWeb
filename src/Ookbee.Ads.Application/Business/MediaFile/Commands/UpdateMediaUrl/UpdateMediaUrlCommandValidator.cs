@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
     {
         public UpdateMediaUrlCommandValidator()
         {
-            RuleFor(p => p.Id).Length(24).Must(BeAValidObjectId).WithMessage(p => $"MediaFile '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"MediaFile '{p.Id}' is not a valid 24 digit hex string.");
             RuleFor(p => p.MediaUrl).MaximumLength(250);
         }
 

@@ -7,7 +7,6 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById
     {
         public GetAdvertiserByIdQueryValidator()
         {
-            RuleFor(p => p.Id).Length(24);
             RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"Id '{p.Id}' is not a valid 24 digit hex string.");
         }
 

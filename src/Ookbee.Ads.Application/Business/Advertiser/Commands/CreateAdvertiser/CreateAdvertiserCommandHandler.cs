@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
             {
                 var isExistsByNameResult = await Mediator.Send(new IsExistsAdvertiserByNameQuery(document.Name));
                 if (isExistsByNameResult.Data)
-                    return result.Fail(409, $"Advertiser already exists.");
+                    return result.Fail(409, $"Advertiser '{document.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;

@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Domain.Documents
     {
         public string CampaignId { get; set; }
 
-        public string SlotTypeId { get; set; }
+        public string AdSlotId { get; set; }
 
         public string Name { get; set; }
 

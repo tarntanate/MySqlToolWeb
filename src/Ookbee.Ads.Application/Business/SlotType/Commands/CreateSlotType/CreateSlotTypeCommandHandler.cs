@@ -1,5 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeByName;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -12,10 +13,14 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
 {
     public class CreateSlotTypeCommandHandler : IRequestHandler<CreateSlotTypeCommand, HttpResult<string>>
     {
+        private IMediator Mediator { get; }
         private AdsMongoRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
-        public CreateSlotTypeCommandHandler(AdsMongoRepository<SlotTypeDocument> slotTypeMongoDB)
+        public CreateSlotTypeCommandHandler(
+            IMediator mediator,
+            AdsMongoRepository<SlotTypeDocument> slotTypeMongoDB)
         {
+            Mediator = mediator;
             SlotTypeMongoDB = slotTypeMongoDB;
         }
 
@@ -31,6 +36,10 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
             var result = new HttpResult<string>();
             try
             {
+                var isExistsByNameResult = await Mediator.Send(new IsExistsSlotTypeByNameQuery(document.Name));
+                if (isExistsByNameResult.Data)
+                    return result.Fail(409, $"SlotType '{document.Name}' already exists.");
+
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
