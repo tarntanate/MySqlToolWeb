@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ookbee.Ads.Domain.EFCore;
+using Ookbee.Ads.Domain.Entities;
 using Ookbee.Ads.Infrastructure;
 
 namespace Ookbee.Ads.Persistence.EFCore

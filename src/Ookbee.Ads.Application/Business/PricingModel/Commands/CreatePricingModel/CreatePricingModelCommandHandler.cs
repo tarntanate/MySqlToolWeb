@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Threading;
@@ -13,11 +13,11 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
     public class CreatePricingModelCommandHandler : IRequestHandler<CreatePricingModelCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
+        private AdsMongoRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
         public CreatePricingModelCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
+            AdsMongoRepository<PricingModelDocument> pricingModelMongoDB)
         {
             Mediator = mediator;
             PricingModelMongoDB = pricingModelMongoDB;

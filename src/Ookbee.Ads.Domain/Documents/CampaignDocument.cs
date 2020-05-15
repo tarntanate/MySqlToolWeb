@@ -2,7 +2,7 @@ using Anna.Common.MongoDB.Domain;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
-namespace Ookbee.Ads.Domain.MongoDB
+namespace Ookbee.Ads.Domain.Documents
 {
     [CollectionName("Campaign")]
     public class CampaignDocument : BaseDocument

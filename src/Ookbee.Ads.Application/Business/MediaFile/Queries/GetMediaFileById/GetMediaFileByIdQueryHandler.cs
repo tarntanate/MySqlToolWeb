@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileById
 {
     public class GetMediaFileByIdQueryHandler : IRequestHandler<GetMediaFileByIdQuery, HttpResult<MediaFileDto>>
     {
-        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
-        public GetMediaFileByIdQueryHandler(AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+        public GetMediaFileByIdQueryHandler(AdsMongoRepository<MediaFileDocument> mediaFileMongoDB)
         {
             MediaFileMongoDB = mediaFileMongoDB;
         }

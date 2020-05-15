@@ -2,7 +2,7 @@
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
     public class GenerateUploadUrlCommandHandler : IRequestHandler<GenerateUploadUrlCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
+        private AdsMongoRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
 
         public GenerateUploadUrlCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
+            AdsMongoRepository<UploadUrlDocument> uploadUrlMongoDB)
         {
             Mediator = mediator;
             UploadUrlMongoDB = uploadUrlMongoDB;

@@ -2,7 +2,7 @@
 using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Collections.Generic;
 using System.Threading;
@@ -12,9 +12,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerList
 {
     public class GetBannerListQueryHandler : IRequestHandler<GetBannerListQuery, HttpResult<IEnumerable<BannerDto>>>
     {
-        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoRepository<BannerDocument> BannerMongoDB { get; }
 
-        public GetBannerListQueryHandler(AdsMongoDBRepository<BannerDocument> bannerMongoDB)
+        public GetBannerListQueryHandler(AdsMongoRepository<BannerDocument> bannerMongoDB)
         {
             BannerMongoDB = bannerMongoDB;
         }

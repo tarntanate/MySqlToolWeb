@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerById
 {
     public class GetBannerByIdQueryHandler : IRequestHandler<GetBannerByIdQuery, HttpResult<BannerDto>>
     {
-        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoRepository<BannerDocument> BannerMongoDB { get; }
 
-        public GetBannerByIdQueryHandler(AdsMongoDBRepository<BannerDocument> bannerMongoDB)
+        public GetBannerByIdQueryHandler(AdsMongoRepository<BannerDocument> bannerMongoDB)
         {
             BannerMongoDB = bannerMongoDB;
         }

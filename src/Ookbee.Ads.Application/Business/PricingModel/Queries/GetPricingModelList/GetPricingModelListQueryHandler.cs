@@ -2,7 +2,7 @@
 using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelLi
 {
     public class GetPricingModelListQueryHandler : IRequestHandler<GetPricingModelListQuery, HttpResult<IEnumerable<PricingModelDto>>>
     {
-        private AdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
+        private AdsMongoRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
-        public GetPricingModelListQueryHandler(AdsMongoDBRepository<PricingModelDocument> PricingModelMongoRepo)
+        public GetPricingModelListQueryHandler(AdsMongoRepository<PricingModelDocument> PricingModelMongoRepo)
         {
             PricingModelMongoDB = PricingModelMongoRepo;
         }

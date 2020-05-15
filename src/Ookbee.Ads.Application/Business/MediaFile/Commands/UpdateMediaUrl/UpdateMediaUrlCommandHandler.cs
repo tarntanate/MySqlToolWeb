@@ -3,7 +3,7 @@ using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Threading;
@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
     public class UpdateMediaUrlCommandHandler : IRequestHandler<UpdateMediaUrlCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public UpdateMediaUrlCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+            AdsMongoRepository<MediaFileDocument> mediaFileMongoDB)
         {
             Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;

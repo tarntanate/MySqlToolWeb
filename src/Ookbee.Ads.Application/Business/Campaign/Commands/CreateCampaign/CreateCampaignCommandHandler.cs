@@ -4,7 +4,7 @@ using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Threading;
@@ -15,11 +15,11 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
     public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsMongoRepository<CampaignDocument> CampaignMongoDB { get; }
 
         public CreateCampaignCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<CampaignDocument> campaignMongoDB)
+            AdsMongoRepository<CampaignDocument> campaignMongoDB)
         {
             CampaignMongoDB = campaignMongoDB;
             Mediator = mediator;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Ookbee.Ads.Domain.EFCore;
+using Ookbee.Ads.Domain.Entities;
 
 namespace Ookbee.Ads.Persistence.EFCore.Configurations
 {

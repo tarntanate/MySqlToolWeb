@@ -3,7 +3,7 @@ using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Collections.Generic;
 using System.Threading;
@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByCampaingId
     public class GetBannerByCampaingIdQueryHandler : IRequestHandler<GetBannerByCampaingIdQuery, HttpResult<IEnumerable<BannerDto>>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoRepository<BannerDocument> BannerMongoDB { get; }
 
         public GetBannerByCampaingIdQueryHandler(
             IMediator mediator,
-            AdsMongoDBRepository<BannerDocument> bannerMongoDB)
+            AdsMongoRepository<BannerDocument> bannerMongoDB)
         {
             Mediator = mediator;
             BannerMongoDB = bannerMongoDB;

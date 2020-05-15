@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.DeleteSlotType
     public class DeleteSlotTypeCommandHandler : IRequestHandler<DeleteSlotTypeCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
         public DeleteSlotTypeCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
+            AdsMongoRepository<SlotTypeDocument> slotTypeMongoDB)
         {
             Mediator = mediator;
             SlotTypeMongoDB = slotTypeMongoDB;

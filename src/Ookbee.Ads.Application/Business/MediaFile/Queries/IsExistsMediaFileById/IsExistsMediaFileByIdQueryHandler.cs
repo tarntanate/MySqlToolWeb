@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileByI
 {
     public class IsExistsMediaFileByIdQueryHandler : IRequestHandler<IsExistsMediaFileByIdQuery, HttpResult<bool>>
     {
-        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
-        public IsExistsMediaFileByIdQueryHandler(AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+        public IsExistsMediaFileByIdQueryHandler(AdsMongoRepository<MediaFileDocument> mediaFileMongoDB)
         {
             MediaFileMongoDB = mediaFileMongoDB;
         }

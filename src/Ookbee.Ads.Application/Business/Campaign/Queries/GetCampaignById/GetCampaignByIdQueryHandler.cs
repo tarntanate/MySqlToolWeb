@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById
 {
     public class GetCampaignByIdQueryHandler : IRequestHandler<GetCampaignByIdQuery, HttpResult<CampaignDto>>
     {
-        private AdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsMongoRepository<CampaignDocument> CampaignMongoDB { get; }
 
-        public GetCampaignByIdQueryHandler(AdsMongoDBRepository<CampaignDocument> campaignMongoDB)
+        public GetCampaignByIdQueryHandler(AdsMongoRepository<CampaignDocument> campaignMongoDB)
         {
             CampaignMongoDB = campaignMongoDB;
         }

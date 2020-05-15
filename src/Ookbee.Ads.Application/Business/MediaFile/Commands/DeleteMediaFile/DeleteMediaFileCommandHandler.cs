@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
     public class DeleteMediaFileCommandHandler : IRequestHandler<DeleteMediaFileCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public DeleteMediaFileCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+            AdsMongoRepository<MediaFileDocument> mediaFileMongoDB)
         {
             Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;

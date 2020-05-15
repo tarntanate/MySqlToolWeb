@@ -23,8 +23,8 @@ namespace Ookbee.Ads.Application.Infrastructure
             services.AddScoped(typeof(OokbeeAdsEFCoreRepository<>));
 
             // MongoDB
-            services.AddSingleton<AdsMongoDBContext>();
-            services.AddScoped(typeof(AdsMongoDBRepository<>));
+            services.AddSingleton<AdsMongoContext>();
+            services.AddScoped(typeof(AdsMongoRepository<>));
             ConventionRegistry.Register("CamelCaseElementName", new ConventionPack { new CamelCaseElementNameConvention() }, _ => true);
 
             // Redis

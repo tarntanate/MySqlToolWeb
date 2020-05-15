@@ -2,7 +2,7 @@ using System;
 using Anna.Common.MongoDB.Domain;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Ookbee.Ads.Domain.MongoDB
+namespace Ookbee.Ads.Domain.Documents
 {
     [CollectionName("UploadUrl")]
     public class UploadUrlDocument : BaseDocument

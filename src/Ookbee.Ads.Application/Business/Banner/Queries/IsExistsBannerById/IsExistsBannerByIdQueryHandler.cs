@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.IsExistsBannerById
 {
     public class IsExistsBannerByIdQueryHandler : IRequestHandler<IsExistsBannerByIdQuery, HttpResult<bool>>
     {
-        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoRepository<BannerDocument> BannerMongoDB { get; }
 
-        public IsExistsBannerByIdQueryHandler(AdsMongoDBRepository<BannerDocument> bannerMongoDB)
+        public IsExistsBannerByIdQueryHandler(AdsMongoRepository<BannerDocument> bannerMongoDB)
         {
             BannerMongoDB = bannerMongoDB;
         }

@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Banner.Queries.GetBannerById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Threading;
@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
     public class CreateMediaFileCommandHandler : IRequestHandler<CreateMediaFileCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public CreateMediaFileCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+            AdsMongoRepository<MediaFileDocument> mediaFileMongoDB)
         {
             Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;

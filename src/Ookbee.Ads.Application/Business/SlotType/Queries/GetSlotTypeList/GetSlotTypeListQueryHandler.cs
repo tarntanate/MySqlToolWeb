@@ -2,7 +2,7 @@
 using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeList
 {
     public class GetSlotTypeListQueryHandler : IRequestHandler<GetSlotTypeListQuery, HttpResult<IEnumerable<SlotTypeDto>>>
     {
-        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
-        public GetSlotTypeListQueryHandler(AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoRepo)
+        public GetSlotTypeListQueryHandler(AdsMongoRepository<SlotTypeDocument> SlotTypeMongoRepo)
         {
             SlotTypeMongoDB = SlotTypeMongoRepo;
         }

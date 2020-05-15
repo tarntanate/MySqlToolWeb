@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.DeletePricingMod
     public class DeletePricingModelCommandHandler : IRequestHandler<DeletePricingModelCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
+        private AdsMongoRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
         public DeletePricingModelCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
+            AdsMongoRepository<PricingModelDocument> pricingModelMongoDB)
         {
             Mediator = mediator;
             PricingModelMongoDB = pricingModelMongoDB;

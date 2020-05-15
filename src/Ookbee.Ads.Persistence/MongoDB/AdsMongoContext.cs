@@ -3,9 +3,9 @@ using Ookbee.Ads.Infrastructure;
 
 namespace Ookbee.Ads.Persistence.Advertising.Mongo
 {
-    public sealed class AdsMongoDBContext : BaseContext
+    public sealed class AdsMongoContext : BaseContext
     {
-        public AdsMongoDBContext() : base(GlobalVar.AppSettings.ConnectionStrings.MongoDB)
+        public AdsMongoContext() : base(GlobalVar.AppSettings.ConnectionStrings.MongoDB)
         {
 
         }

@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Threading;
@@ -12,9 +12,9 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
 {
     public class CreateSlotTypeCommandHandler : IRequestHandler<CreateSlotTypeCommand, HttpResult<string>>
     {
-        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
-        public CreateSlotTypeCommandHandler(AdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
+        public CreateSlotTypeCommandHandler(AdsMongoRepository<SlotTypeDocument> slotTypeMongoDB)
         {
             SlotTypeMongoDB = slotTypeMongoDB;
         }

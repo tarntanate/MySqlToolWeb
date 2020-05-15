@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
@@ -12,11 +12,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetSignedUrl
     public class GetSignedUrlQueryHandler : IRequestHandler<GetSignedUrlQuery, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
+        private AdsMongoRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
 
         public GetSignedUrlQueryHandler(
             IMediator mediator,
-            AdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
+            AdsMongoRepository<UploadUrlDocument> uploadUrlMongoDB)
         {
             Mediator = mediator;
             UploadUrlMongoDB = uploadUrlMongoDB;

@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Threading;
@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
     public class UpdateAdvertiserCommandHandler : IRequestHandler<UpdateAdvertiserCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
+        private AdsMongoRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
 
         public UpdateAdvertiserCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
+            AdsMongoRepository<AdvertiserDocument> advertiserMongoDB)
         {
             Mediator = mediator;
             AdvertiserMongoDB = advertiserMongoDB;

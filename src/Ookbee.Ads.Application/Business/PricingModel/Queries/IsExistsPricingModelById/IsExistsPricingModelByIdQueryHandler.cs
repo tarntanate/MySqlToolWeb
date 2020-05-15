@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingMo
 {
     public class IsExistsPricingModelByIdQueryHandler : IRequestHandler<IsExistsPricingModelByIdQuery, HttpResult<bool>>
     {
-        private AdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
+        private AdsMongoRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
-        public IsExistsPricingModelByIdQueryHandler(AdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
+        public IsExistsPricingModelByIdQueryHandler(AdsMongoRepository<PricingModelDocument> pricingModelMongoDB)
         {
             PricingModelMongoDB = pricingModelMongoDB;
         }

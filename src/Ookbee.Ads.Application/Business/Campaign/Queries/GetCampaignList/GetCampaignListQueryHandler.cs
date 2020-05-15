@@ -2,7 +2,7 @@
 using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
 {
     public class GetCampaignListCommandHandler : IRequestHandler<GetCampaignListCommand, HttpResult<IEnumerable<CampaignDto>>>
     {
-        private AdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsMongoRepository<CampaignDocument> CampaignMongoDB { get; }
 
-        public GetCampaignListCommandHandler(AdsMongoDBRepository<CampaignDocument> CampaignMongoRepo)
+        public GetCampaignListCommandHandler(AdsMongoRepository<CampaignDocument> CampaignMongoRepo)
         {
             CampaignMongoDB = CampaignMongoRepo;
         }

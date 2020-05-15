@@ -2,7 +2,7 @@
 using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Collections.Generic;
 using System.Threading;
@@ -12,9 +12,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList
 {
     public class GetMediaFileListQueryHandler : IRequestHandler<GetMediaFileListQuery, HttpResult<IEnumerable<MediaFileDto>>>
     {
-        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
-        public GetMediaFileListQueryHandler(AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+        public GetMediaFileListQueryHandler(AdsMongoRepository<MediaFileDocument> mediaFileMongoDB)
         {
             MediaFileMongoDB = mediaFileMongoDB;
         }

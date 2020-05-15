@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.SlotType;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrlById
 {
     public class GetUploadUrlByIdQueryHandler : IRequestHandler<GetUploadUrlByIdQuery, HttpResult<UploadUrlDto>>
     {
-        private AdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
+        private AdsMongoRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
 
-        public GetUploadUrlByIdQueryHandler(AdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
+        public GetUploadUrlByIdQueryHandler(AdsMongoRepository<UploadUrlDocument> uploadUrlMongoDB)
         {
             UploadUrlMongoDB = uploadUrlMongoDB;
         }

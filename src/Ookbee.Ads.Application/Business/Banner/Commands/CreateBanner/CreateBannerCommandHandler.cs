@@ -4,7 +4,7 @@ using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
 using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Threading;
@@ -15,11 +15,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.CreateBanner
     public class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoRepository<BannerDocument> BannerMongoDB { get; }
 
         public CreateBannerCommandHandler(
             IMediator mediator,
-            AdsMongoDBRepository<BannerDocument> bannerMongoDB)
+            AdsMongoRepository<BannerDocument> bannerMongoDB)
         {
             Mediator = mediator;
             BannerMongoDB = bannerMongoDB;

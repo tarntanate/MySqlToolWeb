@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.MongoDB;
+using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById
 {
     public class GetSlotTypeByIdQueryHandler : IRequestHandler<GetSlotTypeByIdQuery, HttpResult<SlotTypeDto>>
     {
-        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
-        public GetSlotTypeByIdQueryHandler(AdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
+        public GetSlotTypeByIdQueryHandler(AdsMongoRepository<SlotTypeDocument> slotTypeMongoDB)
         {
             SlotTypeMongoDB = slotTypeMongoDB;
         }
