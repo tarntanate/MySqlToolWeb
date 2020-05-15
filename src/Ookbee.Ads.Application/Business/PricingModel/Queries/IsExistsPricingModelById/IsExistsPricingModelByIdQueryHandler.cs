@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingMo
 {
     public class IsExistsPricingModelByIdQueryHandler : IRequestHandler<IsExistsPricingModelByIdQuery, HttpResult<bool>>
     {
-        private OokbeeAdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
+        private AdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
-        public IsExistsPricingModelByIdQueryHandler(OokbeeAdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
+        public IsExistsPricingModelByIdQueryHandler(AdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
         {
             PricingModelMongoDB = pricingModelMongoDB;
         }

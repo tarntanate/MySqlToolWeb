@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.IsExistsBannerById
 {
     public class IsExistsBannerByIdQueryHandler : IRequestHandler<IsExistsBannerByIdQuery, HttpResult<bool>>
     {
-        private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
-        public IsExistsBannerByIdQueryHandler(OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
+        public IsExistsBannerByIdQueryHandler(AdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
             BannerMongoDB = bannerMongoDB;
         }

@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.DeleteBanner
     public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
         public DeleteBannerCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
+            AdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
             Mediator = mediator;
             BannerMongoDB = bannerMongoDB;

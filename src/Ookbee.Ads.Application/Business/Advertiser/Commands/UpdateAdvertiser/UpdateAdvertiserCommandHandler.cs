@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
     public class UpdateAdvertiserCommandHandler : IRequestHandler<UpdateAdvertiserCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
+        private AdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
 
         public UpdateAdvertiserCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
+            AdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
         {
             Mediator = mediator;
             AdvertiserMongoDB = advertiserMongoDB;

@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById
 {
     public class GetSlotTypeByIdQueryHandler : IRequestHandler<GetSlotTypeByIdQuery, HttpResult<SlotTypeDto>>
     {
-        private OokbeeAdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
-        public GetSlotTypeByIdQueryHandler(OokbeeAdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
+        public GetSlotTypeByIdQueryHandler(AdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
         {
             SlotTypeMongoDB = slotTypeMongoDB;
         }

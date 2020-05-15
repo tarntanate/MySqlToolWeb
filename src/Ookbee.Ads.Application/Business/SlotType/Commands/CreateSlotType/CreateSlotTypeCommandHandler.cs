@@ -12,9 +12,9 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
 {
     public class CreateSlotTypeCommandHandler : IRequestHandler<CreateSlotTypeCommand, HttpResult<string>>
     {
-        private OokbeeAdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
-        public CreateSlotTypeCommandHandler(OokbeeAdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
+        public CreateSlotTypeCommandHandler(AdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
         {
             SlotTypeMongoDB = slotTypeMongoDB;
         }

@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrlById
 {
     public class GetUploadUrlByIdQueryHandler : IRequestHandler<GetUploadUrlByIdQuery, HttpResult<UploadUrlDto>>
     {
-        private OokbeeAdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
+        private AdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
 
-        public GetUploadUrlByIdQueryHandler(OokbeeAdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
+        public GetUploadUrlByIdQueryHandler(AdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
         {
             UploadUrlMongoDB = uploadUrlMongoDB;
         }

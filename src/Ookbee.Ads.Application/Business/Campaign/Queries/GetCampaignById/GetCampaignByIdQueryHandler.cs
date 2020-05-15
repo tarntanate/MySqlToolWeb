@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById
 {
     public class GetCampaignByIdQueryHandler : IRequestHandler<GetCampaignByIdQuery, HttpResult<CampaignDto>>
     {
-        private OokbeeAdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
 
-        public GetCampaignByIdQueryHandler(OokbeeAdsMongoDBRepository<CampaignDocument> campaignMongoDB)
+        public GetCampaignByIdQueryHandler(AdsMongoDBRepository<CampaignDocument> campaignMongoDB)
         {
             CampaignMongoDB = campaignMongoDB;
         }

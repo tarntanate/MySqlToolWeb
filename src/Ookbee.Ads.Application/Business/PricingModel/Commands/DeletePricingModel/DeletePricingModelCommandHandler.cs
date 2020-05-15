@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.DeletePricingMod
     public class DeletePricingModelCommandHandler : IRequestHandler<DeletePricingModelCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
+        private AdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
         public DeletePricingModelCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
+            AdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
         {
             Mediator = mediator;
             PricingModelMongoDB = pricingModelMongoDB;

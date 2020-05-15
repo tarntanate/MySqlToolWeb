@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById
 {
     public class IsExistsSlotTypeByIdQueryHandler : IRequestHandler<IsExistsSlotTypeByIdQuery, HttpResult<bool>>
     {
-        private OokbeeAdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
-        public IsExistsSlotTypeByIdQueryHandler(OokbeeAdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
+        public IsExistsSlotTypeByIdQueryHandler(AdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
         {
             SlotTypeMongoDB = slotTypeMongoDB;
         }

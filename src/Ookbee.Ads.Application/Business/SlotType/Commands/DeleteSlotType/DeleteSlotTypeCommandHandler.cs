@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.DeleteSlotType
     public class DeleteSlotTypeCommandHandler : IRequestHandler<DeleteSlotTypeCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
         public DeleteSlotTypeCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
+            AdsMongoDBRepository<SlotTypeDocument> slotTypeMongoDB)
         {
             Mediator = mediator;
             SlotTypeMongoDB = slotTypeMongoDB;

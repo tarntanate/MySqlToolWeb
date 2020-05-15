@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserB
 {
     public class IsExistsAdvertiserByIdQueryHandler : IRequestHandler<IsExistsAdvertiserByIdQuery, HttpResult<bool>>
     {
-        private OokbeeAdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
+        private AdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
 
-        public IsExistsAdvertiserByIdQueryHandler(OokbeeAdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
+        public IsExistsAdvertiserByIdQueryHandler(AdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
         {
             AdvertiserMongoDB = advertiserMongoDB;
         }

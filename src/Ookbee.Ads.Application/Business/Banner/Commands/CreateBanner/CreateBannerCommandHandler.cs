@@ -15,11 +15,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.CreateBanner
     public class CreateBannerCommandHandler : IRequestHandler<CreateBannerCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
         public CreateBannerCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
+            AdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
             Mediator = mediator;
             BannerMongoDB = bannerMongoDB;

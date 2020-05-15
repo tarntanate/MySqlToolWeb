@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById
 {
     public class GetAdvertiserByIdQueryHandler : IRequestHandler<GetAdvertiserByIdQuery, HttpResult<AdvertiserDto>>
     {
-        private OokbeeAdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
+        private AdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
 
-        public GetAdvertiserByIdQueryHandler(OokbeeAdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
+        public GetAdvertiserByIdQueryHandler(AdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
         {
             AdvertiserMongoDB = advertiserMongoDB;
         }

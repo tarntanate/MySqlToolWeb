@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
     public class CreateMediaFileCommandHandler : IRequestHandler<CreateMediaFileCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public CreateMediaFileCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+            AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
             Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;

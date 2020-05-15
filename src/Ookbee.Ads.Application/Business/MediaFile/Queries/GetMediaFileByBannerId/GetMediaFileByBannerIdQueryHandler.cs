@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByBanner
     public class GetMediaFileByBannerIdQueryHandler : IRequestHandler<GetMediaFileByBannerIdQuery, HttpResult<IEnumerable<MediaFileDto>>>
     {
         private IMediator Mediator { get; set; }
-        private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public GetMediaFileByBannerIdQueryHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+            AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
             Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;

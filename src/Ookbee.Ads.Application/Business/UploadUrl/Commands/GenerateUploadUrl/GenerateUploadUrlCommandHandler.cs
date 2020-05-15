@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
     public class GenerateUploadUrlCommandHandler : IRequestHandler<GenerateUploadUrlCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
+        private AdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
 
         public GenerateUploadUrlCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
+            AdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
         {
             Mediator = mediator;
             UploadUrlMongoDB = uploadUrlMongoDB;

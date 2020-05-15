@@ -13,9 +13,9 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserList
 {
     public class GetAdvertiserListQueryHandler : IRequestHandler<GetAdvertiserListQuery, HttpResult<IEnumerable<AdvertiserDto>>>
     {
-        private OokbeeAdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
+        private AdsMongoDBRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
 
-        public GetAdvertiserListQueryHandler(OokbeeAdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
+        public GetAdvertiserListQueryHandler(AdsMongoDBRepository<AdvertiserDocument> advertiserMongoDB)
         {
             AdvertiserMongoDB = advertiserMongoDB;
         }

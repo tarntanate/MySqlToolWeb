@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileByI
 {
     public class IsExistsMediaFileByIdQueryHandler : IRequestHandler<IsExistsMediaFileByIdQuery, HttpResult<bool>>
     {
-        private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
-        public IsExistsMediaFileByIdQueryHandler(OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+        public IsExistsMediaFileByIdQueryHandler(AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
             MediaFileMongoDB = mediaFileMongoDB;
         }

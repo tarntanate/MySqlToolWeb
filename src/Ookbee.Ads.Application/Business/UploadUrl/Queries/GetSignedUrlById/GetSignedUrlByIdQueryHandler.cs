@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetSignedUrlById
 {
     public class GGetSignedUrlByIdQueryHandler : IRequestHandler<GetSignedUrlByIdQuery, HttpResult<string>>
     {
-        private OokbeeAdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
+        private AdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
 
-        public GGetSignedUrlByIdQueryHandler(OokbeeAdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
+        public GGetSignedUrlByIdQueryHandler(AdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
         {
             UploadUrlMongoDB = uploadUrlMongoDB;
         }

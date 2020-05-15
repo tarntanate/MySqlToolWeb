@@ -15,11 +15,11 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
     public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
 
         public CreateCampaignCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<CampaignDocument> campaignMongoDB)
+            AdsMongoDBRepository<CampaignDocument> campaignMongoDB)
         {
             CampaignMongoDB = campaignMongoDB;
             Mediator = mediator;

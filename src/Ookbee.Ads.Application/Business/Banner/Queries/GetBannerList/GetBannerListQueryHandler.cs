@@ -12,9 +12,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerList
 {
     public class GetBannerListQueryHandler : IRequestHandler<GetBannerListQuery, HttpResult<IEnumerable<BannerDto>>>
     {
-        private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
-        public GetBannerListQueryHandler(OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
+        public GetBannerListQueryHandler(AdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
             BannerMongoDB = bannerMongoDB;
         }

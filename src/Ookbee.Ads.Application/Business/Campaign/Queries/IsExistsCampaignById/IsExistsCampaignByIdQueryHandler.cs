@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById
 {
     public class IsExistsCampaignByIdQueryHandler : IRequestHandler<IsExistsCampaignByIdQuery, HttpResult<bool>>
     {
-        private OokbeeAdsMongoDBRepository<CampaignDocument> CampaignDocument { get; }
+        private AdsMongoDBRepository<CampaignDocument> CampaignDocument { get; }
 
-        public IsExistsCampaignByIdQueryHandler(OokbeeAdsMongoDBRepository<CampaignDocument> campaignDocument)
+        public IsExistsCampaignByIdQueryHandler(AdsMongoDBRepository<CampaignDocument> campaignDocument)
         {
             CampaignDocument = campaignDocument;
         }

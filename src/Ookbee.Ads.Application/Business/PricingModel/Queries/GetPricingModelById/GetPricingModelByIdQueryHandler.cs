@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelBy
 {
     public class GetPricingModelByIdQueryHandler : IRequestHandler<GetPricingModelByIdQuery, HttpResult<PricingModelDto>>
     {
-        private OokbeeAdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
+        private AdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
-        public GetPricingModelByIdQueryHandler(OokbeeAdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
+        public GetPricingModelByIdQueryHandler(AdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
         {
             PricingModelMongoDB = pricingModelMongoDB;
         }

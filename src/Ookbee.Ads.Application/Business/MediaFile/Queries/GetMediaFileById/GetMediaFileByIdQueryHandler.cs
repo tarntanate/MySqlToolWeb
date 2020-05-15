@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileById
 {
     public class GetMediaFileByIdQueryHandler : IRequestHandler<GetMediaFileByIdQuery, HttpResult<MediaFileDto>>
     {
-        private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
-        public GetMediaFileByIdQueryHandler(OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+        public GetMediaFileByIdQueryHandler(AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
             MediaFileMongoDB = mediaFileMongoDB;
         }

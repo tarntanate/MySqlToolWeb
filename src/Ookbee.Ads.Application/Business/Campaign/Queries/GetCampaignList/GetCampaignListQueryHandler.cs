@@ -13,9 +13,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
 {
     public class GetCampaignListCommandHandler : IRequestHandler<GetCampaignListCommand, HttpResult<IEnumerable<CampaignDto>>>
     {
-        private OokbeeAdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
 
-        public GetCampaignListCommandHandler(OokbeeAdsMongoDBRepository<CampaignDocument> CampaignMongoRepo)
+        public GetCampaignListCommandHandler(AdsMongoDBRepository<CampaignDocument> CampaignMongoRepo)
         {
             CampaignMongoDB = CampaignMongoRepo;
         }

@@ -12,11 +12,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetSignedUrl
     public class GetSignedUrlQueryHandler : IRequestHandler<GetSignedUrlQuery, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
+        private AdsMongoDBRepository<UploadUrlDocument> UploadUrlMongoDB { get; }
 
         public GetSignedUrlQueryHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
+            AdsMongoDBRepository<UploadUrlDocument> uploadUrlMongoDB)
         {
             Mediator = mediator;
             UploadUrlMongoDB = uploadUrlMongoDB;

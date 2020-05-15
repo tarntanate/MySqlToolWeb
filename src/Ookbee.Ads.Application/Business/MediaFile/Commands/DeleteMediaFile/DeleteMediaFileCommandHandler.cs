@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
     public class DeleteMediaFileCommandHandler : IRequestHandler<DeleteMediaFileCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public DeleteMediaFileCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+            AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
             Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;

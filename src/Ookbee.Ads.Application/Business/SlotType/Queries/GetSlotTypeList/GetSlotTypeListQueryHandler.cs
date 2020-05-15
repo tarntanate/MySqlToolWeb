@@ -13,9 +13,9 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeList
 {
     public class GetSlotTypeListQueryHandler : IRequestHandler<GetSlotTypeListQuery, HttpResult<IEnumerable<SlotTypeDto>>>
     {
-        private OokbeeAdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
+        private AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoDB { get; }
 
-        public GetSlotTypeListQueryHandler(OokbeeAdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoRepo)
+        public GetSlotTypeListQueryHandler(AdsMongoDBRepository<SlotTypeDocument> SlotTypeMongoRepo)
         {
             SlotTypeMongoDB = SlotTypeMongoRepo;
         }

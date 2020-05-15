@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByCampaingId
     public class GetBannerByCampaingIdQueryHandler : IRequestHandler<GetBannerByCampaingIdQuery, HttpResult<IEnumerable<BannerDto>>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
+        private AdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
         public GetBannerByCampaingIdQueryHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
+            AdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
             Mediator = mediator;
             BannerMongoDB = bannerMongoDB;

@@ -13,11 +13,11 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
     public class CreatePricingModelCommandHandler : IRequestHandler<CreatePricingModelCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
+        private AdsMongoDBRepository<PricingModelDocument> PricingModelMongoDB { get; }
 
         public CreatePricingModelCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
+            AdsMongoDBRepository<PricingModelDocument> pricingModelMongoDB)
         {
             Mediator = mediator;
             PricingModelMongoDB = pricingModelMongoDB;

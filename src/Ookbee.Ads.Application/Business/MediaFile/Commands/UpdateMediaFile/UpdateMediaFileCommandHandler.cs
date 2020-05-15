@@ -15,11 +15,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
     public class UpdateMediaFileCommandHandler : IRequestHandler<UpdateMediaFileCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
+        private AdsMongoDBRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
         public UpdateMediaFileCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
+            AdsMongoDBRepository<MediaFileDocument> mediaFileMongoDB)
         {
             Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;

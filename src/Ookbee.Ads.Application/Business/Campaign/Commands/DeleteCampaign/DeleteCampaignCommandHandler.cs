@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.DeleteCampaign
     public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private OokbeeAdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsMongoDBRepository<CampaignDocument> CampaignMongoDB { get; }
 
         public DeleteCampaignCommandHandler(
             IMediator mediator,
-            OokbeeAdsMongoDBRepository<CampaignDocument> campaignMongoDB)
+            AdsMongoDBRepository<CampaignDocument> campaignMongoDB)
         {
             Mediator = mediator;
             CampaignMongoDB = campaignMongoDB;
