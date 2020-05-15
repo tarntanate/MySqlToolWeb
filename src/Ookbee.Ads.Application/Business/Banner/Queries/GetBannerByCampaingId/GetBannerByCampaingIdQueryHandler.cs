@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using MongoDB.Driver;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -12,10 +13,14 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByCampaingId
 {
     public class GetBannerByCampaingIdQueryHandler : IRequestHandler<GetBannerByCampaingIdQuery, HttpResult<IEnumerable<BannerDto>>>
     {
+        private IMediator Mediator { get; }
         private OokbeeAdsMongoDBRepository<BannerDocument> BannerMongoDB { get; }
 
-        public GetBannerByCampaingIdQueryHandler(OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
+        public GetBannerByCampaingIdQueryHandler(
+            IMediator mediator,
+            OokbeeAdsMongoDBRepository<BannerDocument> bannerMongoDB)
         {
+            Mediator = mediator;
             BannerMongoDB = bannerMongoDB;
         }
 
@@ -27,7 +32,13 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByCampaingId
         private async Task<HttpResult<IEnumerable<BannerDto>>> GetOnMongo(string campaignId, int start, int length)
         {
             var result = new HttpResult<IEnumerable<BannerDto>>();
+
+            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(campaignId));
+            if (!isExistsCampaignResult.Ok)
+                return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
+
             var items = await BannerMongoDB.FindAsync(
+                filter: f => f.CampaignId == campaignId,
                 sort: Builders<BannerDocument>.Sort.Descending(nameof(BannerDocument.Name)),
                 start: start,
                 length: length
