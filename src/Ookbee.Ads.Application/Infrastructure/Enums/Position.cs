@@ -2,10 +2,22 @@ namespace Ookbee.Ads.Application.Infrastructure.Enums
 {
     public enum Position
     {
+        Center,
+
         Top,
-        Buttom,
+
+        TopLeft,
+
+        TopRight,
+
         Left,
+
         Right,
-        Center
+
+        Bottom,
+
+        BottomLeft,
+
+        BottomRight
     }
 }
