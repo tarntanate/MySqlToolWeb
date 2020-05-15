@@ -4,8 +4,8 @@ using Ookbee.Ads.Application.Business.Advertiser;
 using Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser;
 using Ookbee.Ads.Application.Business.Advertiser.Commands.DeleteAdvertiser;
 using Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.GetByIdAdvertiser;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.GetListAdvertiser;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
@@ -19,11 +19,11 @@ namespace Ookbee.Ads.Services.Advertising.Controllers
     {
         [HttpGet]
         public async Task<HttpResult<IEnumerable<AdvertiserDto>>> GetList([FromQuery]int start, [FromQuery] int length)
-            => await Mediator.Send(new GetListAdvertiserCommand(start, length));
+            => await Mediator.Send(new GetAdvertiserListQuery(start, length));
 
         [HttpGet("{id}")]
         public async Task<HttpResult<AdvertiserDto>> GetById([FromRoute]string id)
-            => await Mediator.Send(new GetByIdAdvertiserCommand(id));
+            => await Mediator.Send(new GetAdvertiserByIdQuery(id));
 
         [HttpPost]
         public async Task<HttpResult<string>> Create([FromBody]CreateAdvertiserCommand request)

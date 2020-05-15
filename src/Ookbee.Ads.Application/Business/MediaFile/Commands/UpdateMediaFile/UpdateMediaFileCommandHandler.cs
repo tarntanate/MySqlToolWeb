@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.MediaFile.Queries.GetByIdMediaFile;
-using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsByIdMediaFile;
+using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileById;
+using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsByIdMediaFileCommand(document.Id));
+                var isExistsResult = await Mediator.Send(new IsExistsMediaFileByIdQuery(document.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
 

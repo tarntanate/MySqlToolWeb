@@ -1,6 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsByIdPricingModel;
+using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsByIdPricingModelCommand(document.Id));
+                var isExistsResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(document.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
 

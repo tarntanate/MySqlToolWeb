@@ -1,6 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsByIdSlotType;
+using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.UpdateSlotType
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsByIdSlotTypeCommand(document.Id));
+                var isExistsResult = await Mediator.Send(new IsExistsSlotTypeByIdQuery(document.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
 

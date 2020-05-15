@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsByIdSlotType;
+using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.DeleteSlotType
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsByIdSlotTypeCommand(id));
+            var isExistsResult = await Mediator.Send(new IsExistsSlotTypeByIdQuery(id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsByIdMediaFile;
+using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsByIdMediaFileCommand(id));
+            var isExistsResult = await Mediator.Send(new IsExistsMediaFileByIdQuery(id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 

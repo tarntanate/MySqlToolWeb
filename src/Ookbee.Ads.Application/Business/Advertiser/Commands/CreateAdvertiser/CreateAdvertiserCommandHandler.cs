@@ -1,6 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsByNameAdvertiser;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserByName;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
             var result = new HttpResult<string>();
             try
             {
-                var isExistsByNameResult = await Mediator.Send(new IsExistsByNameAdvertiserCommand(document.Name));
+                var isExistsByNameResult = await Mediator.Send(new IsExistsAdvertiserByNameQuery(document.Name));
                 if (isExistsByNameResult.Data)
                     return result.Fail(409, $"Advertiser already exists.");
 

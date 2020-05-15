@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.GetByIdAdvertiser;
-using Ookbee.Ads.Application.Business.PricingModel.Queries.GetByIdPricingModel;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
+using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -36,11 +36,11 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
             var result = new HttpResult<string>();
             try
             {
-                var advertiserResult = await Mediator.Send(new GetByIdAdvertiserCommand(request.AdvertiserId));
+                var advertiserResult = await Mediator.Send(new GetAdvertiserByIdQuery(request.AdvertiserId));
                 if (!advertiserResult.Ok)
                     return result.Fail(400, advertiserResult.Message);
 
-                var pricingModelResult = await Mediator.Send(new GetByIdPricingModelCommand(request.PricingModelId));
+                var pricingModelResult = await Mediator.Send(new GetPricingModelByIdQuery(request.PricingModelId));
                 if (!pricingModelResult.Ok)
                     return result.Fail(400, pricingModelResult.Message);
 

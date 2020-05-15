@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsByIdPricingModel;
+using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.DeletePricingMod
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsByIdPricingModelCommand(id));
+            var isExistsResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 

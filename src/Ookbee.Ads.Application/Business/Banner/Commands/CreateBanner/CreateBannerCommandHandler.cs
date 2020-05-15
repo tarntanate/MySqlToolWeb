@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Campaign.Queries.GetByIdCampaign;
-using Ookbee.Ads.Application.Business.SlotType.Queries.GetByIdSlotType;
+using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
+using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -37,11 +37,11 @@ namespace Ookbee.Ads.Application.Business.Banner.Commands.CreateBanner
             var result = new HttpResult<string>();
             try
             {
-                var campaignResult = await Mediator.Send(new GetByIdCampaignCommand(document.CampaignId));
+                var campaignResult = await Mediator.Send(new GetCampaignByIdQuery(document.CampaignId));
                 if (!campaignResult.Ok)
                     return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
-                var slotTypeResult = await Mediator.Send(new GetByIdSlotTypeCommand(document.SlotTypeId));
+                var slotTypeResult = await Mediator.Send(new GetSlotTypeByIdQuery(document.SlotTypeId));
                 if (!slotTypeResult.Ok)
                     return result.Fail(slotTypeResult.StatusCode, slotTypeResult.Message);
 

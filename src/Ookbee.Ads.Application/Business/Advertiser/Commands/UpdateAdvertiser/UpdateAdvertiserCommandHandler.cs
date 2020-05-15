@@ -1,6 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsByIdAdvertiser;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.MongoDB;
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsByIdAdvertiserCommand(document.Id));
+                var isExistsResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(document.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
 

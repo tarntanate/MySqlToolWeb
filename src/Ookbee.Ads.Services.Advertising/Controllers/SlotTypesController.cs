@@ -4,8 +4,8 @@ using Ookbee.Ads.Application.Business.SlotType;
 using Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType;
 using Ookbee.Ads.Application.Business.SlotType.Commands.DeleteSlotType;
 using Ookbee.Ads.Application.Business.SlotType.Commands.UpdateSlotType;
-using Ookbee.Ads.Application.Business.SlotType.Queries.GetByIdSlotType;
-using Ookbee.Ads.Application.Business.SlotType.Queries.GetListSlotType;
+using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById;
+using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
@@ -19,11 +19,11 @@ namespace Ookbee.Ads.Services.Advertising.Controllers
     {
         [HttpGet]
         public async Task<HttpResult<IEnumerable<SlotTypeDto>>> GetList([FromQuery]int start, [FromQuery] int length)
-            => await Mediator.Send(new GetListSlotTypeCommand(start, length));
+            => await Mediator.Send(new GetSlotTypeListQuery(start, length));
 
         [HttpGet("{id}")]
         public async Task<HttpResult<SlotTypeDto>> GetById([FromRoute]string id)
-            => await Mediator.Send(new GetByIdSlotTypeCommand(id));
+            => await Mediator.Send(new GetSlotTypeByIdQuery(id));
 
         [HttpPost]
         public async Task<HttpResult<string>> Create([FromBody]CreateSlotTypeCommand request)
