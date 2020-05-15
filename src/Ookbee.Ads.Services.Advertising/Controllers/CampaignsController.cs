@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Services.Advertising.Controllers
             => await Mediator.Send(new GetByIdCampaignCommand(id));
 
         [HttpGet("{id}/banners")]
-        public async Task<HttpResult<IEnumerable<BannerDto>>> GetListMediaFile([FromRoute] string id, [FromQuery] int start, [FromQuery] int length)
+        public async Task<HttpResult<IEnumerable<BannerDto>>> GetListBanner([FromRoute] string id, [FromQuery] int start, [FromQuery] int length)
             => await Mediator.Send(new GetByCampaingIdBannerCommand(id, start, length));
 
         [HttpPost]
