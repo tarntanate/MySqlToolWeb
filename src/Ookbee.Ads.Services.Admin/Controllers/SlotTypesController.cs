@@ -11,7 +11,7 @@ using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Services.Advertising.Controllers
+namespace Ookbee.Ads.Services.Admin.Controllers
 {
     [ApiController]
     [Route("api/slot-types")]

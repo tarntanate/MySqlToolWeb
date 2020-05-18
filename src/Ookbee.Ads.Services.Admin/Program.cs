@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 
-namespace Ookbee.Ads.Services.Advertising
+namespace Ookbee.Ads.Services.Admin
 {
     public class Program
     {

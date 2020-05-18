@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["Ookbee.Ads.Services.Analytics/Ookbee.Ads.Services.Analytics.csproj", "Ookbee.Ads.Services.Analytics/"]
-RUN dotnet restore "Ookbee.Ads.Services.Analytics/Ookbee.Ads.Services.Analytics.csproj"
+COPY ["Ookbee.Ads.Services.Admin/Ookbee.Ads.Services.Admin.csproj", "Ookbee.Ads.Services.Admin/"]
+RUN dotnet restore "Ookbee.Ads.Services.Admin/Ookbee.Ads.Services.Admin.csproj"
 COPY . .
-WORKDIR "/src/Ookbee.Ads.Services.Analytics"
-RUN dotnet build "Ookbee.Ads.Services.Analytics.csproj" -c Release -o /app/build
+WORKDIR "/src/Ookbee.Ads.Services.Admin"
+RUN dotnet build "Ookbee.Ads.Services.Admin.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Ookbee.Ads.Services.Analytics.csproj" -c Release -o /app/publish
+RUN dotnet publish "Ookbee.Ads.Services.Admin.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Ookbee.Ads.Services.Analytics.dll"]
+ENTRYPOINT ["dotnet", "Ookbee.Ads.Services.Admin.dll"]
