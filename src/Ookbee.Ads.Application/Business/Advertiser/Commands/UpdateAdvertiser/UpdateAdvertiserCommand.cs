@@ -19,9 +19,11 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 
         public string PhoneNumber { get; set; }
 
-        public UpdateAdvertiserCommand()
+        public bool EnabledFlag => true;
+
+        public UpdateAdvertiserCommand(string id)
         {
-            Id = string.Empty;
+            Id = id;
         }
 
         public UpdateAdvertiserCommand(string id, UpdateAdvertiserCommand request)

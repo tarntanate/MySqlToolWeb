@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
     public class CreateAdvertiserCommand : IRequest<HttpResult<string>>
     {
         public string Id => ObjectId.GenerateNewId().ToString();
-        
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -19,6 +19,8 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
         public string Email { get; set; }
 
         public string PhoneNumber { get; set; }
+
+        public bool EnabledFlag => true;
 
         public CreateAdvertiserCommand()
         {

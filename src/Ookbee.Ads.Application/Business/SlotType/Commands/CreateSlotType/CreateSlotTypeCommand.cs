@@ -7,8 +7,11 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
     public class CreateSlotTypeCommand : IRequest<HttpResult<string>>
     {
         public string Id => ObjectId.GenerateNewId().ToString();
+
         public string Name { get; set; }
+
         public string Description { get; set; }
+
         public string ImageUrl { get; set; }
 
         public CreateSlotTypeCommand()

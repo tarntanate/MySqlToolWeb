@@ -13,16 +13,16 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
 
         public string ImageUrl { get; set; }
 
-        public UpdatePublisherCommand()
+        public UpdatePublisherCommand(string id)
         {
-            Id = string.Empty;
+            Id = id;
         }
 
         public UpdatePublisherCommand(string id, UpdatePublisherCommand request)
         {
             Id = id;
             Name = request.Name;
-            Description = request.Description;
+            Description = request.Description; 
             ImageUrl = request.ImageUrl;
         }
     }

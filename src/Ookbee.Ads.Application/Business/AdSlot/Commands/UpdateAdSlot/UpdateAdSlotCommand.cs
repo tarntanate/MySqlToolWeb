@@ -15,9 +15,9 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.UpdateAdSlot
 
         public string Description { get; set; }
 
-        public UpdateAdSlotCommand()
+        public UpdateAdSlotCommand(string id)
         {
-            Id = string.Empty;
+            Id = id;
         }
 
         public UpdateAdSlotCommand(string id, UpdateAdSlotCommand request)

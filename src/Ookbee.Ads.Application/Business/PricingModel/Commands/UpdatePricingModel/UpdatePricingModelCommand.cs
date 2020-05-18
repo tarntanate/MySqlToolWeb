@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
 
         public string Description { get; set; }
 
-        public UpdatePricingModelCommand()
+        public UpdatePricingModelCommand(string id)
         {
-            Id = string.Empty;
+            Id = id;
         }
 
         public UpdatePricingModelCommand(string id, UpdatePricingModelCommand request)

@@ -23,9 +23,10 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
 
         public string WebLink { get; set; }
 
-        public UpdateMediaFileCommand(string id)
+        public UpdateMediaFileCommand(string id, string adId)
         {
             Id = id;
+            AdId = adId;
         }
 
         public UpdateMediaFileCommand(string id, UpdateMediaFileCommand request)
