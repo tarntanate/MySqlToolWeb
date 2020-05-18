@@ -1,6 +1,9 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
+using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
+using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -26,21 +29,39 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 
         public async Task<HttpResult<bool>> Handle(UpdateCampaignCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<CampaignDocument>();
-            var result = await UpdateOnMongo(document);
+            var result = await UpdateOnMongo(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> UpdateOnMongo(CampaignDocument document)
+        private async Task<HttpResult<bool>> UpdateOnMongo(UpdateCampaignCommand request)
         {
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsCampaignByIdQuery(document.Id));
+                var isExistsResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
+                    
+                var advertiserResult = await Mediator.Send(new GetAdvertiserByIdQuery(request.AdvertiserId));
+                if (!advertiserResult.Ok)
+                    return result.Fail(400, advertiserResult.Message);
+
+                var pricingModelResult = await Mediator.Send(new GetPricingModelByIdQuery(request.PricingModelId));
+                if (!pricingModelResult.Ok)
+                    return result.Fail(400, pricingModelResult.Message);
+
+                var adSlotResult = await Mediator.Send(new GetCampaignByNameQuery(request.Name));
+                if (adSlotResult.Ok &&
+                    adSlotResult.Data.Id != request.Id &&
+                    adSlotResult.Data.Advertiser.Id == request.AdvertiserId &&
+                    adSlotResult.Data.PricingModel.Id == request.PricingModelId &&
+                    adSlotResult.Data.Name == request.Name)
+                    return result.Fail(409, $"Campaign '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<CampaignDocument>();
+                document.Advertiser = Mapper.Map(advertiserResult.Data).ToANew<DefaultDocument>();
+                document.PricingModel = Mapper.Map(pricingModelResult.Data).ToANew<DefaultDocument>();
                 document.UpdatedDate = now.DateTime;
                 await CampaignMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);

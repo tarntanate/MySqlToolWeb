@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"This Campaign doesn't exist.");
+                return result.Fail(404, $"Campaign '{id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<CampaignDto>();
             return result.Success(data);
         }

@@ -38,6 +38,13 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 
         public DateTime EndDate { get; set; }
 
+        public bool EnabledFlag => true;
+
+        public UpdateCampaignCommand()
+        {
+            
+        }
+
         public UpdateCampaignCommand(string id)
         {
             Id = id;

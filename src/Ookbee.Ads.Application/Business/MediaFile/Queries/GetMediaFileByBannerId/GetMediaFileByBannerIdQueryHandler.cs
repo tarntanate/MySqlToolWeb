@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
             var items = await MediaFileMongoDB.FindAsync(
                 filter: f => f.AdId == bannerId && 
                              f.EnabledFlag == true,
-                sort: Builders<MediaFileDocument>.Sort.Descending(nameof(MediaFileDocument.Name)),
+                sort: Builders<MediaFileDocument>.Sort.Ascending(nameof(MediaFileDocument.Name)),
                 start: start,
                 length: length
             );

@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotById
             );
             if (isExists)
                 return result.Success(true);
-            return result.Fail(404, $"Ad '{id}' doesn't exist.");
+            return result.Fail(404, $"AdSlot '{id}' doesn't exist.");
         }
     }
 }

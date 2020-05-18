@@ -9,9 +9,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
     {
         public string Id => ObjectId.GenerateNewId().ToString();
 
-        public string CampaignId { get; set; }
-
         public string AdSlotId { get; set; }
+
+        public string CampaignId { get; set; }
 
         public string Name { get; set; }
 
@@ -23,15 +23,17 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
         public string BackgroundColor { get; set; }
 
+        public bool EnabledFlag => true;
+
         public CreateAdCommand()
         {
-            
+
         }
 
         public CreateAdCommand(CreateAdCommand request)
         {
-            CampaignId =request.CampaignId;
             AdSlotId = request.AdSlotId;
+            CampaignId = request.CampaignId;
             Name = request.Name;
             Description = request.Description;
             Cooldown = request.Cooldown;

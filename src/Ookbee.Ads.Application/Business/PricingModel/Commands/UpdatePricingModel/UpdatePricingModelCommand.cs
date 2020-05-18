@@ -11,6 +11,13 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
 
         public string Description { get; set; }
 
+        public bool EnabledFlag => true;
+
+        public UpdatePricingModelCommand()
+        {
+            
+        }
+
         public UpdatePricingModelCommand(string id)
         {
             Id = id;

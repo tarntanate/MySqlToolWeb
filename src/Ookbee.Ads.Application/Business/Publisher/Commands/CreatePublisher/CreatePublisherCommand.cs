@@ -14,6 +14,8 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
 
         public string ImageUrl { get; set; }
 
+        public bool EnabledFlag => true;
+
         public CreatePublisherCommand()
         {
 

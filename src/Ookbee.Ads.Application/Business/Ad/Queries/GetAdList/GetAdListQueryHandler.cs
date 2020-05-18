@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdList
             var result = new HttpResult<IEnumerable<AdDto>>();
             var items = await AdMongoDB.FindAsync(
                 filter: f => f.EnabledFlag == true,
-                sort: Builders<AdDocument>.Sort.Descending(nameof(AdDocument.Name)),
+                sort: Builders<AdDocument>.Sort.Ascending(nameof(AdDocument.Name)),
                 start: request.Start,
                 length: request.Length
             );

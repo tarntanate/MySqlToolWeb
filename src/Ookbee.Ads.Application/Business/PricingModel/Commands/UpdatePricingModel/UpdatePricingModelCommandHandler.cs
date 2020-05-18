@@ -1,5 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelByName;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
@@ -39,6 +40,12 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
                 var isExistsResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(document.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
+
+                var pricingModelResult = await Mediator.Send(new GetPricingModelByNameQuery(document.Name));
+                if (pricingModelResult.Ok &&
+                    pricingModelResult.Data.Id != document.Id &&
+                    pricingModelResult.Data.Name == document.Name)
+                    return result.Fail(409, $"PricingModel '{document.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
                 document.UpdatedDate = now.DateTime;

@@ -7,9 +7,6 @@ namespace Ookbee.Ads.Domain.Documents
     [CollectionName("Ad")]
     public class AdDocument : BaseDocument
     {
-        public string CampaignId { get; set; }
-
-        public string AdSlotId { get; set; }
 
         public string Name { get; set; }
 
@@ -30,5 +27,9 @@ namespace Ookbee.Ads.Domain.Documents
         public DateTime UpdatedDate { get; set; }
 
         public bool EnabledFlag { get; set; }
+
+        public DefaultDocument AdSlot { get; set; }
+
+        public DefaultDocument Campaign { get; set; }
     }
 }

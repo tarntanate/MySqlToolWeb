@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList
             var result = new HttpResult<IEnumerable<PublisherDto>>();
             var items = await PublisherMongoDB.FindAsync(
                 filter: f => f.EnabledFlag == true,
-                sort: Builders<PublisherDocument>.Sort.Descending(nameof(PublisherDocument.Name)),
+                sort: Builders<PublisherDocument>.Sort.Ascending(nameof(PublisherDocument.Name)),
                 start: request.Start,
                 length: request.Length
             );

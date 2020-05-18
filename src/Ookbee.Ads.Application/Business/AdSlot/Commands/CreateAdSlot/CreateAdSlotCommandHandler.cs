@@ -28,32 +28,33 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.CreateAdSlot
 
         public async Task<HttpResult<string>> Handle(CreateAdSlotCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<AdSlotDocument>();
-            var result = await CreateMongoDB(document);
+            var result = await CreateMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(AdSlotDocument document)
+        private async Task<HttpResult<string>> CreateMongoDB(CreateAdSlotCommand request)
         {
             var result = new HttpResult<string>();
             try
             {
-                var publisherResult = await Mediator.Send(new GetPublisherByIdQuery(document.SlotTypeId));
+                var publisherResult = await Mediator.Send(new GetPublisherByIdQuery(request.PublisherId));
                 if (!publisherResult.Ok)
                     return result.Fail(publisherResult.StatusCode, publisherResult.Message);
 
-                var slotTypeResult = await Mediator.Send(new GetSlotTypeByIdQuery(document.SlotTypeId));
+                var slotTypeResult = await Mediator.Send(new GetSlotTypeByIdQuery(request.SlotTypeId));
                 if (!slotTypeResult.Ok)
                     return result.Fail(slotTypeResult.StatusCode, slotTypeResult.Message);
 
-                var isExistsAdSlotByNameResult = await Mediator.Send(new IsExistsAdSlotByNameQuery(document.Name));
+                var isExistsAdSlotByNameResult = await Mediator.Send(new IsExistsAdSlotByNameQuery(request.Name));
                 if (isExistsAdSlotByNameResult.Data)
-                    return result.Fail(409, $"AdSlot '{document.Name}' already exists.");
+                    return result.Fail(409, $"AdSlot '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<AdSlotDocument>();
+                document.Publisher = Mapper.Map(publisherResult.Data).ToANew<DefaultDocument>();
+                document.SlotType = Mapper.Map(slotTypeResult.Data).ToANew<DefaultDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
-                document.EnabledFlag = true;
                 await AdSlotMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

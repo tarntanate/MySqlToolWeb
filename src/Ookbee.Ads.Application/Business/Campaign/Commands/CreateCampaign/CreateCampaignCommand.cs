@@ -39,6 +39,8 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 
         public DateTime EndDate { get; set; }
 
+        public bool EnabledFlag => true;
+
         public CreateCampaignCommand()
         {
             

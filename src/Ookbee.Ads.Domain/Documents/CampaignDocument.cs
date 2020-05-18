@@ -43,8 +43,8 @@ namespace Ookbee.Ads.Domain.Documents
 
         public bool EnabledFlag { get; set; }
 
-        public AdvertiserDocument Advertiser { get; set; }
+        public DefaultDocument Advertiser { get; set; }
         
-        public PricingModelDocument PricingModel { get; set; }
+        public DefaultDocument PricingModel { get; set; }
     }
 }

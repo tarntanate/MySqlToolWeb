@@ -14,6 +14,8 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
 
         public string ImageUrl { get; set; }
 
+        public bool EnabledFlag => true;
+
         public CreateSlotTypeCommand()
         {
             

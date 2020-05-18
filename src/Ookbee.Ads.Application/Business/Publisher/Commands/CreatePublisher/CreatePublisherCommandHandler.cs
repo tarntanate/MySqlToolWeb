@@ -43,7 +43,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
-                document.EnabledFlag = true;
                 await PublisherMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

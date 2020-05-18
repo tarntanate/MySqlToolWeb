@@ -24,6 +24,8 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
 
         public string WebLink { get; set; }
 
+        public bool EnabledFlag => true;
+
         public CreateMediaFileCommand()
         {
             

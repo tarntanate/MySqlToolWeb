@@ -16,6 +16,8 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.CreateAdSlot
 
         public string Description { get; set; }
 
+        public bool EnabledFlag => true;
+
         public CreateAdSlotCommand()
         {
             

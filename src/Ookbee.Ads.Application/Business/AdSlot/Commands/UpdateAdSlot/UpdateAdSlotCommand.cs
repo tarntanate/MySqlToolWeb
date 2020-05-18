@@ -15,6 +15,13 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.UpdateAdSlot
 
         public string Description { get; set; }
 
+        public bool EnabledFlag => true;
+
+        public UpdateAdSlotCommand()
+        {
+            
+        }
+
         public UpdateAdSlotCommand(string id)
         {
             Id = id;

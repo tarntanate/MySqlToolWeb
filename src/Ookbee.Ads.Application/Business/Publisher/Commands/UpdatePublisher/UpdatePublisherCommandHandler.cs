@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName;
 using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
-using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByName;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -40,9 +40,11 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
                 var isExistsByIdResult = await Mediator.Send(new IsExistsPublisherByIdQuery(document.Id));
                 if (!isExistsByIdResult.Ok)
                     return isExistsByIdResult;
-                
-                var isExistsByNameResult = await Mediator.Send(new IsExistsPublisherByNameQuery(document.Name));
-                if (isExistsByNameResult.Data)
+                    
+                var publisherResult = await Mediator.Send(new GetPublisherByNameQuery(document.Name));
+                if (publisherResult.Ok && 
+                    publisherResult.Data.Id != document.Id && 
+                    publisherResult.Data.Name == document.Name)
                     return result.Fail(409, $"Publisher '{document.Name}' already exists.");
 
                 var now = MechineDateTime.Now;

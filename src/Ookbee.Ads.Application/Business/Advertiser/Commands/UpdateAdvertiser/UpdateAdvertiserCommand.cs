@@ -21,6 +21,11 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 
         public bool EnabledFlag => true;
 
+        public UpdateAdvertiserCommand()
+        {
+            
+        }
+
         public UpdateAdvertiserCommand(string id)
         {
             Id = id;

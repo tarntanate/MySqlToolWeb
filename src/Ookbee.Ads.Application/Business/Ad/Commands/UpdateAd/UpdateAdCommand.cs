@@ -8,9 +8,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
     {
         public string Id { get; set; }
 
-        public string CampaignId { get; set; }
-
         public string AdSlotId { get; set; }
+
+        public string CampaignId { get; set; }
 
         public string Name { get; set; }
 
@@ -22,6 +22,13 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
         public string BackgroundColor { get; set; }
 
+        public bool EnabledFlag => true;
+
+        public UpdateAdCommand()
+        {
+
+        }
+
         public UpdateAdCommand(string id, string campaignId, string adSlotId)
         {
             Id = id;
@@ -31,8 +38,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
         public UpdateAdCommand(string id, UpdateAdCommand request)
         {
-            CampaignId = request.CampaignId;
+            Id = id;
             AdSlotId = request.AdSlotId;
+            CampaignId = request.CampaignId;
             Name = request.Name;
             Description = request.Description;
             Cooldown = request.Cooldown;

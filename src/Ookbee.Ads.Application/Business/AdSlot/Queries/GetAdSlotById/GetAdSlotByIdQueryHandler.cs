@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"Ad '{id}' doesn't exist.");
+                return result.Fail(404, $"AdSlot '{id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<AdSlotDto>();
             return result.Success(data);
         }

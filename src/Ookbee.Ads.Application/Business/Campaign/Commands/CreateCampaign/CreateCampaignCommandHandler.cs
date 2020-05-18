@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignByName;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
@@ -44,13 +45,16 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
                 if (!pricingModelResult.Ok)
                     return result.Fail(400, pricingModelResult.Message);
 
+                var isExistsCampaignByNameResult = await Mediator.Send(new IsExistsCampaignByNameQuery(request.Name));
+                if (isExistsCampaignByNameResult.Data)
+                    return result.Fail(409, $"Campaign '{request.Name}' already exists.");
+
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<CampaignDocument>();
-                document.Advertiser = Mapper.Map(advertiserResult.Data).ToANew<AdvertiserDocument>();
-                document.PricingModel = Mapper.Map(pricingModelResult.Data).ToANew<PricingModelDocument>();
+                document.Advertiser = Mapper.Map(advertiserResult.Data).ToANew<DefaultDocument>();
+                document.PricingModel = Mapper.Map(pricingModelResult.Data).ToANew<DefaultDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
-                document.EnabledFlag = true;
                 await CampaignMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }
