@@ -23,8 +23,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
 
         public string WebLink { get; set; }
 
-        public bool EnabledFlag { get; set; }
-
         public UpdateMediaFileCommand(string id)
         {
             Id = id;

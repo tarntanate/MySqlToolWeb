@@ -1,6 +1,5 @@
 ﻿using System;
 using MediatR;
-using MongoDB.Bson;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
@@ -38,8 +37,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
-        public bool EnabledFlag { get; set; }
 
         public UpdateCampaignCommand()
         {

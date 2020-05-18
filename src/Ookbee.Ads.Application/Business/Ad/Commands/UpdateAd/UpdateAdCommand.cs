@@ -20,8 +20,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
         public string BackgroundColor { get; set; }
 
-        public bool EnabledFlag { get; set; }
-
         public UpdateAdCommand()
         {
             

@@ -13,8 +13,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
 
         public string ImageUrl { get; set; }
 
-        public bool EnabledFlag { get; set; }
-
         public UpdatePublisherCommand()
         {
             Id = string.Empty;

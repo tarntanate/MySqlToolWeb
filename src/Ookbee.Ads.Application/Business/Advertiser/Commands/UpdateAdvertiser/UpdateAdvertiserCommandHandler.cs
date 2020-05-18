@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserByName;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
@@ -37,12 +38,14 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByIdResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(document.Id));
-                if (!isExistsByIdResult.Ok)
-                    return isExistsByIdResult;
-
-                var isExistsByNameResult = await Mediator.Send(new IsExistsAdvertiserByNameQuery(document.Name));
-                if (isExistsByNameResult.Data)
+                var advertiserByIdResult = await Mediator.Send(new GetAdvertiserByIdQuery(document.Id));
+                if (!advertiserByIdResult.Ok)
+                    return result.Fail(advertiserByIdResult.StatusCode, advertiserByIdResult.Message);
+                    
+                var advertiserResult = await Mediator.Send(new GetAdvertiserByNameQuery(document.Name));
+                if (advertiserResult.Ok && 
+                    advertiserResult.Data.Id != document.Id && 
+                    advertiserResult.Data.Name == document.Name)
                     return result.Fail(409, $"Advertiser '{document.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
