@@ -28,6 +28,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotList
         {
             var result = new HttpResult<IEnumerable<AdSlotDto>>();
             var items = await AdMongoDB.FindAsync(
+                filter: f => f.EnabledFlag == true,
                 sort: Builders<AdSlotDocument>.Sort.Descending(nameof(AdDocument.Name)),
                 start: request.Start,
                 length: request.Length

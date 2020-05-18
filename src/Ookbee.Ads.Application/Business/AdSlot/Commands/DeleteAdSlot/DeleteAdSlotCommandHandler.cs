@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -11,11 +12,11 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.DeleteAdSlot
     public class DeleteAdSlotCommandHandler : IRequestHandler<DeleteAdSlotCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoRepository<AdDocument> AdSlotMongoDB { get; }
+        private AdsMongoRepository<AdSlotDocument> AdSlotMongoDB { get; }
 
         public DeleteAdSlotCommandHandler(
             IMediator mediator,
-            AdsMongoRepository<AdDocument> adSlotMongoDB)
+            AdsMongoRepository<AdSlotDocument> adSlotMongoDB)
         {
             Mediator = mediator;
             AdSlotMongoDB = adSlotMongoDB;
@@ -35,7 +36,10 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.DeleteAdSlot
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await AdSlotMongoDB.DeleteAsync(id);
+            await AdSlotMongoDB.UpdateManyPartialAsync(
+                filter: f => f.Id == id, 
+                update: Builders<AdSlotDocument>.Update.Set(f => f.EnabledFlag, false)
+            );
             return result.Success(true);
         }
     }

@@ -28,6 +28,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList
         {
             var result = new HttpResult<IEnumerable<MediaFileDto>>();
             var items = await MediaFileMongoDB.FindAsync(
+                filter: f => f.EnabledFlag == true,
                 sort: Builders<MediaFileDocument>.Sort.Descending(nameof(MediaFileDocument.Name)),
                 start: request.Start,
                 length: request.Length

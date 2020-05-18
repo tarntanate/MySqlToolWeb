@@ -43,6 +43,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
+                document.EnabledFlag = true;
                 await AdvertiserMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

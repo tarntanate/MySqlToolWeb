@@ -50,6 +50,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
                 document.PricingModel = Mapper.Map(pricingModelResult.Data).ToANew<PricingModelDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
+                document.EnabledFlag = true;
                 await CampaignMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

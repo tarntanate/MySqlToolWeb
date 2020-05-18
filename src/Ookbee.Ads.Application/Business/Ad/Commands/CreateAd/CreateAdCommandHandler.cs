@@ -45,9 +45,14 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
                 if (!slotTypeResult.Ok)
                     return result.Fail(slotTypeResult.StatusCode, slotTypeResult.Message);
 
+                var isExistsAdByNameResult = await Mediator.Send(new GetSlotTypeByIdQuery(document.AdSlotId));
+                if (isExistsAdByNameResult.Ok)
+                    return result.Fail(409, $"Ad '{document.Name}' already exists.");
+
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
+                document.EnabledFlag = true;
                 await AdMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

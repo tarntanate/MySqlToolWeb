@@ -38,6 +38,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
+                document.EnabledFlag = true;
                 await PricingModelMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

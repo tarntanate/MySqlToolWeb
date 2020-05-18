@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -35,7 +36,10 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await MediaFileMongoDB.DeleteAsync(id);
+            await MediaFileMongoDB.UpdateManyPartialAsync(
+                filter: f => f.Id == id, 
+                update: Builders<MediaFileDocument>.Update.Set(f => f.EnabledFlag, false)
+            );
             return result.Success(true);
         }
     }

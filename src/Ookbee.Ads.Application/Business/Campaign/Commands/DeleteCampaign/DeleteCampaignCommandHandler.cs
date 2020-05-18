@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -35,7 +36,10 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.DeleteCampaign
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await CampaignMongoDB.DeleteAsync(id);
+            await CampaignMongoDB.UpdateManyPartialAsync(
+                filter: f => f.Id == id, 
+                update: Builders<CampaignDocument>.Update.Set(f => f.EnabledFlag, false)
+            );
             return result.Success(true);
         }
     }

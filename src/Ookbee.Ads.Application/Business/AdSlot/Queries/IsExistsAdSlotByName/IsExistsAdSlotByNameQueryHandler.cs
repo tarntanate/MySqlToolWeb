@@ -24,7 +24,10 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotByName
         private async Task<HttpResult<bool>> IsExistsByNameOnMongo(string name)
         {
             var result = new HttpResult<bool>();
-            var isExists = await AdSlotMongoDB.AnyAsync(filter: f => f.Name == name);
+            var isExists = await AdSlotMongoDB.AnyAsync(
+                filter: f => f.Name == name && 
+                             f.EnabledFlag == true
+                );
             if (isExists)
                 return result.Success(true);
             return result.Fail(404, $"AdSlot '{name}' doesn't exist.");

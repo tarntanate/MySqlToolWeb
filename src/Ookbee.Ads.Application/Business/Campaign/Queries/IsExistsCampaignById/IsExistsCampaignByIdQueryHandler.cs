@@ -24,7 +24,10 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById
         private async Task<HttpResult<bool>> IsExistsByIdOnMongo(string id)
         {
             var result = new HttpResult<bool>();
-            var isExists = await CampaignDocument.AnyAsync(filter: f => f.Id == id);
+            var isExists = await CampaignDocument.AnyAsync(
+                filter: f => f.Id == id && 
+                             f.EnabledFlag == true
+            );
             if (isExists)
                 return result.Success(true);
             return result.Fail(404, $"Campaign '{id}' doesn't exist.");

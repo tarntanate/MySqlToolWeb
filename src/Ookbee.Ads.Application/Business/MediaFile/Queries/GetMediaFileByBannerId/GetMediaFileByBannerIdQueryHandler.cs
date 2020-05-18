@@ -38,7 +38,8 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
                 return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
 
             var items = await MediaFileMongoDB.FindAsync(
-                filter: f => f.AdId == bannerId,
+                filter: f => f.AdId == bannerId && 
+                             f.EnabledFlag == true,
                 sort: Builders<MediaFileDocument>.Sort.Descending(nameof(MediaFileDocument.Name)),
                 start: start,
                 length: length

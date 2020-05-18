@@ -29,6 +29,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeList
         {
             var result = new HttpResult<IEnumerable<SlotTypeDto>>();
             var items = await SlotTypeMongoDB.FindAsync(
+                filter: f => f.EnabledFlag == true,
                 sort: Builders<SlotTypeDocument>.Sort.Descending(nameof(SlotTypeDocument.Name)),
                 start: request.Start,
                 length: request.Length

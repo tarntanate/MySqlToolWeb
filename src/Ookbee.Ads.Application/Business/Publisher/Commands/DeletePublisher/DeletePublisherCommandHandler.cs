@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -35,7 +36,10 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await PublisherMongoDB.DeleteAsync(id);
+            await PublisherMongoDB.UpdateManyPartialAsync(
+                filter: f => f.Id == id, 
+                update: Builders<PublisherDocument>.Update.Set(f => f.EnabledFlag, false)
+            );
             return result.Success(true);
         }
     }

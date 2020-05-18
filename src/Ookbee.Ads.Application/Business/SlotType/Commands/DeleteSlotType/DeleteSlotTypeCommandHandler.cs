@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -35,7 +36,10 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.DeleteSlotType
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await SlotTypeMongoDB.DeleteAsync(id);
+            await SlotTypeMongoDB.UpdateManyPartialAsync(
+                filter: f => f.Id == id, 
+                update: Builders<SlotTypeDocument>.Update.Set(f => f.EnabledFlag, false)
+            );
             return result.Success(true);
         }
     }

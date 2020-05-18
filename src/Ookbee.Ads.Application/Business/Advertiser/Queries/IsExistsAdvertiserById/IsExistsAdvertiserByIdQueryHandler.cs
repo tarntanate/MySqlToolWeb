@@ -24,7 +24,10 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserB
         private async Task<HttpResult<bool>> IsExistsByIdOnMongo(string id)
         {
             var result = new HttpResult<bool>();
-            var isExists = await AdvertiserMongoDB.AnyAsync(filter: f => f.Id == id);
+            var isExists = await AdvertiserMongoDB.AnyAsync(
+                filter: f => f.Id == id && 
+                             f.EnabledFlag == true
+            );
             if (isExists)
                 return result.Success(true);
             return result.Fail(404, $"Advertiser '{id}' doesn't exist.");

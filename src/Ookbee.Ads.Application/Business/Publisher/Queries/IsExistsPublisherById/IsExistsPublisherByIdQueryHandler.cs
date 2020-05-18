@@ -24,7 +24,10 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByI
         private async Task<HttpResult<bool>> IsExistsByIdOnMongo(string id)
         {
             var result = new HttpResult<bool>();
-            var isExists = await PublisherMongoDB.AnyAsync(filter: f => f.Id == id);
+            var isExists = await PublisherMongoDB.AnyAsync(
+                filter: f => f.Id == id && 
+                             f.EnabledFlag == true
+            );
             if (isExists)
                 return result.Success(true);
             return result.Fail(404, $"Publisher '{id}' doesn't exist.");

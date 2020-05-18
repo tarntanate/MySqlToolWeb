@@ -53,6 +53,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.CreateAdSlot
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
+                document.EnabledFlag = true;
                 await AdSlotMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

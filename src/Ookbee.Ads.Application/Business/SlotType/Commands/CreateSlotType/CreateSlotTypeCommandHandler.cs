@@ -43,6 +43,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
                 var now = MechineDateTime.Now;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
+                document.EnabledFlag = true;
                 await SlotTypeMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

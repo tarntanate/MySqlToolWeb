@@ -25,7 +25,10 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdById
         private async Task<HttpResult<AdDto>> GetOnMongo(string id)
         {
             var result = new HttpResult<AdDto>();
-            var item = await AdMongoDB.FirstOrDefaultAsync(filter: f => f.Id == id);
+            var item = await AdMongoDB.FirstOrDefaultAsync(
+                filter: f => f.Id == id && 
+                             f.EnabledFlag == true
+            );
             if (item == null)
                 return result.Fail(404, $"Ad '{id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<AdDto>();

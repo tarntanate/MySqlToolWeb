@@ -6,12 +6,20 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
     public class UpdateAdvertiserCommand : IRequest<HttpResult<bool>>
     {
         public string Id { get; set; }
+        
         public string Name { get; set; }
+
         public string Description { get; set; }
+
         public string ImageUrl { get; set; }
+
         public string Contact { get; set; }
+
         public string Email { get; set; }
+
         public string PhoneNumber { get; set; }
+
+        public bool EnabledFlag { get; set; }
 
         public UpdateAdvertiserCommand()
         {

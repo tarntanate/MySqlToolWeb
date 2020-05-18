@@ -24,7 +24,10 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingMo
         private async Task<HttpResult<bool>> IsExistsByIdOnMongo(string id)
         {
             var result = new HttpResult<bool>();
-            var isExists = await PricingModelMongoDB.AnyAsync(filter: f => f.Id == id);
+            var isExists = await PricingModelMongoDB.AnyAsync(
+                filter: f => f.Id == id && 
+                             f.EnabledFlag == true
+            );
             if (isExists)
                 return result.Success(true);
             return result.Fail(404, $"PricingModel '{id}' doesn't exist.");
