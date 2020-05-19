@@ -32,7 +32,7 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.CommitUploadUrl
             {
                 SourceAppid = uploadUrlData.AppId,
                 SourceRegion = uploadUrlData.Region,
-                SourceBucket = cosConfig.Bucket.Temp,
+                SourceBucket = cosConfig.Bucket.Private,
                 SourceKey = uploadUrlData.Key,
                 DestinationBucket = uploadUrlData.DestinationBucket,
                 DestinationKey = uploadUrlData.Key

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MongoDB.Bson;
 using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
@@ -7,10 +8,16 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
     {
         public GetSignedUrlQueryValidator()
         {
-            RuleFor(p => p.FileExtension).Must(BeAValidJpg).WithMessage("Only .jpg and .jpeg file is supported.");
+            RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"Id '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.FileExtension).Must(BeAValidJpeg).WithMessage("Only .jpg and .jpeg file is supported.");
         }
 
-        private bool BeAValidJpg(string fileExtension)
+        private bool BeAValidObjectId(string id)
+        {
+            return ObjectId.TryParse(id, out ObjectId objectId);
+        }
+
+        private bool BeAValidJpeg(string fileExtension)
         {
             return fileExtension.IsValidJpeg();
         }

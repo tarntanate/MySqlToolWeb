@@ -26,22 +26,24 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
 
         public async Task<HttpResult<string>> Handle(GenerateUploadUrlCommand request, CancellationToken cancellationToken)
         {
+            var mapperId = request.MapperId;
             var bucket = request.Bucket;
             var key = request.Key;
-            var result = await CreateMongoDB(bucket, key);
+            var result = await CreateMongoDB(mapperId, bucket, key);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(string bucket, string key)
+        private async Task<HttpResult<string>> CreateMongoDB(string mapperId, string bucket, string key)
         {
             var result = new HttpResult<string>();
             try
             {
                 var now = MechineDateTime.Now;
                 var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
-                var signUrl = await GenerateSignURL(cosConfig.Bucket.Temp, key);
+                var signUrl = await GenerateSignURL(cosConfig.Bucket.Private, key);
                 var document = new UploadUrlDocument()
                 {
+                    MapperId = mapperId,
                     AppId = cosConfig.AppId,
                     Region = cosConfig.Region,
                     Bucket = bucket,
@@ -51,7 +53,7 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
                     UpdatedDate = now.DateTime
                 };
                 await UploadUrlMongoDB.AddAsync(document);
-                return result.Success(document.Id);
+                return result.Success(signUrl);
             }
             catch (Exception ex)
             {

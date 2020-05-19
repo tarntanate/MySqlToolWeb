@@ -32,13 +32,13 @@ namespace Ookbee.Ads.Services.Admin.Controllers
         public async Task<HttpResult<IEnumerable<MediaFileDto>>> GetMediaFileList([FromRoute] string id, [FromQuery] int start, [FromQuery] int length)
             => await Mediator.Send(new GetMediaFileByAdIdQuery(id, start, length));
 
-        [HttpGet("signed-url")]
-        public async Task<HttpResult<string>> GetSignedUrlById([FromRoute] string id)
-            => await Mediator.Send(new GetSignedUrlQuery());
-
         [HttpPost]
         public async Task<HttpResult<string>> Create([FromBody] CreateAdCommand request)
             => await Mediator.Send(new CreateAdCommand(request));
+
+        [HttpPost("{id}/signed-url")]
+        public async Task<HttpResult<string>> GetSignedUrlById([FromRoute] string id, [FromBody] GetSignedUrlQuery request)
+            => await Mediator.Send(new GetSignedUrlQuery(id, request));
 
         [HttpPut("{id}")]
         public async Task<HttpResult<bool>> Update([FromRoute] string id, [FromBody] UpdateAdCommand request)
