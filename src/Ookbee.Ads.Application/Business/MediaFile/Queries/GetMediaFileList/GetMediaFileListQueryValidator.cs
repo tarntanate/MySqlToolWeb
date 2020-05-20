@@ -13,9 +13,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList
             RuleFor(p => p.Length).GreaterThan(0).LessThanOrEqualTo(100);
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
     }
 }

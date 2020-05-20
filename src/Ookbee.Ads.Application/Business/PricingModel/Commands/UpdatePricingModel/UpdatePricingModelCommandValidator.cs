@@ -12,9 +12,9 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
             RuleFor(p => p.Description).MaximumLength(500);
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
     }
 }

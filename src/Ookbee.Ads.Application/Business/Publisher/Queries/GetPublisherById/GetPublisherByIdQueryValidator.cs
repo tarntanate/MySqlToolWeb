@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById
             RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"Publisher '{p.Id}' is not a valid 24 digit hex string.");
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
     }
 }

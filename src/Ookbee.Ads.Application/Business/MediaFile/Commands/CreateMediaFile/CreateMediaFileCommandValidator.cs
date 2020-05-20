@@ -25,9 +25,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
             return value == MimeTypes.Image.Jpeg || value == MimeTypes.Video.Mpeg;
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
 
         private bool BeAValidPosition(string value)

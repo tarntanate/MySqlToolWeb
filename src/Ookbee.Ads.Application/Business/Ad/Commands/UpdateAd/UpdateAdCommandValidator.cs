@@ -18,9 +18,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             RuleFor(p => p.ForegroundColor).Must(BeARGBHexColor).WithMessage("ForegroundColor only support rgb format.");
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
 
         private bool BeARGBHexColor(string value)

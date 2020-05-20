@@ -15,14 +15,14 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
             RuleFor(p => p.PhoneNumber).Must(BeAValidPhoneNumber).WithMessage("Please specify a valid 'PhoneNumber'.").MaximumLength(10);
         }
 
-        private bool BeAValidEmailAddress(string email)
+        private bool BeAValidEmailAddress(string value)
         {
-            return email.IsValidEmailAddress();
+            return value.IsValidEmailAddress();
         }
 
-        private bool BeAValidPhoneNumber(string phoneNumber)
+        private bool BeAValidPhoneNumber(string value)
         {
-            return phoneNumber.IsValidPhoneNumber();
+            return value.IsValidPhoneNumber();
         }
     }
 }

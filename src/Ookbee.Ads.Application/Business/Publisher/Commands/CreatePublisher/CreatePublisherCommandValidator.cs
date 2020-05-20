@@ -11,15 +11,5 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
             RuleFor(p => p.Description).MaximumLength(500);
             RuleFor(p => p.ImageUrl).MaximumLength(250);
         }
-
-        private bool BeAValidEmailAddress(string email)
-        {
-            return email.IsValidEmailAddress();
-        }
-
-        private bool BeAValidPhoneNumber(string phoneNumber)
-        {
-            return phoneNumber.IsValidPhoneNumber();
-        }
     }
 }

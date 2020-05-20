@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotByName
             RuleFor(p => p.PublisherId).Must(BeAValidObjectId).WithMessage(p => $"Publisher '{p.PublisherId}' is not a valid 24 digit hex string.");
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
     }
 }

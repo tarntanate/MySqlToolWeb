@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
             RuleFor(p => p.MapperId).Must(BeAValidObjectId).WithMessage(p => $"MapperId '{p.MapperId}' is not a valid 24 digit hex string.");
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
     }
 }

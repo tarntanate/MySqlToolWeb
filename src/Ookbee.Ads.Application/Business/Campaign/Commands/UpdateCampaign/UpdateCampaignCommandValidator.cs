@@ -17,9 +17,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
             RuleFor(p => p.PricingModelId).Must(BeAValidObjectId).WithMessage(p => $"PricingModel '{p.PricingModelId}' is not a valid 24 digit hex string.");
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
     }
 }

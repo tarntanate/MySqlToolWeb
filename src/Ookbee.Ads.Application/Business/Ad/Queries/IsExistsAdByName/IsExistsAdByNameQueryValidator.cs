@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName
             RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
     }
 }

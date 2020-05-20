@@ -14,14 +14,14 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
             RuleFor(p => p.MediaUrl).MaximumLength(250);
         }
 
-        private bool BeAValidObjectId(string id)
+        private bool BeAValidObjectId(string value)
         {
-            return ObjectId.TryParse(id, out ObjectId objectId);
+            return ObjectId.TryParse(value, out ObjectId objectId);
         }
 
-        private bool BeAValidUri(string fileUrl)
+        private bool BeAValidUri(string value)
         {
-            return fileUrl.IsValidUri();
+            return value.IsValidUri();
         }
     }
 }

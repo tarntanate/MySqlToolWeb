@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Commands.CreateAd;
 using Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd;
+using Ookbee.Ads.Application.Business.Ad.Commands.PresignedUrl;
 using Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaignId;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
-using Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
@@ -31,8 +31,8 @@ namespace Ookbee.Ads.Services.Admin.Controllers
             => await Mediator.Send(new CreateAdCommand(campaignId, request));
 
         [HttpPost("{id}/signed-url")]
-        public async Task<HttpResult<string>> GetSignedUrlById([FromRoute] string campaignId, [FromRoute] string id, [FromBody] GetSignedUrlQuery request)
-            => await Mediator.Send(new GetSignedUrlQuery(campaignId, id, request));
+        public async Task<HttpResult<string>> PresignedUrl([FromRoute] string campaignId, [FromRoute] string id, [FromBody] PresignedUrlCommand request)
+            => await Mediator.Send(new PresignedUrlCommand(campaignId, id, request));
 
         [HttpPut("{id}")]
         public async Task<HttpResult<bool>> Update([FromRoute] string campaignId, [FromRoute] string id, [FromBody] UpdateAdCommand request)

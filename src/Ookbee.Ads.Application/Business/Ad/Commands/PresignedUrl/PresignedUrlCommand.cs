@@ -1,10 +1,9 @@
 ﻿using MediatR;
-using MongoDB.Bson;
 using Ookbee.Ads.Common.Result;
 
-namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
+namespace Ookbee.Ads.Application.Business.Ad.Commands.PresignedUrl
 {
-    public class GetSignedUrlQuery : IRequest<HttpResult<string>>
+    public class PresignedUrlCommand : IRequest<HttpResult<string>>
     {
         public string Id { get; set; }
 
@@ -12,7 +11,12 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
         
         public string FileExtension { get; set; }
 
-        public GetSignedUrlQuery(string campaignId, string id, GetSignedUrlQuery request)
+        public PresignedUrlCommand()
+        {
+            
+        }
+
+        public PresignedUrlCommand(string campaignId, string id, PresignedUrlCommand request)
         {
             Id = id;
             CampaignId = campaignId;
