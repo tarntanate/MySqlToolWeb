@@ -1,6 +1,8 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using MongoDB.Driver;
+using Ookbee.Ads.Common.Builders;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -27,11 +29,9 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotList
         private async Task<HttpResult<IEnumerable<AdSlotDto>>> GetListMongoDB(GetAdSlotListQuery request)
         {
             var result = new HttpResult<IEnumerable<AdSlotDto>>();
-
-
-            
             var items = await AdMongoDB.FindAsync(
-                filter: f => f.EnabledFlag == true,
+                filter: f => f.PublisherId == request.PublisherId &&
+                             f.EnabledFlag == true,
                 sort: Builders<AdSlotDocument>.Sort.Ascending(nameof(AdDocument.Name)),
                 start: request.Start,
                 length: request.Length
