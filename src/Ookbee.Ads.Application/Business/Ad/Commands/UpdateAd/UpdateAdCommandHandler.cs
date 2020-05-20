@@ -38,6 +38,10 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             var result = new HttpResult<bool>();
             try
             {
+                var campaignResult = await Mediator.Send(new GetCampaignByIdQuery(request.CampaignId));
+                if (!campaignResult.Ok)
+                    return result.Fail(campaignResult.StatusCode, campaignResult.Message);
+
                 var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
                 if (!isExistsAdResult.Ok)
                     return isExistsAdResult;
@@ -45,10 +49,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                 var isExistsAdByNameResult = await Mediator.Send(new IsExistsAdByNameQuery(request.CampaignId, request.AdSlotId, request.Name));
                 if (isExistsAdByNameResult.Data)
                     return result.Fail(409, $"Ad '{request.Name}' already exists.");
-
-                var campaignResult = await Mediator.Send(new GetCampaignByIdQuery(request.CampaignId));
-                if (!campaignResult.Ok)
-                    return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
                 var adSlotTypeResult = await Mediator.Send(new GetAdSlotByIdQuery(request.AdSlotId));
                 if (!adSlotTypeResult.Ok)

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -32,12 +33,16 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
         {
             var result = new HttpResult<bool>();
 
+            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.CampaignId));
+            if (!isExistsCampaignResult.Ok)
+                return isExistsCampaignResult;
+
             var isExistsResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
             await AdMongoDB.UpdateManyPartialAsync(
-                filter: f => f.Id == request.Id, 
+                filter: f => f.Id == request.Id,
                 update: Builders<AdDocument>.Update.Set(f => f.EnabledFlag, false)
             );
             return result.Success(true);

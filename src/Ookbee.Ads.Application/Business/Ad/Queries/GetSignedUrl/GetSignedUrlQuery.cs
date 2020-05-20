@@ -6,13 +6,16 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
 {
     public class GetSignedUrlQuery : IRequest<HttpResult<string>>
     {
-        public string MapperId { get; set; }
+        public string Id { get; set; }
+
+        public string CampaignId { get; set; }
         
         public string FileExtension { get; set; }
 
-        public GetSignedUrlQuery(string mapperId, GetSignedUrlQuery request)
+        public GetSignedUrlQuery(string campaignId, string id, GetSignedUrlQuery request)
         {
-            MapperId = mapperId;
+            Id = id;
+            CampaignId = campaignId;
             FileExtension = request.FileExtension;
         }
     }

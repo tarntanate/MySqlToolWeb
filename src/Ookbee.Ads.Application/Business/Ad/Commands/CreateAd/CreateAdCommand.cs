@@ -30,10 +30,10 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
         }
 
-        public CreateAdCommand(CreateAdCommand request)
+        public CreateAdCommand(string campaignId, CreateAdCommand request)
         {
             AdSlotId = request.AdSlotId;
-            CampaignId = request.CampaignId;
+            CampaignId = campaignId;
             Name = request.Name;
             Description = request.Description;
             Cooldown = request.Cooldown;

@@ -1,5 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -10,10 +11,14 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName
 {
     public class GetAdByNameQueryHandler : IRequestHandler<GetAdByNameQuery, HttpResult<AdDto>>
     {
+        private IMediator Mediator { get; }
         private AdsMongoRepository<AdDocument> AdMongoDB { get; }
 
-        public GetAdByNameQueryHandler(AdsMongoRepository<AdDocument> adMongoDB)
+        public GetAdByNameQueryHandler(
+            IMediator mediator,
+            AdsMongoRepository<AdDocument> adMongoDB)
         {
+            Mediator = mediator;
             AdMongoDB = adMongoDB;
         }
 
@@ -25,8 +30,14 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName
         private async Task<HttpResult<AdDto>> GetOnMongo(GetAdByNameQuery request)
         {
             var result = new HttpResult<AdDto>();
+
+            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.CampaignId));
+            if (!isExistsCampaignResult.Ok)
+                return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
+
             var item = await AdMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Name == request.Name && 
+                filter: f => f.Name == request.Name &&
+                             f.Campaign.Id == request.CampaignId && 
                              f.EnabledFlag == true
             );
             if (item == null)

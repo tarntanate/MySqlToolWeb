@@ -17,31 +17,31 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Admin.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/campaigns/{campaignId}/[controller]")]
     public class AdsController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<AdDto>>> GetList([FromQuery] int start, [FromQuery] int length)
-            => await Mediator.Send(new GetAdListQuery(start, length));
+        public async Task<HttpResult<IEnumerable<AdDto>>> GetList([FromRoute] string campaignId, [FromQuery] int start, [FromQuery] int length)
+            => await Mediator.Send(new GetAdListQuery(campaignId, start, length));
 
         [HttpGet("{id}")]
-        public async Task<HttpResult<AdDto>> GetById([FromRoute] string id)
-            => await Mediator.Send(new GetAdByIdQuery(id));
+        public async Task<HttpResult<AdDto>> GetById([FromRoute] string campaignId, [FromRoute] string id)
+            => await Mediator.Send(new GetAdByIdQuery(campaignId, id));
 
         [HttpPost]
-        public async Task<HttpResult<string>> Create([FromBody] CreateAdCommand request)
-            => await Mediator.Send(new CreateAdCommand(request));
+        public async Task<HttpResult<string>> Create([FromRoute] string campaignId, [FromBody] CreateAdCommand request)
+            => await Mediator.Send(new CreateAdCommand(campaignId, request));
 
         [HttpPost("{id}/signed-url")]
-        public async Task<HttpResult<string>> GetSignedUrlById([FromRoute] string id, [FromBody] GetSignedUrlQuery request)
-            => await Mediator.Send(new GetSignedUrlQuery(id, request));
+        public async Task<HttpResult<string>> GetSignedUrlById([FromRoute] string campaignId, [FromRoute] string id, [FromBody] GetSignedUrlQuery request)
+            => await Mediator.Send(new GetSignedUrlQuery(campaignId, id, request));
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute] string id, [FromBody] UpdateAdCommand request)
-            => await Mediator.Send(new UpdateAdCommand(id, request));
+        public async Task<HttpResult<bool>> Update([FromRoute] string campaignId, [FromRoute] string id, [FromBody] UpdateAdCommand request)
+            => await Mediator.Send(new UpdateAdCommand(campaignId, id, request));
 
         [HttpDelete("{id}")]
-        public async Task<HttpResult<bool>> Delete([FromRoute] string id)
-            => await Mediator.Send(new DeleteAdCommand(id));
+        public async Task<HttpResult<bool>> Delete([FromRoute] string campaignId, [FromRoute] string id)
+            => await Mediator.Send(new DeleteAdCommand(campaignId, id));
     }
 }

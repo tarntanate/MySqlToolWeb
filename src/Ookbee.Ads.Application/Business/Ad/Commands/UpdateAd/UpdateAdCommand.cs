@@ -29,11 +29,11 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
         }
 
-        public UpdateAdCommand(string id, UpdateAdCommand request)
+        public UpdateAdCommand(string campaignId, string id, UpdateAdCommand request)
         {
             Id = id;
+            CampaignId = campaignId;
             AdSlotId = request.AdSlotId;
-            CampaignId = request.CampaignId;
             Name = request.Name;
             Description = request.Description;
             Cooldown = request.Cooldown;

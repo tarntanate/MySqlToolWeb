@@ -7,9 +7,12 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
     {
         public string Id { get; set; }
 
-        public DeleteAdCommand(string id)
+        public string CampaignId { get; set; }
+
+        public DeleteAdCommand(string campaignId, string id)
         {
             Id = id;
+            CampaignId = campaignId;
         }
     }
 }
