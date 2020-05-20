@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MongoDB.Driver;
+using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
@@ -26,15 +27,19 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
 
         public async Task<HttpResult<bool>> Handle(UpdateMediaUrlCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnMongo(request.Id, request.MediaUrl);
+            var result = await UpdateOnMongo(request.AdId, request.Id, request.MediaUrl);
             return result;
         }
 
-        private async Task<HttpResult<bool>> UpdateOnMongo(string id, string fileUrl)
+        private async Task<HttpResult<bool>> UpdateOnMongo(string adId, string id, string fileUrl)
         {
             var result = new HttpResult<bool>();
             try
             {
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(adId));
+                if (!isExistsAdResult.Ok)
+                    return isExistsAdResult;
+
                 var isExistsResult = await Mediator.Send(new IsExistsMediaFileByIdQuery(id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;

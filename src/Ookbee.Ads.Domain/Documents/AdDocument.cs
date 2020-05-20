@@ -14,8 +14,6 @@ namespace Ookbee.Ads.Domain.Documents
 
         public TimeSpan Cooldown { get; set; }
 
-        public string Position { get; set; }
-
         public string ForegroundColor { get; set; }
 
         public string BackgroundColor { get; set; }

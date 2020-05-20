@@ -31,9 +31,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
             
         }
 
-        public CreateMediaFileCommand(CreateMediaFileCommand request)
+        public CreateMediaFileCommand(string adId, CreateMediaFileCommand request)
         {
-            AdId = request.AdId;
+            AdId = adId;
             Name = request.Name;
             Description = request.Description;
             MimeType = request.MimeType;

@@ -1,6 +1,8 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
+using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
+using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByName;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -26,21 +28,31 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
 
         public async Task<HttpResult<string>> Handle(CreateMediaFileCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<MediaFileDocument>();
-            var result = await CreateMongoDB(document);
+            var result = await CreateMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(MediaFileDocument document)
+        private async Task<HttpResult<string>> CreateMongoDB(CreateMediaFileCommand request)
         {
             var result = new HttpResult<string>();
             try
             {
-                var bannerResult = await Mediator.Send(new GetAdByIdQuery(document.AdId));
-                if (!bannerResult.Ok)
-                    return result.Fail(bannerResult.StatusCode, bannerResult.Message);
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
+                if (!isExistsAdResult.Ok)
+                    return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
+
+                var adResult = await Mediator.Send(new GetAdByIdQuery(request.AdId));
+                if (!adResult.Ok)
+                    return result.Fail(adResult.StatusCode, adResult.Message);
+
+                var mediaFileResult = await Mediator.Send(new GetMediaFileByNameQuery(request.AdId, request.Name));
+                if (mediaFileResult.Ok &&
+                    mediaFileResult.Data.Id != request.Id &&
+                    mediaFileResult.Data.Name == request.Name)
+                    return result.Fail(409, $"MediaFile '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<MediaFileDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await MediaFileMongoDB.AddAsync(document);

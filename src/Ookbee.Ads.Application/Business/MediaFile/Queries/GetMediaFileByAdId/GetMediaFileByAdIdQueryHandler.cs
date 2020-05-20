@@ -1,4 +1,6 @@
-﻿using AgileObjects.AgileMapper;
+﻿using System.Runtime.Serialization;
+using System;
+using AgileObjects.AgileMapper;
 using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
@@ -8,6 +10,7 @@ using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
 {
@@ -29,16 +32,16 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
             return await GetOnMongo(request.AdId, request.Start, request.Length);
         }
 
-        private async Task<HttpResult<IEnumerable<MediaFileDto>>> GetOnMongo(string bannerId, int start, int length)
+        private async Task<HttpResult<IEnumerable<MediaFileDto>>> GetOnMongo(string adId, int start, int length)
         {
             var result = new HttpResult<IEnumerable<MediaFileDto>>();
 
-            var isExistsCampaignResult = await Mediator.Send(new IsExistsAdByIdQuery(bannerId));
+            var isExistsCampaignResult = await Mediator.Send(new IsExistsAdByIdQuery(adId));
             if (!isExistsCampaignResult.Ok)
                 return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
 
             var items = await MediaFileMongoDB.FindAsync(
-                filter: f => f.AdId == bannerId && 
+                filter: f => f.AdId == adId &&
                              f.EnabledFlag == true,
                 sort: Builders<MediaFileDocument>.Sort.Ascending(nameof(MediaFileDocument.Name)),
                 start: start,

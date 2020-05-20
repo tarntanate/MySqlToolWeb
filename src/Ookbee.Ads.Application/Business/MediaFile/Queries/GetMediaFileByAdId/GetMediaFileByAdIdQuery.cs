@@ -12,9 +12,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
 
         public int Length { get; set; }
 
-        public GetMediaFileByAdIdQuery(string bannerId, int start, int length)
+        public GetMediaFileByAdIdQuery(string adId, int start, int length)
         {
-            AdId = bannerId;
+            AdId = adId;
             Start = start;
             Length = length;
         }

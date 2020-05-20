@@ -42,7 +42,7 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.CommitUploadUrl
             if (!isSuccessCopyObject)
                 return result.Fail(500);
 
-            var UpdateMediaUrlResult = await Mediator.Send(new UpdateMediaUrlCommand(uploadUrlData.Id, uploadUrlData.SignUrl));
+            var UpdateMediaUrlResult = await Mediator.Send(new UpdateMediaUrlCommand("", uploadUrlData.Id, uploadUrlData.SignUrl));
             if (!UpdateMediaUrlResult.Ok)
                 return UpdateMediaUrlResult;
 

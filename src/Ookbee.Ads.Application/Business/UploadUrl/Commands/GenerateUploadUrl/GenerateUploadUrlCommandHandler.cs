@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MongoDB.Bson;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
@@ -33,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(string mapperId, string bucket, string key)
+        private async Task<HttpResult<string>> CreateMongoDB(ObjectId mapperId, string bucket, string key)
         {
             var result = new HttpResult<string>();
             try

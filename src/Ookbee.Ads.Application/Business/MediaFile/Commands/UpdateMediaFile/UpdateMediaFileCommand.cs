@@ -30,16 +30,10 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
             
         }
 
-        public UpdateMediaFileCommand(string id, string adId)
+        public UpdateMediaFileCommand(string adId, string id, UpdateMediaFileCommand request)
         {
             Id = id;
             AdId = adId;
-        }
-
-        public UpdateMediaFileCommand(string id, UpdateMediaFileCommand request)
-        {
-            Id = id;
-            AdId = request.AdId;
             Name = request.Name;
             Description = request.Description;
             MimeType = request.MimeType;

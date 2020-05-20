@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MongoDB.Bson;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl;
 using Ookbee.Ads.Common.Result;
@@ -26,17 +27,16 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
         public async Task<HttpResult<string>> Handle(GetSignedUrlQuery request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<string>();
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.MapperId));
             if (!isExistsAdResult.Ok)
                 return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 
             var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
-            var signedUrl = await Mediator.Send(new GenerateUploadUrlCommand()
-            {
-                MapperId = request.Id,
-                Bucket = cosConfig.Bucket.Private,
-                Key = $"temp/{request.FileName}{request.FileExtension}"
-            });
+            var signedUrl = await Mediator.Send(new GenerateUploadUrlCommand(
+                mapperId: ObjectId.Parse(request.MapperId),
+                bucket: cosConfig.Bucket.Private,
+                key: $"temp/ad/{request.MapperId}/{ObjectId.GenerateNewId()}{request.FileExtension}"
+            ));
             return signedUrl;
         }
     }
