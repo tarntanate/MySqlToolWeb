@@ -45,11 +45,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
             
         }
 
-        public UpdateCampaignCommand(string id)
-        {
-            Id = id;
-        }
-
         public UpdateCampaignCommand(string id, UpdateCampaignCommand request)
         {
             Id = id;

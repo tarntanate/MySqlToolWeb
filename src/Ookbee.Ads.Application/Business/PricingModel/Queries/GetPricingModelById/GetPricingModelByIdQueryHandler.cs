@@ -20,18 +20,18 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelBy
 
         public async Task<HttpResult<PricingModelDto>> Handle(GetPricingModelByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.Id);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<PricingModelDto>> GetOnMongo(string id)
+        private async Task<HttpResult<PricingModelDto>> GetOnMongo(GetPricingModelByIdQuery request)
         {
             var result = new HttpResult<PricingModelDto>();
             var item = await PricingModelMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Id == id && 
+                filter: f => f.Id == request.Id && 
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"PricingModel '{id}' doesn't exist.");
+                return result.Fail(404, $"PricingModel '{request.Id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<PricingModelDto>();
             return result.Success(data);
         }

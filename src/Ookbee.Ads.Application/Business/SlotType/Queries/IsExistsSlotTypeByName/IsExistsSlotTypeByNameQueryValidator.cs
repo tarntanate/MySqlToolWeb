@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeByNam
     {
         public IsExistsSlotTypeByNameQueryValidator()
         {
-            RuleFor(p => p.Name).NotEmpty();
+            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
         }
     }
 }

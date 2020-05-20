@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName
         {
             RuleFor(p => p.CampaignId).Must(BeAValidObjectId).WithMessage(p => $"Campaign '{p.CampaignId}' is not a valid 24 digit hex string.");
             RuleFor(p => p.AdSlotId).Must(BeAValidObjectId).WithMessage(p => $"AdSlot '{p.AdSlotId}' is not a valid 24 digit hex string.");
-            RuleFor(p => p.Name).NotEmpty();
+            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
         }
 
         private bool BeAValidObjectId(string id)

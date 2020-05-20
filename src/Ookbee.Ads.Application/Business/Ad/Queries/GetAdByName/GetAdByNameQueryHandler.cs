@@ -19,18 +19,18 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName
 
         public async Task<HttpResult<AdDto>> Handle(GetAdByNameQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.Name);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<AdDto>> GetOnMongo(string name)
+        private async Task<HttpResult<AdDto>> GetOnMongo(GetAdByNameQuery request)
         {
             var result = new HttpResult<AdDto>();
             var item = await AdMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Name == name && 
+                filter: f => f.Name == request.Name && 
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"Ad '{name}' doesn't exist.");
+                return result.Fail(404, $"Ad '{request.Name}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<AdDto>();
             return result.Success(data);
         }

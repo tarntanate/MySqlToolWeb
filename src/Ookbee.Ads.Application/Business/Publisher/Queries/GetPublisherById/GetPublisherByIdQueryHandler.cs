@@ -19,18 +19,18 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById
 
         public async Task<HttpResult<PublisherDto>> Handle(GetPublisherByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.Id);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<PublisherDto>> GetOnMongo(string id)
+        private async Task<HttpResult<PublisherDto>> GetOnMongo(GetPublisherByIdQuery request)
         {
             var result = new HttpResult<PublisherDto>();
             var item = await PublisherMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Id == id && 
+                filter: f => f.Id == request.Id && 
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"Publisher '{id}' doesn't exist.");
+                return result.Fail(404, $"Publisher '{request.Id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<PublisherDto>();
             return result.Success(data);
         }

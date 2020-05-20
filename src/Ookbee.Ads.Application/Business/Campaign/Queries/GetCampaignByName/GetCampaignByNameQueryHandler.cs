@@ -19,18 +19,18 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName
 
         public async Task<HttpResult<CampaignDto>> Handle(GetCampaignByNameQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.Name);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<CampaignDto>> GetOnMongo(string name)
+        private async Task<HttpResult<CampaignDto>> GetOnMongo(GetCampaignByNameQuery request)
         {
             var result = new HttpResult<CampaignDto>();
             var item = await CampaignMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Name == name && 
+                filter: f => f.Name == request.Name && 
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"This Campaign doesn't exist.");
+                return result.Fail(404, $"Campaign '{request.Name}'doesn't exist.");
             var data = Mapper.Map(item).ToANew<CampaignDto>();
             return result.Success(data);
         }

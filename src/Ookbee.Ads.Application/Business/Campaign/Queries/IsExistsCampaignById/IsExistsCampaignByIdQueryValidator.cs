@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById
     {
         public IsExistsCampaignByIdQueryValidator()
         {
-            RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"Id '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"Campaign '{p.Id}' is not a valid 24 digit hex string.");
         }
 
         private bool BeAValidObjectId(string id)

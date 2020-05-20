@@ -27,27 +27,27 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
 
         public async Task<HttpResult<bool>> Handle(UpdatePricingModelCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<PricingModelDocument>();
-            var result = await UpdateOnMongo(document);
+            var result = await UpdateOnMongo(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> UpdateOnMongo(PricingModelDocument document)
+        private async Task<HttpResult<bool>> UpdateOnMongo(UpdatePricingModelCommand request)
         {
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(document.Id));
+                var isExistsResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(request.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
 
-                var pricingModelResult = await Mediator.Send(new GetPricingModelByNameQuery(document.Name));
+                var pricingModelResult = await Mediator.Send(new GetPricingModelByNameQuery(request.Name));
                 if (pricingModelResult.Ok &&
-                    pricingModelResult.Data.Id != document.Id &&
-                    pricingModelResult.Data.Name == document.Name)
-                    return result.Fail(409, $"PricingModel '{document.Name}' already exists.");
+                    pricingModelResult.Data.Id != request.Id &&
+                    pricingModelResult.Data.Name == request.Name)
+                    return result.Fail(409, $"PricingModel '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<PricingModelDocument>();
                 document.UpdatedDate = now.DateTime;
                 await PricingModelMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);

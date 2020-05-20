@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName
     {
         public GetCampaignByNameQueryValidator()
         {
-            RuleFor(p => p.Name).NotEmpty();
+            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
         }
     }
 }

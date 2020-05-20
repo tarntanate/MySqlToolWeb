@@ -9,11 +9,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
 
         public string AdId { get; set; }
 
-        public DeleteMediaFileCommand()
-        {
-            
-        }
-
         public DeleteMediaFileCommand(string adId, string id)
         {
             Id = id;

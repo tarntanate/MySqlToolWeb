@@ -27,27 +27,27 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
 
         public async Task<HttpResult<bool>> Handle(UpdatePublisherCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<PublisherDocument>();
-            var result = await UpdateOnMongo(document);
+            var result = await UpdateOnMongo(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> UpdateOnMongo(PublisherDocument document)
+        private async Task<HttpResult<bool>> UpdateOnMongo(UpdatePublisherCommand request)
         {
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByIdResult = await Mediator.Send(new IsExistsPublisherByIdQuery(document.Id));
+                var isExistsByIdResult = await Mediator.Send(new IsExistsPublisherByIdQuery(request.Id));
                 if (!isExistsByIdResult.Ok)
                     return isExistsByIdResult;
-                    
-                var publisherResult = await Mediator.Send(new GetPublisherByNameQuery(document.Name));
-                if (publisherResult.Ok && 
-                    publisherResult.Data.Id != document.Id && 
-                    publisherResult.Data.Name == document.Name)
-                    return result.Fail(409, $"Publisher '{document.Name}' already exists.");
+
+                var publisherResult = await Mediator.Send(new GetPublisherByNameQuery(request.Name));
+                if (publisherResult.Ok &&
+                    publisherResult.Data.Id != request.Id &&
+                    publisherResult.Data.Name == request.Name)
+                    return result.Fail(409, $"Publisher '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<PublisherDocument>();
                 document.UpdatedDate = now.DateTime;
                 await PublisherMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);

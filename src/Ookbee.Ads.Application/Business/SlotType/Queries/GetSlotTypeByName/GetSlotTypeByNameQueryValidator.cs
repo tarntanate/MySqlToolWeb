@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeByName
     {
         public GetSlotTypeByNameQueryValidator()
         {
-            RuleFor(p => p.Name).NotEmpty();
+            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
         }
     }
 }

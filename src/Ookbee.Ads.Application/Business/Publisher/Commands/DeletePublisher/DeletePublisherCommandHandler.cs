@@ -24,20 +24,20 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
 
         public async Task<HttpResult<bool>> Handle(DeletePublisherCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteMongoDB(request.Id);
+            var result = await DeleteMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> DeleteMongoDB(string id)
+        private async Task<HttpResult<bool>> DeleteMongoDB(DeletePublisherCommand request)
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsPublisherByIdQuery(id));
+            var isExistsResult = await Mediator.Send(new IsExistsPublisherByIdQuery(request.Id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
             await PublisherMongoDB.UpdateManyPartialAsync(
-                filter: f => f.Id == id, 
+                filter: f => f.Id == request.Id, 
                 update: Builders<PublisherDocument>.Update.Set(f => f.EnabledFlag, false)
             );
             return result.Success(true);

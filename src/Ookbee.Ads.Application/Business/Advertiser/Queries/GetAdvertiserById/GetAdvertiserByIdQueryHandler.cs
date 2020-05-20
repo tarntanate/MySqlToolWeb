@@ -19,18 +19,18 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById
 
         public async Task<HttpResult<AdvertiserDto>> Handle(GetAdvertiserByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.Id);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<AdvertiserDto>> GetOnMongo(string id)
+        private async Task<HttpResult<AdvertiserDto>> GetOnMongo(GetAdvertiserByIdQuery request)
         {
             var result = new HttpResult<AdvertiserDto>();
             var item = await AdvertiserMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Id == id && 
+                filter: f => f.Id == request.Id && 
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"Advertiser '{id}' doesn't exist.");
+                return result.Fail(404, $"Advertiser '{request.Id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<AdvertiserDto>();
             return result.Success(data);
         }

@@ -24,20 +24,20 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.DeletePricingMod
 
         public async Task<HttpResult<bool>> Handle(DeletePricingModelCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteMongoDB(request.Id);
+            var result = await DeleteMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> DeleteMongoDB(string id)
+        private async Task<HttpResult<bool>> DeleteMongoDB(DeletePricingModelCommand request)
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(id));
+            var isExistsResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(request.Id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
             await PricingModelMongoDB.UpdateManyPartialAsync(
-                filter: f => f.Id == id, 
+                filter: f => f.Id == request.Id, 
                 update: Builders<PricingModelDocument>.Update.Set(f => f.EnabledFlag, false)
             );
             return result.Success(true);

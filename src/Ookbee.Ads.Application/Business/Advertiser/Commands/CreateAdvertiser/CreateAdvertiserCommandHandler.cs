@@ -26,21 +26,21 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
 
         public async Task<HttpResult<string>> Handle(CreateAdvertiserCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<AdvertiserDocument>();
-            var result = await CreateMongoDB(document);
+            var result = await CreateMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(AdvertiserDocument document)
+        private async Task<HttpResult<string>> CreateMongoDB(CreateAdvertiserCommand request)
         {
             var result = new HttpResult<string>();
             try
             {
-                var isExistsByNameResult = await Mediator.Send(new IsExistsAdvertiserByNameQuery(document.Name));
+                var isExistsByNameResult = await Mediator.Send(new IsExistsAdvertiserByNameQuery(request.Name));
                 if (isExistsByNameResult.Data)
-                    return result.Fail(409, $"Advertiser '{document.Name}' already exists.");
+                    return result.Fail(409, $"Advertiser '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<AdvertiserDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await AdvertiserMongoDB.AddAsync(document);

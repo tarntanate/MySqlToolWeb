@@ -27,27 +27,27 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.UpdateSlotType
 
         public async Task<HttpResult<bool>> Handle(UpdateSlotTypeCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<SlotTypeDocument>();
-            var result = await UpdateOnMongo(document);
+            var result = await UpdateOnMongo(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> UpdateOnMongo(SlotTypeDocument document)
+        private async Task<HttpResult<bool>> UpdateOnMongo(UpdateSlotTypeCommand request)
         {
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByIdResult = await Mediator.Send(new IsExistsSlotTypeByIdQuery(document.Id));
+                var isExistsByIdResult = await Mediator.Send(new IsExistsSlotTypeByIdQuery(request.Id));
                 if (!isExistsByIdResult.Ok)
                     return isExistsByIdResult;
 
-                var slotTypeResult = await Mediator.Send(new GetSlotTypeByNameQuery(document.Name));
+                var slotTypeResult = await Mediator.Send(new GetSlotTypeByNameQuery(request.Name));
                 if (slotTypeResult.Ok &&
-                    slotTypeResult.Data.Id != document.Id &&
-                    slotTypeResult.Data.Name == document.Name)
-                    return result.Fail(409, $"SlotType '{document.Name}' already exists.");
+                    slotTypeResult.Data.Id != request.Id &&
+                    slotTypeResult.Data.Name == request.Name)
+                    return result.Fail(409, $"SlotType '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<SlotTypeDocument>();
                 document.UpdatedDate = now.DateTime;
                 await SlotTypeMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);

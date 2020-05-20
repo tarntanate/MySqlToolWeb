@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
     {
         public CreatePricingModelCommandValidator()
         {
-            RuleFor(p => p.Name).NotEmpty().MaximumLength(40);
+            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
         }
     }

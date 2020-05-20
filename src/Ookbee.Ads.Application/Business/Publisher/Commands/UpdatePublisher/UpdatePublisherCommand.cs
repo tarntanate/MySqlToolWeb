@@ -20,11 +20,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
             
         }
 
-        public UpdatePublisherCommand(string id)
-        {
-            Id = id;
-        }
-
         public UpdatePublisherCommand(string id, UpdatePublisherCommand request)
         {
             Id = id;

@@ -24,20 +24,20 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.DeleteCampaign
 
         public async Task<HttpResult<bool>> Handle(DeleteCampaignCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteMongoDB(request.Id);
+            var result = await DeleteMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> DeleteMongoDB(string id)
+        private async Task<HttpResult<bool>> DeleteMongoDB(DeleteCampaignCommand request)
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsCampaignByIdQuery(id));
+            var isExistsResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.Id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
             await CampaignMongoDB.UpdateManyPartialAsync(
-                filter: f => f.Id == id, 
+                filter: f => f.Id == request.Id, 
                 update: Builders<CampaignDocument>.Update.Set(f => f.EnabledFlag, false)
             );
             return result.Success(true);

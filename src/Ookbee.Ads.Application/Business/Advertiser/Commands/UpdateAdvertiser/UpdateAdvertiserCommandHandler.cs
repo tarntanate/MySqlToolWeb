@@ -27,27 +27,27 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 
         public async Task<HttpResult<bool>> Handle(UpdateAdvertiserCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<AdvertiserDocument>();
-            var result = await UpdateOnMongo(document);
+            var result = await UpdateOnMongo(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> UpdateOnMongo(AdvertiserDocument document)
+        private async Task<HttpResult<bool>> UpdateOnMongo(UpdateAdvertiserCommand request)
         {
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByIdResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(document.Id));
+                var isExistsByIdResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(request.Id));
                 if (!isExistsByIdResult.Ok)
                     return isExistsByIdResult;
 
-                var advertiserResult = await Mediator.Send(new GetAdvertiserByNameQuery(document.Name));
+                var advertiserResult = await Mediator.Send(new GetAdvertiserByNameQuery(request.Name));
                 if (advertiserResult.Ok &&
-                    advertiserResult.Data.Id != document.Id &&
-                    advertiserResult.Data.Name == document.Name)
-                    return result.Fail(409, $"Advertiser '{document.Name}' already exists.");
+                    advertiserResult.Data.Id != request.Id &&
+                    advertiserResult.Data.Name == request.Name)
+                    return result.Fail(409, $"Advertiser '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<AdvertiserDocument>();
                 document.UpdatedDate = now.DateTime;
                 await AdvertiserMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);

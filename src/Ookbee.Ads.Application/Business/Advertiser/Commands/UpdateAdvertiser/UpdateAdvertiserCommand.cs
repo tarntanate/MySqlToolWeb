@@ -26,11 +26,6 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
             
         }
 
-        public UpdateAdvertiserCommand(string id)
-        {
-            Id = id;
-        }
-
         public UpdateAdvertiserCommand(string id, UpdateAdvertiserCommand request)
         {
             Id = id;

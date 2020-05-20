@@ -29,13 +29,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
         }
 
-        public UpdateAdCommand(string id, string campaignId, string adSlotId)
-        {
-            Id = id;
-            CampaignId = campaignId;
-            AdSlotId = adSlotId;
-        }
-
         public UpdateAdCommand(string id, UpdateAdCommand request)
         {
             Id = id;

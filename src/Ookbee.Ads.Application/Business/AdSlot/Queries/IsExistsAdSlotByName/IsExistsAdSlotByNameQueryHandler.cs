@@ -18,19 +18,19 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotByName
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdSlotByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByNameOnMongo(request.Name);
+            return await IsExistsByNameOnMongo(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByNameOnMongo(string name)
+        private async Task<HttpResult<bool>> IsExistsByNameOnMongo(IsExistsAdSlotByNameQuery request)
         {
             var result = new HttpResult<bool>();
             var isExists = await AdSlotMongoDB.AnyAsync(
-                filter: f => f.Name == name && 
+                filter: f => f.Name == request.Name && 
                              f.EnabledFlag == true
                 );
             if (isExists)
                 return result.Success(true);
-            return result.Fail(404, $"AdSlot '{name}' doesn't exist.");
+            return result.Fail(404, $"AdSlot '{request.Name}' doesn't exist.");
         }
     }
 }

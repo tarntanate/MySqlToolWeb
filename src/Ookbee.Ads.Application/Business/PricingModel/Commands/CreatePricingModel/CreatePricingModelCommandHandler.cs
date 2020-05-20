@@ -26,21 +26,21 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
 
         public async Task<HttpResult<string>> Handle(CreatePricingModelCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<PricingModelDocument>();
-            var result = await CreateMongoDB(document);
+            var result = await CreateMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(PricingModelDocument document)
+        private async Task<HttpResult<string>> CreateMongoDB(CreatePricingModelCommand request)
         {
             var result = new HttpResult<string>();
             try
             {
-                var isExistsByNameResult = await Mediator.Send(new IsExistsPricingModelByNameQuery(document.Name));
+                var isExistsByNameResult = await Mediator.Send(new IsExistsPricingModelByNameQuery(request.Name));
                 if (isExistsByNameResult.Data)
-                    return result.Fail(409, $"PricingModel '{document.Name}' already exists.");
+                    return result.Fail(409, $"PricingModel '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<PricingModelDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await PricingModelMongoDB.AddAsync(document);

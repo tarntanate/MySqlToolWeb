@@ -24,24 +24,24 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByName
 
         public async Task<HttpResult<MediaFileDto>> Handle(GetMediaFileByNameQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.AdId, request.Name);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<MediaFileDto>> GetOnMongo(string adId, string name)
+        private async Task<HttpResult<MediaFileDto>> GetOnMongo(GetMediaFileByNameQuery request)
         {
             var result = new HttpResult<MediaFileDto>();
             
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(adId));
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
             if (!isExistsAdResult.Ok)
                 return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 
             var item = await MediaFileMongoDB.FirstOrDefaultAsync(
-                filter: f => f.AdId == adId && 
-                             f.Name == name && 
+                filter: f => f.AdId == request.AdId && 
+                             f.Name == request.Name && 
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"MediaFile '{name}' doesn't exist.");
+                return result.Fail(404, $"MediaFile '{request.Name}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<MediaFileDto>();
             return result.Success(data);
         }

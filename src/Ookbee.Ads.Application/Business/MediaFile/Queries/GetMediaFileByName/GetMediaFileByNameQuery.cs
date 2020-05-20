@@ -10,11 +10,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByName
 
         public string Name { get; set; }
 
-        public GetMediaFileByNameQuery()
-        {
-            
-        }
-
         public GetMediaFileByNameQuery(string adId, string name)
         {
             AdId = adId;

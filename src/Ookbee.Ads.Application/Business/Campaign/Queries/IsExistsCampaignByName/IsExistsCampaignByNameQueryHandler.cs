@@ -18,19 +18,19 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignByNam
 
         public async Task<HttpResult<bool>> Handle(IsExistsCampaignByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByIdOnMongo(request.Name);
+            return await IsExistsByIdOnMongo(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(string name)
+        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(IsExistsCampaignByNameQuery request)
         {
             var result = new HttpResult<bool>();
             var isExists = await CampaignDocument.AnyAsync(
-                filter: f => f.Name == name && 
+                filter: f => f.Name == request.Name && 
                              f.EnabledFlag == true
             );
             if (isExists)
                 return result.Success(true);
-            return result.Fail(404, $"Campaign '{name}' doesn't exist.");
+            return result.Fail(404, $"Campaign '{request.Name}' doesn't exist.");
         }
     }
 }

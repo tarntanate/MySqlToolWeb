@@ -2,19 +2,19 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 
-namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaingId
+namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaignId
 {
-    public class GetAdByCampaingIdQuery : IRequest<HttpResult<IEnumerable<AdDto>>>
+    public class GetAdByCampaignIdQuery : IRequest<HttpResult<IEnumerable<AdDto>>>
     {
-        public string CampaingId { get; set; }
+        public string CampaignId { get; set; }
 
         public int Start { get; set; }
 
         public int Length { get; set; }
 
-        public GetAdByCampaingIdQuery(string campaingId, int start, int length)
+        public GetAdByCampaignIdQuery(string campaignId, int start, int length)
         {
-            CampaingId = campaingId;
+            CampaignId = campaignId;
             Start = start;
             Length = length;
         }

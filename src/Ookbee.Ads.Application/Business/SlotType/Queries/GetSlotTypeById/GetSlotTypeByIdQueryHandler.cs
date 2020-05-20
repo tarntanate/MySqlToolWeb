@@ -19,18 +19,18 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById
 
         public async Task<HttpResult<SlotTypeDto>> Handle(GetSlotTypeByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.Id);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<SlotTypeDto>> GetOnMongo(string id)
+        private async Task<HttpResult<SlotTypeDto>> GetOnMongo(GetSlotTypeByIdQuery request)
         {
             var result = new HttpResult<SlotTypeDto>();
             var item = await SlotTypeMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Id == id && 
+                filter: f => f.Id == request.Id && 
                              f.EnabledFlag == true
             );
             if (item == null)
-                return result.Fail(404, $"SlotType '{id}' doesn't exist.");
+                return result.Fail(404, $"SlotType '{request.Id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<SlotTypeDto>();
             return result.Success(data);
         }

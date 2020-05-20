@@ -7,11 +7,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
     {
         public string Id { get; set; }
 
-        public DeletePublisherCommand()
-        {
-            
-        }
-
         public DeletePublisherCommand(string id)
         {
             Id = id;

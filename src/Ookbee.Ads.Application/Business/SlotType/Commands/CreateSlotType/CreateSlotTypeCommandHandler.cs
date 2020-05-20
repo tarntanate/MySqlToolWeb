@@ -26,21 +26,21 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
 
         public async Task<HttpResult<string>> Handle(CreateSlotTypeCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<SlotTypeDocument>();
-            var result = await CreateMongoDB(document);
+            var result = await CreateMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(SlotTypeDocument document)
+        private async Task<HttpResult<string>> CreateMongoDB(CreateSlotTypeCommand request)
         {
             var result = new HttpResult<string>();
             try
             {
-                var isExistsByNameResult = await Mediator.Send(new IsExistsSlotTypeByNameQuery(document.Name));
+                var isExistsByNameResult = await Mediator.Send(new IsExistsSlotTypeByNameQuery(request.Name));
                 if (isExistsByNameResult.Data)
-                    return result.Fail(409, $"SlotType '{document.Name}' already exists.");
+                    return result.Fail(409, $"SlotType '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<SlotTypeDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await SlotTypeMongoDB.AddAsync(document);
@@ -51,6 +51,5 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
                 return result.Fail(500, ex.Message);
             }
         }
-
     }
 }

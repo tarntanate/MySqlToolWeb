@@ -26,21 +26,21 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
 
         public async Task<HttpResult<string>> Handle(CreatePublisherCommand request, CancellationToken cancellationToken)
         {
-            var document = Mapper.Map(request).ToANew<PublisherDocument>();
-            var result = await CreateMongoDB(document);
+            var result = await CreateMongoDB(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(PublisherDocument document)
+        private async Task<HttpResult<string>> CreateMongoDB(CreatePublisherCommand request)
         {
             var result = new HttpResult<string>();
             try
             {
-                var isExistsByNameResult = await Mediator.Send(new IsExistsPublisherByNameQuery(document.Name));
+                var isExistsByNameResult = await Mediator.Send(new IsExistsPublisherByNameQuery(request.Name));
                 if (isExistsByNameResult.Data)
-                    return result.Fail(409, $"Publisher '{document.Name}' already exists.");
+                    return result.Fail(409, $"Publisher '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
+                var document = Mapper.Map(request).ToANew<PublisherDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await PublisherMongoDB.AddAsync(document);

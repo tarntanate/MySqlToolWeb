@@ -7,6 +7,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelLi
     public class GetPricingModelListQuery : IRequest<HttpResult<IEnumerable<PricingModelDto>>>
     {
         public int Start { get; set; }
+        
         public int Length { get; set; }
 
         public GetPricingModelListQuery(int start, int length)

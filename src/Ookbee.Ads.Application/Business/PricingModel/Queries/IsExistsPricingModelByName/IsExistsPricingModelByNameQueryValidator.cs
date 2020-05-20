@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingMo
     {
         public IsExistsPricingModelByNameQueryValidator()
         {
-            RuleFor(p => p.Name).NotEmpty();
+            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
         }
     }
 }

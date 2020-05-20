@@ -10,14 +10,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
         
         public string FileExtension { get; set; }
 
-        public GetSignedUrlQuery()
+        public GetSignedUrlQuery(string mapperId, GetSignedUrlQuery request)
         {
-            
-        }
-
-        public GetSignedUrlQuery(string id, GetSignedUrlQuery request)
-        {
-            MapperId = id;
+            MapperId = mapperId;
             FileExtension = request.FileExtension;
         }
     }

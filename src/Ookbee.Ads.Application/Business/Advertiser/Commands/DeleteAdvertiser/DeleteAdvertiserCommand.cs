@@ -7,11 +7,6 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.DeleteAdvertiser
     {
         public string Id { get; set; }
 
-        public DeleteAdvertiserCommand()
-        {
-            
-        }
-
         public DeleteAdvertiserCommand(string id)
         {
             Id = id;

@@ -18,19 +18,19 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingMo
 
         public async Task<HttpResult<bool>> Handle(IsExistsPricingModelByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByIdOnMongo(request.Name);
+            return await IsExistsByIdOnMongo(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(string name)
+        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(IsExistsPricingModelByNameQuery request)
         {
             var result = new HttpResult<bool>();
             var isExists = await PricingModelMongoDB.AnyAsync(
-                filter: f => f.Name == name && 
+                filter: f => f.Name == request.Name && 
                              f.EnabledFlag == true
             );
             if (isExists)
                 return result.Success(true);
-            return result.Fail(404, $"PricingModel '{name}' doesn't exist.");
+            return result.Fail(404, $"PricingModel '{request.Name}' doesn't exist.");
         }
     }
 }

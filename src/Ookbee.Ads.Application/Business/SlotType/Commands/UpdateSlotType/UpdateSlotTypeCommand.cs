@@ -18,11 +18,6 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.UpdateSlotType
             
         }
 
-        public UpdateSlotTypeCommand(string id)
-        {
-            Id = id;
-        }
-
         public UpdateSlotTypeCommand(string id, UpdateSlotTypeCommand request)
         {
             Id = id;

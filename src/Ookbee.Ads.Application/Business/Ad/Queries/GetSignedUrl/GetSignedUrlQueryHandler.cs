@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
 
             var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
             var signedUrl = await Mediator.Send(new GenerateUploadUrlCommand(
-                mapperId: ObjectId.Parse(request.MapperId),
+                mapperId: request.MapperId,
                 bucket: cosConfig.Bucket.Private,
                 key: $"temp/ad/{request.MapperId}/{ObjectId.GenerateNewId()}{request.FileExtension}"
             ));

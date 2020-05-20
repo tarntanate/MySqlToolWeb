@@ -18,11 +18,6 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
             
         }
 
-        public UpdatePricingModelCommand(string id)
-        {
-            Id = id;
-        }
-
         public UpdatePricingModelCommand(string id, UpdatePricingModelCommand request)
         {
             Id = id;

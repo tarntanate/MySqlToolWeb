@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Domain.Documents
     [CollectionName("UploadUrl")]
     public class UploadUrlDocument : BaseDocument
     {
-        public ObjectId MapperId { get; set; }
+        public string MapperId { get; set; }
 
         public string AppId { get; set; }
         

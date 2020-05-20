@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.DeleteSlotType
     {
         public DeleteSlotTypeCommandValidator()
         {
-            RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"Id '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"SlotType '{p.Id}' is not a valid 24 digit hex string.");
         }
 
         private bool BeAValidObjectId(string id)

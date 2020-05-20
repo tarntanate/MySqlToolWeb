@@ -9,14 +9,14 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaingId
+namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaignId
 {
-    public class GetAdByCampaingIdQueryHandler : IRequestHandler<GetAdByCampaingIdQuery, HttpResult<IEnumerable<AdDto>>>
+    public class GetAdByCampaignIdQueryHandler : IRequestHandler<GetAdByCampaignIdQuery, HttpResult<IEnumerable<AdDto>>>
     {
         private IMediator Mediator { get; }
         private AdsMongoRepository<AdDocument> AdMongoDB { get; }
 
-        public GetAdByCampaingIdQueryHandler(
+        public GetAdByCampaignIdQueryHandler(
             IMediator mediator,
             AdsMongoRepository<AdDocument> adMongoDB)
         {
@@ -24,25 +24,25 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaingId
             AdMongoDB = adMongoDB;
         }
 
-        public async Task<HttpResult<IEnumerable<AdDto>>> Handle(GetAdByCampaingIdQuery request, CancellationToken cancellationToken)
+        public async Task<HttpResult<IEnumerable<AdDto>>> Handle(GetAdByCampaignIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.CampaingId, request.Start, request.Length);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<IEnumerable<AdDto>>> GetOnMongo(string campaignId, int start, int length)
+        private async Task<HttpResult<IEnumerable<AdDto>>> GetOnMongo(GetAdByCampaignIdQuery request)
         {
             var result = new HttpResult<IEnumerable<AdDto>>();
 
-            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(campaignId));
+            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.CampaignId));
             if (!isExistsCampaignResult.Ok)
                 return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
 
             var items = await AdMongoDB.FindAsync(
-                filter: f => f.Campaign.Id == campaignId && 
+                filter: f => f.Campaign.Id == request.CampaignId && 
                              f.EnabledFlag == true,
                 sort: Builders<AdDocument>.Sort.Ascending(nameof(AdDocument.Name)),
-                start: start,
-                length: length
+                start: request.Start,
+                length: request.Length
             );
             var data = Mapper.Map(items).ToANew<IEnumerable<AdDto>>();
             return result.Success(data);

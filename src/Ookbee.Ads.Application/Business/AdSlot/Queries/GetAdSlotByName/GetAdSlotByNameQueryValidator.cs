@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotByName
     {
         public GetAdByIdQueryValidator()
         {
-            RuleFor(p => p.Name).NotEmpty();
+            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
         }
     }
 }

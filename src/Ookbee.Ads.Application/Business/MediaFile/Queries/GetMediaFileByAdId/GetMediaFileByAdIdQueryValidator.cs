@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
     {
         public GetMediaFileByAdIdQueryValidator()
         {
-            RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Id '{p.AdId}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Ad '{p.AdId}' is not a valid 24 digit hex string.");
             RuleFor(p => p.Start).GreaterThanOrEqualTo(0);
             RuleFor(p => p.Length).GreaterThan(0).LessThanOrEqualTo(100);
         }

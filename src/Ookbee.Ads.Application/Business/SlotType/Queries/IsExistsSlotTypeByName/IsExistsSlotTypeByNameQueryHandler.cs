@@ -18,19 +18,19 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeByNam
 
         public async Task<HttpResult<bool>> Handle(IsExistsSlotTypeByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByNameOnMongo(request.Name);
+            return await IsExistsByNameOnMongo(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByNameOnMongo(string name)
+        private async Task<HttpResult<bool>> IsExistsByNameOnMongo(IsExistsSlotTypeByNameQuery request)
         {
             var result = new HttpResult<bool>();
             var isExists = await SlotTypeMongoDB.AnyAsync(
-                filter: f => f.Name == name && 
+                filter: f => f.Name == request.Name && 
                              f.EnabledFlag == true
             );
             if (isExists)
                 return result.Success(true);
-            return result.Fail(404, $"SlotType '{name}' doesn't exist.");
+            return result.Fail(404, $"SlotType '{request.Name}' doesn't exist.");
         }
     }
 }

@@ -18,19 +18,19 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByI
 
         public async Task<HttpResult<bool>> Handle(IsExistsPublisherByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByIdOnMongo(request.Id);
+            return await IsExistsByIdOnMongo(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(string id)
+        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(IsExistsPublisherByIdQuery request)
         {
             var result = new HttpResult<bool>();
             var isExists = await PublisherMongoDB.AnyAsync(
-                filter: f => f.Id == id && 
+                filter: f => f.Id == request.Id && 
                              f.EnabledFlag == true
             );
             if (isExists)
                 return result.Success(true);
-            return result.Fail(404, $"Publisher '{id}' doesn't exist.");
+            return result.Fail(404, $"Publisher '{request.Id}' doesn't exist.");
         }
     }
 }
