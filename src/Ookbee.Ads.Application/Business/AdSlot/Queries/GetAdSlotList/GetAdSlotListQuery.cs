@@ -8,13 +8,16 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotList
     {
         public string PublisherId { get; set; }
 
+        public string SlotTypeId { get; set; }
+
         public int Start { get; set; }
         
         public int Length { get; set; }
 
-        public GetAdSlotListQuery(string publisherId, int start, int length)
+        public GetAdSlotListQuery(string publisherId, string slotTypeId, int start, int length)
         {
             PublisherId = publisherId;
+            SlotTypeId = slotTypeId;
             Start = start;
             Length = length;
         }

@@ -32,9 +32,6 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById
             predicate = predicate.And(f => f.Id == request.Id);
             predicate = predicate.And(f => f.EnabledFlag == true);
 
-            if (request.PublisherId.HasValue())
-                predicate = predicate.And(f => f.PublisherId == request.PublisherId);
-
             var item = await AdSlotMongoDB.FirstOrDefaultAsync(predicate);
             if (item == null)
                 return result.Fail(404, $"AdSlot '{request.Id}' doesn't exist.");

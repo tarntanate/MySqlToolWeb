@@ -22,10 +22,10 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.UpdateAdSlot
 
         }
 
-        public UpdateAdSlotCommand(string publisherId, string id, UpdateAdSlotCommand request)
+        public UpdateAdSlotCommand(string id, UpdateAdSlotCommand request)
         {
             Id = id;
-            PublisherId = publisherId;
+            PublisherId = request.PublisherId;
             SlotTypeId = request.SlotTypeId;
             Name = request.Name;
             Description = request.Description;

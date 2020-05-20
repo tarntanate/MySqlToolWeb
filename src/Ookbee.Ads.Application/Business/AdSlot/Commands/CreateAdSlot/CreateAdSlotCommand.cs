@@ -23,9 +23,9 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.CreateAdSlot
 
         }
 
-        public CreateAdSlotCommand(string publisherId, CreateAdSlotCommand request)
+        public CreateAdSlotCommand(CreateAdSlotCommand request)
         {
-            PublisherId = publisherId;
+            PublisherId = request.PublisherId;
             SlotTypeId = request.SlotTypeId;
             Name = request.Name;
             Description = request.Description;
