@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdById
             predicate = predicate.And(f => f.EnabledFlag == true);
 
             if (request.CampaignId.HasValue())
-                predicate = predicate.And(f => f.Campaign.Id == request.CampaignId);
+                predicate = predicate.And(f => f.CampaignId == request.CampaignId);
 
             var item = await AdMongoDB.FirstOrDefaultAsync(predicate);
             if (item == null)

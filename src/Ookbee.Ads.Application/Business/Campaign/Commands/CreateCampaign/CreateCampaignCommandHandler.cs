@@ -55,8 +55,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<CampaignDocument>();
-                document.Advertiser = Mapper.Map(isExistsAdvertiserResult.Data).ToANew<DefaultDocument>();
-                document.PricingModel = Mapper.Map(isExistsPricingModelResult.Data).ToANew<DefaultDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await CampaignMongoDB.AddAsync(document);

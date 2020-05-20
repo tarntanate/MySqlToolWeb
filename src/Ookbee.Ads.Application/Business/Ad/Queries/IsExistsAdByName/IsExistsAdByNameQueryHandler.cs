@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName
         {
             var result = new HttpResult<bool>();
             var isExists = await AdMongoDB.AnyAsync(
-                filter: f => f.AdSlot.Id == request.AdSlotId &&
+                filter: f => f.AdSlotId == request.AdSlotId &&
                              f.Name == request.Name &&
                              f.EnabledFlag == true
             );

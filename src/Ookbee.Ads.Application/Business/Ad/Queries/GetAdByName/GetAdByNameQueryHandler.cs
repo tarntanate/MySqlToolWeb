@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName
 
             var item = await AdMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Name == request.Name &&
-                             f.Campaign.Id == request.CampaignId && 
+                             f.CampaignId == request.CampaignId && 
                              f.EnabledFlag == true
             );
             if (item == null)

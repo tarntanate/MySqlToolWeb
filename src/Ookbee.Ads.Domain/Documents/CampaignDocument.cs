@@ -1,4 +1,5 @@
 using Anna.Common.MongoDB.Domain;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 
@@ -7,6 +8,12 @@ namespace Ookbee.Ads.Domain.Documents
     [CollectionName("Campaign")]
     public class CampaignDocument : BaseDocument
     {
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string AdvertiserId { get; set; }
+        
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string PricingModelId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -40,9 +47,5 @@ namespace Ookbee.Ads.Domain.Documents
         public DateTime UpdatedDate { get; set; }
 
         public bool EnabledFlag { get; set; }
-
-        public DefaultDocument Advertiser { get; set; }
-        
-        public DefaultDocument PricingModel { get; set; }
     }
 }

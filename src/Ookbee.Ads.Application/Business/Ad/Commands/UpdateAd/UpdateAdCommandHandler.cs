@@ -56,8 +56,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                     
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<AdDocument>();
-                document.AdSlot = Mapper.Map(adSlotTypeResult.Data).ToANew<DefaultDocument>();
-                document.Campaign = Mapper.Map(campaignResult.Data).ToANew<DefaultDocument>();
                 document.UpdatedDate = now.DateTime;
                 await AdMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);

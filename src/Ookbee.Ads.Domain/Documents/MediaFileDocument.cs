@@ -8,9 +8,8 @@ namespace Ookbee.Ads.Domain.Documents
     [CollectionName("MediaFile")]
     public class MediaFileDocument : BaseDocument
     {
+        [BsonRepresentation(BsonType.ObjectId)]
         public string AdId { get; set; }
-        
-        public string UploadFileId { get; set; }
         
         public string Name { get; set; }
 

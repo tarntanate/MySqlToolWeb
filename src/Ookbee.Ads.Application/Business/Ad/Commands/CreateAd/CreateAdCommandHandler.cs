@@ -37,25 +37,20 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             var result = new HttpResult<string>();
             try
             {
-                Console.Write(1);
                 var campaignResult = await Mediator.Send(new GetCampaignByIdQuery(request.CampaignId));
                 if (!campaignResult.Ok)
                     return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
-                Console.Write(2);
                 var adSlotTypeResult = await Mediator.Send(new GetAdSlotByIdQuery(request.AdSlotId));
                 if (!adSlotTypeResult.Ok)
                     return result.Fail(adSlotTypeResult.StatusCode, adSlotTypeResult.Message);
 
-                Console.Write(3);
                 var isExistsAdByNameResult = await Mediator.Send(new IsExistsAdByNameQuery(request.AdSlotId, request.Name));
                 if (isExistsAdByNameResult.Data)
                     return result.Fail(409, $"Ad '{request.Name}' already exists.");
                     
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<AdDocument>();
-                document.AdSlot = Mapper.Map(adSlotTypeResult.Data).ToANew<DefaultDocument>();
-                document.Campaign = Mapper.Map(campaignResult.Data).ToANew<DefaultDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await AdMongoDB.AddAsync(document);

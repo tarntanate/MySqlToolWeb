@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaignId
                 return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
 
             var items = await AdMongoDB.FindAsync(
-                filter: f => f.Campaign.Id == request.CampaignId && 
+                filter: f => f.CampaignId == request.CampaignId && 
                              f.EnabledFlag == true,
                 sort: Builders<AdDocument>.Sort.Ascending(nameof(AdDocument.Name)),
                 start: request.Start,
