@@ -51,8 +51,6 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.CreateAdSlot
 
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<AdSlotDocument>();
-                document.Publisher = Mapper.Map(publisherResult.Data).ToANew<DefaultDocument>();
-                document.SlotType = Mapper.Map(slotTypeResult.Data).ToANew<DefaultDocument>();
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await AdSlotMongoDB.AddAsync(document);

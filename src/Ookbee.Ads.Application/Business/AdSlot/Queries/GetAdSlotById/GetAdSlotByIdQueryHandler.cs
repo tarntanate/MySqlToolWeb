@@ -5,6 +5,8 @@ using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
+using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Common.Builders;
 
 namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById
 {
@@ -25,10 +27,15 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById
         private async Task<HttpResult<AdSlotDto>> GetOnMongo(GetAdSlotByIdQuery request)
         {
             var result = new HttpResult<AdSlotDto>();
-            var item = await AdSlotMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Id == request.Id &&
-                             f.EnabledFlag == true
-            );
+
+            var predicate = PredicateBuilder.True<AdSlotDocument>();
+            predicate = predicate.And(f => f.Id == request.Id);
+            predicate = predicate.And(f => f.EnabledFlag == true);
+
+            if (request.PublisherId.HasValue())
+                predicate = predicate.And(f => f.PublisherId == request.PublisherId);
+
+            var item = await AdSlotMongoDB.FirstOrDefaultAsync(predicate);
             if (item == null)
                 return result.Fail(404, $"AdSlot '{request.Id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<AdSlotDto>();

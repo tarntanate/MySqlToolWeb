@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -9,10 +10,14 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById
 {
     public class IsExistsAdByIdQueryHandler : IRequestHandler<IsExistsAdByIdQuery, HttpResult<bool>>
     {
+        private IMediator Mediator { get; }
         private AdsMongoRepository<AdDocument> AdMongoDB { get; }
 
-        public IsExistsAdByIdQueryHandler(AdsMongoRepository<AdDocument> adMongoDB)
+        public IsExistsAdByIdQueryHandler(
+            IMediator mediator,
+            AdsMongoRepository<AdDocument> adMongoDB)
         {
+            Mediator = mediator;
             AdMongoDB = adMongoDB;
         }
 
@@ -26,6 +31,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById
             var result = new HttpResult<bool>();
             var isExists = await AdMongoDB.AnyAsync(
                 filter: f => f.Id == request.Id && 
+                             f.Campaign.Id == request.CampaignId &&
                              f.EnabledFlag == true
             );
             if (isExists)

@@ -20,15 +20,15 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrlById
 
         public async Task<HttpResult<UploadUrlDto>> Handle(GetUploadUrlByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.Id);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<UploadUrlDto>> GetOnMongo(string id)
+        private async Task<HttpResult<UploadUrlDto>> GetOnMongo(GetUploadUrlByIdQuery request)
         {
             var result = new HttpResult<UploadUrlDto>();
-            var item = await UploadUrlMongoDB.FirstOrDefaultAsync(filter: f => f.Id == id);
+            var item = await UploadUrlMongoDB.FirstOrDefaultAsync(filter: f => f.Id == request.Id);
             if (item == null)
-                return result.Fail(404, $"UploadUrl '{id}' doesn't exist.");
+                return result.Fail(404, $"UploadUrl '{request.Id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<UploadUrlDto>();
             return result.Success(data);
         }

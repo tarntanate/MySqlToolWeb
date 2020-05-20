@@ -7,11 +7,14 @@ namespace Ookbee.Ads.Application.Business.Campaign
     public class CampaignDto
     {
         public string Id { get; set; }
+
+        public string AdvertiserId { get; set; }
+
+        public string PricingModelId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        public string ImageUrl { get; set; }
 
         public decimal Budget { get; set; }
 
@@ -34,9 +37,5 @@ namespace Ookbee.Ads.Application.Business.Campaign
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime EndDate { get; set; }
-
-        public DefaultDto Advertiser{ get; set; }
-
-        public DefaultDto PricingModel { get; set; }
     }
 }

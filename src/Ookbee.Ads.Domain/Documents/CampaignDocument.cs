@@ -11,8 +11,6 @@ namespace Ookbee.Ads.Domain.Documents
 
         public string Description { get; set; }
 
-        public string ImageUrl { get; set; }
-
         public decimal Budget { get; set; }
 
         public int LimitViewTotal { get; set; }

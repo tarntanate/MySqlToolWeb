@@ -42,11 +42,11 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                 if (!campaignResult.Ok)
                     return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
-                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.Id));
                 if (!isExistsAdResult.Ok)
                     return isExistsAdResult;
 
-                var isExistsAdByNameResult = await Mediator.Send(new IsExistsAdByNameQuery(request.CampaignId, request.AdSlotId, request.Name));
+                var isExistsAdByNameResult = await Mediator.Send(new IsExistsAdByNameQuery(request.AdSlotId, request.Name));
                 if (isExistsAdByNameResult.Data)
                     return result.Fail(409, $"Ad '{request.Name}' already exists.");
 

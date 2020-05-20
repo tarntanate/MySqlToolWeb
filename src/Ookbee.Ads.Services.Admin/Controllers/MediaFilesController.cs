@@ -13,27 +13,27 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Admin.Controllers
 {
     [ApiController]
-    [Route("api/ads/{adId}/media-files")]
+    [Route("api/campaigns/{campaignId}/ads/{adId}/media-files")]
     public class MediaFilesController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<MediaFileDto>>> GetList([FromRoute] string adId, [FromQuery] int start, [FromQuery] int length)
-            => await Mediator.Send(new GetMediaFileListQuery(start, length));
+        public async Task<HttpResult<IEnumerable<MediaFileDto>>> GetList([FromRoute] string campaignId, [FromRoute] string adId, [FromQuery] int start, [FromQuery] int length)
+            => await Mediator.Send(new GetMediaFileListQuery(campaignId, adId, start, length));
 
         [HttpGet("{id}")]
-        public async Task<HttpResult<MediaFileDto>> GetById([FromRoute] string adId, [FromRoute] string id)
-            => await Mediator.Send(new GetMediaFileByIdQuery(adId, id));
+        public async Task<HttpResult<MediaFileDto>> GetById([FromRoute] string campaignId, [FromRoute] string adId, [FromRoute] string id)
+            => await Mediator.Send(new GetMediaFileByIdQuery(campaignId, adId, id));
 
         [HttpPost]
-        public async Task<HttpResult<string>> Create([FromRoute] string adId, [FromBody] CreateMediaFileCommand request)
-            => await Mediator.Send(new CreateMediaFileCommand(adId, request));
+        public async Task<HttpResult<string>> Create([FromRoute] string campaignId, [FromRoute] string adId, [FromBody] CreateMediaFileCommand request)
+            => await Mediator.Send(new CreateMediaFileCommand(campaignId, adId, request));
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute] string adId, [FromRoute] string id, [FromBody] UpdateMediaFileCommand request)
-            => await Mediator.Send(new UpdateMediaFileCommand(adId, id, request));
+        public async Task<HttpResult<bool>> Update([FromRoute] string campaignId, [FromRoute] string adId, [FromRoute] string id, [FromBody] UpdateMediaFileCommand request)
+            => await Mediator.Send(new UpdateMediaFileCommand(campaignId, adId, id, request));
 
         [HttpDelete("{id}")]
-        public async Task<HttpResult<bool>> Delete([FromRoute] string adId, [FromRoute] string id)
-            => await Mediator.Send(new DeleteMediaFileCommand(adId, id));
+        public async Task<HttpResult<bool>> Delete([FromRoute] string campaignId, [FromRoute] string adId, [FromRoute] string id)
+            => await Mediator.Send(new DeleteMediaFileCommand(campaignId, adId, id));
     }
 }

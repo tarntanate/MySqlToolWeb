@@ -8,6 +8,8 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
     {
         public string Id => ObjectId.GenerateNewId().ToString();
 
+        public string CampaignId { get; set; }
+
         public string AdId { get; set; }
 
         public string Name { get; set; }
@@ -31,8 +33,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
             
         }
 
-        public CreateMediaFileCommand(string adId, CreateMediaFileCommand request)
+        public CreateMediaFileCommand(string campaignId, string adId, CreateMediaFileCommand request)
         {
+            CampaignId = campaignId;
             AdId = adId;
             Name = request.Name;
             Description = request.Description;

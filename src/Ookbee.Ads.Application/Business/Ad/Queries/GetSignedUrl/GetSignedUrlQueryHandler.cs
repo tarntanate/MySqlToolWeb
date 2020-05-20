@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl
             if (!isExistsCampaignResult.Ok)
                 return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
 
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.Id));
             if (!isExistsAdResult.Ok)
                 return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 

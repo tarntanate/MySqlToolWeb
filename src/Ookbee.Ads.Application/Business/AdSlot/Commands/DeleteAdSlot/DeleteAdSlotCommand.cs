@@ -7,9 +7,12 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.DeleteAdSlot
     {
         public string Id { get; set; }
 
-        public DeleteAdSlotCommand(string id)
+        public string PublisherId { get; set; }
+
+        public DeleteAdSlotCommand(string publisherId, string id)
         {
             Id = id;
+            PublisherId = publisherId;
         }
     }
 }

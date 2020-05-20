@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
                 if (!isExistsAdResult.Ok)
                     return isExistsAdResult;
 
@@ -45,7 +45,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
                 if (!isExistsMediaFileResult.Ok)
                     return isExistsMediaFileResult;
 
-                var mediaFileResult = await Mediator.Send(new GetMediaFileByNameQuery(request.AdId, request.Name));
+                var mediaFileResult = await Mediator.Send(new GetMediaFileByNameQuery(request.CampaignId, request.AdId, request.Name));
                 if (mediaFileResult.Ok &&
                     mediaFileResult.Data.Id != request.Id &&
                     mediaFileResult.Data.Name == request.Name)

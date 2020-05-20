@@ -8,6 +8,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
         public DeleteMediaFileCommandValidator()
         {
             RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"MediaFile '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.CampaignId).Must(BeAValidObjectId).WithMessage(p => $"Campaign '{p.CampaignId}' is not a valid 24 digit hex string.");
             RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Ad '{p.Id}' is not a valid 24 digit hex string.");
         }
 

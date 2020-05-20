@@ -14,27 +14,27 @@ using System.Threading.Tasks;
 namespace Ookbee.AdSlots.Services.AdSlotvertising.Controllers
 {
     [ApiController]
-    [Route("api/ad-slots")]
+    [Route("api/publishers/{publisherId}/ad-slots")]
     public class AdSlotSlotsController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<AdSlotDto>>> GetList([FromQuery] int start, [FromQuery] int length)
-            => await Mediator.Send(new GetAdSlotListQuery(start, length));
+        public async Task<HttpResult<IEnumerable<AdSlotDto>>> GetList([FromRoute] string publisherId, [FromQuery] int start, [FromQuery] int length)
+            => await Mediator.Send(new GetAdSlotListQuery(publisherId, start, length));
 
         [HttpGet("{id}")]
-        public async Task<HttpResult<AdSlotDto>> GetById([FromRoute] string id)
-            => await Mediator.Send(new GetAdSlotByIdQuery(id));
+        public async Task<HttpResult<AdSlotDto>> GetById([FromRoute] string publisherId, [FromRoute] string id)
+            => await Mediator.Send(new GetAdSlotByIdQuery(publisherId, id));
 
         [HttpPost]
-        public async Task<HttpResult<string>> Create([FromBody] CreateAdSlotCommand request)
-            => await Mediator.Send(new CreateAdSlotCommand(request));
+        public async Task<HttpResult<string>> Create([FromRoute] string publisherId, [FromBody] CreateAdSlotCommand request)
+            => await Mediator.Send(new CreateAdSlotCommand(publisherId, request));
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute] string id, [FromBody] UpdateAdSlotCommand request)
-            => await Mediator.Send(new UpdateAdSlotCommand(id, request));
+        public async Task<HttpResult<bool>> Update([FromRoute] string publisherId, [FromRoute] string id, [FromBody] UpdateAdSlotCommand request)
+            => await Mediator.Send(new UpdateAdSlotCommand(publisherId, id, request));
 
         [HttpDelete("{id}")]
-        public async Task<HttpResult<bool>> Delete([FromRoute] string id)
-            => await Mediator.Send(new DeleteAdSlotCommand(id));
+        public async Task<HttpResult<bool>> Delete([FromRoute] string publisherId, [FromRoute] string id)
+            => await Mediator.Send(new DeleteAdSlotCommand(publisherId, id));
     }
 }

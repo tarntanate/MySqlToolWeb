@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByName
         {
             var result = new HttpResult<MediaFileDto>();
             
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
             if (!isExistsAdResult.Ok)
                 return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 

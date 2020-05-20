@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -9,30 +10,33 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName
 {
     public class IsExistsAdByNameQueryHandler : IRequestHandler<IsExistsAdByNameQuery, HttpResult<bool>>
     {
+        private IMediator Mediator { get; }
         private AdsMongoRepository<AdDocument> AdMongoDB { get; }
 
-        public IsExistsAdByNameQueryHandler(AdsMongoRepository<AdDocument> adMongoDB)
+        public IsExistsAdByNameQueryHandler(
+            IMediator mediator,
+            AdsMongoRepository<AdDocument> adMongoDB)
         {
+            Mediator = mediator;
             AdMongoDB = adMongoDB;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByIdOnMongo(request.CampaignId, request.AdSlotId, request.Name);
+            return await IsExistsByIdOnMongo(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(string campaignId, string adSlotId, string name)
+        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(IsExistsAdByNameQuery request)
         {
             var result = new HttpResult<bool>();
             var isExists = await AdMongoDB.AnyAsync(
-                filter: f => f.Campaign.Id == campaignId &&
-                             f.AdSlot.Id == adSlotId &&
-                             f.Name == name &&
+                filter: f => f.AdSlot.Id == request.AdSlotId &&
+                             f.Name == request.Name &&
                              f.EnabledFlag == true
             );
             if (isExists)
                 return result.Success(true);
-            return result.Fail(404, $"Ad '{name}' doesn't exist.");
+            return result.Fail(404, $"Ad '{request.Name}' doesn't exist.");
         }
     }
 }

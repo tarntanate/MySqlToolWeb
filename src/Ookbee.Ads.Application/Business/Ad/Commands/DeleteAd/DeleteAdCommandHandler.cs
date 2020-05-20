@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
             if (!isExistsCampaignResult.Ok)
                 return isExistsCampaignResult;
 
-            var isExistsResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
+            var isExistsResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.Id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 

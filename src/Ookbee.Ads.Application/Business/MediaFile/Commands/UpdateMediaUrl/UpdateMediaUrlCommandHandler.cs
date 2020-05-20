@@ -27,28 +27,28 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
 
         public async Task<HttpResult<bool>> Handle(UpdateMediaUrlCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnMongo(request.AdId, request.Id, request.MediaUrl);
+            var result = await UpdateOnMongo(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> UpdateOnMongo(string adId, string id, string fileUrl)
+        private async Task<HttpResult<bool>> UpdateOnMongo(UpdateMediaUrlCommand request)
         {
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(adId));
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
                 if (!isExistsAdResult.Ok)
                     return isExistsAdResult;
 
-                var isExistsResult = await Mediator.Send(new IsExistsMediaFileByIdQuery(id));
+                var isExistsResult = await Mediator.Send(new IsExistsMediaFileByIdQuery(request.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
 
                 var now = MechineDateTime.Now;
                 await MediaFileMongoDB.UpdateManyPartialAsync(
-                    filter: f => f.Id == id,
+                    filter: f => f.Id == request.Id,
                     update: Builders<MediaFileDocument>.Update
-                            .Set(f => f.MediaUrl, fileUrl)
+                            .Set(f => f.MediaUrl, request.MediaUrl)
                             .Set(f => f.UpdatedDate, now.DateTime)
                 );
                 return result.Success(true);

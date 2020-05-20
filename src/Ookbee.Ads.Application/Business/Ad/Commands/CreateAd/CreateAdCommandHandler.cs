@@ -37,15 +37,18 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             var result = new HttpResult<string>();
             try
             {
+                Console.Write(1);
                 var campaignResult = await Mediator.Send(new GetCampaignByIdQuery(request.CampaignId));
                 if (!campaignResult.Ok)
                     return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
+                Console.Write(2);
                 var adSlotTypeResult = await Mediator.Send(new GetAdSlotByIdQuery(request.AdSlotId));
                 if (!adSlotTypeResult.Ok)
                     return result.Fail(adSlotTypeResult.StatusCode, adSlotTypeResult.Message);
 
-                var isExistsAdByNameResult = await Mediator.Send(new IsExistsAdByNameQuery(request.CampaignId, request.AdSlotId, request.Name));
+                Console.Write(3);
+                var isExistsAdByNameResult = await Mediator.Send(new IsExistsAdByNameQuery(request.AdSlotId, request.Name));
                 if (isExistsAdByNameResult.Data)
                     return result.Fail(409, $"Ad '{request.Name}' already exists.");
                     

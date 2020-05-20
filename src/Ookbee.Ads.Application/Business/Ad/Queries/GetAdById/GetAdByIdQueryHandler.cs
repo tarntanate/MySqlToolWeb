@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
+using Ookbee.Ads.Common.Builders;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -31,14 +32,14 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdById
         {
             var result = new HttpResult<AdDto>();
 
-            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.CampaignId));
-            if (!isExistsCampaignResult.Ok)
-                return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
+            var predicate = PredicateBuilder.True<AdDocument>();
+            predicate = predicate.And(f => f.Id == request.Id);
+            predicate = predicate.And(f => f.EnabledFlag == true);
 
-            var item = await AdMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Id == request.Id && 
-                             f.EnabledFlag == true
-            );
+            if (request.CampaignId.HasValue())
+                predicate = predicate.And(f => f.Campaign.Id == request.CampaignId);
+
+            var item = await AdMongoDB.FirstOrDefaultAsync(predicate);
             if (item == null)
                 return result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
             var data = Mapper.Map(item).ToANew<AdDto>();

@@ -18,18 +18,18 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Queries.GetSignedUrlById
 
         public async Task<HttpResult<string>> Handle(GetSignedUrlByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnMongo(request.Id);
+            return await GetOnMongo(request);
         }
 
-        private async Task<HttpResult<string>> GetOnMongo(string id)
+        private async Task<HttpResult<string>> GetOnMongo(GetSignedUrlByIdQuery request)
         {
             var result = new HttpResult<string>();
             var signedUrl = await UploadUrlMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Id == id,
+                filter: f => f.Id == request.Id,
                 selector: f => f.SignedUrl
             );
             if (signedUrl == null)
-                return result.Fail(404, $"UploadUrl '{id}' doesn't exist.");
+                return result.Fail(404, $"UploadUrl '{request.Id}' doesn't exist.");
             return result.Success(signedUrl);
         }
     }

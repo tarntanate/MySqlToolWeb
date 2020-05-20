@@ -1,6 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using MongoDB.Driver;
+using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -12,12 +13,17 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList
 {
     public class GetMediaFileListQueryHandler : IRequestHandler<GetMediaFileListQuery, HttpResult<IEnumerable<MediaFileDto>>>
     {
+        private IMediator Mediator { get; }
         private AdsMongoRepository<MediaFileDocument> MediaFileMongoDB { get; }
 
-        public GetMediaFileListQueryHandler(AdsMongoRepository<MediaFileDocument> mediaFileMongoDB)
+        public GetMediaFileListQueryHandler(
+            IMediator mediator,
+            AdsMongoRepository<MediaFileDocument> mediaFileMongoDB)
         {
+            Mediator = mediator;
             MediaFileMongoDB = mediaFileMongoDB;
         }
+
 
         public async Task<HttpResult<IEnumerable<MediaFileDto>>> Handle(GetMediaFileListQuery request, CancellationToken cancellationToken)
         {
@@ -27,8 +33,14 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList
         private async Task<HttpResult<IEnumerable<MediaFileDto>>> GetListMongoDB(GetMediaFileListQuery request)
         {
             var result = new HttpResult<IEnumerable<MediaFileDto>>();
+
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
+            if (!isExistsAdResult.Ok)
+                return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
+
             var items = await MediaFileMongoDB.FindAsync(
-                filter: f => f.EnabledFlag == true,
+                filter: f => f.AdId == request.AdId &&
+                             f.EnabledFlag == true,
                 sort: Builders<MediaFileDocument>.Sort.Ascending(nameof(MediaFileDocument.Name)),
                 start: request.Start,
                 length: request.Length

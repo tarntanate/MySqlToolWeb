@@ -31,12 +31,13 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileById
         {
             var result = new HttpResult<MediaFileDto>();
 
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
             if (!isExistsAdResult.Ok)
                 return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 
             var item = await MediaFileMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Id == request.Id &&
+                             f.AdId == request.AdId &&
                              f.EnabledFlag == true
             );
             if (item == null)

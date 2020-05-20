@@ -4,11 +4,9 @@ using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Commands.CreateAd;
 using Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd;
 using Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd;
+using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaignId;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
-using Ookbee.Ads.Application.Business.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetSignedUrl;
-using Ookbee.Ads.Application.Business.MediaFile;
-using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
@@ -22,7 +20,7 @@ namespace Ookbee.Ads.Services.Admin.Controllers
     {
         [HttpGet]
         public async Task<HttpResult<IEnumerable<AdDto>>> GetList([FromRoute] string campaignId, [FromQuery] int start, [FromQuery] int length)
-            => await Mediator.Send(new GetAdListQuery(campaignId, start, length));
+            => await Mediator.Send(new GetAdByCampaignIdQuery(campaignId, start, length));
 
         [HttpGet("{id}")]
         public async Task<HttpResult<AdDto>> GetById([FromRoute] string campaignId, [FromRoute] string id)

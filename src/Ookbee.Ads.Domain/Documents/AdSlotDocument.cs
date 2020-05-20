@@ -7,6 +7,10 @@ namespace Ookbee.Ads.Domain.Documents
     [CollectionName("AdSlot")]
     public class AdSlotDocument : BaseDocument
     {
+        public string PublisherId { get; set; }
+        
+        public string SlotTypeId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -18,9 +22,5 @@ namespace Ookbee.Ads.Domain.Documents
         public DateTime UpdatedDate { get; set; }
 
         public bool EnabledFlag { get; set; }
-
-        public DefaultDocument Publisher { get; set; }
-        
-        public DefaultDocument SlotType { get; set; }
     }
 }

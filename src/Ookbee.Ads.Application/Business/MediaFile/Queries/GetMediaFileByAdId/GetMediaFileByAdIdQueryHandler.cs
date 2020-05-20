@@ -33,9 +33,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByAdId
         {
             var result = new HttpResult<IEnumerable<MediaFileDto>>();
 
-            var isExistsCampaignResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
-            if (!isExistsCampaignResult.Ok)
-                return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
+            if (!isExistsAdResult.Ok)
+                return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 
             var items = await MediaFileMongoDB.FindAsync(
                 filter: f => f.AdId == request.AdId &&

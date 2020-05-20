@@ -1,5 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -10,10 +11,14 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotByName
 {
     public class GetAdSlotByNameQueryHandler : IRequestHandler<GetAdSlotByNameQuery, HttpResult<AdSlotDto>>
     {
+        private IMediator Mediator { get; }
         private AdsMongoRepository<AdSlotDocument> AdSlotMongoDB { get; }
 
-        public GetAdSlotByNameQueryHandler(AdsMongoRepository<AdSlotDocument> adSlotMongoDB)
+        public GetAdSlotByNameQueryHandler(
+            IMediator mediator,
+            AdsMongoRepository<AdSlotDocument> adSlotMongoDB)
         {
+            Mediator = mediator;
             AdSlotMongoDB = adSlotMongoDB;
         }
 
@@ -25,8 +30,14 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotByName
         private async Task<HttpResult<AdSlotDto>> GetOnMongo(GetAdSlotByNameQuery request)
         {
             var result = new HttpResult<AdSlotDto>();
+
+            var isExistsPublisherResult = await Mediator.Send(new IsExistsPublisherByIdQuery(request.PublisherId));
+            if (!isExistsPublisherResult.Ok)
+                return result.Fail(isExistsPublisherResult.StatusCode, isExistsPublisherResult.Message);
+
             var item = await AdSlotMongoDB.FirstOrDefaultAsync(
-                filter: f => f.Name == request.Name &&
+                filter: f => f.PublisherId == request.PublisherId &&
+                             f.Name == request.Name &&
                              f.EnabledFlag == true
             );
             if (item == null)
