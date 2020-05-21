@@ -7,19 +7,16 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
     {
         public string Id { get; set; }
 
-        public string AdId { get; set; }
-        
         public string MediaUrl { get; set; }
 
         public UpdateMediaUrlCommand()
         {
-            
+
         }
 
-        public UpdateMediaUrlCommand(string adId, string id, string mediaUrl)
+        public UpdateMediaUrlCommand(string id, string mediaUrl)
         {
             Id = id;
-            AdId = adId;
             MediaUrl = mediaUrl;
         }
     }

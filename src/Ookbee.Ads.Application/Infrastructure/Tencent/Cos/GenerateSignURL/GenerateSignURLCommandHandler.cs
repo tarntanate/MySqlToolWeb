@@ -1,13 +1,14 @@
 ﻿using COSXML.Model.Tag;
 using MediatR;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.InitializeCosXmlServer;
+using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
 {
-    public class GenerateSignURLCommandHandler : IRequestHandler<GenerateSignURLCommand, string>
+    public class GenerateSignURLCommandHandler : IRequestHandler<GenerateSignURLCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
 
@@ -16,8 +17,9 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
             Mediator = mediator;
         }
 
-        public async Task<string> Handle(GenerateSignURLCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<string>> Handle(GenerateSignURLCommand request, CancellationToken cancellationToken)
         {
+            var result = new HttpResult<string>();
             var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
             var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand());
             var preSignatureStruct = new PreSignatureStruct();
@@ -31,7 +33,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
             preSignatureStruct.headers = request.Headers;                           //The header in signature for verification
             preSignatureStruct.queryParameters = request.QueryParameters;           //The request parameters of URL in signature for verification
             var signURL = cosXml.GenerateSignURL(preSignatureStruct);               //The pre-signed URL (a signature URL computed with permanent key) for upload request
-            return signURL;
+            return result.Success(signURL);
         }
     }
 }

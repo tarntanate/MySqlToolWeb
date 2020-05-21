@@ -1,5 +1,6 @@
 using System;
 using Anna.Common.MongoDB.Domain;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Ookbee.Ads.Domain.Documents
@@ -7,7 +8,10 @@ namespace Ookbee.Ads.Domain.Documents
     [CollectionName("UploadUrl")]
     public class UploadUrlDocument : BaseDocument
     {
+        [BsonRepresentation(BsonType.ObjectId)]
         public string MapperId { get; set; }
+
+        public string MapperType { get; set; }
 
         public string AppId { get; set; }
 
