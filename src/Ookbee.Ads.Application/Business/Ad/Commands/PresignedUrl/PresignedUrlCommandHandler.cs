@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using MongoDB.Bson;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
-using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -29,11 +28,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.PresignedUrl
         {
             var result = new HttpResult<string>();
 
-            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.CampaignId));
-            if (!isExistsCampaignResult.Ok)
-                return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
-
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.Id));
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
             if (!isExistsAdResult.Ok)
                 return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 

@@ -1,6 +1,5 @@
 using System;
 using Anna.Common.MongoDB.Domain;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Ookbee.Ads.Domain.Documents
@@ -11,7 +10,7 @@ namespace Ookbee.Ads.Domain.Documents
         public string MapperId { get; set; }
 
         public string AppId { get; set; }
-        
+
         public string Region { get; set; }
 
         public string Bucket { get; set; }

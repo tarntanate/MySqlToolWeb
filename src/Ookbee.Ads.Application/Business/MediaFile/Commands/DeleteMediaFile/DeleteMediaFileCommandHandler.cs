@@ -36,10 +36,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
         {
             var result = new HttpResult<bool>();
 
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
-            if (!isExistsAdResult.Ok)
-                return isExistsAdResult;
-
             var isExistsMediaFileResult = await Mediator.Send(new IsExistsMediaFileByIdQuery(request.Id));
             if (!isExistsMediaFileResult.Ok)
                 return isExistsMediaFileResult;

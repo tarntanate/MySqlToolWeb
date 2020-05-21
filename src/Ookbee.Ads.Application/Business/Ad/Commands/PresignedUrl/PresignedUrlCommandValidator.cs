@@ -9,7 +9,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.PresignedUrl
         public PresignedUrlCommandValidator()
         {
             RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"Ad '{p.Id}' is not a valid 24 digit hex string.");
-            RuleFor(p => p.CampaignId).Must(BeAValidObjectId).WithMessage(p => $"Campaign '{p.CampaignId}' is not a valid 24 digit hex string.");
             RuleFor(p => p.FileExtension).Must(BeAValidJpeg).WithMessage("Only .jpg and .jpeg file is supported.");
         }
 

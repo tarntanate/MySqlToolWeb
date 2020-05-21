@@ -8,8 +8,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
     {
         public string Id => ObjectId.GenerateNewId().ToString();
 
-        public string CampaignId { get; set; }
-
         public string AdId { get; set; }
 
         public string Name { get; set; }
@@ -22,28 +20,21 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
 
         public string Position { get; set; }
 
-        public string AppLink { get; set; }
-
-        public string WebLink { get; set; }
-
         public bool EnabledFlag => true;
 
         public CreateMediaFileCommand()
         {
-            
+
         }
 
-        public CreateMediaFileCommand(string campaignId, string adId, CreateMediaFileCommand request)
+        public CreateMediaFileCommand(CreateMediaFileCommand request)
         {
-            CampaignId = campaignId;
-            AdId = adId;
+            AdId = request.AdId;
             Name = request.Name;
             Description = request.Description;
             MimeType = request.MimeType;
             MediaUrl = request.MediaUrl;
             Position = request.Position;
-            AppLink = request.AppLink;
-            WebLink = request.WebLink;
         }
     }
 }

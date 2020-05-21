@@ -2,6 +2,8 @@
 using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
+using Ookbee.Ads.Common.Builders;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -34,13 +36,18 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList
         {
             var result = new HttpResult<IEnumerable<MediaFileDto>>();
 
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
             if (!isExistsAdResult.Ok)
                 return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 
+            var predicate = PredicateBuilder.True<MediaFileDocument>();
+            predicate = predicate.And(f => f.EnabledFlag == true);
+
+            if (request.AdId.HasValue())
+                predicate = predicate.And(f => f.AdId == request.AdId);
+
             var items = await MediaFileMongoDB.FindAsync(
-                filter: f => f.AdId == request.AdId &&
-                             f.EnabledFlag == true,
+                filter: predicate,
                 sort: Builders<MediaFileDocument>.Sort.Ascending(nameof(MediaFileDocument.Name)),
                 start: request.Start,
                 length: request.Length

@@ -32,12 +32,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
         private async Task<HttpResult<bool>> DeleteMongoDB(DeleteAdCommand request)
         {
             var result = new HttpResult<bool>();
-
-            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.CampaignId));
-            if (!isExistsCampaignResult.Ok)
-                return isExistsCampaignResult;
-
-            var isExistsResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.Id));
+            
+            var isExistsResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 

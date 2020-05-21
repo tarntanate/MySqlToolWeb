@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Domain.Documents
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string AdId { get; set; }
-        
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -20,10 +20,6 @@ namespace Ookbee.Ads.Domain.Documents
         public string MediaUrl { get; set; }
 
         public string Position { get; set; }
-
-        public string AppLink { get; set; }
-
-        public string WebLink { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreatedDate { get; set; }

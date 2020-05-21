@@ -8,10 +8,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
     {
         public UpdateMediaUrlCommandValidator()
         {
-            RuleFor(p => p.CampaignId).Must(BeAValidObjectId).WithMessage(p => $"Campaign '{p.CampaignId}' is not a valid 24 digit hex string.");
-            RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Ad '{p.Id}' is not a valid 24 digit hex string.");
             RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"MediaFile '{p.Id}' is not a valid 24 digit hex string.");
-            RuleFor(p => p.MediaUrl).MaximumLength(250);
+            RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Ad '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.MediaUrl).MaximumLength(250).NotEmpty().NotEmpty().Must(BeAValidUriSchemeHttp).WithMessage(p => $"Invalid WebLink URL '{p.MediaUrl}'");
         }
 
         private bool BeAValidObjectId(string value)
@@ -19,9 +18,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
             return ObjectId.TryParse(value, out ObjectId objectId);
         }
 
-        private bool BeAValidUri(string value)
+        private bool BeAValidUriSchemeHttp(string value)
         {
-            return value.IsValidUri();
+            return value.IsValidUriSchemeHttp();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName;
 using Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById;
@@ -42,18 +43,20 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                 if (!campaignResult.Ok)
                     return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
-                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.Id));
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
                 if (!isExistsAdResult.Ok)
                     return isExistsAdResult;
-
-                var isExistsAdByNameResult = await Mediator.Send(new IsExistsAdByNameQuery(request.AdSlotId, request.Name));
-                if (isExistsAdByNameResult.Data)
-                    return result.Fail(409, $"Ad '{request.Name}' already exists.");
 
                 var adSlotTypeResult = await Mediator.Send(new GetAdSlotByIdQuery(request.AdSlotId));
                 if (!adSlotTypeResult.Ok)
                     return result.Fail(adSlotTypeResult.StatusCode, adSlotTypeResult.Message);
-                    
+
+                var adResult = await Mediator.Send(new GetAdByNameQuery(request.CampaignId, request.Name));
+                if (adResult.Ok &&
+                    adResult.Data.Id != request.Id &&
+                    adResult.Data.Name == request.Name)
+                    return result.Fail(409, $"Ad '{request.Name}' already exists.");
+
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<AdDocument>();
                 document.UpdatedDate = now.DateTime;

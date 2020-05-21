@@ -37,11 +37,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
             var result = new HttpResult<string>();
             try
             {
-                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
                 if (!isExistsAdResult.Ok)
                     return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 
-                var mediaFileResult = await Mediator.Send(new GetMediaFileByNameQuery(request.CampaignId, request.AdId, request.Name));
+                var mediaFileResult = await Mediator.Send(new GetMediaFileByNameQuery(request.AdId, request.Name));
                 if (mediaFileResult.Ok &&
                     mediaFileResult.Data.Id != request.Id &&
                     mediaFileResult.Data.Name == request.Name)

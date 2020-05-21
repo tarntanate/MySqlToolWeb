@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaUrl
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.CampaignId, request.AdId));
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(request.AdId));
                 if (!isExistsAdResult.Ok)
                     return isExistsAdResult;
 

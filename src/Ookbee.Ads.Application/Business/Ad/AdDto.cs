@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Ookbee.Ads.Common;
 
 namespace Ookbee.Ads.Application.Business.Ad
 {
@@ -19,5 +21,13 @@ namespace Ookbee.Ads.Application.Business.Ad
         public string ForegroundColor { get; set; }
 
         public string BackgroundColor { get; set; }
+
+        public string AppLink { get; set; }
+
+        public string WebLink { get; set; }
+
+        public List<string> Analytics { get; set; }
+
+        public PlatformModel Platform { get; set; }
     }
 }
