@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAdUploadUrl
                 var uploadUrlResult = await Mediator.Send(new GenerateUploadUrlCommand(
                     mapperId: request.Id,
                     mapperType: "ad",
-                    bucket: cosConfig.Bucket.Private,
+                    bucket: cosConfig.Bucket.Public,
                     key: $"ad/{request.Id}/{ObjectId.GenerateNewId()}{request.FileExtension}"
                 ));
                 if (!uploadUrlResult.Ok)

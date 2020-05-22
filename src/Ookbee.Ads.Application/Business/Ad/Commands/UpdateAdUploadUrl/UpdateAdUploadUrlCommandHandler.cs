@@ -7,7 +7,6 @@ using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,20 +34,15 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAdUploadUrl
                 return isExistsAdResult;
 
             var uploadUrlResult = await Mediator.Send(new GetUploadUrlByIdQuery(request.UploadFileId));
-            Console.WriteLine(uploadUrlResult.Ok);
             if (!uploadUrlResult.Ok)
                 return result.Fail(uploadUrlResult.StatusCode, uploadUrlResult.Message);
 
             var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
-            var commitUploadUrlResult = await Mediator.Send(new CommitUploadUrlCommand(
-                id: request.UploadFileId,
-                bucket: cosConfig.Bucket.Public,
-                key: uploadUrlResult.Data.Key
-            ));
+            var commitUploadUrlResult = await Mediator.Send(new CommitUploadUrlCommand(request.UploadFileId));
             if (!commitUploadUrlResult.Ok)
                 return commitUploadUrlResult;
 
-            var updateMediaUrlResult = await Mediator.Send(new UpdateMediaUrlCommand(request.MediaFileId, uploadUrlResult.Data.Key));
+            var updateMediaUrlResult = await Mediator.Send(new UpdateMediaUrlCommand(request.MediaFileId, uploadUrlResult.Data.DestinationKey));
             if (!updateMediaUrlResult.Ok)
                 return result.Fail(updateMediaUrlResult.StatusCode, updateMediaUrlResult.Message);
 

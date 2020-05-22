@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrlById;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject;
+using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.DeleteObject;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Infrastructure;
-using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,27 +24,38 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.CommitUploadUrl
             var result = new HttpResult<bool>();
 
             var uploadUrlResult = await Mediator.Send(new GetUploadUrlByIdQuery(request.Id));
-            Console.WriteLine(uploadUrlResult.Ok);
             if (!uploadUrlResult.Ok)
                 return result.Fail(uploadUrlResult.StatusCode, uploadUrlResult.Message);
 
-            var uploadUrlData = uploadUrlResult.Data;
             var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
             var copyObjectResult = await Mediator.Send(new CopyObjectCommand()
             {
-                SourceAppid = uploadUrlData.AppId,
-                SourceRegion = uploadUrlData.Region,
-                SourceBucket = cosConfig.Bucket.Private,
-                SourceKey = $"temp/{uploadUrlData.Key}",
-                DestinationBucket = request.Bucket,
-                DestinationKey = request.Key
+                SourceAppid = uploadUrlResult.Data.AppId,
+                SourceRegion = uploadUrlResult.Data.Region,
+                SourceBucket = uploadUrlResult.Data.SourceBucket,
+                SourceKey = uploadUrlResult.Data.SourceKey,
+                DestinationBucket = uploadUrlResult.Data.DestinationBucket,
+                DestinationKey = uploadUrlResult.Data.DestinationKey
             });
-            if (!copyObjectResult.Ok)
+            if (!copyObjectResult.Ok && copyObjectResult.StatusCode != HttpStatusCode.NoContent)
             {
                 if (copyObjectResult.StatusCode == HttpStatusCode.NotFound)
-                    return result.Fail(404, "File not found.");
+                    return result.Fail(404, "Can't move file, File not found.");
                 return result.Fail(copyObjectResult.StatusCode, copyObjectResult.Message);
             }
+
+            var deleteObjectResult = await Mediator.Send(new DeleteObjectCommand()
+            {
+                Bucket = uploadUrlResult.Data.SourceBucket,
+                Key = uploadUrlResult.Data.SourceKey
+            });
+            if (!deleteObjectResult.Ok && deleteObjectResult.StatusCode != HttpStatusCode.NoContent)
+            {
+                if (deleteObjectResult.StatusCode == HttpStatusCode.NotFound)
+                    return result.Fail(404, "Can't delete file, File not found.");
+                return result.Fail(deleteObjectResult.StatusCode, deleteObjectResult.Message);
+            }
+
             return result.Success(true);
         }
     }

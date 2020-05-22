@@ -6,7 +6,6 @@ using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,10 +35,12 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
             var result = new HttpResult<UploadUrlDto>();
             var now = MechineDateTime.Now;
             var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
+            var sourceBucket = cosConfig.Bucket.Private;
+            var sourceKey = $"temp/{request.Key}";
             var generateSignUrlResult = await Mediator.Send(new GenerateSignURLCommand()
             {
-                Bucket = request.Bucket,
-                Key = $"temp/{request.Key}"
+                Bucket = sourceBucket,
+                Key = sourceKey
             }); ;
             var document = new UploadUrlDocument()
             {
@@ -47,8 +48,10 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
                 MapperType = request.MapperType,
                 AppId = cosConfig.AppId,
                 Region = cosConfig.Region,
-                Bucket = request.Bucket,
-                Key = request.Key,
+                SourceBucket = sourceBucket,
+                SourceKey = sourceKey,
+                DestinationBucket = request.Bucket,
+                DestinationKey = request.Key,
                 SignedUrl = generateSignUrlResult.Data,
                 CreatedDate = now.DateTime,
                 UpdatedDate = now.DateTime
