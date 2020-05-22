@@ -35,9 +35,5 @@ namespace Ookbee.Ads.Application.Business.MediaFile
         }
 
         public string Position { get; set; }
-
-        public string AppLink { get; set; }
-
-        public string WebLink { get; set; }
     }
 }
