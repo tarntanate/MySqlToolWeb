@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/Ookbee.Ads.Services.Identity.csproj",
+                "${workspaceFolder}/src/Ookbee.Ads.Services.Admin/Ookbee.Ads.Services.Admin.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/Ookbee.Ads.Services.Identity.csproj",
+                "${workspaceFolder}/src/Ookbee.Ads.Services.Admin/Ookbee.Ads.Services.Admin.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/Ookbee.Ads.Services.Identity.csproj",
+                "${workspaceFolder}/src/Ookbee.Ads.Services.Admin/Ookbee.Ads.Services.Admin.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

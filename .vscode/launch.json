@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Ookbee.Ads.Services.Identity",
+            "name": "Ookbee.Ads.Services.Admin",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Identity.dll",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Admin/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Admin.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Ookbee.Ads.Services.Identity",
+            "cwd": "${workspaceFolder}/src/Ookbee.Ads.Services.Admin",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
