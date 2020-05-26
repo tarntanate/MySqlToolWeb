@@ -4,7 +4,7 @@ using Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotById;
 using Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotByName;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById;
 using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById;
-using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.UpdateAdSlot
                 var isExistsAdSlotByIdResult = await Mediator.Send(new IsExistsAdSlotByIdQuery(request.Id));
                 if (!isExistsAdSlotByIdResult.Ok)
                     return isExistsAdSlotByIdResult;
-                    
+
                 var publisherResult = await Mediator.Send(new GetPublisherByIdQuery(request.PublisherId));
                 if (!publisherResult.Ok)
                     return result.Fail(publisherResult.StatusCode, publisherResult.Message);

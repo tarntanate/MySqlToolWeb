@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelByName;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
-using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;

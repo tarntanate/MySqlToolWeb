@@ -4,7 +4,7 @@ using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName;
 using Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
-using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;

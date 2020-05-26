@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
-using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -58,6 +58,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await CampaignMongoDB.AddAsync(document);
+
                 return result.Success(document.Id);
             }
             catch (Exception ex)

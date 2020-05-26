@@ -1,12 +1,10 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
-using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelById;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
-using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -43,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
                 var isExistsResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.Id));
                 if (!isExistsResult.Ok)
                     return isExistsResult;
-                    
+
                 var isExistsAdvertiserResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(request.AdvertiserId));
                 if (!isExistsAdvertiserResult.Ok)
                     return result.Fail(isExistsAdvertiserResult.StatusCode, isExistsAdvertiserResult.Message);

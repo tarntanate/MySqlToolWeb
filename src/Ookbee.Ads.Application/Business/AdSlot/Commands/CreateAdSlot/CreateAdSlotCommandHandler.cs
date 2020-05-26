@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotByName;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById;
 using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById;
-using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;

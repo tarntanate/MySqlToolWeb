@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
-using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;

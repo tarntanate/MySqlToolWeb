@@ -1,10 +1,11 @@
 using Microsoft.Extensions.Logging;
 using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Common.Helpers;
 using System;
 using System.Runtime.InteropServices;
 using TimeZoneConverter;
 
-namespace Ookbee.Ads.Common.Helpers
+namespace Ookbee.Ads.Common
 {
     public class MechineDateTime
     {
