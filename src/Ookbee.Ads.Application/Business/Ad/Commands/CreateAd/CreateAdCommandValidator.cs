@@ -23,7 +23,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
         private bool BeARGBHexColor(string value)
         {
-            return value.IsValidRGBHexColor();
+            if (value.HasValue())
+                return value.IsValidRGBHexColor();
+            return true;
         }
 
         private bool BeAValidUri(string value)

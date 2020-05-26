@@ -30,8 +30,6 @@ namespace Ookbee.Ads.Application.Business.Campaign
 
         public decimal PricingRate { get; set; }
 
-        public bool IsExpire { get; set; }
-
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime StartDate { get; set; }
 

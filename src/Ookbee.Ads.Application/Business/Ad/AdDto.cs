@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Ookbee.Ads.Common;
 
 namespace Ookbee.Ads.Application.Business.Ad
@@ -16,10 +17,13 @@ namespace Ookbee.Ads.Application.Business.Ad
 
         public string Description { get; set; }
 
-        public TimeSpan Cooldown { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public TimeSpan? Cooldown { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string ForegroundColor { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string BackgroundColor { get; set; }
 
         public string AppLink { get; set; }

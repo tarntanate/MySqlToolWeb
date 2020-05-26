@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
         public string Description { get; set; }
 
-        public TimeSpan Cooldown { get; set; }
+        public TimeSpan? Cooldown { get; set; }
 
         public string ForegroundColor { get; set; }
 

@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Domain.Documents
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string AdvertiserId { get; set; }
-        
+
         [BsonRepresentation(BsonType.ObjectId)]
         public string PricingModelId { get; set; }
 
@@ -31,8 +31,6 @@ namespace Ookbee.Ads.Domain.Documents
         public int PricingImpressions { get; set; }
 
         public decimal PricingRate { get; set; }
-
-        public bool IsExpire { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime StartDate { get; set; }

@@ -32,8 +32,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 
         public decimal PricingRate { get; set; }
 
-        public bool IsExpire { get; set; }
-
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
@@ -42,7 +40,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 
         public UpdateCampaignCommand()
         {
-            
+
         }
 
         public UpdateCampaignCommand(string id, UpdateCampaignCommand request)
@@ -60,7 +58,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
             PricingClick = request.PricingClick;
             PricingImpressions = request.PricingImpressions;
             PricingRate = request.PricingRate;
-            IsExpire = request.IsExpire;
             StartDate = request.StartDate;
             EndDate = request.EndDate;
         }

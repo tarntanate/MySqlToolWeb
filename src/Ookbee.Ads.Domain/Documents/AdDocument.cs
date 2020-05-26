@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Ookbee.Ads.Common;
 using System;
+using System.Collections.Generic;
 
 namespace Ookbee.Ads.Domain.Documents
 {
@@ -10,22 +11,22 @@ namespace Ookbee.Ads.Domain.Documents
     public class AdDocument : BaseDocument
     {
         [BsonRepresentation(BsonType.ObjectId)]
-        public string AdSlotId { get; set; }
+        public string CampaignId { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public string CampaignId { get; set; }
+        public string AdSlotId { get; set; }
 
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public TimeSpan Cooldown { get; set; }
+        public TimeSpan? Cooldown { get; set; }
 
         public string ForegroundColor { get; set; }
 
         public string BackgroundColor { get; set; }
 
-        public System.Collections.Generic.List<string> Analytics { get; set; }
+        public List<string> Analytics { get; set; }
 
         public string AppLink { get; set; }
 
