@@ -8,6 +8,7 @@ using System.Collections.Generic;
 namespace Ookbee.Ads.Domain.Documents
 {
     [CollectionName("Ad")]
+    [BsonIgnoreExtraElements]
     public class AdDocument : BaseDocument
     {
         [BsonRepresentation(BsonType.ObjectId)]

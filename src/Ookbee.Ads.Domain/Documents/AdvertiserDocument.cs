@@ -5,6 +5,7 @@ using System;
 namespace Ookbee.Ads.Domain.Documents
 {
     [CollectionName("Advertiser")]
+    [BsonIgnoreExtraElements]
     public class AdvertiserDocument : BaseDocument
     {
         public string Name { get; set; }
