@@ -6,21 +6,21 @@ namespace Ookbee.RequestLogs.Application.Business.RequestLog.Commands.CreateRequ
 {
     public class CreateRequestLogCommand : IRequest<HttpResult<string>>
     {
-        public string Id => ObjectId.GenerateNewId().ToString();
+        private string Id => ObjectId.GenerateNewId().ToString();
+
+        private string AdId => null;
 
         public string AdSlotId { get; set; }
 
-        public string AdId { get; set; }
-
-        public string AppCode { get; set; }
-
-        public string AppVersion { get; set; }
+        public string DeviceId { get; set; }
 
         public string Platform { get; set; }
 
         public string OsVersion { get; set; }
 
-        public string DeviceId { get; set; }
+        public string AppCode { get; set; }
+
+        public string AppVersion { get; set; }
 
         public string UserAgents { get; set; }
 
@@ -31,9 +31,12 @@ namespace Ookbee.RequestLogs.Application.Business.RequestLog.Commands.CreateRequ
 
         }
 
-        public CreateRequestLogCommand(CreateRequestLogCommand request)
+        public CreateRequestLogCommand(string adSlotId, string deviceId, string platform, string userAgent)
         {
-            Platform = request.Platform;
+            AdSlotId = adSlotId;
+            DeviceId = deviceId;
+            Platform = platform;
+            UserAgents = userAgent;
         }
     }
 }

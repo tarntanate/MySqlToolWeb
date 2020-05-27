@@ -12,15 +12,13 @@ namespace Ookbee.Ads.Domain.Documents
         public string AdId { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public string KeyMetricId { get; set; }
+        public string AdSlotId { get; set; }
 
         public string AppCode { get; set; }
 
         public string AppVersion { get; set; }
 
         public string Platform { get; set; }
-
-        public string OsVersion { get; set; }
 
         public string DeviceId { get; set; }
 
