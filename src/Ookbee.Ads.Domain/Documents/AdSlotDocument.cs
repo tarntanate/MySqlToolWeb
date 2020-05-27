@@ -6,6 +6,7 @@ using System;
 namespace Ookbee.Ads.Domain.Documents
 {
     [CollectionName("AdSlot")]
+    [BsonIgnoreExtraElements]
     public class AdSlotDocument : BaseDocument
     {
         [BsonRepresentation(BsonType.ObjectId)]
