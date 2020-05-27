@@ -10,8 +10,11 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdBySlotId
         public GetAdBySlotIdQueryValidator()
         {
             RuleFor(p => p.AdSlotId).Must(BeAValidObjectId).WithMessage(p => $"AdSlot '{p.AdSlotId}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.AppCode).NotNull().NotEmpty();
+            RuleFor(p => p.AppVersion).NotNull().NotEmpty();
             RuleFor(p => p.DeviceId).NotNull().NotEmpty();
             RuleFor(p => p.Platform).Must(BeAValidPlatform).WithMessage(p => $"The Platform '{p.Platform}' is not supported.");
+            RuleFor(p => p.UserAgent).NotNull().NotEmpty();
         }
 
         private bool BeAValidObjectId(string value)
