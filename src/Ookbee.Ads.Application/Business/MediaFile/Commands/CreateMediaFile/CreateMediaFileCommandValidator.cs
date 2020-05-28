@@ -2,7 +2,6 @@
 using FluentValidation;
 using MongoDB.Bson;
 using Ookbee.Ads.Application.Infrastructure.Enums;
-using Ookbee.Ads.Common;
 
 namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
 {
@@ -13,13 +12,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
             RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Ad '{p.Id}' is not a valid 24 digit hex string.");
             RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.MimeType).NotEmpty().NotNull().Must(BeAValidMediaType).WithMessage(p => $"The MediaType '{p.MimeType}' is not supported.");
             RuleFor(p => p.Position).Must(BeAValidPosition).WithMessage(p => $"The Position '{p.Position}' is not supported.");
-        }
-
-        private bool BeAValidMediaType(string value)
-        {
-            return value == MimeTypes.Image.Jpeg || value == MimeTypes.Video.Mpeg;
         }
 
         private bool BeAValidObjectId(string value)

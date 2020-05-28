@@ -47,7 +47,10 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
                     return result.Fail(409, $"MediaFile '{request.Name}' already exists.");
 
                 var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<MediaFileDocument>();
+                var document = Mapper.Map(mediaFileResult.Data).ToANew<MediaFileDocument>();
+                document.Name = request.Name;
+                document.Description = request.Description;
+                document.Position = request.Position;
                 document.UpdatedDate = now.DateTime;
                 await MediaFileMongoDB.UpdateAsync(request.Id, document);
                 return result.Success(true);
