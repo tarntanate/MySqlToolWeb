@@ -1,3 +1,6 @@
+using System;
+using System.Text.Json.Serialization;
+
 namespace Ookbee.Ads.Application.Business.UploadUrl
 {
     public class UploadUrlDto
@@ -21,5 +24,14 @@ namespace Ookbee.Ads.Application.Business.UploadUrl
         public string DestinationKey { get; set; }
 
         public string SignedUrl { get; set; }
+
+        [JsonIgnore]
+        public DateTime CreatedDate { get; set; }
+
+        [JsonIgnore]
+        public DateTime UpdatedDate { get; set; }
+
+        [JsonIgnore]
+        public bool EnabledFlag { get; set; }
     }
 }

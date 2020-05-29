@@ -1,6 +1,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Ookbee.Ads.Application.Infrastructure;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Ookbee.Ads.Application.Business.Campaign
 {
@@ -35,5 +36,14 @@ namespace Ookbee.Ads.Application.Business.Campaign
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime EndDate { get; set; }
+
+        [JsonIgnore]
+        public DateTime CreatedDate { get; set; }
+
+        [JsonIgnore]
+        public DateTime UpdatedDate { get; set; }
+
+        [JsonIgnore]
+        public bool EnabledFlag { get; set; }
     }
 }

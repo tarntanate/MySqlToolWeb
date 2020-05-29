@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Services.Admin.Controllers
             => await Mediator.Send(new UpdateMediaFileCommand(id, request));
 
         [HttpPut("{id}/signed-url")]
-        public async Task<HttpResult<bool>> CreateUploadUrl([FromRoute] string id, [FromBody] UpdateUploadUrlCommand request)
+        public async Task<HttpResult<bool>> UpdateUploadUrl([FromRoute] string id, [FromBody] UpdateUploadUrlCommand request)
             => await Mediator.Send(new UpdateUploadUrlCommand(id, request));
 
         [HttpDelete("{id}")]

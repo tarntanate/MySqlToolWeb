@@ -33,5 +33,14 @@ namespace Ookbee.RequestLogs.Application.Business.RequestLog
         public List<string> Analytics { get; set; }
 
         public PlatformModel Platform { get; set; }
+
+        [JsonIgnore]
+        public DateTime CreatedDate { get; set; }
+
+        [JsonIgnore]
+        public DateTime UpdatedDate { get; set; }
+
+        [JsonIgnore]
+        public bool EnabledFlag { get; set; }
     }
 }
