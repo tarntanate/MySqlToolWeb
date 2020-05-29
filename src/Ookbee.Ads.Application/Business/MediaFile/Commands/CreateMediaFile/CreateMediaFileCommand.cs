@@ -10,10 +10,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
 
         public string AdId { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
         public string Position { get; set; }
 
         public bool EnabledFlag => true;
@@ -26,8 +22,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
         public CreateMediaFileCommand(CreateMediaFileCommand request)
         {
             AdId = request.AdId;
-            Name = request.Name;
-            Description = request.Description;
             Position = request.Position;
         }
     }

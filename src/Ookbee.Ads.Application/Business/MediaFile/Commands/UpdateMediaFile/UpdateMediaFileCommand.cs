@@ -9,10 +9,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
 
         public string AdId { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
         public string Position { get; set; }
 
         public UpdateMediaFileCommand()
@@ -24,8 +20,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
         {
             Id = id;
             AdId = request.AdId;
-            Name = request.Name;
-            Description = request.Description;
             Position = request.Position;
         }
     }

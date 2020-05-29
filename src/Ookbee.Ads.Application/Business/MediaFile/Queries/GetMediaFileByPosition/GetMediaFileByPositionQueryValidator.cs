@@ -3,13 +3,13 @@ using FluentValidation;
 using MongoDB.Bson;
 using Ookbee.Ads.Application.Infrastructure.Enums;
 
-namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
+namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByPosition
 {
-    public class CreateMediaFileCommandValidator : AbstractValidator<CreateMediaFileCommand>
+    public class GetMediaFileByPositionQueryValidator : AbstractValidator<GetMediaFileByPositionQuery>
     {
-        public CreateMediaFileCommandValidator()
+        public GetMediaFileByPositionQueryValidator()
         {
-            RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Ad '{p.Id}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.AdId).Must(BeAValidObjectId).WithMessage(p => $"Ad '{p.AdId}' is not a valid 24 digit hex string.");
             RuleFor(p => p.Position).Must(BeAValidPosition).WithMessage(p => $"The Position '{p.Position}' is not supported.");
         }
 

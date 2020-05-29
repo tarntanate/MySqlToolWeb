@@ -11,10 +11,6 @@ namespace Ookbee.Ads.Domain.Documents
         [BsonRepresentation(BsonType.ObjectId)]
         public string AdId { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
         public string MimeType { get; set; }
 
         public string MediaUrl { get; set; }

@@ -1,8 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using MongoDB.Bson;
-using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
-using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByName;
 using Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
