@@ -1,6 +1,5 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using MongoDB.Bson;
 using Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
@@ -8,6 +7,7 @@ using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,9 +34,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateUploadUrl
                 var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
                 var uploadUrlResult = await Mediator.Send(new GenerateUploadUrlCommand(
                     mapperId: request.Id,
-                    mapperType: "ad",
+                    mapperType: "MediaFile",
+                    mimeType: MimeTypeMap.GetMimeType(request.FileExtension),
+                    fileExtension: request.FileExtension,
                     bucket: cosConfig.Bucket.Public,
-                    key: $"ads/{request.Id}/mediafiles/{request.Id}{request.FileExtension}"
+                    key: $"ads/{request.Id}/media-files/{request.Id}{request.FileExtension}"
                 ));
                 if (!uploadUrlResult.Ok)
                     return result.Fail(uploadUrlResult.StatusCode, uploadUrlResult.Message);

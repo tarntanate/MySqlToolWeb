@@ -48,6 +48,8 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
                 MapperType = request.MapperType,
                 AppId = cosConfig.AppId,
                 Region = cosConfig.Region,
+                MimeType = request.MimeType,
+                FileExtension = request.FileExtension,
                 SourceBucket = sourceBucket,
                 SourceKey = sourceKey,
                 DestinationBucket = request.Bucket,

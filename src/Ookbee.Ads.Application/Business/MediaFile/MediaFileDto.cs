@@ -11,10 +11,6 @@ namespace Ookbee.Ads.Application.Business.MediaFile
 
         public string AdId { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
         public string MimeType { get; set; }
 
         string _mediaUrl;

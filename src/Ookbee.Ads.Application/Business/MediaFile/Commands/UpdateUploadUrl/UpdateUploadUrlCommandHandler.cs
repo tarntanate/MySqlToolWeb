@@ -49,7 +49,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateUploadUrl
                     filter: f => f.Id == request.Id,
                     update: Builders<MediaFileDocument>.Update
                             .Set(f => f.MediaUrl, uploadUrlResult.Data.DestinationKey)
-                            .Set(f => f.MimeType, uploadUrlResult.Data.MapperType)
+                            .Set(f => f.MimeType, uploadUrlResult.Data.MimeType)
                             .Set(f => f.UpdatedDate, now.DateTime)
                 );
                 return result.Success(true);
