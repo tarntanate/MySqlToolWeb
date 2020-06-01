@@ -48,7 +48,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList
 
             var items = await MediaFileMongoDB.FindAsync(
                 filter: predicate,
-                sort: Builders<MediaFileDocument>.Sort.Ascending(nameof(MediaFileDocument.Name)),
+                sort: Builders<MediaFileDocument>.Sort.Ascending(nameof(MediaFileDocument.Position)),
                 start: request.Start,
                 length: request.Length
             );

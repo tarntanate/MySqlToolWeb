@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.MediaFile;
 using Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile;
+using Ookbee.Ads.Application.Business.MediaFile.Commands.CreateUploadUrl;
 using Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile;
 using Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile;
+using Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateUploadUrl;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileById;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
@@ -28,9 +30,17 @@ namespace Ookbee.Ads.Services.Admin.Controllers
         public async Task<HttpResult<string>> Create([FromBody] CreateMediaFileCommand request)
             => await Mediator.Send(new CreateMediaFileCommand(request));
 
+        [HttpPost("{id}/signed-url")]
+        public async Task<HttpResult<SignedUrlDto>> CreateUploadUrl([FromRoute] string id, [FromBody] CreateUploadUrlCommand request)
+            => await Mediator.Send(new CreateUploadUrlCommand(id, request));
+
         [HttpPut("{id}")]
         public async Task<HttpResult<bool>> Update([FromRoute] string id, [FromBody] UpdateMediaFileCommand request)
             => await Mediator.Send(new UpdateMediaFileCommand(id, request));
+
+        [HttpPut("{id}/signed-url")]
+        public async Task<HttpResult<bool>> UpdateUploadUrl([FromRoute] string id, [FromBody] UpdateUploadUrlCommand request)
+            => await Mediator.Send(new UpdateUploadUrlCommand(id, request));
 
         [HttpDelete("{id}")]
         public async Task<HttpResult<bool>> Delete([FromRoute] string id)

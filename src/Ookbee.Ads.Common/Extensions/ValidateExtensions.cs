@@ -18,6 +18,12 @@ namespace Ookbee.Ads.Common.Extensions
             return regex.IsMatch(value.ToLower());
         }
 
+        public static bool IsValidPng(this string value)
+        {
+            var regex = new Regex("^.(png)$");
+            return regex.IsMatch(value.ToLower());
+        }
+
         public static bool IsValidPhoneNumber(this string value)
         {
             var regex = new Regex(@"^(02)[0-9]\d{6}$|^(06|08|09)[0-9]\d{7}$");

@@ -1,7 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
-using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByName;
+using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByPosition;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -40,14 +40,16 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
                 if (!isExistsAdResult.Ok)
                     return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 
-                var mediaFileResult = await Mediator.Send(new GetMediaFileByNameQuery(request.AdId, request.Name));
+                var mediaFileResult = await Mediator.Send(new GetMediaFileByPositionQuery(request.AdId, request.Position));
                 if (mediaFileResult.Ok &&
                     mediaFileResult.Data.Id != request.Id &&
-                    mediaFileResult.Data.Name == request.Name)
-                    return result.Fail(409, $"MediaFile '{request.Name}' already exists.");
+                    mediaFileResult.Data.Position == request.Position)
+                    return result.Fail(409, $"MediaFile '{request.Position}' already exists.");
 
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<MediaFileDocument>();
+                document.MediaUrl = null;
+                document.MimeType = null;
                 document.CreatedDate = now.DateTime;
                 document.UpdatedDate = now.DateTime;
                 await MediaFileMongoDB.AddAsync(document);

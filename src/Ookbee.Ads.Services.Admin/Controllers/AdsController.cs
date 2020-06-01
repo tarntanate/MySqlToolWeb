@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Commands.CreateAd;
-using Ookbee.Ads.Application.Business.Ad.Commands.CreateAdUploadUrl;
 using Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd;
 using Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd;
-using Ookbee.Ads.Application.Business.Ad.Commands.UpdateAdUploadUrl;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaignId;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
@@ -30,17 +28,9 @@ namespace Ookbee.Ads.Services.Admin.Controllers
         public async Task<HttpResult<string>> Create([FromBody] CreateAdCommand request)
             => await Mediator.Send(new CreateAdCommand(request));
 
-        [HttpPost("{id}/signed-url")]
-        public async Task<HttpResult<AdUploadUrlDto>> SignedUrl([FromRoute] string id, [FromBody] CreateAdUploadUrlCommand request)
-            => await Mediator.Send(new CreateAdUploadUrlCommand(id, request));
-
         [HttpPut("{id}")]
         public async Task<HttpResult<bool>> Update([FromRoute] string id, [FromBody] UpdateAdCommand request)
             => await Mediator.Send(new UpdateAdCommand(id, request));
-
-        [HttpPut("{id}/signed-url")]
-        public async Task<HttpResult<bool>> CommitUrl([FromRoute] string id, [FromBody] UpdateAdUploadUrlCommand request)
-            => await Mediator.Send(new UpdateAdUploadUrlCommand(id, request));
 
         [HttpDelete("{id}")]
         public async Task<HttpResult<bool>> Delete([FromRoute] string campaignId, [FromRoute] string id)

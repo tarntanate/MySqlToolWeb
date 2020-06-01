@@ -9,21 +9,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
 
         public string AdId { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public string MimeType { get; set; }
-
-        public string MediaUrl { get; set; }
-
         public string Position { get; set; }
-
-        public string AppLink { get; set; }
-
-        public string WebLink { get; set; }
-
-        public bool EnabledFlag => true;
 
         public UpdateMediaFileCommand()
         {
@@ -34,13 +20,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
         {
             Id = id;
             AdId = request.AdId;
-            Name = request.Name;
-            Description = request.Description;
-            MimeType = request.MimeType;
-            MediaUrl = request.MediaUrl;
             Position = request.Position;
-            AppLink = request.AppLink;
-            WebLink = request.WebLink;
         }
     }
 }

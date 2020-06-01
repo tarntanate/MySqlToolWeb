@@ -13,6 +13,10 @@ namespace Ookbee.Ads.Domain.Documents
 
         public string MapperType { get; set; }
 
+        public string MimeType { get; set; }
+
+        public string FileExtension { get; set; }
+
         public string AppId { get; set; }
 
         public string Region { get; set; }

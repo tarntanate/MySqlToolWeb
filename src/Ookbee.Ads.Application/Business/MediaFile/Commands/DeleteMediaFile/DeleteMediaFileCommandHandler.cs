@@ -1,8 +1,6 @@
-﻿using System.Runtime.Serialization;
-using System;
+﻿using System;
 using MediatR;
 using MongoDB.Driver;
-using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;

@@ -32,6 +32,15 @@ namespace Ookbee.Ads.Application.Business.Ad
 
         public List<string> Analytics { get; set; }
 
+        [JsonIgnore]
+        public DateTime CreatedDate { get; set; }
+
+        [JsonIgnore]
+        public DateTime UpdatedDate { get; set; }
+
+        [JsonIgnore]
+        public bool EnabledFlag { get; set; }
+
         public IEnumerable<MediaFileDto> MediaFiles { get; set; }
     }
 }

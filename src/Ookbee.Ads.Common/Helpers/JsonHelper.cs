@@ -21,7 +21,11 @@ namespace Ookbee.Ads.Common.Helpers
             {
                 return default;
             }
-            var serializerSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
             var result = JsonConvert.SerializeObject(obj, serializerSettings);
             return result;
         }

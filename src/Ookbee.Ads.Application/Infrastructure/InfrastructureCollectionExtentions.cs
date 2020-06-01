@@ -47,11 +47,10 @@ namespace Ookbee.Ads.Application.Infrastructure
             // Options
             services.AddAllowedHosts(configuration);
             services.AddHttpContextAccessor();
-            services.AddControllers((options) =>
-            {
-                options.Filters.Add(typeof(CustomExceptionFilterAttribute));
-                options.OutputFormatters.Insert(0, new ApiOutputFormatter());
-            })
+            services.AddControllers((options) => {
+                        options.Filters.Add(typeof(CustomExceptionFilterAttribute));
+                        options.OutputFormatters.Insert(0, new ApiOutputFormatter());
+                    })
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
                     .AddNewtonsoftJson((options) => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
