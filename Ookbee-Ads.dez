@@ -12,7 +12,7 @@
 <PROJECTDESCRIPTION></PROJECTDESCRIPTION>
 <AUTHOR></AUTHOR>
 <COPYRIGHT></COPYRIGHT>
-<LASTGENERATEDFILES>C:\Users\Nath\Desktop\create_postgresql.sql;C:\Users\Nath\Desktop\drop_postgresql.sql;C:\Users\Nath\Documents\CreateDBLog_2020060127.txt</LASTGENERATEDFILES>
+<LASTGENERATEDFILES>C:\Users\Nath\Desktop\create_postgresql.sql;C:\Users\Nath\Desktop\drop_postgresql.sql;C:\Users\Nath\Documents\CreateDBLog_2020060132.txt</LASTGENERATEDFILES>
 <PRINTORIENTATION>PORTRAIT</PRINTORIENTATION>
 <PRINTPAGETYPE>A4</PRINTPAGETYPE>
 <DEFTABLEOPTIONS></DEFTABLEOPTIONS>
@@ -25,7 +25,7 @@
 <BEGINDROPDATABASESCRIPT></BEGINDROPDATABASESCRIPT>
 <ENDDROPDATABASESCRIPT></ENDDROPDATABASESCRIPT>
 <PROJECTID>P0P0I0LI0ED885B84F6CE9DD34</PROJECTID>
-<DEFAULTSCHEMANAME></DEFAULTSCHEMANAME>
+<DEFAULTSCHEMANAME>%schema%</DEFAULTSCHEMANAME>
 </COMMONSETTINGS>
 <RULESFORHIDINGATTRIBUTES></RULESFORHIDINGATTRIBUTES>
 <NAMETEMPLATES>
@@ -202,7 +202,7 @@
 </PROJECTSETTINGS>
 <DATADICT>
 <DBID>postgresql9</DBID>
-<LASTID>100</LASTID>
+<LASTID>102</LASTID>
 <DOMAINS>
 </DOMAINS>
 <ENTITIES>
@@ -210,7 +210,7 @@
 <NAME>Campaign</NAME>
 <ID>2</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>23</ATTRLASTID>
@@ -784,10 +784,9 @@
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;Campaign&quot;
+ON &quot;public&quot;.&quot;Campaign&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -795,7 +794,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>Advertiser</NAME>
 <ID>6</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>15</ATTRLASTID>
@@ -1076,10 +1075,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;Advertiser&quot;
+ON &quot;public&quot;.&quot;Advertiser&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -1087,7 +1085,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>PricingModel</NAME>
 <ID>10</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>12</ATTRLASTID>
@@ -1323,10 +1321,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;PricingModel&quot;
+ON &quot;public&quot;.&quot;PricingModel&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -1334,7 +1331,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>CampaignSummary</NAME>
 <ID>12</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>20</ATTRLASTID>
@@ -1677,10 +1674,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;CampaignSummary&quot;
+ON &quot;summary&quot;.&quot;CampaignSummary&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -1688,7 +1684,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>AdRequestLog</NAME>
 <ID>16</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>35</ATTRLASTID>
@@ -2160,10 +2156,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;AdRequestLog&quot;
+ON &quot;summary&quot;.&quot;AdRequestLog&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -2171,7 +2166,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>AdSlot</NAME>
 <ID>20</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>18</ATTRLASTID>
@@ -2490,10 +2485,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;AdSlot&quot;
+ON &quot;public&quot;.&quot;AdSlot&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -2501,7 +2495,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>Ad</NAME>
 <ID>22</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>32</ATTRLASTID>
@@ -3046,9 +3040,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;Ad&quot;
+ON &quot;public&quot;.&quot;Ad&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -3056,7 +3050,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();</CODE>
 <NAME>AdAsset</NAME>
 <ID>27</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>28</ATTRLASTID>
@@ -3336,10 +3330,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();</CODE>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;AdAsset&quot;
+ON &quot;public&quot;.&quot;AdAsset&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -3347,7 +3340,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>AdSummary</NAME>
 <ID>29</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>20</ATTRLASTID>
@@ -3629,10 +3622,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;AdSummary&quot;
+ON &quot;summary&quot;.&quot;AdSummary&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -3640,7 +3632,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>AdPlatform</NAME>
 <ID>55</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>18</ATTRLASTID>
@@ -3886,10 +3878,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;AdPlatform&quot;
+ON &quot;public&quot;.&quot;AdPlatform&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -3897,7 +3888,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>Platform</NAME>
 <ID>62</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>17</ATTRLASTID>
@@ -4178,18 +4169,17 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;Platform&quot;
+ON &quot;public&quot;.&quot;Platform&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
 <ENT>
-<NAME>AdPlatformSummary</NAME>
+<NAME>AdSummaryByPlatform</NAME>
 <ID>67</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>22</ATTRLASTID>
@@ -4197,7 +4187,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <TRGLASTID>2</TRGLASTID>
 <CONLASTID>1</CONLASTID>
 <PKCON>
-<NAME>PK_AdPlatformSummary</NAME>
+<NAME>PK_AdSummaryByPlatform</NAME>
 <NAMETEMPLATE>PK_%table%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -4446,7 +4436,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 </ATTRIBUTES>
 <INDEXES>
 <INDEX>
-<NAME>IDX_AdPlatformSummary_1</NAME>
+<NAME>IDX_AdSummaryByPlatform_1</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>3</ID>
 <POSNR>0</POSNR>
@@ -4468,7 +4458,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_AdPlatformSummary_2</NAME>
+<NAME>IDX_AdSummaryByPlatform_2</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>4</ID>
 <POSNR>0</POSNR>
@@ -4490,7 +4480,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_AdPlatformSummary_3</NAME>
+<NAME>IDX_AdSummaryByPlatform_3</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>2</ID>
 <POSNR>0</POSNR>
@@ -4512,7 +4502,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_AdPlatformSummary_4</NAME>
+<NAME>IDX_AdSummaryByPlatform_4</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>5</ID>
 <POSNR>0</POSNR>
@@ -4562,10 +4552,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;AdPlatformSummary&quot;
+ON &quot;summary&quot;.&quot;AdPlatformSummary&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -4573,7 +4562,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>Publisher</NAME>
 <ID>69</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>17</ATTRLASTID>
@@ -4823,10 +4812,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;Publisher&quot;
+ON &quot;public&quot;.&quot;Publisher&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -4834,7 +4822,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>RequestSummary</NAME>
 <ID>73</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>23</ATTRLASTID>
@@ -5050,18 +5038,17 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;RequestSummary&quot;
+ON &quot;summary&quot;.&quot;RequestSummary&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
 <ENT>
-<NAME>CampaignPlatformSummary</NAME>
+<NAME>CampaignSummaryByPlatform</NAME>
 <ID>78</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>22</ATTRLASTID>
@@ -5069,7 +5056,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <TRGLASTID>2</TRGLASTID>
 <CONLASTID>1</CONLASTID>
 <PKCON>
-<NAME>PK_CampaignPlatformSummary</NAME>
+<NAME>PK_CampaignSummaryByPlatform</NAME>
 <NAMETEMPLATE>PK_%table%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -5332,7 +5319,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 </ATTRIBUTES>
 <INDEXES>
 <INDEX>
-<NAME>IDX_CampaignPlatformSummary_1</NAME>
+<NAME>IDX_CampaignSummaryByPlatform_1</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>2</ID>
 <POSNR>0</POSNR>
@@ -5354,7 +5341,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_CampaignPlatformSummary_2</NAME>
+<NAME>IDX_CampaignSummaryByPlatform_2</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>4</ID>
 <POSNR>0</POSNR>
@@ -5376,7 +5363,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_CampaignPlatformSummary_3</NAME>
+<NAME>IDX_CampaignSummaryByPlatform_3</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>5</ID>
 <POSNR>0</POSNR>
@@ -5398,7 +5385,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 </IDXCOLS>
 </INDEX>
 <INDEX>
-<NAME>IDX_CampaignPlatformSummary_4</NAME>
+<NAME>IDX_CampaignSummaryByPlatform_4</NAME>
 <NAMETEMPLATE>IDX_%table%_%counter%</NAMETEMPLATE>
 <ID>6</ID>
 <POSNR>0</POSNR>
@@ -5457,10 +5444,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;CampaignPlatformSummary&quot;
+ON &quot;summary&quot;.&quot;CampaignPlatformSummary&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -5468,7 +5454,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>ActivityLog</NAME>
 <ID>83</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <ATTRLASTID>24</ATTRLASTID>
@@ -5722,10 +5708,9 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
 BEFORE DELETE
-ON &quot;ActivityLog&quot;
+ON &quot;public&quot;.&quot;ActivityLog&quot;
 FOR EACH ROW
-EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
-</CODE>
+EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </TRIGGER>
 </TRIGGERS>
 </ENT>
@@ -5743,7 +5728,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>SEQ_Advertiser</NAME>
 <ID>43</ID>
 <POSNR>1</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5759,8 +5744,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_Campaign</NAME>
 <ID>44</ID>
-<POSNR>9</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>8</POSNR>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5777,7 +5762,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>SEQ_Ad</NAME>
 <ID>45</ID>
 <POSNR>2</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5793,8 +5778,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_AdAsset</NAME>
 <ID>46</ID>
-<POSNR>4</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>3</POSNR>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5810,8 +5795,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_CampaignPlatformSummary</NAME>
 <ID>48</ID>
-<POSNR>11</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>10</POSNR>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5827,8 +5812,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_AdSummary</NAME>
 <ID>50</ID>
-<POSNR>6</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>5</POSNR>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5844,8 +5829,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_CampaignSummary</NAME>
 <ID>51</ID>
-<POSNR>10</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>9</POSNR>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5861,25 +5846,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_PricingModel</NAME>
 <ID>53</ID>
-<POSNR>13</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<INCREMENT>1</INCREMENT>
-<SEED>0</SEED>
-<MAX></MAX>
-<MIN></MIN>
-<CACHE></CACHE>
-<CACHECODE></CACHECODE>
-<CYCLE></CYCLE>
-<ORDER></ORDER>
-<INTEGERTYPE></INTEGERTYPE>
-</SEQUENCE>
-<SEQUENCE>
-<NAME>SEQ_AdAnalytics</NAME>
-<ID>90</ID>
-<POSNR>3</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>12</POSNR>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5895,8 +5863,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_AdPlatform</NAME>
 <ID>91</ID>
-<POSNR>5</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>4</POSNR>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5912,8 +5880,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_Platform</NAME>
 <ID>92</ID>
-<POSNR>12</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>11</POSNR>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5929,8 +5897,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_AdPlatformSummary</NAME>
 <ID>93</ID>
-<POSNR>7</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>6</POSNR>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5946,8 +5914,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_Publisher</NAME>
 <ID>94</ID>
-<POSNR>14</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>13</POSNR>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5963,8 +5931,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_AdSlot</NAME>
 <ID>95</ID>
-<POSNR>8</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>7</POSNR>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5980,8 +5948,8 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <SEQUENCE>
 <NAME>SEQ_RequestSummary</NAME>
 <ID>96</ID>
-<POSNR>15</POSNR>
-<SCHEMA></SCHEMA>
+<POSNR>14</POSNR>
+<SCHEMA>summary</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -5998,7 +5966,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <NAME>SEQ_ActivityLog</NAME>
 <ID>100</ID>
 <POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
+<SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
 <INCREMENT>1</INCREMENT>
@@ -6092,8 +6060,8 @@ BEGIN
 <CARDINALITY>1</CARDINALITY>
 <RELTYPE>1</RELTYPE>
 <MANDATORYPARENT>1</MANDATORYPARENT>
-<UPDATERULE>0</UPDATERULE>
-<DELETERULE>0</DELETERULE>
+<UPDATERULE>2</UPDATERULE>
+<DELETERULE>2</DELETERULE>
 <CONSTRAINT>
 <NAME></NAME>
 <NAMETEMPLATE></NAMETEMPLATE>
@@ -6134,8 +6102,8 @@ BEGIN
 <CARDINALITY>1</CARDINALITY>
 <RELTYPE>1</RELTYPE>
 <MANDATORYPARENT>1</MANDATORYPARENT>
-<UPDATERULE>0</UPDATERULE>
-<DELETERULE>0</DELETERULE>
+<UPDATERULE>2</UPDATERULE>
+<DELETERULE>2</DELETERULE>
 <CONSTRAINT>
 <NAME></NAME>
 <NAMETEMPLATE></NAMETEMPLATE>
@@ -6218,8 +6186,8 @@ BEGIN
 <CARDINALITY>1</CARDINALITY>
 <RELTYPE>1</RELTYPE>
 <MANDATORYPARENT>1</MANDATORYPARENT>
-<UPDATERULE>0</UPDATERULE>
-<DELETERULE>0</DELETERULE>
+<UPDATERULE>2</UPDATERULE>
+<DELETERULE>2</DELETERULE>
 <CONSTRAINT>
 <NAME></NAME>
 <NAMETEMPLATE></NAMETEMPLATE>
@@ -6458,7 +6426,7 @@ BEGIN
 </PAIRS>
 </REL>
 <REL>
-<NAME>AdSummary_AdPlatformSummary</NAME>
+<NAME>AdSummary_AdSummaryByPlatform</NAME>
 <NAMETEMPLATE>%parent%_%child%</NAMETEMPLATE>
 <ID>76</ID>
 <POSNR>0</POSNR>
@@ -6473,7 +6441,7 @@ BEGIN
 <UPDATERULE>2</UPDATERULE>
 <DELETERULE>2</DELETERULE>
 <CONSTRAINT>
-<NAME>AdSummary_AdPlatformSummary</NAME>
+<NAME>AdSummary_AdSummaryByPlatform</NAME>
 <NAMETEMPLATE>%relname%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -6500,7 +6468,7 @@ BEGIN
 </PAIRS>
 </REL>
 <REL>
-<NAME>Platform_AdPlatformSummary</NAME>
+<NAME>Platform_AdSummaryByPlatform</NAME>
 <NAMETEMPLATE>%parent%_%child%</NAMETEMPLATE>
 <ID>77</ID>
 <POSNR>0</POSNR>
@@ -6515,7 +6483,7 @@ BEGIN
 <UPDATERULE>2</UPDATERULE>
 <DELETERULE>2</DELETERULE>
 <CONSTRAINT>
-<NAME>Platform_AdPlatformSummary</NAME>
+<NAME>Platform_AdSummaryByPlatform</NAME>
 <NAMETEMPLATE>%relname%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -6542,7 +6510,7 @@ BEGIN
 </PAIRS>
 </REL>
 <REL>
-<NAME>CampaignSummary_CampaignPlatformSummary</NAME>
+<NAME>CampaignSummary_CampaignSummaryByPlatform</NAME>
 <NAMETEMPLATE>%parent%_%child%</NAMETEMPLATE>
 <ID>80</ID>
 <POSNR>0</POSNR>
@@ -6557,7 +6525,7 @@ BEGIN
 <UPDATERULE>2</UPDATERULE>
 <DELETERULE>2</DELETERULE>
 <CONSTRAINT>
-<NAME>CampaignSummary_CampaignPlatformSummary</NAME>
+<NAME>CampaignSummary_CampaignSummaryByPlatform</NAME>
 <NAMETEMPLATE>%relname%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -6584,7 +6552,7 @@ BEGIN
 </PAIRS>
 </REL>
 <REL>
-<NAME>Platform_CampaignPlatformSummary</NAME>
+<NAME>Platform_CampaignSummaryByPlatform</NAME>
 <NAMETEMPLATE>%parent%_%child%</NAMETEMPLATE>
 <ID>82</ID>
 <POSNR>0</POSNR>
@@ -6599,7 +6567,7 @@ BEGIN
 <UPDATERULE>2</UPDATERULE>
 <DELETERULE>2</DELETERULE>
 <CONSTRAINT>
-<NAME>Platform_CampaignPlatformSummary</NAME>
+<NAME>Platform_CampaignSummaryByPlatform</NAME>
 <NAMETEMPLATE>%relname%</NAMETEMPLATE>
 <ID>1</ID>
 <POSNR>0</POSNR>
@@ -6758,7 +6726,7 @@ BEGIN
 </RULES>
 </DATADICT>
 <DIAGRAMS>
-<LASTID>97</LASTID>
+<LASTID>103</LASTID>
 <DisplayPreferences>
 <USEINDICATORLINE>0</USEINDICATORLINE>
 <INDICATORBITMAPS>0</INDICATORBITMAPS>
@@ -6894,7 +6862,7 @@ BEGIN
 <ID>20</ID>
 <DIAGRAMID>1</DIAGRAMID>
 <W>187</W>
-<H>196</H>
+<H>165</H>
 <L>992</L>
 <T>15</T>
 <BRUSH>0,15263999</BRUSH>
@@ -6924,9 +6892,9 @@ BEGIN
 <ID>27</ID>
 <DIAGRAMID>1</DIAGRAMID>
 <W>187</W>
-<H>176</H>
+<H>143</H>
 <L>747</L>
-<T>263</T>
+<T>294</T>
 <BRUSH>0,16119285</BRUSH>
 <PEN>0,1,4,12632256</PEN>
 <FONT>Fira Code,8,,0,clGray,0</FONT>
@@ -6956,7 +6924,7 @@ BEGIN
 <W>185</W>
 <H>121</H>
 <L>262</L>
-<T>431</T>
+<T>435</T>
 <BRUSH>0,16777215</BRUSH>
 <PEN>0,1,4,12632256</PEN>
 <FONT>Fira Code,8,,0,clGray,0</FONT>
@@ -7188,25 +7156,25 @@ BEGIN
 <PEN>1,1,4,12632256</PEN>
 <HIDDEN>0</HIDDEN>
 <FROMRELATIVEX>4973</FROMRELATIVEX>
-<FROMRELATIVEY>8929</FROMRELATIVEY>
+<FROMRELATIVEY>9636</FROMRELATIVEY>
 <TORELATIVEX>7594</TORELATIVEX>
-<TORELATIVEY>781</TORELATIVEY>
+<TORELATIVEY>186</TORELATIVEY>
 <POINTS>
 <POINT>
 <X>991</X>
-<Y>190</Y>
+<Y>174</Y>
 </POINT>
 <POINT>
 <X>845</X>
-<Y>190</Y>
+<Y>174</Y>
 </POINT>
 <POINT>
 <X>845</X>
-<Y>190</Y>
+<Y>174</Y>
 </POINT>
 <POINT>
 <X>692</X>
-<Y>190</Y>
+<Y>174</Y>
 </POINT>
 </POINTS>
 </RELC>
@@ -7217,25 +7185,25 @@ BEGIN
 <PEN>1,1,4,12632256</PEN>
 <HIDDEN>0</HIDDEN>
 <FROMRELATIVEX>8717</FROMRELATIVEX>
-<FROMRELATIVEY>6729</FROMRELATIVEY>
+<FROMRELATIVEY>7286</FROMRELATIVEY>
 <TORELATIVEX>4973</TORELATIVEX>
-<TORELATIVEY>4943</TORELATIVEY>
+<TORELATIVEY>4965</TORELATIVEY>
 <POINTS>
 <POINT>
 <X>692</X>
-<Y>350</Y>
+<Y>365</Y>
 </POINT>
 <POINT>
 <X>709</X>
-<Y>350</Y>
+<Y>365</Y>
 </POINT>
 <POINT>
 <X>709</X>
-<Y>350</Y>
+<Y>365</Y>
 </POINT>
 <POINT>
 <X>746</X>
-<Y>350</Y>
+<Y>365</Y>
 </POINT>
 </POINTS>
 </RELC>
@@ -7293,7 +7261,7 @@ BEGIN
 </POINT>
 <POINT>
 <X>354</X>
-<Y>552</Y>
+<Y>556</Y>
 </POINT>
 </POINTS>
 </RELC>
@@ -7306,7 +7274,7 @@ BEGIN
 <FROMRELATIVEX>5027</FROMRELATIVEX>
 <FROMRELATIVEY>4962</FROMRELATIVEY>
 <TORELATIVEX>4920</TORELATIVEX>
-<TORELATIVEY>3418</TORELATIVEY>
+<TORELATIVEY>4061</TORELATIVEY>
 <POINTS>
 <POINT>
 <X>933</X>
@@ -7333,25 +7301,25 @@ BEGIN
 <PEN>1,1,4,12632256</PEN>
 <HIDDEN>0</HIDDEN>
 <FROMRELATIVEX>2781</FROMRELATIVEX>
-<FROMRELATIVEY>9851</FROMRELATIVEY>
+<FROMRELATIVEY>9926</FROMRELATIVEY>
 <TORELATIVEX>5000</TORELATIVEX>
-<TORELATIVEY>248</TORELATIVEY>
+<TORELATIVEY>83</TORELATIVEY>
 <POINTS>
 <POINT>
 <X>504</X>
-<Y>434</Y>
+<Y>436</Y>
 </POINT>
 <POINT>
 <X>476</X>
-<Y>434</Y>
+<Y>436</Y>
 </POINT>
 <POINT>
 <X>476</X>
-<Y>434</Y>
+<Y>436</Y>
 </POINT>
 <POINT>
 <X>447</X>
-<Y>434</Y>
+<Y>436</Y>
 </POINT>
 </POINTS>
 </RELC>
@@ -7484,7 +7452,7 @@ BEGIN
 <POINTS>
 <POINT>
 <X>1085</X>
-<Y>211</Y>
+<Y>180</Y>
 </POINT>
 <POINT>
 <X>1085</X>
@@ -7508,7 +7476,7 @@ BEGIN
 <HIDDEN>0</HIDDEN>
 <FROMRELATIVEX>7540</FROMRELATIVEX>
 <FROMRELATIVEY>8605</FROMRELATIVEY>
-<TORELATIVEX>3476</TORELATIVEX>
+<TORELATIVEX>2674</TORELATIVEX>
 <TORELATIVEY>1872</TORELATIVEY>
 <POINTS>
 <POINT>
@@ -7520,11 +7488,11 @@ BEGIN
 <Y>466</Y>
 </POINT>
 <POINT>
-<X>1056</X>
+<X>1041</X>
 <Y>466</Y>
 </POINT>
 <POINT>
-<X>1056</X>
+<X>1041</X>
 <Y>538</Y>
 </POINT>
 </POINTS>
