@@ -12,7 +12,7 @@
 <PROJECTDESCRIPTION></PROJECTDESCRIPTION>
 <AUTHOR></AUTHOR>
 <COPYRIGHT></COPYRIGHT>
-<LASTGENERATEDFILES>C:\Users\Nath\Desktop\create_postgresql.sql;C:\Users\Nath\Desktop\drop_postgresql.sql;C:\Users\Nath\Documents\CreateDBLog_2020060126.txt</LASTGENERATEDFILES>
+<LASTGENERATEDFILES>C:\Users\Nath\Desktop\create_postgresql.sql;C:\Users\Nath\Desktop\drop_postgresql.sql;C:\Users\Nath\Documents\CreateDBLog_2020060127.txt</LASTGENERATEDFILES>
 <PRINTORIENTATION>PORTRAIT</PRINTORIENTATION>
 <PRINTPAGETYPE>A4</PRINTPAGETYPE>
 <DEFTABLEOPTIONS></DEFTABLEOPTIONS>
@@ -783,7 +783,7 @@
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;Campaign&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -1075,7 +1075,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;Advertiser&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -1322,7 +1322,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;PricingModel&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -1676,7 +1676,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;CampaignSummary&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -2159,7 +2159,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;AdRequestLog&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -2489,7 +2489,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;AdSlot&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -3045,7 +3045,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;Ad&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();</CODE>
@@ -3335,7 +3335,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();</CODE>
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;AdAsset&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -3628,7 +3628,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;AdSummary&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -3885,7 +3885,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;AdPlatform&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -4177,7 +4177,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;Platform&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -4561,7 +4561,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;AdPlatformSummary&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -4822,7 +4822,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;Publisher&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -5049,7 +5049,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;RequestSummary&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -5456,7 +5456,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;CampaignPlatformSummary&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
@@ -5721,7 +5721,7 @@ EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
 <DESC></DESC>
 <NOTE></NOTE>
 <CODE>CREATE TRIGGER %triggername%
-BEFORE UPDATE
+BEFORE DELETE
 ON &quot;ActivityLog&quot;
 FOR EACH ROW
 EXECUTE PROCEDURE public.&quot;SoftDelete&quot;();
