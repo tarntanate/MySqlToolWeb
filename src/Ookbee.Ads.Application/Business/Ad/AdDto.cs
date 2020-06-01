@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.Ad
 
         public PlatformModel Platform { get; set; }
 
-        [JsonIgnore]
+        // [JsonIgnore]
         public DateTime CreatedDate { get; set; }
 
         [JsonIgnore]
