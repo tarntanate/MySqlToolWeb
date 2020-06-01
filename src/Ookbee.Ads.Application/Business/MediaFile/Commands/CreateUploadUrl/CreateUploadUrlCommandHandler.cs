@@ -43,7 +43,11 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateUploadUrl
                 if (!uploadUrlResult.Ok)
                     return result.Fail(uploadUrlResult.StatusCode, uploadUrlResult.Message);
 
-                var data = Mapper.Map(uploadUrlResult.Data).ToANew<SignedUrlDto>();
+                var data = new SignedUrlDto()
+                {
+                    Id = uploadUrlResult.Data.Id,
+                    UploadUrl = uploadUrlResult.Data.SignedUrl,
+                };
                 return result.Success(data);
             }
             catch (Exception ex)
