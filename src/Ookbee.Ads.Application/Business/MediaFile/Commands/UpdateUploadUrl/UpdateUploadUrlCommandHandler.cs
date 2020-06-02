@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Application.Business.UploadUrl.Queries.GetUploadUrlById;
+using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
@@ -36,13 +37,26 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateUploadUrl
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsMediaFileByIdQuery(request.Id));
-                if (!isExistsResult.Ok)
-                    return isExistsResult;
+                var isExistsMediaFileById = await Mediator.Send(new IsExistsMediaFileByIdQuery(request.Id));
+                if (!isExistsMediaFileById.Ok)
+                    return isExistsMediaFileById;
 
                 var uploadUrlResult = await Mediator.Send(new GetUploadUrlByIdQuery(request.UploadUrlId));
                 if (!uploadUrlResult.Ok)
                     return result.Fail(uploadUrlResult.StatusCode, uploadUrlResult.Message);
+
+                var copyObjectCommand = new CopyObjectCommand()
+                {
+                    SourceAppid = uploadUrlResult.Data.AppId,
+                    SourceRegion = uploadUrlResult.Data.Region,
+                    SourceBucket = uploadUrlResult.Data.SourceBucket,
+                    SourceKey = uploadUrlResult.Data.SourceKey,
+                    DestinationBucket = uploadUrlResult.Data.DestinationBucket,
+                    DestinationKey = uploadUrlResult.Data.DestinationKey,
+                };
+                var copyObjectResult = await Mediator.Send(copyObjectCommand);
+                if (!copyObjectResult.Ok)
+                    return result.Fail(copyObjectResult.StatusCode, copyObjectResult.Message);
 
                 var now = MechineDateTime.Now;
                 await MediaFileMongoDB.UpdateManyPartialAsync(
