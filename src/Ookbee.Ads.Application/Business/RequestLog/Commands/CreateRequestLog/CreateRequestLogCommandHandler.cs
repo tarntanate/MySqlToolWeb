@@ -34,10 +34,7 @@ namespace Ookbee.RequestLogs.Application.Business.RequestLog.Commands.CreateRequ
             var result = new HttpResult<string>();
             try
             {
-                var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<RequestLogDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await RequestLogMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

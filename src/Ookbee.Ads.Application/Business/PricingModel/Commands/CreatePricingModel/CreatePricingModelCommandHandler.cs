@@ -39,10 +39,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingMod
                 if (isExistsByNameResult.Data)
                     return result.Fail(409, $"PricingModel '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<PricingModelDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await PricingModelMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

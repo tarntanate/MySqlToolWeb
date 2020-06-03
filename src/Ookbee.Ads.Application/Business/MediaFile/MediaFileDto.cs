@@ -1,7 +1,7 @@
-using System;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
+using System;
 
 namespace Ookbee.Ads.Application.Business.MediaFile
 {
@@ -34,12 +34,12 @@ namespace Ookbee.Ads.Application.Business.MediaFile
         public string Position { get; set; }
 
         [JsonIgnore]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [JsonIgnore]
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
-        public bool EnabledFlag { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

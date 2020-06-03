@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdList
             var result = new HttpResult<IEnumerable<AdDto>>();
 
             var predicate = PredicateBuilder.True<AdDocument>();
-            predicate = predicate.And(f => f.EnabledFlag == true);
+            predicate = predicate.And(f => f.DeletedAt == null);
 
             if (request.AdSlotId.HasValue())
                 predicate = predicate.And(f => f.AdSlotId == request.AdSlotId);

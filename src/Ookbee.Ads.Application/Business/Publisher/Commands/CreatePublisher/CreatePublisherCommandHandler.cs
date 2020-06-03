@@ -41,8 +41,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
 
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<PublisherDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await PublisherMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

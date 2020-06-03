@@ -1,14 +1,13 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 {
@@ -36,19 +35,18 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByIdResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(request.Id));
-                if (!isExistsByIdResult.Ok)
-                    return isExistsByIdResult;
+                var advertiserResult = await Mediator.Send(new GetAdvertiserByIdQuery(request.Id));
+                if (!advertiserResult.Ok)
+                    return result.Fail(advertiserResult.StatusCode, advertiserResult.Message);
 
-                var advertiserResult = await Mediator.Send(new GetAdvertiserByNameQuery(request.Name));
-                if (advertiserResult.Ok &&
-                    advertiserResult.Data.Id != request.Id &&
-                    advertiserResult.Data.Name == request.Name)
+                var advertiserByNameResult = await Mediator.Send(new GetAdvertiserByNameQuery(request.Name));
+                if (advertiserByNameResult.Ok &&
+                    advertiserByNameResult.Data.Id != request.Id &&
+                    advertiserByNameResult.Data.Name == request.Name)
                     return result.Fail(409, $"Advertiser '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<AdvertiserDocument>();
-                document.UpdatedDate = now.DateTime;
+                var template = Mapper.Map(request).Over(advertiserResult.Data);
+                var document = Mapper.Map(template).ToANew<AdvertiserDocument>();
                 await AdvertiserMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);
             }

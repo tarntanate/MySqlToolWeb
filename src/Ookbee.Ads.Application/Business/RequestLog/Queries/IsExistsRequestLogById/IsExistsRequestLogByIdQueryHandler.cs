@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.RequestLog.Queries.IsExistsRequestLogB
             var result = new HttpResult<bool>();
             var isExists = await AdMongoDB.AnyAsync(
                 filter: f => f.Id == request.Id &&
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (isExists)
                 return result.Success(true);

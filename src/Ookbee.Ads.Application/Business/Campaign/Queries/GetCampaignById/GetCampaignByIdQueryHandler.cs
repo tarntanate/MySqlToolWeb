@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById
             var result = new HttpResult<CampaignDto>();
             var item = await CampaignMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Id == request.Id && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"Campaign '{request.Id}' doesn't exist.");

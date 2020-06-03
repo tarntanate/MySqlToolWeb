@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotById;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -38,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.DeleteAdSlot
 
             await AdSlotMongoDB.UpdateManyPartialAsync(
                 filter: f => f.Id == id, 
-                update: Builders<AdSlotDocument>.Update.Set(f => f.EnabledFlag, false)
+                update: Builders<AdSlotDocument>.Update.Set(f => f.DeletedAt, MechineDateTime.Now.DateTime)
             );
             return result.Success(true);
         }

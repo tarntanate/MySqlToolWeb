@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using FluentValidation;
 using Ookbee.Ads.Common.Extensions;
 

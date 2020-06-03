@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using MongoDB.Bson;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.RequestLogs.Application.Business.RequestLog.Commands.CreateRequestLog
@@ -24,7 +26,7 @@ namespace Ookbee.RequestLogs.Application.Business.RequestLog.Commands.CreateRequ
 
         public string UserAgents { get; set; }
 
-        public bool EnabledFlag => true;
+        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
 
         public CreateRequestLogCommand()
         {

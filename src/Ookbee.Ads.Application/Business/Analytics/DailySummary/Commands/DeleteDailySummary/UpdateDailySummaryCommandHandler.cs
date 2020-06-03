@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MongoDB.Driver;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -37,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.DailySummary
 
             await DailySummaryMongoDB.UpdateManyPartialAsync(
                 filter: f => f.Id == request.Id,
-                update: Builders<DailySummaryDocument>.Update.Set(f => f.EnabledFlag, false)
+                update: Builders<DailySummaryDocument>.Update.Set(f => f.DeletedAt, MechineDateTime.Now.DateTime)
             );
             return result.Success(true);
         }

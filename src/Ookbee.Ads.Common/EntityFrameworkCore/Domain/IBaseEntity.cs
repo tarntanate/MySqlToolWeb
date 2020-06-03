@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Domain
     public interface IBaseEntity
     {
         long Id { get; set; }
-        DateTimeOffset CreatedDate { get; set; }
-        DateTimeOffset UpdatedDate { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
+        DateTimeOffset UpdatedAt { get; set; }
     }
 }

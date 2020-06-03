@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileById
             var result = new HttpResult<MediaFileDto>();
             var item = await MediaFileMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Id == request.Id &&
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"MediaFile '{request.Id}' doesn't exist.");

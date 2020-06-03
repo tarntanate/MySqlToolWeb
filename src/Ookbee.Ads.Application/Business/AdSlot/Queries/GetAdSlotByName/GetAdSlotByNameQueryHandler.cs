@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotByName
             var item = await AdSlotMongoDB.FirstOrDefaultAsync(
                 filter: f => f.PublisherId == request.PublisherId &&
                              f.Name == request.Name &&
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"AdSlot '{request.Name}' doesn't exist.");

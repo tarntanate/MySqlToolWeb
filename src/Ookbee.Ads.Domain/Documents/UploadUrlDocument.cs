@@ -30,11 +30,5 @@ namespace Ookbee.Ads.Domain.Documents
         public string DestinationKey { get; set; }
 
         public string SignedUrl { get; set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime CreatedDate { get; set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime UpdatedDate { get; set; }
     }
 }

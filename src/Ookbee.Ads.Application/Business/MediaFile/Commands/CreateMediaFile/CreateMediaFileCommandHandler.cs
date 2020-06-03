@@ -46,12 +46,9 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.CreateMediaFile
                     mediaFileResult.Data.Position == request.Position)
                     return result.Fail(409, $"MediaFile '{request.Position}' already exists.");
 
-                var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<MediaFileDocument>();
                 document.MediaUrl = null;
                 document.MimeType = null;
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await MediaFileMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

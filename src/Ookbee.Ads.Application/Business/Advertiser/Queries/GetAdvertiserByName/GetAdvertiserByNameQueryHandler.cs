@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName
             var result = new HttpResult<AdvertiserDto>();
             var item = await AdvertiserMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Name == request.Name && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"Advertiser '{request.Name}' doesn't exist.");

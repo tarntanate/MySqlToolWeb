@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.AdSlot.Commands.UpdateAdSlot
@@ -15,7 +17,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.UpdateAdSlot
 
         public string Description { get; set; }
 
-        public bool EnabledFlag => true;
+        public DateTime UpdatedAt => MechineDateTime.Now.DateTime;
 
         public UpdateAdSlotCommand()
         {

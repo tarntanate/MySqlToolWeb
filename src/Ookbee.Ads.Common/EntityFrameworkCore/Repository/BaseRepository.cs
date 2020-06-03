@@ -185,7 +185,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 if (!propertie.Metadata.IsKey())
                 {
                     var propertyName = propertie.Metadata.PropertyInfo.Name;
-                    if (!propertyName.Equals("CreatedDate") && !propertyName.Equals("UpdatedDate"))
+                    if (!propertyName.Equals("CreatedAt") && !propertyName.Equals("UpdatedAt"))
                     {
                         var updateValue = entity.GetType().GetProperties().Single(f => f.Name == propertie.Metadata.PropertyInfo.Name).GetValue(entity);
                         var currentValue = propertie.CurrentValue;
@@ -210,7 +210,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 throw new Exception($"There was a problem updating {typeof(TEntity).Name}({id}), Data not found.");
 
             var entityUpdate = DbSet.Attach(entityExists);
-            var fieldExcludes = new List<string>() { "CreatedDate", "UpdatedDate" };
+            var fieldExcludes = new List<string>() { "CreatedAt", "UpdatedAt" };
             var fieldIncludes = new List<string>();
             foreach (var property in properties)
             {
@@ -264,9 +264,9 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
-                    ((IBaseEntity)entity.Entity).CreatedDate = MechineDateTime.UtcNow;
+                    ((IBaseEntity)entity.Entity).CreatedAt = MechineDateTime.UtcNow;
 
-                ((IBaseEntity)entity.Entity).UpdatedDate = MechineDateTime.UtcNow;
+                ((IBaseEntity)entity.Entity).UpdatedAt = MechineDateTime.UtcNow;
             }
 
             return DbContext.SaveChanges();
@@ -467,7 +467,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 if (!propertie.Metadata.IsKey())
                 {
                     var propertyName = propertie.Metadata.PropertyInfo.Name;
-                    if (!propertyName.Equals("CreatedDate") && !propertyName.Equals("UpdatedDate"))
+                    if (!propertyName.Equals("CreatedAt") && !propertyName.Equals("UpdatedAt"))
                     {
                         var updateValue = entity.GetType().GetProperties().Single(f => f.Name == propertie.Metadata.PropertyInfo.Name).GetValue(entity);
                         var currentValue = propertie.CurrentValue;
@@ -492,7 +492,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 throw new Exception($"There was a problem updating {typeof(TEntity).Name}({id}), Data not found.");
 
             var entityUpdate = DbSet.Attach(entityExists);
-            var fieldExcludes = new List<string>() { "CreatedDate", "UpdatedDate" };
+            var fieldExcludes = new List<string>() { "CreatedAt", "UpdatedAt" };
             var fieldIncludes = new List<string>();
             foreach (var property in properties)
             {
@@ -546,9 +546,9 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
-                    ((IBaseEntity)entity.Entity).CreatedDate = MechineDateTime.UtcNow;
+                    ((IBaseEntity)entity.Entity).CreatedAt = MechineDateTime.UtcNow;
 
-                ((IBaseEntity)entity.Entity).UpdatedDate = MechineDateTime.UtcNow;
+                ((IBaseEntity)entity.Entity).UpdatedAt = MechineDateTime.UtcNow;
             }
 
             return await DbContext.SaveChangesAsync();

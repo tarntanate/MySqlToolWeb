@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById
             var result = new HttpResult<bool>();
             var isExists = await SlotTypeMongoDB.AnyAsync(
                 filter: f => f.Id == request.Id && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (isExists)
                 return result.Success(true);

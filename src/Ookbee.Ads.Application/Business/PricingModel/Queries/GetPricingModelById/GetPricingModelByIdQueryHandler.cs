@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelBy
             var result = new HttpResult<PricingModelDto>();
             var item = await PricingModelMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Id == request.Id && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"PricingModel '{request.Id}' doesn't exist.");

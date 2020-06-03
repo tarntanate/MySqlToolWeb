@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingModel
@@ -10,8 +12,8 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        public bool EnabledFlag => true;
+        
+        public DateTime? UpdatedAt => MechineDateTime.Now.DateTime;
 
         public UpdatePricingModelCommand()
         {

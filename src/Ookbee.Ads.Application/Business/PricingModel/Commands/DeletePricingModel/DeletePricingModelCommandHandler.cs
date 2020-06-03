@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -38,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.DeletePricingMod
 
             await PricingModelMongoDB.UpdateManyPartialAsync(
                 filter: f => f.Id == request.Id, 
-                update: Builders<PricingModelDocument>.Update.Set(f => f.EnabledFlag, false)
+                update: Builders<PricingModelDocument>.Update.Set(f => f.DeletedAt, MechineDateTime.Now.DateTime)
             );
             return result.Success(true);
         }

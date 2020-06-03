@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.PricingModel.Commands.CreatePricingModel
 {

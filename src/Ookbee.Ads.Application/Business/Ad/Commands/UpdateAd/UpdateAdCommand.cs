@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
@@ -33,7 +32,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
         public PlatformModel Platform { get; set; }
 
-        public bool EnabledFlag => true;
+        public DateTime? UpdatedAt => MechineDateTime.Now.DateTime;
 
         public UpdateAdCommand()
         {

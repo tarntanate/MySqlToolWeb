@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotByName
             var result = new HttpResult<bool>();
             var isExists = await AdSlotMongoDB.AnyAsync(
                 filter: f => f.Name == request.Name && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
                 );
             if (isExists)
                 return result.Success(true);

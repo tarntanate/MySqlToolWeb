@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelLi
         {
             var result = new HttpResult<IEnumerable<PricingModelDto>>();
             var items = await PricingModelMongoDB.FindAsync(
-                filter: f => f.EnabledFlag == true,
+                filter: f => f.DeletedAt == null,
                 sort: Builders<PricingModelDocument>.Sort.Ascending(nameof(PricingModelDocument.Name)),
                 start: request.Start,
                 length: request.Length

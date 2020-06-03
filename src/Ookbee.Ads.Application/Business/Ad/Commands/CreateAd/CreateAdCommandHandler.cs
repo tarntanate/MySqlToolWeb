@@ -1,10 +1,8 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName;
-using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName;
 using Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -52,10 +50,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
                     adResult.Data.Name == request.Name)
                     return result.Fail(409, $"Ad '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<AdDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await AdMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

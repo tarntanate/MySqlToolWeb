@@ -1,8 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelById;
 using Ookbee.Ads.Application.Business.PricingModel.Queries.GetPricingModelByName;
-using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -36,19 +35,18 @@ namespace Ookbee.Ads.Application.Business.PricingModel.Commands.UpdatePricingMod
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(request.Id));
-                if (!isExistsResult.Ok)
-                    return isExistsResult;
+                var pricingModelResult = await Mediator.Send(new GetPricingModelByIdQuery(request.Id));
+                if (!pricingModelResult.Ok)
+                    return result.Fail(pricingModelResult.StatusCode, pricingModelResult.Message);
 
-                var pricingModelResult = await Mediator.Send(new GetPricingModelByNameQuery(request.Name));
-                if (pricingModelResult.Ok &&
-                    pricingModelResult.Data.Id != request.Id &&
-                    pricingModelResult.Data.Name == request.Name)
+                var pricingModelByNameResult = await Mediator.Send(new GetPricingModelByNameQuery(request.Name));
+                if (pricingModelByNameResult.Ok &&
+                    pricingModelByNameResult.Data.Id != request.Id &&
+                    pricingModelByNameResult.Data.Name == request.Name)
                     return result.Fail(409, $"PricingModel '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<PricingModelDocument>();
-                document.UpdatedDate = now.DateTime;
+                var template = Mapper.Map(request).Over(pricingModelResult.Data);
+                var document = Mapper.Map(template).ToANew<PricingModelDocument>();
                 await PricingModelMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);
             }
