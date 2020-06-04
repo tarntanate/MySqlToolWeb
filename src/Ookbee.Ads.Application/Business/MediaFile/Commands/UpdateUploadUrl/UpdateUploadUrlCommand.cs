@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateUploadUrl

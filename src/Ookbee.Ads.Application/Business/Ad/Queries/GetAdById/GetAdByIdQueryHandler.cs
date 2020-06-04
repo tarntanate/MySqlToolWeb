@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdById
 
             var predicate = PredicateBuilder.True<AdDocument>();
             predicate = predicate.And(f => f.Id == request.Id);
-            predicate = predicate.And(f => f.EnabledFlag == true);
+            predicate = predicate.And(f => f.DeletedAt == null);
 
             if (request.CampaignId.HasValue())
                 predicate = predicate.And(f => f.CampaignId == request.CampaignId);

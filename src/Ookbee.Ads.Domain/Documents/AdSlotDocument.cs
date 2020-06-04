@@ -18,13 +18,5 @@ namespace Ookbee.Ads.Domain.Documents
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime CreatedDate { get; set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime UpdatedDate { get; set; }
-
-        public bool EnabledFlag { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using MongoDB.Bson;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.AdSlot.Commands.CreateAdSlot
@@ -16,7 +18,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.CreateAdSlot
 
         public string Description { get; set; }
 
-        public bool EnabledFlag => true;
+        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
 
         public CreateAdSlotCommand()
         {

@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeByName
             var result = new HttpResult<SlotTypeDto>();
             var item = await SlotTypeMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Name == request.Name && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"SlotType '{request.Name}' doesn't exist.");

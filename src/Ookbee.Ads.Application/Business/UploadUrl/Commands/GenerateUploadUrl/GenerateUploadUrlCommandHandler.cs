@@ -55,8 +55,8 @@ namespace Ookbee.Ads.Application.Business.UploadUrl.Commands.GenerateUploadUrl
                 DestinationBucket = request.Bucket,
                 DestinationKey = request.Key,
                 SignedUrl = generateSignUrlResult.Data,
-                CreatedDate = now.DateTime,
-                UpdatedDate = now.DateTime
+                CreatedAt = now.DateTime,
+                UpdatedAt = now.DateTime
             };
             await UploadUrlMongoDB.AddAsync(document);
             var data = Mapper.Map(document).ToANew<UploadUrlDto>();

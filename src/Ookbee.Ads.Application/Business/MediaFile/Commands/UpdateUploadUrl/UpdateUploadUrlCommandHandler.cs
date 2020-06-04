@@ -64,7 +64,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateUploadUrl
                     update: Builders<MediaFileDocument>.Update
                             .Set(f => f.MediaUrl, uploadUrlResult.Data.DestinationKey)
                             .Set(f => f.MimeType, uploadUrlResult.Data.MimeType)
-                            .Set(f => f.UpdatedDate, now.DateTime)
+                            .Set(f => f.UpdatedAt, now.DateTime)
                 );
                 return result.Success(true);
             }

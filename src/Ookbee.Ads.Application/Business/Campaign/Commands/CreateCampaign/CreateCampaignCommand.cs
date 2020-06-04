@@ -1,6 +1,7 @@
 ﻿using System;
 using MediatR;
 using MongoDB.Bson;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
@@ -37,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 
         public DateTime EndDate { get; set; }
 
-        public bool EnabledFlag => true;
+        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
 
         public CreateCampaignCommand()
         {

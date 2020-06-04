@@ -1,5 +1,5 @@
+using Newtonsoft.Json;
 using System;
-using System.Text.Json.Serialization;
 
 namespace Ookbee.Ads.Application.Business.PricingModel
 {
@@ -12,12 +12,12 @@ namespace Ookbee.Ads.Application.Business.PricingModel
         public string Description { get; set; }
 
         [JsonIgnore]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [JsonIgnore]
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
-        public bool EnabledFlag { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

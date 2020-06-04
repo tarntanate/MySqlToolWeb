@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
         {
             var result = new HttpResult<IEnumerable<CampaignDto>>();
             var items = await CampaignMongoDB.FindAsync(
-                filter: f => f.EnabledFlag == true,
+                filter: f => f.DeletedAt == null,
                 sort: Builders<CampaignDocument>.Sort.Ascending(nameof(CampaignDocument.Name)),
                 start: request.Start,
                 length: request.Length

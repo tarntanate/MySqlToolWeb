@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.DailySummary
 
         public DateTime CaculateDate => MechineDateTime.Now.DateTime;
 
-        public bool EnabledFlag => true;
+        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
 
         public CreateDailySummaryCommand(string campaignId)
         {

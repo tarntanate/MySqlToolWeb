@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName
             var result = new HttpResult<PublisherDto>();
             var item = await PublisherMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Name == request.Name && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"Publisher '{request.Name}' doesn't exist.");

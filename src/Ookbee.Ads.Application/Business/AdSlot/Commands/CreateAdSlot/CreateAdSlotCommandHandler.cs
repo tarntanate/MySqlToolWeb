@@ -49,10 +49,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.CreateAdSlot
                 if (isExistsAdSlotByNameResult.Data)
                     return result.Fail(409, $"AdSlot '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<AdSlotDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await AdSlotMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

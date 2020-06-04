@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileList
                 return result.Fail(isExistsAdResult.StatusCode, isExistsAdResult.Message);
 
             var predicate = PredicateBuilder.True<MediaFileDocument>();
-            predicate = predicate.And(f => f.EnabledFlag == true);
+            predicate = predicate.And(f => f.DeletedAt == null);
 
             if (request.AdId.HasValue())
                 predicate = predicate.And(f => f.AdId == request.AdId);

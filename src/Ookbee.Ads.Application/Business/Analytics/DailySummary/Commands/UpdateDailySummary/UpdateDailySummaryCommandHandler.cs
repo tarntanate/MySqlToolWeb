@@ -1,6 +1,5 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -34,13 +33,12 @@ namespace Ookbee.Ads.Application.Business.Analytics.DailySummary
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByIdResult = await Mediator.Send(new IsExistsDailySummaryByIdQuery(request.Id));
-                if (!isExistsByIdResult.Ok)
-                    return isExistsByIdResult;
+                var dailySummaryResult = await Mediator.Send(new GetDailySummaryByIdQuery(request.Id));
+                if (!dailySummaryResult.Ok)
+                    return result.Fail(dailySummaryResult.StatusCode, dailySummaryResult.Message);
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<DailySummaryDocument>();
-                document.UpdatedDate = now.DateTime;
+                var template = Mapper.Map(request).Over(dailySummaryResult.Data);
+                var document = Mapper.Map(template).ToANew<DailySummaryDocument>();
                 await DailySummaryMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);
             }

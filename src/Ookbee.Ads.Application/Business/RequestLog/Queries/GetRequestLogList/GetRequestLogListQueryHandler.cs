@@ -38,8 +38,8 @@ namespace Ookbee.RequestLogs.Application.Business.RequestLog.Queries.GetRequestL
                 return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
 
             var items = await RequestLogMongoDB.FindAsync(
-                filter: f => f.EnabledFlag == true,
-                sort: Builders<RequestLogDocument>.Sort.Descending(nameof(RequestLogDocument.UpdatedDate)),
+                filter: f => f.DeletedAt == null,
+                sort: Builders<RequestLogDocument>.Sort.Descending(nameof(RequestLogDocument.UpdatedAt)),
                 start: request.Start,
                 length: request.Length
             );

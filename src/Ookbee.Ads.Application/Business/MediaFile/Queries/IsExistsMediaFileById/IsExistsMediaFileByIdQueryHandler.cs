@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileByI
             var result = new HttpResult<bool>();
             var isExists = await MediaFileMongoDB.AnyAsync(
                 filter: f => f.Id == request.Id && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (isExists)
                 return result.Success(true);

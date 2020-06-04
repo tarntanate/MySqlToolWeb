@@ -1,8 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileById;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByPosition;
-using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -36,26 +35,23 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.UpdateMediaFile
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsMediaFileResult = await Mediator.Send(new IsExistsMediaFileByIdQuery(request.Id));
-                if (!isExistsMediaFileResult.Ok)
-                    return isExistsMediaFileResult;
+                var mediaFileResult = await Mediator.Send(new GetMediaFileByIdQuery(request.Id));
+                if (!mediaFileResult.Ok)
+                    return result.Fail(mediaFileResult.StatusCode, mediaFileResult.Message);
 
-                var mediaFileResult = await Mediator.Send(new GetMediaFileByPositionQuery(request.AdId, request.Position));
-                if (mediaFileResult.Ok &&
-                    mediaFileResult.Data.Id != request.Id &&
-                    mediaFileResult.Data.Position == request.Position)
+                var mediaFileByPositionResult = await Mediator.Send(new GetMediaFileByPositionQuery(request.AdId, request.Position));
+                if (mediaFileByPositionResult.Ok &&
+                    mediaFileByPositionResult.Data.Id != request.Id &&
+                    mediaFileByPositionResult.Data.Position == request.Position)
                     return result.Fail(409, $"MediaFile '{request.Position}' already exists.");
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(mediaFileResult.Data).ToANew<MediaFileDocument>();
-                document.Position = request.Position;
-                document.UpdatedDate = now.DateTime;
+                var template = Mapper.Map(request).Over(mediaFileResult.Data);
+                var document = Mapper.Map(template).ToANew<MediaFileDocument>();
                 await MediaFileMongoDB.UpdateAsync(request.Id, document);
                 return result.Success(true);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 return result.Fail(500, ex.Message);
             }
         }

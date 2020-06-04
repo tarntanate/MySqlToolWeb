@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using MongoDB.Bson;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
@@ -14,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
 
         public string ImageUrl { get; set; }
 
-        public bool EnabledFlag => true;
+        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
 
         public CreatePublisherCommand()
         {

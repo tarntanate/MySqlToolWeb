@@ -34,13 +34,5 @@ namespace Ookbee.Ads.Domain.Documents
         public string WebLink { get; set; }
 
         public PlatformModel Platform { get; set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime CreatedDate { get; set; }
-
-        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime UpdatedDate { get; set; }
-
-        public bool EnabledFlag { get; set; }
     }
 }

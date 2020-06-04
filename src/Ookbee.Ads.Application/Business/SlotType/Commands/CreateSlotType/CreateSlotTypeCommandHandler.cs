@@ -39,10 +39,7 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.CreateSlotType
                 if (isExistsByNameResult.Data)
                     return result.Fail(409, $"SlotType '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<SlotTypeDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await SlotTypeMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

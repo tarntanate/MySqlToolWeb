@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
@@ -19,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 
         public string PhoneNumber { get; set; }
 
-        public bool EnabledFlag => true;
+        public DateTime? UpdatedAt => MechineDateTime.Now.DateTime;
 
         public UpdateAdvertiserCommand()
         {

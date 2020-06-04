@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Ookbee.Ads.Common;
+using System;
+using System.Collections.Generic;
 
 namespace Ookbee.RequestLogs.Application.Business.RequestLog
 {
@@ -35,12 +35,12 @@ namespace Ookbee.RequestLogs.Application.Business.RequestLog
         public PlatformModel Platform { get; set; }
 
         [JsonIgnore]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [JsonIgnore]
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
-        public bool EnabledFlag { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

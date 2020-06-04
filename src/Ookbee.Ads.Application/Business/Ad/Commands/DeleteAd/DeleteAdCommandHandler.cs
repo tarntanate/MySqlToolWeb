@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
-using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
 
             await AdMongoDB.UpdateManyPartialAsync(
                 filter: f => f.Id == request.Id,
-                update: Builders<AdDocument>.Update.Set(f => f.EnabledFlag, false)
+                update: Builders<AdDocument>.Update.Set(f => f.DeletedAt, MechineDateTime.Now.DateTime)
             );
             return result.Success(true);
         }

@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByCampaignId
 
             var items = await AdMongoDB.FindAsync(
                 filter: f => f.CampaignId == request.CampaignId && 
-                             f.EnabledFlag == true,
+                             f.DeletedAt == null,
                 sort: Builders<AdDocument>.Sort.Ascending(nameof(AdDocument.Name)),
                 start: request.Start,
                 length: request.Length

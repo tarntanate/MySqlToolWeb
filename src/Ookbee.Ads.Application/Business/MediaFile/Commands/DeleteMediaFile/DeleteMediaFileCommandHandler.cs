@@ -1,5 +1,4 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.MediaFile.Queries.IsExistsMediaFileById;
 using Ookbee.Ads.Common.Result;
@@ -7,7 +6,7 @@ using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Bson;
+using Ookbee.Ads.Common;
 
 namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
 {
@@ -40,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Commands.DeleteMediaFile
 
             await MediaFileMongoDB.UpdateManyPartialAsync(
                 filter: f => f.Id == request.Id, 
-                update: Builders<MediaFileDocument>.Update.Set(f => f.EnabledFlag, false)
+                update: Builders<MediaFileDocument>.Update.Set(f => f.DeletedAt, MechineDateTime.Now.DateTime)
             );
             return result.Success(true);
         }

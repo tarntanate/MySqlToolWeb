@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByI
             var result = new HttpResult<bool>();
             var isExists = await PublisherMongoDB.AnyAsync(
                 filter: f => f.Id == request.Id && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (isExists)
                 return result.Success(true);

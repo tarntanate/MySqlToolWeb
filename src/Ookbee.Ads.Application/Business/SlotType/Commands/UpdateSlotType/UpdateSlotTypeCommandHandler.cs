@@ -1,8 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById;
 using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeByName;
-using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -36,19 +35,18 @@ namespace Ookbee.Ads.Application.Business.SlotType.Commands.UpdateSlotType
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByIdResult = await Mediator.Send(new IsExistsSlotTypeByIdQuery(request.Id));
-                if (!isExistsByIdResult.Ok)
-                    return isExistsByIdResult;
+                var slotTypeResult = await Mediator.Send(new GetSlotTypeByIdQuery(request.Id));
+                if (!slotTypeResult.Ok)
+                    return result.Fail(slotTypeResult.StatusCode, slotTypeResult.Message);
 
-                var slotTypeResult = await Mediator.Send(new GetSlotTypeByNameQuery(request.Name));
-                if (slotTypeResult.Ok &&
-                    slotTypeResult.Data.Id != request.Id &&
-                    slotTypeResult.Data.Name == request.Name)
+                var slotTypeByNameResult = await Mediator.Send(new GetSlotTypeByNameQuery(request.Name));
+                if (slotTypeByNameResult.Ok &&
+                    slotTypeByNameResult.Data.Id != request.Id &&
+                    slotTypeByNameResult.Data.Name == request.Name)
                     return result.Fail(409, $"SlotType '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<SlotTypeDocument>();
-                document.UpdatedDate = now.DateTime;
+                var template = Mapper.Map(request).Over(slotTypeResult.Data);
+                var document = Mapper.Map(template).ToANew<SlotTypeDocument>();
                 await SlotTypeMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);
             }

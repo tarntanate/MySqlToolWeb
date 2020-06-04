@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Business.MediaFile.Queries.GetMediaFileByPositi
             var predicate = PredicateBuilder.True<MediaFileDocument>();
             predicate = predicate.And(f => f.AdId == request.AdId);
             predicate = predicate.And(f => f.Position == request.Position);
-            predicate = predicate.And(f => f.EnabledFlag == true);
+            predicate = predicate.And(f => f.DeletedAt == null);
 
             var item = await MediaFileMongoDB.FirstOrDefaultAsync(filter: predicate);
             if (item == null)

@@ -36,8 +36,6 @@ namespace Ookbee.Ads.Application.Business.Analytics.DailySummary
             {
                 var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<DailySummaryDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await DailySummaryMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

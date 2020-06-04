@@ -1,10 +1,9 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotById;
+using Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById;
 using Ookbee.Ads.Application.Business.AdSlot.Queries.IsExistsAdSlotByName;
-using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById;
-using Ookbee.Ads.Application.Business.SlotType.Queries.GetSlotTypeById;
-using Ookbee.Ads.Common;
+using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
+using Ookbee.Ads.Application.Business.SlotType.Queries.IsExistsSlotTypeById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -38,26 +37,24 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Commands.UpdateAdSlot
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsAdSlotByIdResult = await Mediator.Send(new IsExistsAdSlotByIdQuery(request.Id));
-                if (!isExistsAdSlotByIdResult.Ok)
-                    return isExistsAdSlotByIdResult;
+                var adSlotResult = await Mediator.Send(new GetAdSlotByIdQuery(request.Id));
+                if (!adSlotResult.Ok)
+                    return result.Fail(adSlotResult.StatusCode, adSlotResult.Message);
 
-                var publisherResult = await Mediator.Send(new GetPublisherByIdQuery(request.PublisherId));
-                if (!publisherResult.Ok)
-                    return result.Fail(publisherResult.StatusCode, publisherResult.Message);
+                var isExistsPublisherResult = await Mediator.Send(new IsExistsPublisherByIdQuery(request.PublisherId));
+                if (!isExistsPublisherResult.Ok)
+                    return result.Fail(isExistsPublisherResult.StatusCode, isExistsPublisherResult.Message);
 
-                var slotTypeResult = await Mediator.Send(new GetSlotTypeByIdQuery(request.SlotTypeId));
-                if (!slotTypeResult.Ok)
-                    return result.Fail(slotTypeResult.StatusCode, slotTypeResult.Message);
+                var isExistsSlotTypeResult = await Mediator.Send(new IsExistsSlotTypeByIdQuery(request.SlotTypeId));
+                if (!isExistsSlotTypeResult.Ok)
+                    return result.Fail(isExistsSlotTypeResult.StatusCode, isExistsSlotTypeResult.Message);
 
                 var isExistsAdSlotByNameResult = await Mediator.Send(new IsExistsAdSlotByNameQuery(request.Name));
                 if (isExistsAdSlotByNameResult.Data)
                     return result.Fail(409, $"AdSlot '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<AdSlotDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
+                var template = Mapper.Map(request).Over(adSlotResult.Data);
+                var document = Mapper.Map(template).ToANew<AdSlotDocument>();
                 await AdSlotMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);
             }

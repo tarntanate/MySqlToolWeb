@@ -1,8 +1,7 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName;
-using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -36,19 +35,18 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
             var result = new HttpResult<bool>();
             try
             {
-                var isExistsByIdResult = await Mediator.Send(new IsExistsPublisherByIdQuery(request.Id));
-                if (!isExistsByIdResult.Ok)
-                    return isExistsByIdResult;
+                var publisherResult = await Mediator.Send(new GetPublisherByIdQuery(request.Id));
+                if (!publisherResult.Ok)
+                    return result.Fail(publisherResult.StatusCode, publisherResult.Message);
 
-                var publisherResult = await Mediator.Send(new GetPublisherByNameQuery(request.Name));
-                if (publisherResult.Ok &&
-                    publisherResult.Data.Id != request.Id &&
-                    publisherResult.Data.Name == request.Name)
+                var publisherByNameResult = await Mediator.Send(new GetPublisherByNameQuery(request.Name));
+                if (publisherByNameResult.Ok &&
+                    publisherByNameResult.Data.Id != request.Id &&
+                    publisherByNameResult.Data.Name == request.Name)
                     return result.Fail(409, $"Publisher '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<PublisherDocument>();
-                document.UpdatedDate = now.DateTime;
+                var template = Mapper.Map(request).Over(publisherResult.Data);
+                var document = Mapper.Map(template).ToANew<PublisherDocument>();
                 await PublisherMongoDB.UpdateAsync(document.Id, document);
                 return result.Success(true);
             }

@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.DailySummary
             var result = new HttpResult<DailySummaryDto>();
             var item = await DailySummaryMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Id == request.Id &&
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"DailySummary '{request.Id}' doesn't exist.");

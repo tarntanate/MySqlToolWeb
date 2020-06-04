@@ -1,7 +1,6 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserByName;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Documents;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
@@ -39,10 +38,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
                 if (isExistsByNameResult.Data)
                     return result.Fail(409, $"Advertiser '{request.Name}' already exists.");
 
-                var now = MechineDateTime.Now;
                 var document = Mapper.Map(request).ToANew<AdvertiserDocument>();
-                document.CreatedDate = now.DateTime;
-                document.UpdatedDate = now.DateTime;
                 await AdvertiserMongoDB.AddAsync(document);
                 return result.Success(document.Id);
             }

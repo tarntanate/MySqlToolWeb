@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName
             var item = await AdMongoDB.FirstOrDefaultAsync(
                 filter: f => f.Name == request.Name &&
                              f.CampaignId == request.CampaignId && 
-                             f.EnabledFlag == true
+                             f.DeletedAt == null
             );
             if (item == null)
                 return result.Fail(404, $"Ad '{request.Name}' doesn't exist.");

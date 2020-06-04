@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using MongoDB.Bson;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using System;
@@ -34,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
         public PlatformModel Platform { get; set; }
 
-        public bool EnabledFlag => true;
+        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
 
         public CreateAdCommand()
         {

@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById
 
             var predicate = PredicateBuilder.True<AdSlotDocument>();
             predicate = predicate.And(f => f.Id == request.Id);
-            predicate = predicate.And(f => f.EnabledFlag == true);
+            predicate = predicate.And(f => f.DeletedAt == null);
 
             var item = await AdSlotMongoDB.FirstOrDefaultAsync(predicate);
             if (item == null)

@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Ookbee.Ads.Application.Business.MediaFile;
+using System;
+using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Ad
 {
@@ -33,13 +33,13 @@ namespace Ookbee.Ads.Application.Business.Ad
         public List<string> Analytics { get; set; }
 
         [JsonIgnore]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         [JsonIgnore]
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [JsonIgnore]
-        public bool EnabledFlag { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public IEnumerable<MediaFileDto> MediaFiles { get; set; }
     }
