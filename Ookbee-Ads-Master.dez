@@ -531,21 +531,6 @@
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_Campaign_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;Campaign&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 <CONSTRAINTS>
 <CONSTRAINT>
 <NAME>TCC_Campaign_1</NAME>
@@ -571,7 +556,7 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 <SCHEMA>public</SCHEMA>
 <DESC></DESC>
 <NOTE></NOTE>
-<ATTRLASTID>15</ATTRLASTID>
+<ATTRLASTID>16</ATTRLASTID>
 <IDXLASTID>5</IDXLASTID>
 <TRGLASTID>2</TRGLASTID>
 <CONLASTID>1</CONLASTID>
@@ -666,7 +651,7 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </DT>
 </ATTR>
 <ATTR>
-<NAME>LogoPath</NAME>
+<NAME>ImagePath</NAME>
 <ID>5</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
@@ -706,6 +691,21 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 <DT>
 <DTLISTNAME>CHARACTER VARYING</DTLISTNAME>
 <LE>250</LE>
+<SD>1</SD>
+<INC>1</INC>
+</DT>
+</ATTR>
+<ATTR>
+<NAME>PhoneNumber</NAME>
+<ID>16</ID>
+<POSNR>0</POSNR>
+<SCHEMA></SCHEMA>
+<DESC></DESC>
+<NOTE></NOTE>
+<DOMAINID>-1</DOMAINID>
+<DT>
+<DTLISTNAME>CHARACTER VARYING</DTLISTNAME>
+<LE>10</LE>
 <SD>1</SD>
 <INC>1</INC>
 </DT>
@@ -839,21 +839,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_Advertiser_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;Advertiser&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>AdUnit</NAME>
@@ -1160,21 +1145,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_AdSlot_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;AdSlot&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>Ad</NAME>
@@ -1643,21 +1613,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_Ad_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;Ad&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>AdAsset</NAME>
@@ -1920,21 +1875,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_AdAsset_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;AdAsset&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 <CONSTRAINTS>
 <CONSTRAINT>
 <NAME>TCC_AdAsset_1</NAME>
@@ -1948,6 +1888,8 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 <CONLEVEL>2</CONLEVEL>
 <CONTYPE>1</CONTYPE>
 <ATTRIBUTEIDS>
+<ATTRIBUTEID>2</ATTRIBUTEID>
+<ATTRIBUTEID>27</ATTRIBUTEID>
 </ATTRIBUTEIDS>
 </CONSTRAINT>
 <CONSTRAINT>
@@ -1962,6 +1904,7 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 <CONLEVEL>2</CONLEVEL>
 <CONTYPE>1</CONTYPE>
 <ATTRIBUTEIDS>
+<ATTRIBUTEID>26</ATTRIBUTEID>
 </ATTRIBUTEIDS>
 </CONSTRAINT>
 </CONSTRAINTS>
@@ -2098,7 +2041,7 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </NNCON>
 </ATTR>
 <ATTR>
-<NAME>LogoPath</NAME>
+<NAME>ImagePath</NAME>
 <ID>15</ID>
 <POSNR>0</POSNR>
 <SCHEMA></SCHEMA>
@@ -2241,21 +2184,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_Publisher_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;Publisher&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>ActivityLog</NAME>
@@ -2505,21 +2433,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_ActivityLog_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;ActivityLog&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>CampaignImpression</NAME>
@@ -2649,21 +2562,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </DT>
 </ATTR>
 </ATTRIBUTES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_Campaign_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;Campaign&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>CampaignCost</NAME>
@@ -2831,21 +2729,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_Campaign_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;Campaign&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>AdUnitType</NAME>
@@ -3085,21 +2968,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_AdSlot_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;AdSlot&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>UserRole</NAME>
@@ -3339,21 +3207,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </IDXCOLS>
 </INDEX>
 </INDEXES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_AdSlot_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;AdSlot&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 <ENT>
 <NAME>User</NAME>
@@ -3513,21 +3366,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </DT>
 </ATTR>
 </ATTRIBUTES>
-<TRIGGERS>
-<TRIGGER>
-<NAME>TRG_AdSlot_1</NAME>
-<ID>2</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE TRIGGER %triggername%
-BEFORE DELETE
-ON &quot;public&quot;.&quot;AdSlot&quot;
-FOR EACH ROW
-EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
-</TRIGGER>
-</TRIGGERS>
 </ENT>
 </ENTITIES>
 <SUBCATEGORIES>
@@ -3728,26 +3566,6 @@ EXECUTE PROCEDURE &quot;public&quot;.&quot;SoftDelete&quot;();</CODE>
 </SEQUENCE>
 </SEQUENCES>
 <PROCEDURES>
-<PROCEDURE>
-<NAME>&quot;SoftDelete&quot;</NAME>
-<ID>99</ID>
-<POSNR>0</POSNR>
-<SCHEMA></SCHEMA>
-<DESC></DESC>
-<NOTE></NOTE>
-<CODE>CREATE OR REPLACE FUNCTION public.&quot;SoftDelete&quot;()
- RETURNS trigger
- LANGUAGE plpgsql
-AS $function$
-	DECLARE
-	command text := ' SET &quot;DeletedAt&quot; = current_timestamp WHERE &quot;Id&quot; = $1';
-BEGIN
-  	EXECUTE 'UPDATE ' || TG_TABLE_SCHEMA || '.&quot;' || TG_TABLE_NAME || '&quot;' || command USING OLD.&quot;Id&quot;;
-	RETURN NULL;
-    END;
-	$function$
-;</CODE>
-</PROCEDURE>
 </PROCEDURES>
 <VIEWS>
 </VIEWS>
@@ -4219,7 +4037,7 @@ BEGIN
 <ID>6</ID>
 <DIAGRAMID>1</DIAGRAMID>
 <W>187</W>
-<H>168</H>
+<H>183</H>
 <L>8</L>
 <T>6</T>
 <BRUSH>0,16119285</BRUSH>
@@ -4397,25 +4215,25 @@ BEGIN
 <PEN>1,1,4,12632256</PEN>
 <HIDDEN>0</HIDDEN>
 <FROMRELATIVEX>481</FROMRELATIVEX>
-<FROMRELATIVEY>5000</FROMRELATIVEY>
+<FROMRELATIVEY>4973</FROMRELATIVEY>
 <TORELATIVEX>9519</TORELATIVEX>
-<TORELATIVEY>4620</TORELATIVEY>
+<TORELATIVEY>5000</TORELATIVEY>
 <POINTS>
 <POINT>
 <X>195</X>
-<Y>90</Y>
+<Y>97</Y>
 </POINT>
 <POINT>
 <X>216</X>
-<Y>90</Y>
+<Y>97</Y>
 </POINT>
 <POINT>
 <X>216</X>
-<Y>90</Y>
+<Y>97</Y>
 </POINT>
 <POINT>
 <X>237</X>
-<Y>90</Y>
+<Y>97</Y>
 </POINT>
 </POINTS>
 </RELC>
