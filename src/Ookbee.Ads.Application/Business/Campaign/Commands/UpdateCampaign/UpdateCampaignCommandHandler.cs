@@ -7,6 +7,7 @@ using Ookbee.Ads.Domain.Entities;
 using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 {
@@ -47,6 +48,10 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
                 campaignByNameResult.Data.Name == request.Name &&
                 campaignByNameResult.Data.PricingModel == request.PricingModel.ToString())
                 return result.Fail(409, $"Campaign '{request.Name}' already exists.");
+
+            var isExistsAdvertiserResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(request.AdvertiserId));
+            if (!isExistsAdvertiserResult.Ok)
+                return result.Fail(isExistsAdvertiserResult.StatusCode, isExistsAdvertiserResult.Message);
 
             var entity = Mapper
             .Map(request)

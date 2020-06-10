@@ -1,16 +1,12 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
-using Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCost;
-using Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCampaignImpression;
-using Ookbee.Ads.Application.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
 using Ookbee.Ads.Persistence.EFCore;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 {
@@ -41,6 +37,10 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
         private async Task<HttpResult<long>> CreateOnDb(CreateCampaignCommand request)
         {
             var result = new HttpResult<long>();
+
+            var advertiserResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(request.AdvertiserId));
+            if (!advertiserResult.Ok)
+                return result.Fail(advertiserResult.StatusCode, advertiserResult.Message);
 
             var campaignByNameResult = await Mediator.Send(new GetCampaignByNameQuery(request.Name));
             if (campaignByNameResult.Ok &&
