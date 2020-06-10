@@ -7,9 +7,10 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
     {
         public UpdateAdvertiserCommandValidator()
         {
+            RuleFor(p => p.Id).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
             RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.ImageUrl).MaximumLength(250);
+            RuleFor(p => p.ImagePath).MaximumLength(250);
             RuleFor(p => p.Contact).MaximumLength(5000);
             RuleFor(p => p.Email).Must(BeAValidEmailAddress).WithMessage("Please specify a valid 'Email'.").MaximumLength(20);
             RuleFor(p => p.PhoneNumber).Must(BeAValidPhoneNumber).WithMessage("Please specify a valid 'PhoneNumber'.").MaximumLength(10);

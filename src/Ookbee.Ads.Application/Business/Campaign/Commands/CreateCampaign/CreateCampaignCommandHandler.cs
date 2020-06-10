@@ -1,68 +1,65 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
-using Ookbee.Ads.Application.Business.PricingModel.Queries.IsExistsPricingModelById;
-using Ookbee.Ads.Common;
+using Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCost;
+using Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCampaignImpression;
+using Ookbee.Ads.Application.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 {
-    public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, HttpResult<string>>
+    public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, HttpResult<long>>
     {
+        public CreateCampaignCommandHandler(IMediator mediator)
+        {
+            this.Mediator = mediator;
+
+        }
         private IMediator Mediator { get; }
-        private AdsMongoRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsEFCoreRepository<CampaignEntity> CampaignEFCoreRepo { get; }
 
         public CreateCampaignCommandHandler(
             IMediator mediator,
-            AdsMongoRepository<CampaignDocument> campaignMongoDB)
+            AdsEFCoreRepository<CampaignEntity> campaignEFCoreRepo)
         {
-            CampaignMongoDB = campaignMongoDB;
             Mediator = mediator;
+            CampaignEFCoreRepo = campaignEFCoreRepo;
         }
 
-        public async Task<HttpResult<string>> Handle(CreateCampaignCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<long>> Handle(CreateCampaignCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateMongoDB(request);
+            var result = await CreateOnDb(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(CreateCampaignCommand request)
+        private async Task<HttpResult<long>> CreateOnDb(CreateCampaignCommand request)
         {
-            var result = new HttpResult<string>();
-            try
-            {
-                var isExistsAdvertiserResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(request.AdvertiserId));
-                if (!isExistsAdvertiserResult.Ok)
-                    return result.Fail(isExistsAdvertiserResult.StatusCode, isExistsAdvertiserResult.Message);
+            var result = new HttpResult<long>();
 
-                var isExistsPricingModelResult = await Mediator.Send(new IsExistsPricingModelByIdQuery(request.PricingModelId));
-                if (!isExistsPricingModelResult.Ok)
-                    return result.Fail(isExistsPricingModelResult.StatusCode, isExistsPricingModelResult.Message);
+            var campaignByNameResult = await Mediator.Send(new GetCampaignByNameQuery(request.Name));
+            if (campaignByNameResult.Ok &&
+                campaignByNameResult.Data.Name == request.Name &&
+                campaignByNameResult.Data.PricingModel == request.PricingModel.ToString())
+                return result.Fail(409, $"Campaign '{request.Name}' already exists.");
 
-                var adSlotResult = await Mediator.Send(new GetCampaignByNameQuery(request.Name));
-                if (adSlotResult.Ok &&
-                    adSlotResult.Data.Id != request.Id &&
-                    adSlotResult.Data.AdvertiserId == request.AdvertiserId &&
-                    adSlotResult.Data.PricingModelId == request.PricingModelId &&
-                    adSlotResult.Data.Name == request.Name)
-                    return result.Fail(409, $"Campaign '{request.Name}' already exists.");
+            var entity = Mapper
+                .Map(request)
+                .ToANew<CampaignEntity>(cfg =>
+                    cfg.Ignore(
+                        m => m.Advertiser,
+                        m => m.CampaignCost,
+                        m => m.CampaignImpression));
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<CampaignDocument>();
-                await CampaignMongoDB.AddAsync(document);
+            await CampaignEFCoreRepo.InsertAsync(entity);
+            await CampaignEFCoreRepo.SaveChangesAsync();
 
-                return result.Success(document.Id);
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(500, ex.Message);
-            }
+            return result.Success(entity.Id);
         }
     }
 }

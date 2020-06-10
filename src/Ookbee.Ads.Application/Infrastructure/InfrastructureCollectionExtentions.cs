@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization.Conventions;
+using Newtonsoft.Json.Converters;
 using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
@@ -19,8 +20,8 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             // RDBMS
-            services.AddDbContext<OokbeeAdsEFCoreContext>();
-            services.AddScoped(typeof(OokbeeAdsEFCoreRepository<>));
+            services.AddDbContext<AdsEFCoreContext>();
+            services.AddScoped(typeof(AdsEFCoreRepository<>));
 
             // MongoDB
             services.AddSingleton<AdsMongoContext>();
@@ -47,12 +48,18 @@ namespace Ookbee.Ads.Application.Infrastructure
             // Options
             services.AddAllowedHosts(configuration);
             services.AddHttpContextAccessor();
-            services.AddControllers((options) => {
-                        options.Filters.Add(typeof(CustomExceptionFilterAttribute));
-                        options.OutputFormatters.Insert(0, new ApiOutputFormatter());
-                    })
+            services.AddControllers((options) =>
+            {
+                options.Filters.Add(typeof(CustomExceptionFilterAttribute));
+                options.OutputFormatters.Insert(0, new ApiOutputFormatter());
+            })
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
-                    .AddNewtonsoftJson((options) => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                    .AddNewtonsoftJson((options) =>
+                    {
+                        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    });
 
             // Configure
             services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);

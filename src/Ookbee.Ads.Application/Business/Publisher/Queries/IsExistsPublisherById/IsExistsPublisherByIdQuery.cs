@@ -5,9 +5,9 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByI
 {
     public class IsExistsPublisherByIdQuery : IRequest<HttpResult<bool>>
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
 
-        public IsExistsPublisherByIdQuery(string id)
+        public IsExistsPublisherByIdQuery(long id)
         {
             Id = id;
         }

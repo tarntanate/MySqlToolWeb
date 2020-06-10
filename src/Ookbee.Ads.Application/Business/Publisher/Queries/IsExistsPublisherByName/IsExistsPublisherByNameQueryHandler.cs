@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,28 +9,30 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByN
 {
     public class IsExistsPublisherByNameQueryHandler : IRequestHandler<IsExistsPublisherByNameQuery, HttpResult<bool>>
     {
-        private AdsMongoRepository<PublisherDocument> PublisherMongoDB { get; }
+        private AdsEFCoreRepository<PublisherEntity> PublisherEFCoreRepo { get; }
 
-        public IsExistsPublisherByNameQueryHandler(AdsMongoRepository<PublisherDocument> publisherMongoDB)
+        public IsExistsPublisherByNameQueryHandler(AdsEFCoreRepository<PublisherEntity> publisherEFCoreRepo)
         {
-            PublisherMongoDB = publisherMongoDB;
+            PublisherEFCoreRepo = publisherEFCoreRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsPublisherByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByNameOnMongo(request);
+            return await IsExistsOnDb(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByNameOnMongo(IsExistsPublisherByNameQuery request)
+        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsPublisherByNameQuery request)
         {
             var result = new HttpResult<bool>();
-            var isExists = await PublisherMongoDB.AnyAsync(
-                filter: f => f.Name == request.Name && 
-                             f.DeletedAt == null
+
+            var isExists = await PublisherEFCoreRepo.AnyAsync(f =>
+                f.Name == request.Name &&
+                f.DeletedAt == null
             );
-            if (isExists)
-                return result.Success(true);
-            return result.Fail(404, $"Publisher '{request.Name}' doesn't exist.");
+
+            if (!isExists)
+                return result.Fail(404, $"Publisher '{request.Name}' doesn't exist.");
+            return result.Success(true);
         }
     }
 }

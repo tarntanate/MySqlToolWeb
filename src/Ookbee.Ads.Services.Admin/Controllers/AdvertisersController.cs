@@ -22,19 +22,19 @@ namespace Ookbee.Ads.Services.Admin.Controllers
             => await Mediator.Send(new GetAdvertiserListQuery(start, length));
 
         [HttpGet("{id}")]
-        public async Task<HttpResult<AdvertiserDto>> GetById([FromRoute]string id)
+        public async Task<HttpResult<AdvertiserDto>> GetById([FromRoute]long id)
             => await Mediator.Send(new GetAdvertiserByIdQuery(id));
 
         [HttpPost]
-        public async Task<HttpResult<string>> Create([FromBody]CreateAdvertiserCommand request)
+        public async Task<HttpResult<long>> Create([FromBody]CreateAdvertiserCommand request)
             => await Mediator.Send(new CreateAdvertiserCommand(request));
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute]string id, [FromBody]UpdateAdvertiserCommand request)
+        public async Task<HttpResult<bool>> Update([FromRoute]long id, [FromBody]UpdateAdvertiserCommand request)
             => await Mediator.Send(new UpdateAdvertiserCommand(id, request));
 
         [HttpDelete("{id}")]
-        public async Task<HttpResult<bool>> Delete([FromRoute]string id)
+        public async Task<HttpResult<bool>> Delete([FromRoute]long id)
             => await Mediator.Send(new DeleteAdvertiserCommand(id));
     }
 }

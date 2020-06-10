@@ -1,44 +1,18 @@
 ﻿using System;
 using MediatR;
-using MongoDB.Bson;
-using Ookbee.Ads.Common;
+using Ookbee.Ads.Application.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 {
-    public class CreateCampaignCommand : IRequest<HttpResult<string>>
+    public class CreateCampaignCommand : IRequest<HttpResult<long>>
     {
-        public string Id => ObjectId.GenerateNewId().ToString();
-
-        public string AdvertiserId { get; set; }
-
-        public string PricingModelId { get; set; }
-
+        public long AdvertiserId { get; set; }
+        public PricingModel PricingModel { get; set; }
         public string Name { get; set; }
-
         public string Description { get; set; }
-
-        public string ImageUrl { get; set; }
-
-        public decimal Budget { get; set; }
-
-        public int LimitViewTotal { get; set; }
-
-        public int LimitViewPerPerson { get; set; }
-
-        public TimeSpan LimitViewResetAfter { get; set; }
-
-        public int PricingClick { get; set; }
-
-        public int PricingImpressions { get; set; }
-
-        public decimal PricingRate { get; set; }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
-        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
 
         public CreateCampaignCommand()
         {
@@ -48,17 +22,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
         public CreateCampaignCommand(CreateCampaignCommand request)
         {
             AdvertiserId = request.AdvertiserId;
-            PricingModelId = request.PricingModelId;
+            PricingModel = request.PricingModel;
             Name = request.Name;
             Description = request.Description;
-            ImageUrl = request.ImageUrl;
-            Budget = request.Budget;
-            LimitViewTotal = request.LimitViewTotal;
-            LimitViewPerPerson = request.LimitViewPerPerson;
-            LimitViewResetAfter = request.LimitViewResetAfter;
-            PricingClick = request.PricingClick;
-            PricingImpressions = request.PricingImpressions;
-            PricingRate = request.PricingRate;
             StartDate = request.StartDate;
             EndDate = request.EndDate;
         }

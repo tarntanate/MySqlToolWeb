@@ -5,9 +5,9 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById
 {
     public class GetPublisherByIdQuery : IRequest<HttpResult<PublisherDto>>
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
 
-        public GetPublisherByIdQuery(string id)
+        public GetPublisherByIdQuery(long id)
         {
             Id = id;
         }

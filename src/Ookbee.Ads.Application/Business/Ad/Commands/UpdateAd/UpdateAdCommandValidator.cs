@@ -1,7 +1,6 @@
-﻿using System;
-using FluentValidation;
-using MongoDB.Bson;
+﻿using FluentValidation;
 using Ookbee.Ads.Common.Extensions;
+using System.Linq;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 {
@@ -9,22 +8,19 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
     {
         public UpdateAdCommandValidator()
         {
-            RuleFor(p => p.CampaignId).Must(BeAValidObjectId).WithMessage(p => $"Campaign '{p.CampaignId}' is not a valid 24 digit hex string.");
-            RuleFor(p => p.AdSlotId).Must(BeAValidObjectId).WithMessage(p => $"AdSlot '{p.AdSlotId}' is not a valid 24 digit hex string.");
+            RuleFor(p => p.AdUnitId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.CampaignId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
             RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.Cooldown).GreaterThan(TimeSpan.FromSeconds(0)).LessThanOrEqualTo(TimeSpan.FromSeconds(30));
             RuleFor(p => p.BackgroundColor).Must(BeARGBHexColor).WithMessage("BackgroundColor only support rgb format.");
             RuleFor(p => p.ForegroundColor).Must(BeARGBHexColor).WithMessage("ForegroundColor only support rgb format.");
+            RuleFor(p => p.Platforms).Must(value => value != null || value.Count() < 4).WithMessage((rule, value) => $"The length of 'Analytics' must be 3 items or fewer. You entered '{value}' items.");
+            RuleFor(p => p.Analytics).Must(value => value != null || value.Count() < 4).WithMessage((rule, value) => $"The length of 'Platforms' must be 3 items or fewer. You entered '{value}' items.");
             RuleForEach(p => p.Analytics).Must(BeAValidUriSchemeHttp).WithMessage((rule, value) => $"Invalid Analytics URL '{value}'");
-            RuleFor(p => p.AppLink).NotEmpty().NotEmpty().MaximumLength(250).Must(BeAValidUri).WithMessage(p => $"Invalid AppLink URL '{p.AppLink}'");
-            RuleFor(p => p.WebLink).NotEmpty().NotEmpty().MaximumLength(250).Must(BeAValidUriSchemeHttp).WithMessage(p => $"Invalid WebLink URL '{p.WebLink}'");
-            RuleFor(p => p.Platform).NotNull();
-        }
-
-        private bool BeAValidObjectId(string value)
-        {
-            return ObjectId.TryParse(value, out ObjectId objectId);
+            RuleFor(p => p.Platforms).NotNull().Must(p => p.Count() > 0);
+            RuleForEach(p => p.Platforms).Must(BeAValidPlatform).WithMessage((rule, value) => $"Platforms only support 'Android', 'iOS' and 'Web'");
+            RuleFor(p => p.AppLink).MaximumLength(500);
+            RuleFor(p => p.WebLink).MaximumLength(500);
         }
 
         private bool BeARGBHexColor(string value)
@@ -42,6 +38,12 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
         private bool BeAValidUriSchemeHttp(string value)
         {
             return value.IsValidUriSchemeHttp();
+        }
+
+        private bool BeAValidPlatform(string value)
+        {
+            var platforms = new string[] { "Android", "iOS", "Web" };
+            return platforms.Contains(value);
         }
     }
 }

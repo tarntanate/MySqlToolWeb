@@ -1,39 +1,22 @@
-﻿using MediatR;
-using MongoDB.Bson;
-using Ookbee.Ads.Common;
+﻿using System.Collections.Generic;
+using MediatR;
 using Ookbee.Ads.Common.Result;
-using System;
-using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 {
-    public class CreateAdCommand : IRequest<HttpResult<string>>
+    public class CreateAdCommand : IRequest<HttpResult<long>>
     {
-        public string Id => ObjectId.GenerateNewId().ToString();
-
-        public string CampaignId { get; set; }
-
-        public string AdSlotId { get; set; }
-
+        public long AdUnitId { get; set; }
+        public long CampaignId { get; set; }
         public string Name { get; set; }
-
         public string Description { get; set; }
-
-        public TimeSpan? Cooldown { get; set; }
-
+        public int? CooldownSecond { get; set; }
         public string ForegroundColor { get; set; }
-
         public string BackgroundColor { get; set; }
-
-        public List<string> Analytics { get; set; }
-
+        public string[] Analytics { get; set; }
+        public string[] Platforms { get; set; }
         public string AppLink { get; set; }
-
         public string WebLink { get; set; }
-
-        public PlatformModel Platform { get; set; }
-
-        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
 
         public CreateAdCommand()
         {
@@ -42,17 +25,16 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
         public CreateAdCommand(CreateAdCommand request)
         {
+            AdUnitId = request.AdUnitId;
             CampaignId = request.CampaignId;
-            AdSlotId = request.AdSlotId;
             Name = request.Name;
             Description = request.Description;
-            Cooldown = request.Cooldown;
             ForegroundColor = request.ForegroundColor;
             BackgroundColor = request.BackgroundColor;
+            Analytics = request.Analytics;
+            Platforms = request.Platforms;
             AppLink = request.AppLink;
             WebLink = request.WebLink;
-            Analytics = request.Analytics;
-            Platform = request.Platform;
         }
     }
 }

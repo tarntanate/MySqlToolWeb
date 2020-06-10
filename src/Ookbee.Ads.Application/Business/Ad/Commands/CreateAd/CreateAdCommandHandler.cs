@@ -1,63 +1,60 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName;
-using Ookbee.Ads.Application.Business.AdSlot.Queries.GetAdSlotById;
-using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
+using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName;
+using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
-using System;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 {
-    public class CreateAdCommandHandler : IRequestHandler<CreateAdCommand, HttpResult<string>>
+    public class CreateAdCommandHandler : IRequestHandler<CreateAdCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoRepository<AdDocument> AdMongoDB { get; }
+        private AdsEFCoreRepository<AdEntity> AdEFCoreRepo { get; }
 
         public CreateAdCommandHandler(
             IMediator mediator,
-            AdsMongoRepository<AdDocument> adMongoDB)
+            AdsEFCoreRepository<AdEntity> adEFCoreRepo)
         {
             Mediator = mediator;
-            AdMongoDB = adMongoDB;
+            AdEFCoreRepo = adEFCoreRepo;
         }
 
-        public async Task<HttpResult<string>> Handle(CreateAdCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<long>> Handle(CreateAdCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateMongoDB(request);
+            var result = await CreateOnDb(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(CreateAdCommand request)
+        private async Task<HttpResult<long>> CreateOnDb(CreateAdCommand request)
         {
-            var result = new HttpResult<string>();
-            try
-            {
-                var campaignResult = await Mediator.Send(new GetCampaignByIdQuery(request.CampaignId));
-                if (!campaignResult.Ok)
-                    return result.Fail(campaignResult.StatusCode, campaignResult.Message);
+            var result = new HttpResult<long>();
+            
+            var isExistsAdByName = await Mediator.Send(new IsExistsAdByNameQuery(request.Name));
+            if (isExistsAdByName.Ok)
+                return result.Fail(409, $"Ad '{request.Name}' already exists.");
 
-                var adSlotTypeResult = await Mediator.Send(new GetAdSlotByIdQuery(request.AdSlotId));
-                if (!adSlotTypeResult.Ok)
-                    return result.Fail(adSlotTypeResult.StatusCode, adSlotTypeResult.Message);
+            var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(request.AdUnitId));
+            if (!isExistsAdUnitResult.Ok)
+                return result.Fail(isExistsAdUnitResult.StatusCode, isExistsAdUnitResult.Message);
 
-                var adResult = await Mediator.Send(new GetAdByNameQuery(request.CampaignId, request.Name));
-                if (adResult.Ok &&
-                    adResult.Data.Id != request.Id &&
-                    adResult.Data.Name == request.Name)
-                    return result.Fail(409, $"Ad '{request.Name}' already exists.");
+            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.CampaignId));
+            if (!isExistsCampaignResult.Ok)
+                return result.Fail(isExistsCampaignResult.StatusCode, isExistsCampaignResult.Message);
 
-                var document = Mapper.Map(request).ToANew<AdDocument>();
-                await AdMongoDB.AddAsync(document);
-                return result.Success(document.Id);
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(500, ex.Message);
-            }
+            var entity = Mapper
+                .Map(request)
+                .ToANew<AdEntity>(cfg => 
+                    cfg.Ignore(m => m.AdUnit, m => m.Campaign));
+
+            await AdEFCoreRepo.InsertAsync(entity);
+            await AdEFCoreRepo.SaveChangesAsync();
+
+            return result.Success(entity.Id);
         }
     }
 }

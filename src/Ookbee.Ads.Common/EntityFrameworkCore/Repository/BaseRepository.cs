@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
-using Ookbee.Ads.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -263,10 +262,29 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
 
             foreach (var entity in entities)
             {
-                if (entity.State == EntityState.Added)
-                    ((IBaseEntity)entity.Entity).CreatedAt = MechineDateTime.UtcNow;
+                switch (entity.State)
+                {
+                    case EntityState.Added:
+                        if (entity.Entity is ICreatedAt)
+                            ((ICreatedAt)entity.Entity).CreatedAt = MechineDateTime.Now;
+                        break;
 
-                ((IBaseEntity)entity.Entity).UpdatedAt = MechineDateTime.UtcNow;
+                    case EntityState.Modified:
+                        if (entity.Entity is IUpdatedAt)
+                            ((IUpdatedAt)entity.Entity).UpdatedAt = MechineDateTime.Now;
+                        break;
+
+                    case EntityState.Deleted:
+                        if (entity.Entity is IDeletedAt)
+                        {
+                            entity.State = EntityState.Unchanged;
+                            ((IDeletedAt)entity.Entity).DeletedAt = MechineDateTime.Now;
+                        }
+                        break;
+
+                    default:
+                        throw new NotImplementedException();
+                }
             }
 
             return DbContext.SaveChanges();
@@ -541,14 +559,33 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             var entities = DbContext
                 .ChangeTracker
                 .Entries()
-                .Where(x => x.Entity is IBaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+                .Where(x => x.Entity is IBaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified || x.State == EntityState.Deleted));
 
             foreach (var entity in entities)
             {
-                if (entity.State == EntityState.Added)
-                    ((IBaseEntity)entity.Entity).CreatedAt = MechineDateTime.UtcNow;
+                switch (entity.State)
+                {
+                    case EntityState.Added:
+                        if (entity.Entity is ICreatedAt)
+                            ((ICreatedAt)entity.Entity).CreatedAt = MechineDateTime.Now;
+                        break;
 
-                ((IBaseEntity)entity.Entity).UpdatedAt = MechineDateTime.UtcNow;
+                    case EntityState.Modified:
+                        if (entity.Entity is IUpdatedAt)
+                            ((IUpdatedAt)entity.Entity).UpdatedAt = MechineDateTime.Now;
+                        break;
+
+                    case EntityState.Deleted:
+                        if (entity.Entity is IDeletedAt)
+                        {
+                            entity.State = EntityState.Unchanged;
+                            ((IDeletedAt)entity.Entity).DeletedAt = MechineDateTime.Now;
+                        }
+                        break;
+
+                    default:
+                        throw new NotImplementedException();
+                }
             }
 
             return await DbContext.SaveChangesAsync();

@@ -3,8 +3,8 @@ using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,23 +13,23 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
     public class DeletePublisherCommandHandler : IRequestHandler<DeletePublisherCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoRepository<PublisherDocument> PublisherMongoDB { get; }
+        private AdsEFCoreRepository<PublisherEntity> PublisherEFCoreRepo { get; }
 
         public DeletePublisherCommandHandler(
             IMediator mediator,
-            AdsMongoRepository<PublisherDocument> publisherMongoDB)
+            AdsEFCoreRepository<PublisherEntity> publisherEFCoreRepo)
         {
             Mediator = mediator;
-            PublisherMongoDB = publisherMongoDB;
+            PublisherEFCoreRepo = publisherEFCoreRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(DeletePublisherCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteMongoDB(request);
+            var result = await DeleteOnDb(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> DeleteMongoDB(DeletePublisherCommand request)
+        private async Task<HttpResult<bool>> DeleteOnDb(DeletePublisherCommand request)
         {
             var result = new HttpResult<bool>();
 
@@ -37,10 +37,9 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await PublisherMongoDB.UpdateManyPartialAsync(
-                filter: f => f.Id == request.Id, 
-                update: Builders<PublisherDocument>.Update.Set(f => f.DeletedAt, MechineDateTime.Now.DateTime)
-            );
+            await PublisherEFCoreRepo.DeleteAsync(request.Id);
+            await PublisherEFCoreRepo.SaveChangesAsync();
+            
             return result.Success(true);
         }
     }

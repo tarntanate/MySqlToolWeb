@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Common.Extensions
         {
             return properties?
                 .Where(property => !string.IsNullOrWhiteSpace(property.GetValue(default) as string))
-                .ToDictionary(property => property.Name.CamelCase(), property => property.GetValue(default) as string);
+                .ToDictionary(property => property.Name.ToCamelCase(), property => property.GetValue(default) as string);
         }
     }
 }

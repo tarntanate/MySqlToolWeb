@@ -1,22 +1,15 @@
-﻿using System;
-using MediatR;
-using MongoDB.Bson;
-using Ookbee.Ads.Common;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
 {
-    public class CreatePublisherCommand : IRequest<HttpResult<string>>
+    public class CreatePublisherCommand : IRequest<HttpResult<long>>
     {
-        public string Id => ObjectId.GenerateNewId().ToString();
-        
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public string ImageUrl { get; set; }
-
-        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
+        public string ImagePath { get; set; }
 
         public CreatePublisherCommand()
         {
@@ -27,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
         {
             Name = request.Name;
             Description = request.Description;
-            ImageUrl = request.ImageUrl;
+            ImagePath = request.ImagePath;
         }
     }
 }

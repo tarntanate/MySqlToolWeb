@@ -9,7 +9,14 @@ namespace Ookbee.Ads.Persistence.EFCore.Configurations
         public void Configure(EntityTypeBuilder<CampaignEntity> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.Id).ValueGeneratedNever();
+
+            builder.HasOne(e => e.Advertiser)
+                   .WithMany(e => e.Campaigns)
+                   .HasForeignKey(e => e.AdvertiserId)
+                   .IsRequired();
+
+            builder.Property(e => e.Id)
+                   .ValueGeneratedOnAdd();
         }
     }
 }

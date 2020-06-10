@@ -1,10 +1,8 @@
 ﻿using MediatR;
-using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,23 +11,23 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.DeleteCampaign
     public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoRepository<CampaignDocument> CampaignMongoDB { get; }
+        private AdsEFCoreRepository<CampaignEntity> CampaignEFCoreRepo { get; }
 
         public DeleteCampaignCommandHandler(
             IMediator mediator,
-            AdsMongoRepository<CampaignDocument> campaignMongoDB)
+            AdsEFCoreRepository<CampaignEntity> campaignEFCoreRepo)
         {
             Mediator = mediator;
-            CampaignMongoDB = campaignMongoDB;
+            CampaignEFCoreRepo = campaignEFCoreRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(DeleteCampaignCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteMongoDB(request);
+            var result = await DeleteOnDb(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> DeleteMongoDB(DeleteCampaignCommand request)
+        private async Task<HttpResult<bool>> DeleteOnDb(DeleteCampaignCommand request)
         {
             var result = new HttpResult<bool>();
 
@@ -37,10 +35,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.DeleteCampaign
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await CampaignMongoDB.UpdateManyPartialAsync(
-                filter: f => f.Id == request.Id, 
-                update: Builders<CampaignDocument>.Update.Set(f => f.DeletedAt, MechineDateTime.Now.DateTime)
-            );
+            await CampaignEFCoreRepo.DeleteAsync(request.Id);
+            await CampaignEFCoreRepo.SaveChangesAsync();
+            
             return result.Success(true);
         }
     }

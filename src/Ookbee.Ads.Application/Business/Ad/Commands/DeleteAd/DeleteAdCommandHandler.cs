@@ -1,10 +1,8 @@
 ﻿using MediatR;
-using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,34 +11,33 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
     public class DeleteAdCommandHandler : IRequestHandler<DeleteAdCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoRepository<AdDocument> AdMongoDB { get; }
+        private AdsEFCoreRepository<AdEntity> AdEFCoreRepo { get; }
 
         public DeleteAdCommandHandler(
             IMediator mediator,
-            AdsMongoRepository<AdDocument> adMongoDB)
+            AdsEFCoreRepository<AdEntity> adEFCoreRepo)
         {
             Mediator = mediator;
-            AdMongoDB = adMongoDB;
+            AdEFCoreRepo = adEFCoreRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(DeleteAdCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteMongoDB(request);
+            var result = await DeleteOnDb(request);
             return result;
         }
 
-        private async Task<HttpResult<bool>> DeleteMongoDB(DeleteAdCommand request)
+        private async Task<HttpResult<bool>> DeleteOnDb(DeleteAdCommand request)
         {
             var result = new HttpResult<bool>();
-            
+
             var isExistsResult = await Mediator.Send(new IsExistsAdByIdQuery(request.Id));
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await AdMongoDB.UpdateManyPartialAsync(
-                filter: f => f.Id == request.Id,
-                update: Builders<AdDocument>.Update.Set(f => f.DeletedAt, MechineDateTime.Now.DateTime)
-            );
+            await AdEFCoreRepo.DeleteAsync(request.Id);
+            await AdEFCoreRepo.SaveChangesAsync();
+            
             return result.Success(true);
         }
     }

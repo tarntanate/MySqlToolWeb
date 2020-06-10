@@ -22,19 +22,19 @@ namespace Ookbee.Ads.Services.Admin.Controllers
             => await Mediator.Send(new GetPublisherListQuery(start, length));
 
         [HttpGet("{id}")]
-        public async Task<HttpResult<PublisherDto>> GetById([FromRoute]string id)
+        public async Task<HttpResult<PublisherDto>> GetById([FromRoute]long id)
             => await Mediator.Send(new GetPublisherByIdQuery(id));
 
         [HttpPost]
-        public async Task<HttpResult<string>> Create([FromBody]CreatePublisherCommand request)
+        public async Task<HttpResult<long>> Create([FromBody]CreatePublisherCommand request)
             => await Mediator.Send(new CreatePublisherCommand(request));
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute]string id, [FromBody]UpdatePublisherCommand request)
+        public async Task<HttpResult<bool>> Update([FromRoute]long id, [FromBody]UpdatePublisherCommand request)
             => await Mediator.Send(new UpdatePublisherCommand(id, request));
 
         [HttpDelete("{id}")]
-        public async Task<HttpResult<bool>> Delete([FromRoute]string id)
+        public async Task<HttpResult<bool>> Delete([FromRoute]long id)
             => await Mediator.Send(new DeletePublisherCommand(id));
     }
 }

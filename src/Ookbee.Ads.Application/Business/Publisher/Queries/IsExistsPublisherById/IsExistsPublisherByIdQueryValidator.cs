@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MongoDB.Bson;
 
 namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById
 {
@@ -7,12 +6,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByI
     {
         public IsExistsPublisherByIdQueryValidator()
         {
-            RuleFor(p => p.Id).Must(BeAValidObjectId).WithMessage(p => $"Publisher '{p.Id}' is not a valid 24 digit hex string.");
-        }
-
-        private bool BeAValidObjectId(string value)
-        {
-            return ObjectId.TryParse(value, out ObjectId objectId);
+            RuleFor(p => p.Id).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
         }
     }
 }

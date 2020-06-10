@@ -1,58 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using MediatR;
-using Ookbee.Ads.Common;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
+using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 {
     public class UpdateAdCommand : IRequest<HttpResult<bool>>
     {
-        public string Id { get; set; }
-
-        public string CampaignId { get; set; }
-
-        public string AdSlotId { get; set; }
-
+        public long Id { get; set; }
+        public long AdUnitId { get; set; }
+        public long CampaignId { get; set; }
         public string Name { get; set; }
-
         public string Description { get; set; }
-
-        public TimeSpan? Cooldown { get; set; }
-
+        public int? CooldownSecond { get; set; }
         public string ForegroundColor { get; set; }
-
         public string BackgroundColor { get; set; }
-
-        public List<string> Analytics { get; set; }
-
+        public string[] Analytics { get; set; }
+        public string[] Platforms { get; set; }
         public string AppLink { get; set; }
-
         public string WebLink { get; set; }
-
-        public PlatformModel Platform { get; set; }
-
-        public DateTime? UpdatedAt => MechineDateTime.Now.DateTime;
 
         public UpdateAdCommand()
         {
 
         }
 
-        public UpdateAdCommand(string id, UpdateAdCommand request)
+        public UpdateAdCommand(long id, UpdateAdCommand request)
         {
             Id = id;
+            AdUnitId = request.AdUnitId;
             CampaignId = request.CampaignId;
-            AdSlotId = request.AdSlotId;
             Name = request.Name;
             Description = request.Description;
-            Cooldown = request.Cooldown;
             ForegroundColor = request.ForegroundColor;
             BackgroundColor = request.BackgroundColor;
+            Analytics = request.Analytics;
+            Platforms = request.Platforms;
             AppLink = request.AppLink;
             WebLink = request.WebLink;
-            Analytics = request.Analytics;
-            Platform = request.Platform;
         }
     }
 }

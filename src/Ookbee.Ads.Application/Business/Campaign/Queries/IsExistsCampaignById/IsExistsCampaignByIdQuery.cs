@@ -5,9 +5,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById
 {
     public class IsExistsCampaignByIdQuery : IRequest<HttpResult<bool>>
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
 
-        public IsExistsCampaignByIdQuery(string id)
+        public IsExistsCampaignByIdQuery(long id)
         {
             Id = id;
         }

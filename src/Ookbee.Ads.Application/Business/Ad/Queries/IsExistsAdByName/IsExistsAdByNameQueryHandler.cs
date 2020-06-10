@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,33 +9,30 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName
 {
     public class IsExistsAdByNameQueryHandler : IRequestHandler<IsExistsAdByNameQuery, HttpResult<bool>>
     {
-        private IMediator Mediator { get; }
-        private AdsMongoRepository<AdDocument> AdMongoDB { get; }
+        private AdsEFCoreRepository<AdEntity> AdEFCoreRepo { get; }
 
-        public IsExistsAdByNameQueryHandler(
-            IMediator mediator,
-            AdsMongoRepository<AdDocument> adMongoDB)
+        public IsExistsAdByNameQueryHandler(AdsEFCoreRepository<AdEntity> adEFCoreRepo)
         {
-            Mediator = mediator;
-            AdMongoDB = adMongoDB;
+            AdEFCoreRepo = adEFCoreRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByIdOnMongo(request);
+            return await IsExistsOnDb(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(IsExistsAdByNameQuery request)
+        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsAdByNameQuery request)
         {
             var result = new HttpResult<bool>();
-            var isExists = await AdMongoDB.AnyAsync(
-                filter: f => f.AdSlotId == request.AdSlotId &&
-                             f.Name == request.Name &&
-                             f.DeletedAt == null
+
+            var isExists = await AdEFCoreRepo.AnyAsync(f =>
+                f.Name == request.Name &&
+                f.DeletedAt == null
             );
-            if (isExists)
-                return result.Success(true);
-            return result.Fail(404, $"Ad '{request.Name}' doesn't exist.");
+            
+            if (!isExists)
+                return result.Fail(404, $"Ad '{request.Name}' doesn't exist.");
+            return result.Success(true);
         }
     }
 }

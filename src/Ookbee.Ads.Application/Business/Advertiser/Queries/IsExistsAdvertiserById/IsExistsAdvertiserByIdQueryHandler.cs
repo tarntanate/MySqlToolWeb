@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,28 +9,30 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserB
 {
     public class IsExistsAdvertiserByIdQueryHandler : IRequestHandler<IsExistsAdvertiserByIdQuery, HttpResult<bool>>
     {
-        private AdsMongoRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
+        private AdsEFCoreRepository<AdvertiserEntity> AdvertiserEFCoreRepo { get; }
 
-        public IsExistsAdvertiserByIdQueryHandler(AdsMongoRepository<AdvertiserDocument> advertiserMongoDB)
+        public IsExistsAdvertiserByIdQueryHandler(AdsEFCoreRepository<AdvertiserEntity> advertiserEFCoreRepo)
         {
-            AdvertiserMongoDB = advertiserMongoDB;
+            AdvertiserEFCoreRepo = advertiserEFCoreRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdvertiserByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByIdOnMongo(request);
+            return await IsExistsOnDb(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(IsExistsAdvertiserByIdQuery request)
+        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsAdvertiserByIdQuery request)
         {
             var result = new HttpResult<bool>();
-            var isExists = await AdvertiserMongoDB.AnyAsync(
-                filter: f => f.Id == request.Id && 
-                             f.DeletedAt == null
+            
+            var isExists = await AdvertiserEFCoreRepo.AnyAsync(f =>
+                f.Id == request.Id &&
+                f.DeletedAt == null
             );
-            if (isExists)
-                return result.Success(true);
-            return result.Fail(404, $"Advertiser '{request.Id}' doesn't exist.");
+            
+            if (!isExists)
+                return result.Fail(404, $"Advertiser '{request.Id}' doesn't exist.");
+            return result.Success(true);
         }
     }
 }

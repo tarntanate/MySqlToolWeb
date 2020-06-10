@@ -1,25 +1,11 @@
-using Newtonsoft.Json;
-using System;
+using Ookbee.Ads.Application.Infrastructure;
 
 namespace Ookbee.Ads.Application.Business.Publisher
 {
-    public class PublisherDto
+    public class PublisherDto : DefaultDto
     {
-        public string Id { get; set; }
-
         public string Name { get; set; }
-
         public string Description { get; set; }
-
-        public string ImageUrl { get; set; }
-
-        [JsonIgnore]
-        public DateTime? CreatedAt { get; set; }
-
-        [JsonIgnore]
-        public DateTime? UpdatedAt { get; set; }
-
-        [JsonIgnore]
-        public DateTime? DeletedAt { get; set; }
+        public string ImagePath { get; set; }
     }
 }

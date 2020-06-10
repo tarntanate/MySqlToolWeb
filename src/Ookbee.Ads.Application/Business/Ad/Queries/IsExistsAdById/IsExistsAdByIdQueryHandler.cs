@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,32 +9,30 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById
 {
     public class IsExistsAdByIdQueryHandler : IRequestHandler<IsExistsAdByIdQuery, HttpResult<bool>>
     {
-        private IMediator Mediator { get; }
-        private AdsMongoRepository<AdDocument> AdMongoDB { get; }
+        private AdsEFCoreRepository<AdEntity> AdEFCoreRepo { get; }
 
-        public IsExistsAdByIdQueryHandler(
-            IMediator mediator,
-            AdsMongoRepository<AdDocument> adMongoDB)
+        public IsExistsAdByIdQueryHandler(AdsEFCoreRepository<AdEntity> adEFCoreRepo)
         {
-            Mediator = mediator;
-            AdMongoDB = adMongoDB;
+            AdEFCoreRepo = adEFCoreRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsByIdOnMongo(request);
+            return await IsExistsOnDb(request);
         }
 
-        private async Task<HttpResult<bool>> IsExistsByIdOnMongo(IsExistsAdByIdQuery request)
+        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsAdByIdQuery request)
         {
             var result = new HttpResult<bool>();
-            var isExists = await AdMongoDB.AnyAsync(
-                filter: f => f.Id == request.Id &&
-                             f.DeletedAt == null
+
+            var isExists = await AdEFCoreRepo.AnyAsync(f =>
+                f.Id == request.Id &&
+                f.DeletedAt == null
             );
-            if (isExists)
-                return result.Success(true);
-            return result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
+            
+            if (!isExists)
+                return result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
+            return result.Success(true);
         }
     }
 }

@@ -5,9 +5,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById
 {
     public class GetCampaignByIdQuery : IRequest<HttpResult<CampaignDto>>
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
 
-        public GetCampaignByIdQuery(string id)
+        public GetCampaignByIdQuery(long id)
         {
             Id = id;
         }

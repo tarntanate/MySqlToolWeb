@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
 {
@@ -9,7 +8,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
         {
             RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
             RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.ImageUrl).MaximumLength(250);
+            RuleFor(p => p.ImagePath).MaximumLength(250);
         }
     }
 }

@@ -2,50 +2,48 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserByName;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
-using System;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
 {
-    public class CreateAdvertiserCommandHandler : IRequestHandler<CreateAdvertiserCommand, HttpResult<string>>
+    public class CreateAdvertiserCommandHandler : IRequestHandler<CreateAdvertiserCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoRepository<AdvertiserDocument> AdvertiserMongoDB { get; }
+        private AdsEFCoreRepository<AdvertiserEntity> AdvertiserEFCoreRepo { get; }
 
         public CreateAdvertiserCommandHandler(
             IMediator mediator,
-            AdsMongoRepository<AdvertiserDocument> advertiserMongoDB)
+            AdsEFCoreRepository<AdvertiserEntity> advertiserEFCoreRepo)
         {
             Mediator = mediator;
-            AdvertiserMongoDB = advertiserMongoDB;
+            AdvertiserEFCoreRepo = advertiserEFCoreRepo;
         }
 
-        public async Task<HttpResult<string>> Handle(CreateAdvertiserCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<long>> Handle(CreateAdvertiserCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateMongoDB(request);
+            var result = await CreateOnDb(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(CreateAdvertiserCommand request)
+        private async Task<HttpResult<long>> CreateOnDb(CreateAdvertiserCommand request)
         {
-            var result = new HttpResult<string>();
-            try
-            {
-                var isExistsByNameResult = await Mediator.Send(new IsExistsAdvertiserByNameQuery(request.Name));
-                if (isExistsByNameResult.Data)
-                    return result.Fail(409, $"Advertiser '{request.Name}' already exists.");
+            var result = new HttpResult<long>();
 
-                var document = Mapper.Map(request).ToANew<AdvertiserDocument>();
-                await AdvertiserMongoDB.AddAsync(document);
-                return result.Success(document.Id);
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(500, ex.Message);
-            }
+            var isExistsAdvertiserByName = await Mediator.Send(new IsExistsAdvertiserByNameQuery(request.Name));
+            if (isExistsAdvertiserByName.Ok)
+                return result.Fail(409, $"Advertiser '{request.Name}' already exists.");
+
+            var entity = Mapper
+                .Map(request)
+                .ToANew<AdvertiserEntity>();
+
+            await AdvertiserEFCoreRepo.InsertAsync(entity);
+            await AdvertiserEFCoreRepo.SaveChangesAsync();
+            
+            return result.Success(entity.Id);
         }
     }
 }

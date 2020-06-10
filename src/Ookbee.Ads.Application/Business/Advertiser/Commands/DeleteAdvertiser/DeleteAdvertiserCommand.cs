@@ -5,9 +5,9 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.DeleteAdvertiser
 {
     public class DeleteAdvertiserCommand : IRequest<HttpResult<bool>>
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
 
-        public DeleteAdvertiserCommand(string id)
+        public DeleteAdvertiserCommand(long id)
         {
             Id = id;
         }

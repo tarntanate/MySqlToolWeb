@@ -1,28 +1,18 @@
 ﻿using System;
 using MediatR;
-using MongoDB.Bson;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
 {
-    public class CreateAdvertiserCommand : IRequest<HttpResult<string>>
+    public class CreateAdvertiserCommand : IRequest<HttpResult<long>>
     {
-        public string Id => ObjectId.GenerateNewId().ToString();
-
         public string Name { get; set; }
-
         public string Description { get; set; }
-
-        public string ImageUrl { get; set; }
-
+        public string ImagePath { get; set; }
         public string Contact { get; set; }
-
         public string Email { get; set; }
-
         public string PhoneNumber { get; set; }
-
-        public DateTime? CreatedAt => MechineDateTime.Now.DateTime;
 
         public CreateAdvertiserCommand()
         {
@@ -33,7 +23,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
         {
             Name = request.Name;
             Description = request.Description;
-            ImageUrl = request.ImageUrl;
+            ImagePath = request.ImagePath;
             Contact = request.Contact;
             Email = request.Email;
             PhoneNumber = request.PhoneNumber;

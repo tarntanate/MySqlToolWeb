@@ -6,9 +6,18 @@ namespace Ookbee.Ads.Common.Extensions
 {
     public static class StringExtensions
     {
-        public static string CamelCase(this string value)
+        public static string ToCamelCase(this string value)
         {
             return char.ToLowerInvariant(value[0]) + value.Substring(1);
+        }
+
+        public static string ToUpperFirstLetter(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return string.Empty;
+            char[] letters = value.ToCharArray();
+            letters[0] = char.ToUpper(letters[0]);
+            return new string(letters);
         }
 
         public static string RemoveSpecialCharacters(this string value)

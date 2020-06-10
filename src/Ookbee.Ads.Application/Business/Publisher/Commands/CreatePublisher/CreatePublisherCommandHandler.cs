@@ -1,53 +1,49 @@
 ﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByName;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Documents;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
-using System;
+using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Persistence.EFCore;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
 {
-    public class CreatePublisherCommandHandler : IRequestHandler<CreatePublisherCommand, HttpResult<string>>
+    public class CreatePublisherCommandHandler : IRequestHandler<CreatePublisherCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsMongoRepository<PublisherDocument> PublisherMongoDB { get; }
+        private AdsEFCoreRepository<PublisherEntity> PublisherEFCoreRepo { get; }
 
         public CreatePublisherCommandHandler(
             IMediator mediator,
-            AdsMongoRepository<PublisherDocument> publisherMongoDB)
+            AdsEFCoreRepository<PublisherEntity> publisherEFCoreRepo)
         {
             Mediator = mediator;
-            PublisherMongoDB = publisherMongoDB;
+            PublisherEFCoreRepo = publisherEFCoreRepo;
         }
 
-        public async Task<HttpResult<string>> Handle(CreatePublisherCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<long>> Handle(CreatePublisherCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateMongoDB(request);
+            var result = await CreateOnDb(request);
             return result;
         }
 
-        private async Task<HttpResult<string>> CreateMongoDB(CreatePublisherCommand request)
+        private async Task<HttpResult<long>> CreateOnDb(CreatePublisherCommand request)
         {
-            var result = new HttpResult<string>();
-            try
-            {
-                var isExistsByNameResult = await Mediator.Send(new IsExistsPublisherByNameQuery(request.Name));
-                if (isExistsByNameResult.Data)
-                    return result.Fail(409, $"Publisher '{request.Name}' already exists.");
+            var result = new HttpResult<long>();
 
-                var now = MechineDateTime.Now;
-                var document = Mapper.Map(request).ToANew<PublisherDocument>();
-                await PublisherMongoDB.AddAsync(document);
-                return result.Success(document.Id);
-            }
-            catch (Exception ex)
-            {
-                return result.Fail(500, ex.Message);
-            }
+            var isExistsPublisherByName = await Mediator.Send(new IsExistsPublisherByNameQuery(request.Name));
+            if (isExistsPublisherByName.Ok)
+                return result.Fail(409, $"Publisher '{request.Name}' already exists.");
+
+            var entity = Mapper
+                .Map(request)
+                .ToANew<PublisherEntity>();
+
+            await PublisherEFCoreRepo.InsertAsync(entity);
+            await PublisherEFCoreRepo.SaveChangesAsync();
+
+            return result.Success(entity.Id);
         }
     }
 }

@@ -1,13 +1,17 @@
+using System;
+using Newtonsoft.Json;
+
 namespace Ookbee.Ads.Application.Infrastructure
 {
     public class DefaultDto
     {
-        public string Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public string ImageUrl { get; set; }
+        [JsonProperty(Order = -99)]
+        public long Id { get; set; }
+        [JsonIgnore]
+        public DateTimeOffset? CreatedAt { get; set; }
+        [JsonIgnore]
+        public DateTimeOffset? UpdatedAt { get; set; }
+        [JsonIgnore]
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }
