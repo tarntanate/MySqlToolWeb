@@ -1,6 +1,6 @@
 using System;
 
-namespace Ookbee.Ads.Services.Ad
+namespace Ookbee.Ads.Services.Banner
 {
     public class WeatherForecast
     {

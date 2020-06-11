@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ookbee.Ads.Application.Infrastructure;
 
-namespace Ookbee.Ads.Services.Ad
+namespace Ookbee.Ads.Services.Manager 
 {
     public class Startup
     {
@@ -26,4 +26,3 @@ namespace Ookbee.Ads.Services.Ad
         }
     }
 }
-

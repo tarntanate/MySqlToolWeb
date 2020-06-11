@@ -10,7 +10,7 @@ using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Services.Admin.Controllers
+namespace Ookbee.Ads.Services.Manager .Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

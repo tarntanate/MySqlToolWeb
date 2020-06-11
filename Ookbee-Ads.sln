@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Persistence", "src\Ookbee.Ads.Persistence\Ookbee.Ads.Persistence.csproj", "{9B49DB6F-84BB-4F14-912D-EF0300F3B3A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ookbee.Ads.Services.Ad", "src\Ookbee.Ads.Services.Ad\Ookbee.Ads.Services.Ad.csproj", "{E854BF65-32F8-453D-A447-D2BBF1158DE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ookbee.Ads.Services.Banner", "src\Ookbee.Ads.Services.Banner\Ookbee.Ads.Services.Banner.csproj", "{E854BF65-32F8-453D-A447-D2BBF1158DE0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Admin", "src\Ookbee.Ads.Services.Admin\Ookbee.Ads.Services.Admin.csproj", "{C0CC04C9-EFE3-4957-A863-9AAEDCB9EFD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Manager ", "src\Ookbee.Ads.Services.Manager \Ookbee.Ads.Services.Manager .csproj", "{C0CC04C9-EFE3-4957-A863-9AAEDCB9EFD3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Analytics", "src\Ookbee.Ads.Services.Analytics\Ookbee.Ads.Services.Analytics.csproj", "{0AF3D5C2-CF2E-4877-A868-C0589A1E82BD}"
 EndProject

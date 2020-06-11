@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 
-namespace Ookbee.Ads.Services.Admin
+namespace Ookbee.Ads.Services.Banner
 {
     public class Program
     {
@@ -10,6 +10,7 @@ namespace Ookbee.Ads.Services.Admin
         {
             CreateHostBuilder(args).Build().Run();
         }
+        
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
