@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Ookbee.Ads.Services.Manager ",
+            "name": "Ookbee.Ads.Services.Manager",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager /bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager .dll",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager ",
+            "cwd": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager",
             "stopAtEntry": false,
             // "serverReadyAction": {
             //     "action": "openExternally",
