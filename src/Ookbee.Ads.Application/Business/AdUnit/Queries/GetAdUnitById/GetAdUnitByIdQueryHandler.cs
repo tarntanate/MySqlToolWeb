@@ -26,7 +26,9 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitById
         {
             var result = new HttpResult<AdUnitDto>();
 
-            var item = await AdUnitEFCoreRepo.FirstAsync(filter: f => f.Id == request.Id && f.DeletedAt == null);
+            var item = await AdUnitEFCoreRepo.FirstAsync(
+                selector: AdUnitDto.Projection,
+                filter: f => f.Id == request.Id && f.DeletedAt == null);
             if (item == null)
                 return result.Fail(404, $"AdUnit '{request.Id}' doesn't exist.");
                 
