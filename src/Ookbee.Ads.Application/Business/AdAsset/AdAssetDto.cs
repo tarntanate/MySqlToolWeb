@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Business.AdAsset
     public class AdAssetDto : DefaultDto
     {
         public long AdId { get; set; }
-        public string AssetType { get; set; }
         public string AssetPath { get; set; }
+        public string AssetType { get; set; }
         public string Position { get; set; }
 
         public static Expression<Func<AdAssetEntity, AdAssetDto>> Projection

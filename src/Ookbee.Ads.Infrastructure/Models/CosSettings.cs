@@ -12,6 +12,6 @@ namespace Ookbee.Ads.Infrastructure.Models
         public bool DebugLog { get; set; }
         public bool IsHttps { get; set; }
         public BucketSettings Bucket { get; set; }
-        public HostNameSettings HostName { get; set; }
+        public CosBaseUriSettings BaseUri { get; set; }
     }
 }

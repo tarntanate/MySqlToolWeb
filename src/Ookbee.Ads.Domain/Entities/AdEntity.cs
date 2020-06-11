@@ -13,8 +13,8 @@ namespace Ookbee.Ads.Domain.Entities
         public int? CountdownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
-        public string[] Analytics { get; set; }
-        public string[] Platforms { get; set; }
+        public List<string> Analytics { get; set; }
+        public List<string> Platforms { get; set; }
         public string AppLink { get; set; }
         public string WebLink { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }

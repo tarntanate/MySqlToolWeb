@@ -33,6 +33,7 @@ namespace Ookbee.Ads.Application.Business.Campaign
                     UpdatedAt = entity.UpdatedAt,
                     DeletedAt = entity.DeletedAt,
                     Name = entity.Name,
+                    Description = entity.Description,
                     StartDate = entity.StartDate,
                     EndDate = entity.EndDate,
                     PricingModel = entity.PricingModel,

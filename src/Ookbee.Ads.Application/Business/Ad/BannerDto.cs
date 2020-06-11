@@ -1,0 +1,62 @@
+using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using Newtonsoft.Json;
+using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Domain.Entities;
+
+namespace Ookbee.Ads.Application.Business.Ad
+{
+    public class BannerDto : DefaultDto
+    {
+        public string Name { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? CountdownSecond { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string ForegroundColor { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string BackgroundColor { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string AppLink { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string WebLink { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public BannerAnalyticsDto Analytics { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public IEnumerable<BannerAssetDto> Assets { get; set; }
+
+        public static Expression<Func<AdEntity, BannerDto>> Projection
+        {
+            get
+            {
+                return entity => new BannerDto()
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    CountdownSecond = entity.CountdownSecond,
+                    ForegroundColor = entity.ForegroundColor,
+                    BackgroundColor = entity.BackgroundColor,
+                    AppLink = entity.AppLink,
+                    WebLink = entity.WebLink,
+                    Analytics = new BannerAnalyticsDto(entity.Id, entity.AdUnitId)
+                    {
+                        Clicks = null,
+                        Impressions = entity.Analytics
+                    },
+                    Assets = entity.AdAsset
+                        .Where(a => a.AdId == entity.Id)
+                        .Select(e => new BannerAssetDto()
+                        {
+                            Id = e.Id,
+                            AssetUrl = e.AssetPath,
+                            AssetType = e.AssetType,
+                            Position = e.Position,
+                        })
+                };
+            }
+        }
+    }
+}

@@ -6,6 +6,7 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities;
 using Ookbee.Ads.Application.Business.Publisher;
 using Ookbee.Ads.Application.Business.AdUnitType;
+using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Ad
 {
@@ -19,8 +20,8 @@ namespace Ookbee.Ads.Application.Business.Ad
         public string BackgroundColor { get; set; }
         public string AppLink { get; set; }
         public string WebLink { get; set; }
-        public string[] Analytics { get; set; }
-        public string[] Platforms { get; set; }
+        public List<string> Analytics { get; set; }
+        public List<string> Platforms { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public AdUnitDto AdUnit { get; set; }
 

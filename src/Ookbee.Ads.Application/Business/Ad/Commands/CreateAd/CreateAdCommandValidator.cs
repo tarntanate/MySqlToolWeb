@@ -18,7 +18,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             RuleFor(p => p.Platforms).Must(value => value != null || value.Count() < 4).WithMessage((rule, value) => $"The length of 'Analytics' must be 3 items or fewer. You entered '{value}' items.");
             RuleFor(p => p.Analytics).Must(value => value != null || value.Count() < 4).WithMessage((rule, value) => $"The length of 'Platforms' must be 3 items or fewer. You entered '{value}' items.");
             RuleForEach(p => p.Analytics).Must(BeAValidUriSchemeHttp).WithMessage((rule, value) => $"Invalid Analytics URL '{value}'");
-            RuleFor(p => p.Platforms).NotNull().Must(p => p.Count() > 0);
             RuleForEach(p => p.Platforms).Must(BeAValidPlatform).WithMessage((rule, value) => $"Platforms only support 'Android', 'iOS' and 'Web'");
             RuleFor(p => p.AppLink).MaximumLength(500);
             RuleFor(p => p.WebLink).MaximumLength(500);
@@ -43,6 +42,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
         private bool BeAValidPlatform(string value)
         {
+            if (!value.HasValue())
+                return false;
+                
             var platforms = new string[] { "Android", "iOS", "Web" };
             return platforms.Contains(value);
         }
