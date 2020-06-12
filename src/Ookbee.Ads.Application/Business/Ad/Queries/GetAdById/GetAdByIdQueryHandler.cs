@@ -26,7 +26,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdById
         {
             var result = new HttpResult<AdDto>();
 
-            var item = await AdDbRepo.FirstAsync(filter: f => f.Id == request.Id && f.DeletedAt == null);
+            var item = await AdDbRepo.FirstAsync(
+                selector: AdDto.Projection,
+                filter: f => f.Id == request.Id && f.DeletedAt == null);
             if (item == null)
                 return result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
                 

@@ -26,9 +26,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName
         {
             var result = new HttpResult<AdDto>();
 
-            var item = await AdDbRepo.FirstAsync(filter: f =>
-                f.Name == request.Name &&
-                f.DeletedAt == null
+            var item = await AdDbRepo.FirstAsync(
+                selector: AdDto.Projection,
+                filter: f => f.Name == request.Name && f.DeletedAt == null
             );
 
             if (item == null)
