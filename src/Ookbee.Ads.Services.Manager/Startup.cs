@@ -6,6 +6,7 @@ using MongoDB.Bson.Serialization.Conventions;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 
 namespace Ookbee.Ads.Services.Manager
@@ -27,6 +28,9 @@ namespace Ookbee.Ads.Services.Manager
             // RDBMS
             services.AddDbContext<AdsDbContext>();
             services.AddScoped(typeof(AdsDbRepository<>));
+            
+            services.AddDbContext<AnalyticsDbContext>();
+            services.AddScoped(typeof(AnalyticsDbRepository<>));
             
             // MongoDB
             services.AddSingleton<AdsMongoContext>();
