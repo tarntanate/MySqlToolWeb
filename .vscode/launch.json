@@ -5,14 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Ookbee.Ads.Services.Manager",
+            "name": "Ookbee.Ads.Services.Analytics",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Analytics.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager",
+            "cwd": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics",
             "stopAtEntry": false,
+            "justMyCode":false,
+            "requireExactSource": false,
             // "serverReadyAction": {
             //     "action": "openExternally",
             //     "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
@@ -25,10 +27,26 @@
             }
         },
         {
-            "name": ".NET Core Attach",
+            "name": "Ookbee.Ads.Services.Manager",
             "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager",
+            "stopAtEntry": false,
+            "justMyCode":false,
+            "requireExactSource": false,
+            // "serverReadyAction": {
+            //     "action": "openExternally",
+            //     "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            // },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Localhost"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
         }
     ]
 }

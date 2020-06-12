@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 
 namespace Ookbee.Ads.Services.Analytics
 {
@@ -17,7 +18,12 @@ namespace Ookbee.Ads.Services.Analytics
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Infrastructure
             services.AddInfrastructure(Configuration);
+
+            // RDBMS
+            services.AddDbContext<AnalyticsDbContext>();
+            services.AddScoped(typeof(AnalyticsDbRepository<>));
         }
 
         public void Configure(IApplicationBuilder builder, IHostEnvironment envirinment)
