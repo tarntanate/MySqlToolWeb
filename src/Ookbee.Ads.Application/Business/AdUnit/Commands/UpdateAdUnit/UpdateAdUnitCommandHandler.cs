@@ -6,7 +6,7 @@ using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
-using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Application.Business.AdUnit.Commands.UpdateAdUnit
 {

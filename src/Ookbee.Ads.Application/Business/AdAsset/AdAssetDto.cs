@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Ookbee.Ads.Application.Business.Publisher;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Application.Business.AdAsset
 {

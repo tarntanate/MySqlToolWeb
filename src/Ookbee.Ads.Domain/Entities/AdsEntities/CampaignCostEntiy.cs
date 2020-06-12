@@ -1,6 +1,6 @@
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 
-namespace Ookbee.Ads.Domain.Entities
+namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
     public class CampaignCostEntity : BaseEntity
     {

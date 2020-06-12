@@ -6,7 +6,7 @@ using Ookbee.Ads.Application.Infrastructure.Tencent.Cos;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;

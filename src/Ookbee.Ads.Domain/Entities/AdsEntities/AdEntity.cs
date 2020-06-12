@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 
-namespace Ookbee.Ads.Domain.Entities
+namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
     public class AdEntity : BaseEntity, ICreatedAt, IUpdatedAt, IDeletedAt
     {

@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Domain.Entities;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Common.Extensions;
 
-namespace Ookbee.Ads.Application.Business.Ad
+namespace Ookbee.Ads.Application.Business.Banner
 {
     public class BannerDto : DefaultDto
     {
@@ -41,7 +42,7 @@ namespace Ookbee.Ads.Application.Business.Ad
                     BackgroundColor = entity.BackgroundColor,
                     AppLink = entity.AppLink,
                     WebLink = entity.WebLink,
-                    Analytics = new BannerAnalyticsDto(entity.Id, entity.AdUnitId)
+                    Analytics = new BannerAnalyticsDto()
                     {
                         Clicks = null,
                         Impressions = entity.Analytics
@@ -57,6 +58,20 @@ namespace Ookbee.Ads.Application.Business.Ad
                         })
                 };
             }
+        }
+
+        public void AddClickUrl(string url)
+        {
+            if (!Analytics.Clicks.HasValue())
+                Analytics.Clicks = new List<string>();
+            Analytics.Clicks.Insert(0, url);
+        }
+
+        public void AddImpressionUrl(string url)
+        {
+            if (!Analytics.Impressions.HasValue())
+                Analytics.Impressions = new List<string>();
+            Analytics.Impressions.Insert(0, url);
         }
     }
 }

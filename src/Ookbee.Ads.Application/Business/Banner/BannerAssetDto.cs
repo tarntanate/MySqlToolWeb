@@ -3,7 +3,7 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
 
-namespace Ookbee.Ads.Application.Business.Ad
+namespace Ookbee.Ads.Application.Business.Banner
 {
     public class BannerAssetDto : DefaultDto
     {

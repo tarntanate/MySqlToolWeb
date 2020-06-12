@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Persistence.EFCore.AnalyticsDb
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(GlobalVar.AppSettings.ConnectionStrings.PostgreSQL);
+            optionsBuilder.UseNpgsql(GlobalVar.AppSettings.ConnectionStrings.PostgreSQLAnalatics);
             base.OnConfiguring(optionsBuilder);
         }
 

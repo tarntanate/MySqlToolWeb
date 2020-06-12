@@ -4,6 +4,7 @@
     {
         public string MongoDB { get; set; }
         public string PostgreSQL { get; set; }
+        public string PostgreSQLAnalatics { get; set; }
         public string Redis { get; set; }
     }
 }
