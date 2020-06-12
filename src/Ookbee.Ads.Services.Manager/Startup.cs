@@ -29,6 +29,9 @@ namespace Ookbee.Ads.Services.Manager
             services.AddDbContext<AdsDbContext>();
             services.AddScoped(typeof(AdsDbRepository<>));
             
+            services.AddDbContext<AnalyticsDbContext>();
+            services.AddScoped(typeof(AnalyticsDbRepository<>));
+            
             // MongoDB
             services.AddSingleton<AdsMongoContext>();
             services.AddScoped(typeof(AdsMongoRepository<>));
