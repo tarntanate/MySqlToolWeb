@@ -32,11 +32,6 @@ namespace Ookbee.Ads.Services.Banner
             services.AddDbContext<AnalyticsDbContext>();
             services.AddScoped(typeof(AnalyticsDbRepository<>));
 
-            // MongoDB
-            services.AddSingleton<AdsMongoContext>();
-            services.AddScoped(typeof(AdsMongoRepository<>));
-            ConventionRegistry.Register("CamelCaseElementName", new ConventionPack { new CamelCaseElementNameConvention() }, _ => true);
-
             // Redis
             services.AddSingleton<AdsRedisContext>();
         }
