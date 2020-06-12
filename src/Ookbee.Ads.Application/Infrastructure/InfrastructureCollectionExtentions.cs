@@ -1,4 +1,3 @@
-using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,21 +18,6 @@ namespace Ookbee.Ads.Application.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            // RDBMS
-            services.AddDbContext<AdsDbContext>();
-            services.AddScoped(typeof(AdsDbRepository<>));
-
-            // MongoDB
-            services.AddSingleton<AdsMongoContext>();
-            services.AddScoped(typeof(AdsMongoRepository<>));
-            ConventionRegistry.Register("CamelCaseElementName", new ConventionPack { new CamelCaseElementNameConvention() }, _ => true);
-
-            // Redis
-            //services.AddSingleton<OokbeeAdsRedisContext>();
-
-            // Mapper
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
             // Mediator
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));

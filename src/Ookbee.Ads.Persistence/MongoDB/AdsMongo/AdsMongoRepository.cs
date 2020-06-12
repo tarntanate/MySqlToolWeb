@@ -2,7 +2,7 @@
 using Anna.Common.MongoDB;
 using Anna.Common.MongoDB.Domain;
 
-namespace Ookbee.Ads.Persistence.Advertising.Mongo
+namespace Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo
 {
     public sealed class AdsMongoRepository<TDocument> : BaseRepository<TDocument> where TDocument : BaseDocument
     {

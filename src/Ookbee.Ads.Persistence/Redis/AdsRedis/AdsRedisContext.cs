@@ -1,9 +1,9 @@
 ﻿using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Common.Redis.Context;
 
-namespace Ookbee.Ads.Persistence.Redis
+namespace Ookbee.Ads.Persistence.Redis.AdsRedis
 {
-    public class OokbeeAdsRedisContext : RedisContext
+    public class AdsRedisContext : RedisContext
     {
         public override string ConnectionString()
         {
