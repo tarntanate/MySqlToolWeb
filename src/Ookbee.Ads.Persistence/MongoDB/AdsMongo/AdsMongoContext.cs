@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo
 {
     public sealed class AdsMongoContext : BaseContext
     {
-        public AdsMongoContext() : base(GlobalVar.AppSettings.ConnectionStrings.MongoDB)
+        public AdsMongoContext() : base(GlobalVar.AppSettings.ConnectionStrings.MongoDB.Ads)
         {
 
         }
