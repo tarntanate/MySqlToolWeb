@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeByName;
 using Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,14 +14,14 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.UpdateAdUnitType
     public class UpdateAdUnitTypeCommandHandler : IRequestHandler<UpdateAdUnitTypeCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<AdUnitTypeEntity> AdUnitTypeEFCoreRepo { get; }
+        private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
 
         public UpdateAdUnitTypeCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<AdUnitTypeEntity> adUnitTypeEFCoreRepo)
+            AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
         {
             Mediator = mediator;
-            AdUnitTypeEFCoreRepo = adUnitTypeEFCoreRepo;
+            AdUnitTypeDbRepo = adUnitTypeDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(UpdateAdUnitTypeCommand request, CancellationToken cancellationToken)
@@ -51,8 +51,8 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.UpdateAdUnitType
                 .Map(request)
                 .ToANew<AdUnitTypeEntity>();
 
-            await AdUnitTypeEFCoreRepo.UpdateAsync(entity.Id, entity);
-            await AdUnitTypeEFCoreRepo.SaveChangesAsync();
+            await AdUnitTypeDbRepo.UpdateAsync(entity.Id, entity);
+            await AdUnitTypeDbRepo.SaveChangesAsync();
 
             return result.Success(true);
         }

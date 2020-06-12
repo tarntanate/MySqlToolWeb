@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,11 +12,11 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserList
 {
     public class GetAdvertiserListQueryHandler : IRequestHandler<GetAdvertiserListQuery, HttpResult<IEnumerable<AdvertiserDto>>>
     {
-        private AdsEFCoreRepository<AdvertiserEntity> AdvertiserEFCoreRepo { get; }
+        private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
-        public GetAdvertiserListQueryHandler(AdsEFCoreRepository<AdvertiserEntity> advertiserEFCoreRepo)
+        public GetAdvertiserListQueryHandler(AdsDbRepository<AdvertiserEntity> advertiserDbRepo)
         {
-            AdvertiserEFCoreRepo = advertiserEFCoreRepo;
+            AdvertiserDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<IEnumerable<AdvertiserDto>>> Handle(GetAdvertiserListQuery request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserList
         {
             var result = new HttpResult<IEnumerable<AdvertiserDto>>();
 
-            var items = await AdvertiserEFCoreRepo.FindAsync(
+            var items = await AdvertiserDbRepo.FindAsync(
                 filter: f => f.DeletedAt == null,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,

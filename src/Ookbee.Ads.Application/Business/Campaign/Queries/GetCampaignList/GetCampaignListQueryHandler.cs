@@ -4,7 +4,7 @@ using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
 {
     public class GetCampaignListQueryHandler : IRequestHandler<GetCampaignListQuery, HttpResult<IEnumerable<CampaignDto>>>
     {
-        private AdsEFCoreRepository<CampaignEntity> CampaignEFCoreRepo { get; }
+        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
 
-        public GetCampaignListQueryHandler(AdsEFCoreRepository<CampaignEntity> campaignEFCoreRepo)
+        public GetCampaignListQueryHandler(AdsDbRepository<CampaignEntity> campaignDbRepo)
         {
-            CampaignEFCoreRepo = campaignEFCoreRepo;
+            CampaignDbRepo = campaignDbRepo;
         }
 
         public async Task<HttpResult<IEnumerable<CampaignDto>>> Handle(GetCampaignListQuery request, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
             if (request.PricingModel.HasValue())
                 predicate = predicate.And(f => f.PricingModel == request.PricingModel);
 
-            var items = await CampaignEFCoreRepo.FindAsync(
+            var items = await CampaignDbRepo.FindAsync(
                 selector: CampaignDto.Projection,
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.Name),

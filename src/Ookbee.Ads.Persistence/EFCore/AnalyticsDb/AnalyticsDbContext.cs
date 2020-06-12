@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ookbee.Ads.Domain.Entities;
 using Ookbee.Ads.Infrastructure;
 
-namespace Ookbee.Ads.Persistence.EFCore
+namespace Ookbee.Ads.Persistence.EFCore.AnalyticsDb
 {
-    public class AdsEFCoreContext : DbContext
+    public class AnalyticsDbContext : DbContext
     {
-        public AdsEFCoreContext(DbContextOptions<AdsEFCoreContext> options) : base(options)
+        public AnalyticsDbContext(DbContextOptions<AnalyticsDbContext> options) : base(options)
         {
 
         }
@@ -19,7 +18,7 @@ namespace Ookbee.Ads.Persistence.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdsEFCoreContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AnalyticsDbContext).Assembly);
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 modelBuilder.Entity(entityType.ClrType).ToTable(entityType.ClrType.Name.Replace("Entity", ""));

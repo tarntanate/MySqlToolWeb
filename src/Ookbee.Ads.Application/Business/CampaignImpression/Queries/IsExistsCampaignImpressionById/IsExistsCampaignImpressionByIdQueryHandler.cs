@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,11 +9,11 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.IsExistsCam
 {
     public class IsExistsCampaignImpressionByIdQueryHandler : IRequestHandler<IsExistsCampaignImpressionByIdQuery, HttpResult<bool>>
     {
-        private AdsEFCoreRepository<CampaignImpressionEntity> CampaignImpressionEFCoreRepo { get; }
+        private AdsDbRepository<CampaignImpressionEntity> CampaignImpressionDbRepo { get; }
 
-        public IsExistsCampaignImpressionByIdQueryHandler(AdsEFCoreRepository<CampaignImpressionEntity> advertiserEFCoreRepo)
+        public IsExistsCampaignImpressionByIdQueryHandler(AdsDbRepository<CampaignImpressionEntity> advertiserDbRepo)
         {
-            CampaignImpressionEFCoreRepo = advertiserEFCoreRepo;
+            CampaignImpressionDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsCampaignImpressionByIdQuery request, CancellationToken cancellationToken)
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.IsExistsCam
         {
             var result = new HttpResult<bool>();
             
-            var isExists = await CampaignImpressionEFCoreRepo.AnyAsync(f => f.Id == request.Id);
+            var isExists = await CampaignImpressionDbRepo.AnyAsync(f => f.Id == request.Id);
             
             if (!isExists)
                 return result.Fail(404, $"CampaignImpression '{request.Id}' doesn't exist.");

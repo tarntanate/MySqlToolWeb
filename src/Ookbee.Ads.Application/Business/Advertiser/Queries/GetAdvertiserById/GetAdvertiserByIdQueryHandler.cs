@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById
 {
     public class GetAdvertiserByIdQueryHandler : IRequestHandler<GetAdvertiserByIdQuery, HttpResult<AdvertiserDto>>
     {
-        private AdsEFCoreRepository<AdvertiserEntity> AdvertiserEFCoreRepo { get; }
+        private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
-        public GetAdvertiserByIdQueryHandler(AdsEFCoreRepository<AdvertiserEntity> advertiserEFCoreRepo)
+        public GetAdvertiserByIdQueryHandler(AdsDbRepository<AdvertiserEntity> advertiserDbRepo)
         {
-            AdvertiserEFCoreRepo = advertiserEFCoreRepo;
+            AdvertiserDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<AdvertiserDto>> Handle(GetAdvertiserByIdQuery request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById
         {
             var result = new HttpResult<AdvertiserDto>();
 
-            var item = await AdvertiserEFCoreRepo.FirstAsync(filter: f =>
+            var item = await AdvertiserDbRepo.FirstAsync(filter: f =>
                 f.Id == request.Id &&
                 f.DeletedAt == null
             );

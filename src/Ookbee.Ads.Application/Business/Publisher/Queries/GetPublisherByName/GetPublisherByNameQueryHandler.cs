@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName
 {
     public class GetPublisherByNameQueryHandler : IRequestHandler<GetPublisherByNameQuery, HttpResult<PublisherDto>>
     {
-        private AdsEFCoreRepository<PublisherEntity> PublisherEFCoreRepo { get; }
+        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
-        public GetPublisherByNameQueryHandler(AdsEFCoreRepository<PublisherEntity> publisherEFCoreRepo)
+        public GetPublisherByNameQueryHandler(AdsDbRepository<PublisherEntity> publisherDbRepo)
         {
-            PublisherEFCoreRepo = publisherEFCoreRepo;
+            PublisherDbRepo = publisherDbRepo;
         }
 
         public async Task<HttpResult<PublisherDto>> Handle(GetPublisherByNameQuery request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName
         {
             var result = new HttpResult<PublisherDto>();
 
-            var item = await PublisherEFCoreRepo.FirstAsync(filter: f =>
+            var item = await PublisherDbRepo.FirstAsync(filter: f =>
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );

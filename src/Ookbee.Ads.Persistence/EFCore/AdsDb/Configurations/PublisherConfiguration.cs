@@ -2,14 +2,14 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ookbee.Ads.Domain.Entities;
 
-namespace Ookbee.Ads.Persistence.EFCore.Configurations
+namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 {
-    public class AdvertiserConfiguration : IEntityTypeConfiguration<AdvertiserEntity>
+    public class PublisherConfiguration : IEntityTypeConfiguration<PublisherEntity>
     {
-        public void Configure(EntityTypeBuilder<AdvertiserEntity> builder)
+        public void Configure(EntityTypeBuilder<PublisherEntity> builder)
         {
             builder.HasKey(e => e.Id);
-
+            
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
         }
     }

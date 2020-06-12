@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitByName
 {
     public class GetAdUnitByNameQueryHandler : IRequestHandler<GetAdUnitByNameQuery, HttpResult<AdUnitDto>>
     {
-        private AdsEFCoreRepository<AdUnitEntity> AdUnitEFCoreRepo { get; }
+        private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
-        public GetAdUnitByNameQueryHandler(AdsEFCoreRepository<AdUnitEntity> adUnitEFCoreRepo )
+        public GetAdUnitByNameQueryHandler(AdsDbRepository<AdUnitEntity> adUnitDbRepo )
         {
-            AdUnitEFCoreRepo = adUnitEFCoreRepo;
+            AdUnitDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<AdUnitDto>> Handle(GetAdUnitByNameQuery request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitByName
         {
             var result = new HttpResult<AdUnitDto>();
 
-            var item = await AdUnitEFCoreRepo.FirstAsync(filter: f => f.Name == request.Name && f.DeletedAt == null);
+            var item = await AdUnitDbRepo.FirstAsync(filter: f => f.Name == request.Name && f.DeletedAt == null);
             if (item == null)
                 return result.Fail(404, $"AdUnit '{request.Name}' doesn't exist.");
 

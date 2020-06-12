@@ -8,7 +8,7 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
 using Ookbee.Ads.Infrastructure;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,14 +17,14 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
     public class GenerateUploadUrlCommandHandler : IRequestHandler<GenerateUploadUrlCommand, HttpResult<string>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<AdAssetEntity> AdAssetEFCoreRepo { get; }
+        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
         public GenerateUploadUrlCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<AdAssetEntity> adUnitEFCoreRepo)
+            AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
             Mediator = mediator;
-            AdAssetEFCoreRepo = adUnitEFCoreRepo;
+            AdAssetDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<string>> Handle(GenerateUploadUrlCommand request, CancellationToken cancellationToken)

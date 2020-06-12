@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.AdUnitType.Queries.IsExistsAdUnitTypeByName;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,14 +12,14 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType
     public class CreateAdUnitTypeCommandHandler : IRequestHandler<CreateAdUnitTypeCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<AdUnitTypeEntity> AdUnitTypeEFCoreRepo { get; }
+        private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
 
         public CreateAdUnitTypeCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<AdUnitTypeEntity> adUnitTypeEFCoreRepo)
+            AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
         {
             Mediator = mediator;
-            AdUnitTypeEFCoreRepo = adUnitTypeEFCoreRepo;
+            AdUnitTypeDbRepo = adUnitTypeDbRepo;
         }
 
         public async Task<HttpResult<long>> Handle(CreateAdUnitTypeCommand request, CancellationToken cancellationToken)
@@ -40,8 +40,8 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType
                 .Map(request)
                 .ToANew<AdUnitTypeEntity>();
 
-            await AdUnitTypeEFCoreRepo.InsertAsync(entity);
-            await AdUnitTypeEFCoreRepo.SaveChangesAsync();
+            await AdUnitTypeDbRepo.InsertAsync(entity);
+            await AdUnitTypeDbRepo.SaveChangesAsync();
 
             return result.Success(entity.Id);
         }

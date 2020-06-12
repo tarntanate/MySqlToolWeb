@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetById
 {
     public class GetAdAssetByIdQueryHandler : IRequestHandler<GetAdAssetByIdQuery, HttpResult<AdAssetDto>>
     {
-        private AdsEFCoreRepository<AdAssetEntity> AdAssetEFCoreRepo { get; }
+        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
-        public GetAdAssetByIdQueryHandler(AdsEFCoreRepository<AdAssetEntity> adUnitEFCoreRepo)
+        public GetAdAssetByIdQueryHandler(AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
-            AdAssetEFCoreRepo = adUnitEFCoreRepo;
+            AdAssetDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<AdAssetDto>> Handle(GetAdAssetByIdQuery request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetById
         {
             var result = new HttpResult<AdAssetDto>();
 
-            var item = await AdAssetEFCoreRepo.FirstAsync(filter: f => f.Id == request.Id && f.DeletedAt == null);
+            var item = await AdAssetDbRepo.FirstAsync(filter: f => f.Id == request.Id && f.DeletedAt == null);
             if (item == null)
                 return result.Fail(404, $"AdAsset '{request.Id}' doesn't exist.");
                 

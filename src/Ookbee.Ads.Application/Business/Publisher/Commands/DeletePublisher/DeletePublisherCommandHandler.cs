@@ -4,7 +4,7 @@ using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,14 +13,14 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
     public class DeletePublisherCommandHandler : IRequestHandler<DeletePublisherCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<PublisherEntity> PublisherEFCoreRepo { get; }
+        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
         public DeletePublisherCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<PublisherEntity> publisherEFCoreRepo)
+            AdsDbRepository<PublisherEntity> publisherDbRepo)
         {
             Mediator = mediator;
-            PublisherEFCoreRepo = publisherEFCoreRepo;
+            PublisherDbRepo = publisherDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(DeletePublisherCommand request, CancellationToken cancellationToken)
@@ -37,8 +37,8 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await PublisherEFCoreRepo.DeleteAsync(request.Id);
-            await PublisherEFCoreRepo.SaveChangesAsync();
+            await PublisherDbRepo.DeleteAsync(request.Id);
+            await PublisherDbRepo.SaveChangesAsync();
             
             return result.Success(true);
         }

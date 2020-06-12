@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -13,14 +13,14 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCo
     public class CreateCampaignCostCommandHandler : IRequestHandler<CreateCampaignCostCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<CampaignCostEntity> CampaignCostEFCoreRepo { get; }
+        private AdsDbRepository<CampaignCostEntity> CampaignCostDbRepo { get; }
 
         public CreateCampaignCostCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<CampaignCostEntity> advertiserEFCoreRepo)
+            AdsDbRepository<CampaignCostEntity> advertiserDbRepo)
         {
             Mediator = mediator;
-            CampaignCostEFCoreRepo = advertiserEFCoreRepo;
+            CampaignCostDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<long>> Handle(CreateCampaignCostCommand request, CancellationToken cancellationToken)
@@ -71,8 +71,8 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCo
 
             entity.CampaignId = campaignId;
 
-            await CampaignCostEFCoreRepo.InsertAsync(entity);
-            await CampaignCostEFCoreRepo.SaveChangesAsync();
+            await CampaignCostDbRepo.InsertAsync(entity);
+            await CampaignCostDbRepo.SaveChangesAsync();
 
             return result.Success(entity.Id);
         }

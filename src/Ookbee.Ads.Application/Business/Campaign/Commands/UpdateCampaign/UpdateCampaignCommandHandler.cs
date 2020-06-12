@@ -4,7 +4,7 @@ using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
@@ -14,14 +14,14 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
     public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<CampaignEntity> CampaignEFCoreRepo { get; }
+        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
 
         public UpdateCampaignCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<CampaignEntity> campaignEFCoreRepo)
+            AdsDbRepository<CampaignEntity> campaignDbRepo)
         {
             Mediator = mediator;
-            CampaignEFCoreRepo = campaignEFCoreRepo;
+            CampaignDbRepo = campaignDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(UpdateCampaignCommand request, CancellationToken cancellationToken)
@@ -61,8 +61,8 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
                         m => m.CampaignCost,
                         m => m.CampaignImpression));
 
-            await CampaignEFCoreRepo.UpdateAsync(entity.Id, entity);
-            await CampaignEFCoreRepo.SaveChangesAsync();
+            await CampaignDbRepo.UpdateAsync(entity.Id, entity);
+            await CampaignDbRepo.SaveChangesAsync();
 
             return result.Success(true);
         }

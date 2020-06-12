@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ookbee.Ads.Domain.Entities;
 
-namespace Ookbee.Ads.Persistence.EFCore.Configurations
+namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 {
     public class AdConfiguration : IEntityTypeConfiguration<AdEntity>
     {

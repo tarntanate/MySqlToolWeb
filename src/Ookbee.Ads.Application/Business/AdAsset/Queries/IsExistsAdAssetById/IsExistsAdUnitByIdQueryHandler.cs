@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,11 +9,11 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetById
 {
     public class IsExistsAdAssetByIdQueryHandler : IRequestHandler<IsExistsAdAssetByIdQuery, HttpResult<bool>>
     {
-        private AdsEFCoreRepository<AdAssetEntity> AdAssetEFCoreRepo { get; }
+        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
-        public IsExistsAdAssetByIdQueryHandler(AdsEFCoreRepository<AdAssetEntity> adUnitEFCoreRepo)
+        public IsExistsAdAssetByIdQueryHandler(AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
-            AdAssetEFCoreRepo = adUnitEFCoreRepo;
+            AdAssetDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdAssetByIdQuery request, CancellationToken cancellationToken)
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetById
         {
             var result = new HttpResult<bool>();
 
-            var isExists = await AdAssetEFCoreRepo.AnyAsync(f =>
+            var isExists = await AdAssetDbRepo.AnyAsync(f =>
                 f.Id == request.Id &&
                 f.DeletedAt == null
             );

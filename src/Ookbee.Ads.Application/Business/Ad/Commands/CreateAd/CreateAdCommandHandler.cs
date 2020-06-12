@@ -5,7 +5,7 @@ using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,14 +14,14 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
     public class CreateAdCommandHandler : IRequestHandler<CreateAdCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<AdEntity> AdEFCoreRepo { get; }
+        private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
         public CreateAdCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<AdEntity> adEFCoreRepo)
+            AdsDbRepository<AdEntity> adDbRepo)
         {
             Mediator = mediator;
-            AdEFCoreRepo = adEFCoreRepo;
+            AdDbRepo = adDbRepo;
         }
 
         public async Task<HttpResult<long>> Handle(CreateAdCommand request, CancellationToken cancellationToken)
@@ -51,8 +51,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
                 .ToANew<AdEntity>(cfg => 
                     cfg.Ignore(m => m.AdUnit, m => m.Campaign));
 
-            await AdEFCoreRepo.InsertAsync(entity);
-            await AdEFCoreRepo.SaveChangesAsync();
+            await AdDbRepo.InsertAsync(entity);
+            await AdDbRepo.SaveChangesAsync();
 
             return result.Success(entity.Id);
         }

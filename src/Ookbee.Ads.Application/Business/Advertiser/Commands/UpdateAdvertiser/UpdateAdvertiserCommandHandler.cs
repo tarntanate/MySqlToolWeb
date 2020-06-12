@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,14 +14,14 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
     public class UpdateAdvertiserCommandHandler : IRequestHandler<UpdateAdvertiserCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<AdvertiserEntity> AdvertiserEFCoreRepo { get; }
+        private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
         public UpdateAdvertiserCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<AdvertiserEntity> advertiserEFCoreRepo)
+            AdsDbRepository<AdvertiserEntity> advertiserDbRepo)
         {
             Mediator = mediator;
-            AdvertiserEFCoreRepo = advertiserEFCoreRepo;
+            AdvertiserDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(UpdateAdvertiserCommand request, CancellationToken cancellationToken)
@@ -51,8 +51,8 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
                 .Map(source)
                 .ToANew<AdvertiserEntity>();
 
-            await AdvertiserEFCoreRepo.UpdateAsync(entity.Id, entity);
-            await AdvertiserEFCoreRepo.SaveChangesAsync();
+            await AdvertiserDbRepo.UpdateAsync(entity.Id, entity);
+            await AdvertiserDbRepo.SaveChangesAsync();
 
             return result.Success(true);
         }

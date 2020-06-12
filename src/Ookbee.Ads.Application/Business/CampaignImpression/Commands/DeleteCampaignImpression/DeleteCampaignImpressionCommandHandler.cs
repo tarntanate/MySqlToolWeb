@@ -2,7 +2,7 @@
 using Ookbee.Ads.Application.Business.CampaignImpression.Queries.IsExistsCampaignImpressionById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,14 +11,14 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.DeleteCamp
     public class DeleteCampaignImpressionCommandHandler : IRequestHandler<DeleteCampaignImpressionCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<CampaignImpressionEntity> CampaignImpressionEFCoreRepo { get; }
+        private AdsDbRepository<CampaignImpressionEntity> CampaignImpressionDbRepo { get; }
 
         public DeleteCampaignImpressionCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<CampaignImpressionEntity> advertiserEFCoreRepo)
+            AdsDbRepository<CampaignImpressionEntity> advertiserDbRepo)
         {
             Mediator = mediator;
-            CampaignImpressionEFCoreRepo = advertiserEFCoreRepo;
+            CampaignImpressionDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(DeleteCampaignImpressionCommand request, CancellationToken cancellationToken)
@@ -35,8 +35,8 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.DeleteCamp
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await CampaignImpressionEFCoreRepo.DeleteAsync(request.Id);
-            await CampaignImpressionEFCoreRepo.SaveChangesAsync();
+            await CampaignImpressionDbRepo.DeleteAsync(request.Id);
+            await CampaignImpressionDbRepo.SaveChangesAsync();
             
             return result.Success(true);
         }

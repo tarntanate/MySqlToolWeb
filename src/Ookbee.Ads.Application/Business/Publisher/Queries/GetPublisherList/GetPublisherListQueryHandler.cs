@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,11 +12,11 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList
 {
     public class GetPublisherListQueryHandler : IRequestHandler<GetPublisherListQuery, HttpResult<IEnumerable<PublisherDto>>>
     {
-        private AdsEFCoreRepository<PublisherEntity> PublisherEFCoreRepo { get; }
+        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
-        public GetPublisherListQueryHandler(AdsEFCoreRepository<PublisherEntity> publisherEFCoreRepo)
+        public GetPublisherListQueryHandler(AdsDbRepository<PublisherEntity> publisherDbRepo)
         {
-            PublisherEFCoreRepo = publisherEFCoreRepo;
+            PublisherDbRepo = publisherDbRepo;
         }
 
         public async Task<HttpResult<IEnumerable<PublisherDto>>> Handle(GetPublisherListQuery request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList
         {
             var result = new HttpResult<IEnumerable<PublisherDto>>();
 
-            var items = await PublisherEFCoreRepo.FindAsync(
+            var items = await PublisherDbRepo.FindAsync(
                 filter: f => f.DeletedAt == null,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,

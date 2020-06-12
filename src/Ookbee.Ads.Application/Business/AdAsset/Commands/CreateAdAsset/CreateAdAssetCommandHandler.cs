@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetByPosition;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,14 +12,14 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
     public class CreateAdAssetCommandHandler : IRequestHandler<CreateAdAssetCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<AdAssetEntity> AdAssetEFCoreRepo { get; }
+        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
         public CreateAdAssetCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<AdAssetEntity> adUnitEFCoreRepo)
+            AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
             Mediator = mediator;
-            AdAssetEFCoreRepo = adUnitEFCoreRepo;
+            AdAssetDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<long>> Handle(CreateAdAssetCommand request, CancellationToken cancellationToken)
@@ -41,8 +41,8 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
                 .ToANew<AdAssetEntity>(cfg => 
                     cfg.Ignore(m => m.Ad));
                     
-            await AdAssetEFCoreRepo.InsertAsync(entity);
-            await AdAssetEFCoreRepo.SaveChangesAsync();
+            await AdAssetDbRepo.InsertAsync(entity);
+            await AdAssetDbRepo.SaveChangesAsync();
             return result.Success(entity.Id);
         }
     }

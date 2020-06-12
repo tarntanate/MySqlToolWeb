@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,11 +9,11 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitByName
 {
     public class IsExistsAdUnitByNameQueryHandler : IRequestHandler<IsExistsAdUnitByNameQuery, HttpResult<bool>>
     {
-        private AdsEFCoreRepository<AdUnitEntity> AdUnitEFCoreRepo { get; }
+        private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
-        public IsExistsAdUnitByNameQueryHandler(AdsEFCoreRepository<AdUnitEntity> adUnitEFCoreRepo)
+        public IsExistsAdUnitByNameQueryHandler(AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
-            AdUnitEFCoreRepo = adUnitEFCoreRepo;
+            AdUnitDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdUnitByNameQuery request, CancellationToken cancellationToken)
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitByName
         {
             var result = new HttpResult<bool>();
 
-            var isExists = await AdUnitEFCoreRepo.AnyAsync(f =>
+            var isExists = await AdUnitDbRepo.AnyAsync(f =>
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );

@@ -2,7 +2,7 @@
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,14 +11,14 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
     public class DeleteAdCommandHandler : IRequestHandler<DeleteAdCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<AdEntity> AdEFCoreRepo { get; }
+        private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
         public DeleteAdCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<AdEntity> adEFCoreRepo)
+            AdsDbRepository<AdEntity> adDbRepo)
         {
             Mediator = mediator;
-            AdEFCoreRepo = adEFCoreRepo;
+            AdDbRepo = adDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(DeleteAdCommand request, CancellationToken cancellationToken)
@@ -35,8 +35,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await AdEFCoreRepo.DeleteAsync(request.Id);
-            await AdEFCoreRepo.SaveChangesAsync();
+            await AdDbRepo.DeleteAsync(request.Id);
+            await AdDbRepo.SaveChangesAsync();
             
             return result.Success(true);
         }

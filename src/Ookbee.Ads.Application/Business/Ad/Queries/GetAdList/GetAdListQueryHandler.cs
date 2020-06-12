@@ -4,7 +4,7 @@ using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,11 +14,11 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdList
 {
     public class GetAdListQueryHandler : IRequestHandler<GetAdListQuery, HttpResult<IEnumerable<AdDto>>>
     {
-        private AdsEFCoreRepository<AdEntity> AdEFCoreRepo { get; }
+        private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
-        public GetAdListQueryHandler(AdsEFCoreRepository<AdEntity> adEFCoreRepo)
+        public GetAdListQueryHandler(AdsDbRepository<AdEntity> adDbRepo)
         {
-            AdEFCoreRepo = adEFCoreRepo;
+            AdDbRepo = adDbRepo;
         }
 
         public async Task<HttpResult<IEnumerable<AdDto>>> Handle(GetAdListQuery request, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdList
             if (request.CampaignId.HasValue() && request.CampaignId > 0)
                 predicate = predicate.And(f => f.CampaignId == request.CampaignId);
 
-            var items = await AdEFCoreRepo.FindAsync(
+            var items = await AdDbRepo.FindAsync(
                 selector: AdDto.Projection,
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.Name),

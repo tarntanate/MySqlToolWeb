@@ -2,7 +2,7 @@
 using Ookbee.Ads.Application.Business.CampaignCost.Queries.IsExistsCampaignCostById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,14 +11,14 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.DeleteCampaignCo
     public class DeleteCampaignCostCommandHandler : IRequestHandler<DeleteCampaignCostCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<CampaignCostEntity> CampaignCostEFCoreRepo { get; }
+        private AdsDbRepository<CampaignCostEntity> CampaignCostDbRepo { get; }
 
         public DeleteCampaignCostCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<CampaignCostEntity> advertiserEFCoreRepo)
+            AdsDbRepository<CampaignCostEntity> advertiserDbRepo)
         {
             Mediator = mediator;
-            CampaignCostEFCoreRepo = advertiserEFCoreRepo;
+            CampaignCostDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(DeleteCampaignCostCommand request, CancellationToken cancellationToken)
@@ -35,8 +35,8 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.DeleteCampaignCo
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
-            await CampaignCostEFCoreRepo.DeleteAsync(request.Id);
-            await CampaignCostEFCoreRepo.SaveChangesAsync();
+            await CampaignCostDbRepo.DeleteAsync(request.Id);
+            await CampaignCostDbRepo.SaveChangesAsync();
             
             return result.Success(true);
         }

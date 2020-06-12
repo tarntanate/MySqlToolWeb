@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitById
 {
     public class GetAdUnitByIdQueryHandler : IRequestHandler<GetAdUnitByIdQuery, HttpResult<AdUnitDto>>
     {
-        private AdsEFCoreRepository<AdUnitEntity> AdUnitEFCoreRepo { get; }
+        private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
-        public GetAdUnitByIdQueryHandler(AdsEFCoreRepository<AdUnitEntity> adUnitEFCoreRepo)
+        public GetAdUnitByIdQueryHandler(AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
-            AdUnitEFCoreRepo = adUnitEFCoreRepo;
+            AdUnitDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<AdUnitDto>> Handle(GetAdUnitByIdQuery request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitById
         {
             var result = new HttpResult<AdUnitDto>();
 
-            var item = await AdUnitEFCoreRepo.FirstAsync(
+            var item = await AdUnitDbRepo.FirstAsync(
                 selector: AdUnitDto.Projection,
                 filter: f => f.Id == request.Id && f.DeletedAt == null);
             if (item == null)

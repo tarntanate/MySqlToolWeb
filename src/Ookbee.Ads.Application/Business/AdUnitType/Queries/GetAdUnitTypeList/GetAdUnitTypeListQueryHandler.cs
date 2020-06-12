@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,11 +12,11 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeList
 {
     public class GetAdUnitTypeListQueryHandler : IRequestHandler<GetAdUnitTypeListQuery, HttpResult<IEnumerable<AdUnitTypeDto>>>
     {
-        private AdsEFCoreRepository<AdUnitTypeEntity> AdUnitTypeEFCoreRepo { get; }
+        private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
 
-        public GetAdUnitTypeListQueryHandler(AdsEFCoreRepository<AdUnitTypeEntity> adUnitTypeEFCoreRepo)
+        public GetAdUnitTypeListQueryHandler(AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
         {
-            AdUnitTypeEFCoreRepo = adUnitTypeEFCoreRepo;
+            AdUnitTypeDbRepo = adUnitTypeDbRepo;
         }
 
         public async Task<HttpResult<IEnumerable<AdUnitTypeDto>>> Handle(GetAdUnitTypeListQuery request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeList
         {
             var result = new HttpResult<IEnumerable<AdUnitTypeDto>>();
 
-            var items = await AdUnitTypeEFCoreRepo.FindAsync(
+            var items = await AdUnitTypeDbRepo.FindAsync(
                 filter: f => f.DeletedAt == null,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,

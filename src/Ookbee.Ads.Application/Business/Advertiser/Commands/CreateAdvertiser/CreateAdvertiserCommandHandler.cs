@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserByName;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,14 +12,14 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
     public class CreateAdvertiserCommandHandler : IRequestHandler<CreateAdvertiserCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<AdvertiserEntity> AdvertiserEFCoreRepo { get; }
+        private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
         public CreateAdvertiserCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<AdvertiserEntity> advertiserEFCoreRepo)
+            AdsDbRepository<AdvertiserEntity> advertiserDbRepo)
         {
             Mediator = mediator;
-            AdvertiserEFCoreRepo = advertiserEFCoreRepo;
+            AdvertiserDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<long>> Handle(CreateAdvertiserCommand request, CancellationToken cancellationToken)
@@ -40,8 +40,8 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
                 .Map(request)
                 .ToANew<AdvertiserEntity>();
 
-            await AdvertiserEFCoreRepo.InsertAsync(entity);
-            await AdvertiserEFCoreRepo.SaveChangesAsync();
+            await AdvertiserDbRepo.InsertAsync(entity);
+            await AdvertiserDbRepo.SaveChangesAsync();
             
             return result.Success(entity.Id);
         }

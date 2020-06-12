@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 using Ookbee.Ads.Domain.Entities;
@@ -13,14 +13,14 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
     public class UpdatePublisherCommandHandler : IRequestHandler<UpdatePublisherCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<PublisherEntity> PublisherEFCoreRepo { get; }
+        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
         public UpdatePublisherCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<PublisherEntity> publisherEFCoreRepo)
+            AdsDbRepository<PublisherEntity> publisherDbRepo)
         {
             Mediator = mediator;
-            PublisherEFCoreRepo = publisherEFCoreRepo;
+            PublisherDbRepo = publisherDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(UpdatePublisherCommand request, CancellationToken cancellationToken)
@@ -50,8 +50,8 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
                 .Map(source)
                 .ToANew<PublisherEntity>();
 
-            await PublisherEFCoreRepo.UpdateAsync(entity.Id, entity);
-            await PublisherEFCoreRepo.SaveChangesAsync();
+            await PublisherDbRepo.UpdateAsync(entity.Id, entity);
+            await PublisherDbRepo.SaveChangesAsync();
 
             return result.Success(true);
         }

@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.GetCampaign
 {
     public class GetCampaignImpressionByCampaignIdQueryHandler : IRequestHandler<GetCampaignImpressionByCampaignIdQuery, HttpResult<CampaignImpressionDto>>
     {
-        private AdsEFCoreRepository<CampaignImpressionEntity> CampaignImpressionEFCoreRepo { get; }
+        private AdsDbRepository<CampaignImpressionEntity> CampaignImpressionDbRepo { get; }
 
-        public GetCampaignImpressionByCampaignIdQueryHandler(AdsEFCoreRepository<CampaignImpressionEntity> publisherEFCoreRepo)
+        public GetCampaignImpressionByCampaignIdQueryHandler(AdsDbRepository<CampaignImpressionEntity> publisherDbRepo)
         {
-            CampaignImpressionEFCoreRepo = publisherEFCoreRepo;
+            CampaignImpressionDbRepo = publisherDbRepo;
         }
 
         public async Task<HttpResult<CampaignImpressionDto>> Handle(GetCampaignImpressionByCampaignIdQuery request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.GetCampaign
         {
             var result = new HttpResult<CampaignImpressionDto>();
 
-            var item = await CampaignImpressionEFCoreRepo.FirstAsync(filter: f => f.CampaignId == request.CampaignId);
+            var item = await CampaignImpressionDbRepo.FirstAsync(filter: f => f.CampaignId == request.CampaignId);
             if (item == null)
                 return result.Fail(404, $"CampaignImpression '{request.CampaignId}' doesn't exist.");
                 

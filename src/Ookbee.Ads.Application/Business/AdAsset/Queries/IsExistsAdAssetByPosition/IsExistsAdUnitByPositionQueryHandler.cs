@@ -2,7 +2,7 @@
 using Ookbee.Ads.Application.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetByPosit
 {
     public class IsExistsAdAssetByPositionQueryHandler : IRequestHandler<IsExistsAdAssetByPositionQuery, HttpResult<bool>>
     {
-        private AdsEFCoreRepository<AdAssetEntity> AdAssetEFCoreRepo { get; }
+        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
-        public IsExistsAdAssetByPositionQueryHandler(AdsEFCoreRepository<AdAssetEntity> adUnitEFCoreRepo)
+        public IsExistsAdAssetByPositionQueryHandler(AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
-            AdAssetEFCoreRepo = adUnitEFCoreRepo;
+            AdAssetDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdAssetByPositionQuery request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetByPosit
             var result = new HttpResult<bool>();
 
             var position = Enum.GetName(typeof(Position), request.Position);
-            var isExists = await AdAssetEFCoreRepo.AnyAsync(f => f.Position == position);
+            var isExists = await AdAssetDbRepo.AnyAsync(f => f.Position == position);
 
             if (!isExists)
                 return result.Fail(404, $"AdAsset '{position}' doesn't exist.");

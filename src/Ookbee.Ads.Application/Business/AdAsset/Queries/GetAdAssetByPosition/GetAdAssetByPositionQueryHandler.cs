@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetByPosition
 {
     public class GetAdAssetByPositionQueryHandler : IRequestHandler<GetAdAssetByPositionQuery, HttpResult<AdAssetDto>>
     {
-        private AdsEFCoreRepository<AdAssetEntity> AdAssetEFCoreRepo { get; }
+        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
-        public GetAdAssetByPositionQueryHandler(AdsEFCoreRepository<AdAssetEntity> adUnitEFCoreRepo)
+        public GetAdAssetByPositionQueryHandler(AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
-            AdAssetEFCoreRepo = adUnitEFCoreRepo;
+            AdAssetDbRepo = adUnitDbRepo;
         }
 
         public async Task<HttpResult<AdAssetDto>> Handle(GetAdAssetByPositionQuery request, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetByPosition
             var result = new HttpResult<AdAssetDto>();
 
             var position = request.Position.ToString();
-            var item = await AdAssetEFCoreRepo.FirstAsync(filter: f => f.Position == position);
+            var item = await AdAssetDbRepo.FirstAsync(filter: f => f.Position == position);
             if (item == null)
                 return result.Fail(404, $"AdAsset '{position}' doesn't exist.");
 

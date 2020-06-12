@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName
 {
     public class GetCampaignByNameQueryHandler : IRequestHandler<GetCampaignByNameQuery, HttpResult<CampaignDto>>
     {
-        private AdsEFCoreRepository<CampaignEntity> CampaignEFCoreRepo { get; }
+        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
 
-        public GetCampaignByNameQueryHandler(AdsEFCoreRepository<CampaignEntity> campaignEFCoreRepo )
+        public GetCampaignByNameQueryHandler(AdsDbRepository<CampaignEntity> campaignDbRepo )
         {
-            CampaignEFCoreRepo = campaignEFCoreRepo;
+            CampaignDbRepo = campaignDbRepo;
         }
 
         public async Task<HttpResult<CampaignDto>> Handle(GetCampaignByNameQuery request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName
         {
             var result = new HttpResult<CampaignDto>();
 
-            var item = await CampaignEFCoreRepo.FirstAsync(
+            var item = await CampaignDbRepo.FirstAsync(
                 selector: CampaignDto.Projection,
                 filter: f => f.Name == request.Name && f.DeletedAt == null
             );

@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +10,11 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Queries.GetCampaignCostBy
 {
     public class GetCampaignCostByCampaignIdQueryHandler : IRequestHandler<GetCampaignCostByCampaignIdQuery, HttpResult<CampaignCostDto>>
     {
-        private AdsEFCoreRepository<CampaignCostEntity> CampaignCostEFCoreRepo { get; }
+        private AdsDbRepository<CampaignCostEntity> CampaignCostDbRepo { get; }
 
-        public GetCampaignCostByCampaignIdQueryHandler(AdsEFCoreRepository<CampaignCostEntity> publisherEFCoreRepo)
+        public GetCampaignCostByCampaignIdQueryHandler(AdsDbRepository<CampaignCostEntity> publisherDbRepo)
         {
-            CampaignCostEFCoreRepo = publisherEFCoreRepo;
+            CampaignCostDbRepo = publisherDbRepo;
         }
 
         public async Task<HttpResult<CampaignCostDto>> Handle(GetCampaignCostByCampaignIdQuery request, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Queries.GetCampaignCostBy
         {
             var result = new HttpResult<CampaignCostDto>();
 
-            var item = await CampaignCostEFCoreRepo.FirstAsync(filter: f => f.CampaignId == request.CampaignId);
+            var item = await CampaignCostDbRepo.FirstAsync(filter: f => f.CampaignId == request.CampaignId);
             if (item == null)
                 return result.Fail(404, $"CampaignCost '{request.CampaignId}' doesn't exist.");
                 

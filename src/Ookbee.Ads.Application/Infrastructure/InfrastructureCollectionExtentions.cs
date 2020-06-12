@@ -10,7 +10,7 @@ using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
 using Ookbee.Ads.Persistence.Advertising.Mongo;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
@@ -20,8 +20,8 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             // RDBMS
-            services.AddDbContext<AdsEFCoreContext>();
-            services.AddScoped(typeof(AdsEFCoreRepository<>));
+            services.AddDbContext<AdsDbContext>();
+            services.AddScoped(typeof(AdsDbRepository<>));
 
             // MongoDB
             services.AddSingleton<AdsMongoContext>();

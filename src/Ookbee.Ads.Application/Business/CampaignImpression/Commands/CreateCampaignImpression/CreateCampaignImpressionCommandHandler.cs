@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities;
-using Ookbee.Ads.Persistence.EFCore;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -13,14 +13,14 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
     public class CreateCampaignImpressionCommandHandler : IRequestHandler<CreateCampaignImpressionCommand, HttpResult<long>>
     {
         private IMediator Mediator { get; }
-        private AdsEFCoreRepository<CampaignImpressionEntity> CampaignImpressionEFCoreRepo { get; }
+        private AdsDbRepository<CampaignImpressionEntity> CampaignImpressionDbRepo { get; }
 
         public CreateCampaignImpressionCommandHandler(
             IMediator mediator,
-            AdsEFCoreRepository<CampaignImpressionEntity> advertiserEFCoreRepo)
+            AdsDbRepository<CampaignImpressionEntity> advertiserDbRepo)
         {
             Mediator = mediator;
-            CampaignImpressionEFCoreRepo = advertiserEFCoreRepo;
+            CampaignImpressionDbRepo = advertiserDbRepo;
         }
 
         public async Task<HttpResult<long>> Handle(CreateCampaignImpressionCommand request, CancellationToken cancellationToken)
@@ -71,8 +71,8 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
 
             entity.CampaignId = campaignId;
 
-            await CampaignImpressionEFCoreRepo.InsertAsync(entity);
-            await CampaignImpressionEFCoreRepo.SaveChangesAsync();
+            await CampaignImpressionDbRepo.InsertAsync(entity);
+            await CampaignImpressionDbRepo.SaveChangesAsync();
 
             return result.Success(entity.Id);
         }
