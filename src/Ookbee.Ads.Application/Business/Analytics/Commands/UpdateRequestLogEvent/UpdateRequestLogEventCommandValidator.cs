@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
 
         private bool BeAValidEventType(string value)
         {
-            if (value.HasValue())
+            if (!value.HasValue())
                 return false;
             var platforms = new string[] { "click", "impression" };
             return platforms.Contains(value.ToLower());
