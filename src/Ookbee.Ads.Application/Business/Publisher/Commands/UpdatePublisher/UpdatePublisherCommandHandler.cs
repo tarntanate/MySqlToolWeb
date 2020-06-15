@@ -3,10 +3,10 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById;
 using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
 {

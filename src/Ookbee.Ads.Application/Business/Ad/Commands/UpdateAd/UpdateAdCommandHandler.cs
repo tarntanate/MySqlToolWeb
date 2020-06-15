@@ -2,13 +2,13 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
+using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
-using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 {

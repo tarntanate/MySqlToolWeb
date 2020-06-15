@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 {

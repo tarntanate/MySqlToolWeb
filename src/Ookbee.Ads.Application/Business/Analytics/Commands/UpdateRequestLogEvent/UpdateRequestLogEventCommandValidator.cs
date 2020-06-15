@@ -2,7 +2,6 @@
 using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Common.Extensions;
 using System;
-using System.Linq;
 
 namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEvent
 {

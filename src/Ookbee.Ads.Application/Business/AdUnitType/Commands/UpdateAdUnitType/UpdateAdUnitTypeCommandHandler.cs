@@ -4,10 +4,9 @@ using Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeByName;
 using Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using System;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System.Threading;
 using System.Threading.Tasks;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.UpdateAdUnitType
 {
@@ -33,7 +32,7 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.UpdateAdUnitType
         private async Task<HttpResult<bool>> UpdateOnDb(UpdateAdUnitTypeCommand request)
         {
             var result = new HttpResult<bool>();
-            
+
             var adUnitTypeResult = await Mediator.Send(new GetAdUnitTypeByIdQuery(request.Id));
             if (!adUnitTypeResult.Ok)
                 return result.Fail(adUnitTypeResult.StatusCode, adUnitTypeResult.Message);

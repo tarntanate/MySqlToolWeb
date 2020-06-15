@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System;
 using System.Threading;

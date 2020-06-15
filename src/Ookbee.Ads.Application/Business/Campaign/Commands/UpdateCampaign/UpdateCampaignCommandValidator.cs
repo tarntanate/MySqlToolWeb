@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Common;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign

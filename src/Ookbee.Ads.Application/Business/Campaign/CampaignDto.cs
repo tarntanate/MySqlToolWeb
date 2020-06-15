@@ -1,9 +1,9 @@
-using System;
-using System.Linq.Expressions;
 using Newtonsoft.Json;
 using Ookbee.Ads.Application.Business.Advertiser;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using System;
+using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Business.Campaign
 {

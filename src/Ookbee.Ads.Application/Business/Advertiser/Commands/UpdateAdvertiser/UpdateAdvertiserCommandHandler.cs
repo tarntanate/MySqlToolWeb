@@ -4,7 +4,6 @@ using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ookbee.Ads.Domain.Entities.AdsEntities;

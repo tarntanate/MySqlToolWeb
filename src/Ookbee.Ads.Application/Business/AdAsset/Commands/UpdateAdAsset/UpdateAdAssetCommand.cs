@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Infrastructure.Enums;
 
 namespace Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset
 {

@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -39,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
 
             await PublisherDbRepo.DeleteAsync(request.Id);
             await PublisherDbRepo.SaveChangesAsync();
-            
+
             return result.Success(true);
         }
     }

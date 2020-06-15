@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEvent

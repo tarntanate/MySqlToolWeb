@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Common;
-using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.UpdateCampaignCost
 {

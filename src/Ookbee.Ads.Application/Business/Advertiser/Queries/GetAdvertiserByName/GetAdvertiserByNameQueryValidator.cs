@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MongoDB.Bson;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName
 {

@@ -17,7 +17,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 
         public UpdateCampaignCommand()
         {
-            
+
         }
 
         public UpdateCampaignCommand(long id, UpdateCampaignCommand request)
