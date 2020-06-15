@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using MongoDB.Driver;
 using Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetById;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
