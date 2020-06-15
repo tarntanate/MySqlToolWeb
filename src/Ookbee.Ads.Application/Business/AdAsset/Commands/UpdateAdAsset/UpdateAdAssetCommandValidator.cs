@@ -8,9 +8,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset
         public UpdateAdAssetCommandValidator()
         {
             RuleFor(p => p.AdId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
-            RuleFor(p => p.AssetPath).NotNull().NotEmpty().MaximumLength(40);
-            RuleFor(p => p.AssetPath).Must(BeAValidUri).WithMessage((rule, value) => $"Invalid AssetPath '{value}'");
-            
+            RuleFor(p => p.AssetPath).MaximumLength(255).Must(BeAValidUri).When(m => m.AssetPath.HasValue()).WithMessage((rule, value) => $"Invalid AssetPath '{value}'");
         }
 
         private bool BeAValidUri(string value)

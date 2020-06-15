@@ -12,9 +12,11 @@
             "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Analytics.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
+            "justMyCode": false,
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Localhost"
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:8130/"
             }
         },
         {
@@ -25,9 +27,11 @@
             "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Analytics.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
+            "justMyCode": false,
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8130/"
             }
         },
         {
@@ -38,9 +42,11 @@
             "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Banner/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Banner.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
+            "justMyCode": false,
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Localhost"
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:8140/"
             }
         },
         {
@@ -51,9 +57,41 @@
             "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Banner/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Banner.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
+            "justMyCode": false,
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8140/"
+            }
+        },
+        {
+            "name": "Serv.Identity-loc",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Identity.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:8110/"
+            }
+        },
+        {
+            "name": "Serv.Identity-dev",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Identity.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8110/"
             }
         },
         {
@@ -64,9 +102,11 @@
             "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
+            "justMyCode": false,
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Localhost"
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:8120/"
             }
         },
         {
@@ -77,9 +117,11 @@
             "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
+            "justMyCode": false,
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8120/"
             }
         }
     ]

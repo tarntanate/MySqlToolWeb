@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset
 
         public UpdateAdAssetCommand(long id, UpdateAdAssetCommand request)
         {
-            Id = request.Id;
+            Id = id;
             AdId = request.AdId;
             AssetType = request.AssetType;
             AssetPath = request.AssetPath;

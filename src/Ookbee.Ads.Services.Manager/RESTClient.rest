@@ -1,7 +1,0 @@
-@apiUrl = http://localhost:5000/api
-
-### Utility *******************************
-
-### HealthChecks
-GET {{apiUrl}}/health
-content-type: application/json

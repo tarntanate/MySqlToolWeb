@@ -20,8 +20,8 @@ namespace Ookbee.Ads.Services.Manager.Controllers
     public class AdAssetsController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<AdAssetDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] int adUnitTypeId, [FromQuery] int publisherId)
-            => await Mediator.Send(new GetAdAssetListQuery(start, length, adUnitTypeId, publisherId));
+        public async Task<HttpResult<IEnumerable<AdAssetDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? adId)
+            => await Mediator.Send(new GetAdAssetListQuery(start, length, adId));
 
         [HttpGet("{id}")]
         public async Task<HttpResult<AdAssetDto>> GetById([FromRoute] long id)

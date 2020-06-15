@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Common.AspNetCore.Extentions
 {
@@ -9,25 +10,28 @@ namespace Ookbee.Ads.Common.AspNetCore.Extentions
         public static void AddAllowedHosts(this IServiceCollection services, IConfiguration configuration)
         {
             var allowedHosts = configuration.GetValue<string>("AllowedHosts");
-            var corsPolicyBuilder = new CorsPolicyBuilder();
-            if (allowedHosts == "*")
+            if (allowedHosts.HasValue())
             {
-                corsPolicyBuilder.SetIsOriginAllowed(_ => true);
+                var corsPolicyBuilder = new CorsPolicyBuilder();
+                if (allowedHosts == "*")
+                {
+                    corsPolicyBuilder.SetIsOriginAllowed(_ => true);
+                }
+                else
+                {
+                    corsPolicyBuilder.WithOrigins(allowedHosts.Split(";"));
+                }
+                services.AddCors(options =>
+                {
+                    options.AddPolicy(
+                        name: "AllowSpecificOrigins",
+                        policy: corsPolicyBuilder.AllowAnyHeader()
+                                                 .AllowAnyMethod()
+                                                 .AllowCredentials()
+                                                 .Build()
+                    );
+                });
             }
-            else
-            {
-                corsPolicyBuilder.WithOrigins(allowedHosts.Split(";"));
-            }
-            services.AddCors(options =>
-            {
-                options.AddPolicy(
-                    name: "AllowSpecificOrigins",
-                    policy: corsPolicyBuilder.AllowAnyHeader()
-                                             .AllowAnyMethod()
-                                             .AllowCredentials()
-                                             .Build()
-                );
-            });
         }
     }
 }
