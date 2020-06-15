@@ -9,14 +9,14 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
         public UpdateRequestLogEventCommandValidator()
         {
             RuleFor(p => p.EventId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
-            RuleFor(p => p.EventType).Must(BeAValidEventType).WithMessage($"'Event Type' only support 'Click' and 'Impression'.");
+            RuleFor(p => p.EventType).Must(BeAValidEventType).WithMessage($"'Event Type' only support 'Click', 'Display' and 'Impression'.");
         }
 
         private bool BeAValidEventType(string value)
         {
             if (!value.HasValue())
                 return false;
-            var platforms = new string[] { "click", "impression" };
+            var platforms = new string[] { "click", "display", "impression" };
             return platforms.Contains(value.ToLower());
         }
     }
