@@ -2,7 +2,7 @@
 using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Analytics.Queries.GetRequestLogById;
-using Ookbee.Ads.Application.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;

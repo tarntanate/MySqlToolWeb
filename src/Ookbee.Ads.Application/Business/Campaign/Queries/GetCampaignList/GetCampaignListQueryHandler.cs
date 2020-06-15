@@ -4,7 +4,9 @@ using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -36,8 +38,8 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
             if (request.AdvertiserId.HasValue() && request.AdvertiserId > 0)
                 predicate = predicate.And(f => f.AdvertiserId == request.AdvertiserId);
 
-            if (request.PricingModel.HasValue())
-                predicate = predicate.And(f => f.PricingModel == request.PricingModel);
+            if (request.PricingModel.HasValue() && Enum.TryParse<PricingModel>(request.PricingModel, true, out var pricingModel))
+                predicate = predicate.And(f => f.PricingModel == pricingModel);
 
             var items = await CampaignDbRepo.FindAsync(
                 selector: CampaignDto.Projection,

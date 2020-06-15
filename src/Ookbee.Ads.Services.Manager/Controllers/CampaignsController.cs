@@ -12,6 +12,7 @@ using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace Ookbee.Ads.Services.Manager.Controllers
 {
@@ -20,8 +21,8 @@ namespace Ookbee.Ads.Services.Manager.Controllers
     public class CampaignsController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<CampaignDto>>> GetList([FromQuery] int advertiserId, [FromQuery] string pricingModel, [FromQuery] int start, [FromQuery] int length)
-            => await Mediator.Send(new GetCampaignListQuery(advertiserId, pricingModel, start, length));
+        public async Task<HttpResult<IEnumerable<CampaignDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? advertiserId, [FromQuery] string pricingModel)
+            => await Mediator.Send(new GetCampaignListQuery(start, length, advertiserId, pricingModel));
 
         [HttpGet("{id}")]
         public async Task<HttpResult<CampaignDto>> GetById([FromRoute] long id)

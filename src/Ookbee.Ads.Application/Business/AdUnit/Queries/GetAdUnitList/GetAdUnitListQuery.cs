@@ -11,12 +11,12 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
         public int Start { get; set; }
         public int Length { get; set; }
 
-        public GetAdUnitListQuery(long adUnitTypeId, long publisherId, int start, int length)
+        public GetAdUnitListQuery(int start, int length, long? adUnitTypeId, long? publisherId)
         {
-            AdUnitTypeId = adUnitTypeId;
-            PublisherId = publisherId;
             Start = start;
             Length = length;
+            AdUnitTypeId = adUnitTypeId;
+            PublisherId = publisherId;
         }
     }
 }

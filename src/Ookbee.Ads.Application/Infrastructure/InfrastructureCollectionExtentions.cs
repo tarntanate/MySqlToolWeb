@@ -3,13 +3,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Bson.Serialization.Conventions;
 using Newtonsoft.Json.Converters;
 using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
-using Ookbee.Ads.Persistence.Advertising.Mongo;
-using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using Ookbee.Ads.Infrastructure;
 using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
@@ -25,9 +23,9 @@ namespace Ookbee.Ads.Application.Infrastructure
 
             // Health
             services.AddHealthChecks()
-                    .AddMongoDb(configuration["AppSettings:ConnectionStrings:MongoDb.Ads"])
-                    .AddNpgSql(configuration["AppSettings:ConnectionStrings:PostgreSQL.Ads"])
-                    .AddRedis(configuration["AppSettings:ConnectionStrings:Redis"]);
+                    .AddMongoDb(configuration[GlobalVar.AppSettings.ConnectionStrings.MongoDB.Ads])
+                    .AddNpgSql(configuration[GlobalVar.AppSettings.ConnectionStrings.PostgreSQL.Ads])
+                    .AddRedis(configuration[GlobalVar.AppSettings.ConnectionStrings.Redis]);
 
             // Options
             services.AddAllowedHosts(configuration);
@@ -45,7 +43,6 @@ namespace Ookbee.Ads.Application.Infrastructure
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     });
 
-            // Configure
             services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
         }
     }

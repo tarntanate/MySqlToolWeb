@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ookbee.Ads.Domain\Ookbee.Ads.Domain.csproj" />
-    <ProjectReference Include="..\Ookbee.Ads.Infrastructure\Ookbee.Ads.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
-﻿using System;
-using FluentValidation;
-using Ookbee.Ads.Application.Infrastructure.Enums;
+﻿using FluentValidation;
 using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Infrastructure.Enums;
+using System;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
 {
@@ -9,17 +9,17 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
     {
         public GetCampaignListQueryValidator()
         {
-            RuleFor(p => p.AdvertiserId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue).When(customer => customer.AdvertiserId != null);
-            RuleFor(p => p.PricingModel).Must(BeValidPricingModel);
+            RuleFor(p => p.AdvertiserId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue).When(m => m.AdvertiserId != null);
+            RuleFor(p => p.PricingModel).Must(BeValidPricingModel).When(m => m.PricingModel.HasValue()).WithMessage("Only 'CPM' and 'IMP' Model is supported.");
             RuleFor(p => p.Start).GreaterThanOrEqualTo(0);
             RuleFor(p => p.Length).GreaterThan(0).LessThanOrEqualTo(100);
         }
-        
+
         private bool BeValidPricingModel(string value)
         {
-            if (value.HasValue() && Enum.TryParse<PricingModel>(value, true, out var pricingModel))
+            if (Enum.TryParse<PricingModel>(value, true, out var pricingModel))
                 return true;
-            return true;
+            return false;
         }
     }
 }

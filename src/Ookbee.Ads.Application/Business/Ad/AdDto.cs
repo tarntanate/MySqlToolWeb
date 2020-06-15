@@ -66,7 +66,7 @@ namespace Ookbee.Ads.Application.Business.Ad
                         Description = entity.Campaign.Description,
                         StartDate = entity.Campaign.StartDate,
                         EndDate = entity.Campaign.EndDate,
-                        PricingModel = entity.Campaign.PricingModel,
+                        PricingModel = entity.Campaign.PricingModel.ToString(),
                         Budget = entity.Campaign.CampaignCost.Budget,
                         CostPerUnit = entity.Campaign.CampaignCost.CostPerUnit,
                         Quota = entity.Campaign.CampaignImpression.Quota,

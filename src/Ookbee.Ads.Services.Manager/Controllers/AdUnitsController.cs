@@ -18,8 +18,8 @@ namespace Ookbee.Ads.Services.Manager.Controllers
     public class AdUnitsController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<AdUnitDto>>> GetList([FromQuery] int adUnitTypeId, [FromQuery] int publisherId, [FromQuery] int start, [FromQuery] int length)
-            => await Mediator.Send(new GetAdUnitListQuery(adUnitTypeId, publisherId, start, length));
+        public async Task<HttpResult<IEnumerable<AdUnitDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] int adUnitTypeId, [FromQuery] int publisherId)
+            => await Mediator.Send(new GetAdUnitListQuery(start, length, adUnitTypeId, publisherId));
 
         [HttpGet("{id}")]
         public async Task<HttpResult<AdUnitDto>> GetById([FromRoute] long id)
