@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
         public int Start { get; set; }
         public int Length { get; set; }
 
-        public GetCampaignListQuery(long campaignTypeId, string pricingModel, int start, int length)
+        public GetCampaignListQuery(long advertiserId, string pricingModel, int start, int length)
         {
-            AdvertiserId = campaignTypeId;
+            AdvertiserId = advertiserId;
             PricingModel = pricingModel;
             Start = start;
             Length = length;
