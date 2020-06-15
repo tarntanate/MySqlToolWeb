@@ -13,6 +13,7 @@ namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
         public string DeviceId { get; set; }
         public string UserAgent { get; set; }
         public bool IsFill { get; set; }
+        public bool IsDisplay { get; set; }
         public bool IsClick { get; set; }
         public bool IsImpression { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }

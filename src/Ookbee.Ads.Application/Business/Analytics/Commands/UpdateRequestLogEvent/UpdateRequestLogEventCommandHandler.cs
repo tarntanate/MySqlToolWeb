@@ -46,6 +46,10 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
                         requestLogResult.Data.IsClick = true;
                         break;
 
+                    case "DISPLAY":
+                        requestLogResult.Data.IsDisplay = true;
+                        break;
+
                     case "IMPRESSION":
                         requestLogResult.Data.IsImpression = true;
                         break;
