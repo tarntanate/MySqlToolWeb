@@ -1,8 +1,10 @@
 namespace Ookbee.Ads.Application.Infrastructure.Enums
 {
-    public enum AnalaticsEvent
+    public enum AdsEvent
     {
         Click,
+
+        Display,
 
         Impression,
     }

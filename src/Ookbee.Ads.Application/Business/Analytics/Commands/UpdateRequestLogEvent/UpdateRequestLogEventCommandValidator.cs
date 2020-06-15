@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Ookbee.Ads.Application.Infrastructure.Enums;
 using Ookbee.Ads.Common.Extensions;
+using System;
 using System.Linq;
 
 namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEvent
@@ -14,10 +16,9 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
 
         private bool BeAValidEventType(string value)
         {
-            if (!value.HasValue())
-                return false;
-            var platforms = new string[] { "click", "display", "impression" };
-            return platforms.Contains(value.ToLower());
+            if (value.HasValue() && Enum.TryParse<AdsEvent>(value, true, out var adsEvent))
+                return true;
+            return true;
         }
     }
 }

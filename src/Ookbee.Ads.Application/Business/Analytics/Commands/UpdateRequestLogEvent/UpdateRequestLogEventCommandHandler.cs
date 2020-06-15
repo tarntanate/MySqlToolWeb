@@ -38,19 +38,20 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
             if (!requestLogResult.Ok)
                 return result.Fail(requestLogResult.StatusCode, requestLogResult.Message);
             
-            if (requestLogResult.Data.IsFill)
+            if (requestLogResult.Data.IsFill &&
+                Enum.TryParse<AdsEvent>(request.EventType, true, out var adsEvent))
             {
-                switch (request.EventType.ToUpper())
+                switch (adsEvent)
                 {
-                    case "CLICK":
+                    case AdsEvent.Click:
                         requestLogResult.Data.IsClick = true;
                         break;
 
-                    case "DISPLAY":
+                    case AdsEvent.Display:
                         requestLogResult.Data.IsDisplay = true;
                         break;
 
-                    case "IMPRESSION":
+                    case AdsEvent.Impression:
                         requestLogResult.Data.IsImpression = true;
                         break;
 
