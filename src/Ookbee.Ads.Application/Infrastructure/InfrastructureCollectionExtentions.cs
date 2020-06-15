@@ -25,8 +25,8 @@ namespace Ookbee.Ads.Application.Infrastructure
 
             // Health
             services.AddHealthChecks()
-                    .AddMongoDb(configuration["AppSettings:ConnectionStrings:MongoDb"])
-                    .AddNpgSql(configuration["AppSettings:ConnectionStrings:PostgreSQL"])
+                    .AddMongoDb(configuration["AppSettings:ConnectionStrings:MongoDb.Ads"])
+                    .AddNpgSql(configuration["AppSettings:ConnectionStrings:PostgreSQL.Ads"])
                     .AddRedis(configuration["AppSettings:ConnectionStrings:Redis"]);
 
             // Options
