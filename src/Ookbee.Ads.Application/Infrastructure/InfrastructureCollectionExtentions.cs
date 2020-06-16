@@ -3,12 +3,16 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson.Serialization.Conventions;
 using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
 using Ookbee.Ads.Common.Swagger;
 using Ookbee.Ads.Infrastructure;
-using System;
+using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
+using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
@@ -38,6 +42,20 @@ namespace Ookbee.Ads.Application.Infrastructure
                     .AddMongoDb(connMongoDB)
                     .AddNpgSql(connPostgreSQL)
                     .AddRedis(connRedis);
+
+            // EFCore
+            services.AddDbContext<AdsDbContext>();
+            services.AddDbContext<AnalyticsDbContext>();
+            services.AddScoped(typeof(AdsDbRepository<>));
+            services.AddScoped(typeof(AnalyticsDbRepository<>));
+
+            // MongoDB
+            services.AddSingleton<AdsMongoContext>();
+            services.AddScoped(typeof(AdsMongoRepository<>));
+            ConventionRegistry.Register("CamelCaseElementName", new ConventionPack { new CamelCaseElementNameConvention() }, _ => true);
+
+            // Redis
+            services.AddSingleton<AdsRedisContext>();
 
             // Swagger
             services.AddSwaggerDocs();

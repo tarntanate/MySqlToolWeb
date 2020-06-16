@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ookbee.Ads.Common.Helpers;
@@ -9,29 +11,30 @@ namespace Ookbee.Ads.Application.Infrastructure
 {
     public static class InfrastructureMiddlewareExtensions
     {
-        public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IHostEnvironment envirinment)
+        public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            HttpContextHelper.Configure(builder.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
-            if (envirinment.IsProduction())
+            var x = app.ApplicationServices.GetService<IConfiguration>();
+            HttpContextHelper.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
+            if (env.IsProduction())
             {
-                builder.UseHttpsRedirection();
-                builder.UseHsts();
+                app.UseHttpsRedirection();
+                app.UseHsts();
             }
             else
             {
-                builder.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
-            builder.UseCors("AllowSpecificOrigins");
-            builder.UseRouting();
-            builder.UseAuthorization();
-            builder.UseEndpoints(config =>
+            app.UseCors("AllowSpecificOrigins");
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(config =>
             {
                 config.MapControllers();
                 config.MapHealthChecks("/api/health");
             });
-            builder.UseSwaggerDocs();
+            app.UseSwaggerDocs();
 
-            return builder;
+            return app;
         }
     }
 }
