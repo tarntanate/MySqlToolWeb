@@ -10,11 +10,10 @@ namespace Ookbee.Ads.Services.Banner
         {
             CreateHostBuilder(args).Build().Run();
         }
-        
+
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

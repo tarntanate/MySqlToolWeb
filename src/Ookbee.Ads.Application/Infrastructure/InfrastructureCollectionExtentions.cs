@@ -3,12 +3,12 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Converters;
 using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
+using Ookbee.Ads.Common.Swagger;
 using Ookbee.Ads.Infrastructure;
-using System.Globalization;
+using System;
 using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
@@ -17,19 +17,8 @@ namespace Ookbee.Ads.Application.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            // Mediator
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-
-            // Health
-            services.AddHealthChecks()
-                    .AddMongoDb(configuration[GlobalVar.AppSettings.ConnectionStrings.MongoDB.Ads])
-                    .AddNpgSql(configuration[GlobalVar.AppSettings.ConnectionStrings.PostgreSQL.Ads])
-                    .AddRedis(configuration[GlobalVar.AppSettings.ConnectionStrings.Redis]);
-
-            // Options
-            services.AddAllowedHosts(configuration);
+            // MVC
+            services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
             services.AddHttpContextAccessor();
             services.AddControllers((options) =>
                     {
@@ -38,7 +27,28 @@ namespace Ookbee.Ads.Application.Infrastructure
                     })
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
+            // CORS
+            services.AddAllowedHosts(configuration);
+
+            // Health
+            var connMongoDB = GlobalVar.AppSettings.ConnectionStrings.MongoDB.Ads;
+            var connPostgreSQL = GlobalVar.AppSettings.ConnectionStrings.PostgreSQL.Ads;
+            var connRedis = GlobalVar.AppSettings.ConnectionStrings.Redis;
+            services.AddHealthChecks()
+                    .AddMongoDb(connMongoDB)
+                    .AddNpgSql(connPostgreSQL)
+                    .AddRedis(connRedis);
+
+            // Swagger
+            services.AddSwaggerDocs();
+
+            // Mediator
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+            // Services
+            services.AddSingleton<IConfiguration>(configuration);
         }
     }
 }
