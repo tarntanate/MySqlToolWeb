@@ -17,13 +17,13 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public List<string> Platforms { get; set; }
         public string AppLink { get; set; }
         public string WebLink { get; set; }
-        public DateTimeOffset? CreatedAt { get; set; }
-        public DateTimeOffset? UpdatedAt { get; set; }
-        public DateTimeOffset? DeletedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public virtual AdUnitEntity AdUnit { get; set; }
         public virtual CampaignEntity Campaign { get; set; }
-        
+
         public virtual List<AdAssetEntity> AdAsset { get; set; }
     }
 }

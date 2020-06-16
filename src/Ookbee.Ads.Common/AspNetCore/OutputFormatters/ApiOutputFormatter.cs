@@ -44,36 +44,38 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
                         {
                             message = "One or more errors occurred while processing the request.",
                             errors = reasons.Count() > 0 ? obj.Reasons : new List<string>() { obj.Message }
-                    };
+                        };
+                    }
                 }
             }
-        }
 
             if (statusCode == HttpStatusCode.OK)
             {
                 responseValue = new
                 {
-                    Data = IsEnumnerable(objType) ? new { items = obj
-    } : obj
-};
+                    Data = IsEnumnerable(objType) ? new
+                    {
+                        items = obj
+                    } : obj
+                };
             }
 
             context.HttpContext.Response.ContentType = "application/json";
-            context.HttpContext.Response.StatusCode = (int) statusCode;
+            context.HttpContext.Response.StatusCode = (int)statusCode;
             return context.HttpContext.Response.WriteAsync(JsonHelper.Serialize(responseValue));
         }
 
         private bool IsEnumnerable(Type objType)
-{
-    return typeof(IEnumerable<object>).IsAssignableFrom(objType);
-}
+        {
+            return typeof(IEnumerable<object>).IsAssignableFrom(objType);
+        }
 
-private bool IsHttpResult(Type objType)
-{
-    if (objType.IsGenericType)
-        return typeof(HttpResult<>).IsAssignableFrom(objType.GetGenericTypeDefinition());
-    else
-        return false;
-}
+        private bool IsHttpResult(Type objType)
+        {
+            if (objType.IsGenericType)
+                return typeof(HttpResult<>).IsAssignableFrom(objType.GetGenericTypeDefinition());
+            else
+                return false;
+        }
     }
 }

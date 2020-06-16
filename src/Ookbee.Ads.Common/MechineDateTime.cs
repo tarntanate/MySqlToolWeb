@@ -51,20 +51,20 @@ namespace Ookbee.Ads.Common
             }
         }
 
-        public static DateTimeOffset Now => MachineDateTime;
+        public static DateTime Now => MachineDateTime.DateTime;
 
-        public static DateTimeOffset UtcNow => MachineDateTime.ToUniversalTime();
+        public static DateTime UtcNow => Now.ToUniversalTime();
 
-        public static DateTimeOffset FirstTimeOfWeek(DateTimeOffset caculateDate) => caculateDate.AddDays(-((int)caculateDate.DayOfWeek)).Date;
+        public static DateTime FirstTimeOfWeek(DateTime caculateDate) => caculateDate.AddDays(-((int)caculateDate.DayOfWeek)).Date;
 
-        public static DateTimeOffset LastTimeOfWeek(DateTimeOffset caculateDate) => FirstTimeOfWeek(caculateDate).AddDays(7).AddTicks(-1);
+        public static DateTime LastTimeOfWeek(DateTime caculateDate) => FirstTimeOfWeek(caculateDate).AddDays(7).AddTicks(-1);
 
-        public static DateTimeOffset FirstTimeOfMonth(DateTimeOffset caculateDate) => caculateDate.AddDays(-(caculateDate.Day - 1)).Date;
+        public static DateTime FirstTimeOfMonth(DateTime caculateDate) => caculateDate.AddDays(-(caculateDate.Day - 1)).Date;
 
-        public static DateTimeOffset LastTimeOfMonth(DateTimeOffset caculateDate) => FirstTimeOfMonth(caculateDate).AddMonths(1).AddTicks(-1);
+        public static DateTime LastTimeOfMonth(DateTime caculateDate) => FirstTimeOfMonth(caculateDate).AddMonths(1).AddTicks(-1);
 
-        public static DateTimeOffset FirstTimeOfYear(DateTimeOffset caculateDate) => caculateDate.AddDays(-(caculateDate.DayOfYear - 1)).Date;
+        public static DateTime FirstTimeOfYear(DateTime caculateDate) => caculateDate.AddDays(-(caculateDate.DayOfYear - 1)).Date;
 
-        public static DateTimeOffset LastTimeOfYear(DateTimeOffset caculateDate) => FirstTimeOfYear(caculateDate).AddYears(1).AddTicks(-1);
+        public static DateTime LastTimeOfYear(DateTime caculateDate) => FirstTimeOfYear(caculateDate).AddYears(1).AddTicks(-1);
     }
 }

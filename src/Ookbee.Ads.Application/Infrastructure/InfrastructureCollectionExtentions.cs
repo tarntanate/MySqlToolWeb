@@ -8,6 +8,7 @@ using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
 using Ookbee.Ads.Infrastructure;
+using System.Globalization;
 using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
@@ -31,17 +32,11 @@ namespace Ookbee.Ads.Application.Infrastructure
             services.AddAllowedHosts(configuration);
             services.AddHttpContextAccessor();
             services.AddControllers((options) =>
-            {
-                options.Filters.Add(typeof(CustomExceptionFilterAttribute));
-                options.OutputFormatters.Insert(0, new ApiOutputFormatter());
-            })
-                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
-                    .AddNewtonsoftJson((options) =>
                     {
-                        options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                    });
+                        options.Filters.Add(typeof(CustomExceptionFilterAttribute));
+                        options.OutputFormatters.Insert(0, new ApiOutputFormatter());
+                    })
+                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
         }

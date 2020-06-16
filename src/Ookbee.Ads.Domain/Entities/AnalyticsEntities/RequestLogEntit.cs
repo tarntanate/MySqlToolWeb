@@ -16,6 +16,6 @@ namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
         public bool IsDisplay { get; set; }
         public bool IsClick { get; set; }
         public bool IsImpression { get; set; }
-        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }
