@@ -32,14 +32,13 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset
         private async Task<HttpResult<bool>> UpdateOnDb(UpdateAdAssetCommand request)
         {
             var result = new HttpResult<bool>();
-            
+
             var adAssetResult = await Mediator.Send(new GetAdAssetByIdQuery(request.Id));
             if (!adAssetResult.Ok)
                 return result.Fail(adAssetResult.StatusCode, adAssetResult.Message);
 
-            var adAssetByPositionResult = await Mediator.Send(new GetAdAssetByPositionQuery(request.Position));
-            if (adAssetByPositionResult.Ok &&
-                adAssetByPositionResult.Data.Id != request.Id)
+            var adAssetByPositionResult = await Mediator.Send(new GetAdAssetByPositionQuery(request.Id, request.Position));
+            if (adAssetByPositionResult.Ok)
                 return result.Fail(409, $"AdAsset '{request.Position.ToString()}' already exists.");
 
             var source = Mapper
