@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Enums;
 
 namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 {
@@ -17,6 +19,11 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();
+
+            builder.Property(e => e.Position)
+                   .HasConversion(
+                        v => v.ToString(),
+                        v => (Position)Enum.Parse(typeof(Position), v));
         }
     }
 }
