@@ -35,6 +35,7 @@ namespace Ookbee.Ads.Application.Business.Ad
                 {
                     Id = entity.Id,
                     Name = entity.Name,
+                    Description = entity.Description,
                     CountdownSecond = entity.CountdownSecond,
                     ForegroundColor = entity.ForegroundColor,
                     BackgroundColor = entity.BackgroundColor,
