@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ookbee.Ads.Common.AspNetCore.Middlewares;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Swagger;
 
@@ -22,7 +23,7 @@ namespace Ookbee.Ads.Application.Infrastructure
             }
             else
             {
-                app.UseDeveloperExceptionPage();
+                app.UseHttpExceptionMiddleware();
             }
             app.UseCors("AllowSpecificOrigins");
             app.UseRouting();
