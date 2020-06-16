@@ -3,7 +3,9 @@ using MediatR;
 using Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetByPosition;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,15 +34,15 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
         {
             var result = new HttpResult<long>();
 
-            var isExistsAdAssetByName = await Mediator.Send(new IsExistsAdAssetByPositionQuery(request.Position));
-            if (isExistsAdAssetByName.Ok)
-                return result.Fail(409, $"AdAsset '{request.Position.ToString()}' already exists.");
+            // var isExistsAdAssetByName = await Mediator.Send(new IsExistsAdAssetByPositionQuery((Position)Enum.Parse(typeof(Position), request.Position)));
+            // if (isExistsAdAssetByName.Ok)
+            //     return result.Fail(409, $"AdAsset '{request.Position.ToString()}' already exists.");
 
             var entity = Mapper
                 .Map(request)
-                .ToANew<AdAssetEntity>(cfg => 
+                .ToANew<AdAssetEntity>(cfg =>
                     cfg.Ignore(m => m.Ad));
-                    
+
             await AdAssetDbRepo.InsertAsync(entity);
             await AdAssetDbRepo.SaveChangesAsync();
             return result.Success(entity.Id);

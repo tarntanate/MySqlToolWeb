@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdList
                 predicate = predicate.And(f => f.AdUnitId == request.AdUnitId);
 
             if (request.CampaignId.HasValue() && request.CampaignId > 0)
-                predicate = predicate.And(f => f.Campaign.Id == request.CampaignId);
+                predicate = predicate.And(f => f.CampaignId == request.CampaignId);
 
             var items = await AdDbRepo.FindAsync(
                 selector: AdDto.Projection,
