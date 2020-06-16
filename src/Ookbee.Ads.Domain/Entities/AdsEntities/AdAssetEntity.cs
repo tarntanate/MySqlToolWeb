@@ -1,5 +1,6 @@
 using System;
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
+using Ookbee.Ads.Infrastructure.Enums;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
@@ -8,7 +9,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public long AdId { get; set; }
         public string AssetType { get; set; }
         public string AssetPath { get; set; }
-        public string Position { get; set; }
+        public Position Position { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }

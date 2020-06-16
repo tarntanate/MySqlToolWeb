@@ -27,11 +27,10 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetByPosit
         {
             var result = new HttpResult<bool>();
 
-            var position = Enum.GetName(typeof(Position), request.Position);
-            var isExists = await AdAssetDbRepo.AnyAsync(f => f.Position == position);
+            var isExists = await AdAssetDbRepo.AnyAsync(f => f.Position == request.Position);
 
             if (!isExists)
-                return result.Fail(404, $"AdAsset '{position}' doesn't exist.");
+                return result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");
             return result.Success(true);
         }
     }

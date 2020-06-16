@@ -2,6 +2,7 @@ using System;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
+using Ookbee.Ads.Infrastructure.Enums;
 
 namespace Ookbee.Ads.Application.Business.Banner
 {
@@ -26,6 +27,6 @@ namespace Ookbee.Ads.Application.Business.Banner
             set { assetUrl = value; }
         }
         public string AssetType { get; set; }
-        public string Position { get; set; }
+        public Position Position { get; set; }
     }
 }
