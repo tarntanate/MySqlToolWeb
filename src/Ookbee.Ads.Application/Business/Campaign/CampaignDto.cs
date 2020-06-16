@@ -11,6 +11,8 @@ namespace Ookbee.Ads.Application.Business.Campaign
     {
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public int TotalAds { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string PricingModel { get; set; }
@@ -34,6 +36,7 @@ namespace Ookbee.Ads.Application.Business.Campaign
                     DeletedAt = entity.DeletedAt,
                     Name = entity.Name,
                     Description = entity.Description,
+                    TotalAds = entity.Ads.Count,
                     StartDate = entity.StartDate,
                     EndDate = entity.EndDate,
                     PricingModel = entity.PricingModel.ToString(),
