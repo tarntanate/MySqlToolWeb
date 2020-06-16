@@ -8,10 +8,10 @@ namespace Ookbee.Ads.Application.Infrastructure
         [JsonProperty(Order = -99)]
         public long Id { get; set; }
         [JsonIgnore]
-        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         [JsonIgnore]
-        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         [JsonIgnore]
-        public DateTimeOffset? DeletedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }
