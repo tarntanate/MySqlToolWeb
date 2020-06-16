@@ -1,6 +1,6 @@
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Ookbee.Ads.Application.Infrastructure;
 
 namespace Ookbee.Ads.Services.Manager
 {
@@ -8,16 +8,10 @@ namespace Ookbee.Ads.Services.Manager
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            AppBuilder.CreateDefaultBuilder(args)
+                      .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                      .Build()
+                      .Run();
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host
-                .CreateDefaultBuilder(args)
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }

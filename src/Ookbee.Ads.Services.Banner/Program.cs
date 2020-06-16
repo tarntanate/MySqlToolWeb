@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Ookbee.Ads.Application.Infrastructure;
 
 namespace Ookbee.Ads.Services.Banner
 {
@@ -7,14 +8,10 @@ namespace Ookbee.Ads.Services.Banner
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            AppBuilder.CreateDefaultBuilder(args)
+                      .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                      .Build()
+                      .Run();
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }
