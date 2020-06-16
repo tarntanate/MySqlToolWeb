@@ -25,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit
                 {
                     Id = entity.Id,
                     Name = entity.Name,
+                    Description = entity.Description,
                     AdUnitType = new AdUnitTypeDto()
                     {
                         Id = entity.AdUnitType.Id,
