@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Bson.Serialization.Conventions;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Common.Swagger;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Services.Banner
             // RDBMS
             services.AddDbContext<AdsDbContext>();
             services.AddScoped(typeof(AdsDbRepository<>));
-            
+
             services.AddDbContext<AnalyticsDbContext>();
             services.AddScoped(typeof(AnalyticsDbRepository<>));
 

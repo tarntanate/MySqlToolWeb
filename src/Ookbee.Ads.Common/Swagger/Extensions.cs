@@ -39,10 +39,14 @@ namespace Ookbee.Ads.Common.Swagger
         public static IApplicationBuilder UseSwaggerDocs(this IApplicationBuilder builder)
         {
             var options = new SwaggerOptions();
+
+            var x = builder
+                .ApplicationServices
+                .GetService<IConfiguration>();
             builder
                 .ApplicationServices
                 .GetService<IConfiguration>()
-                .GetSection("swagger")
+                .GetSection("Swagger")
                 .Bind(options);
 
             if (!options.Enabled)

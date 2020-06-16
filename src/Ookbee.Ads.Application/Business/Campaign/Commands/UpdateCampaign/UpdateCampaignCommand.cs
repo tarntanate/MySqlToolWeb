@@ -12,8 +12,8 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
         public PricingModel PricingModel { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset StartDate { get; set; }
-        public DateTimeOffset EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public UpdateCampaignCommand()
         {

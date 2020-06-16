@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common.Swagger;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
@@ -28,6 +29,8 @@ namespace Ookbee.Ads.Application.Infrastructure
                 config.MapControllers();
                 config.MapHealthChecks("/api/health");
             });
+            builder.UseSwaggerDocs();
+
             return builder;
         }
     }

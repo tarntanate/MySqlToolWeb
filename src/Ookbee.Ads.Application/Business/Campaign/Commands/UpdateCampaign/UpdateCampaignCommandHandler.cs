@@ -1,13 +1,13 @@
-﻿using AgileObjects.AgileMapper;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AgileObjects.AgileMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
+using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using System.Threading;
-using System.Threading.Tasks;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 {
@@ -54,12 +54,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
                 return result.Fail(isExistsAdvertiserResult.StatusCode, isExistsAdvertiserResult.Message);
 
             var entity = Mapper
-            .Map(request)
+                .Map(request)
                 .ToANew<CampaignEntity>(cfg =>
-                    cfg.Ignore(
-                        m => m.Advertiser,
-                        m => m.CampaignCost,
-                        m => m.CampaignImpression));
+                    cfg.Ignore(m => m.Advertiser, m => m.CampaignCost, m => m.CampaignImpression));
 
             await CampaignDbRepo.UpdateAsync(entity.Id, entity);
             await CampaignDbRepo.SaveChangesAsync();

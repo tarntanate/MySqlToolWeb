@@ -266,19 +266,19 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 {
                     case EntityState.Added:
                         if (entity.Entity is ICreatedAt)
-                            ((ICreatedAt)entity.Entity).CreatedAt = MechineDateTime.Now;
+                            ((ICreatedAt)entity.Entity).CreatedAt = MechineDateTime.UtcNow;
                         break;
 
                     case EntityState.Modified:
                         if (entity.Entity is IUpdatedAt)
-                            ((IUpdatedAt)entity.Entity).UpdatedAt = MechineDateTime.Now;
+                            ((IUpdatedAt)entity.Entity).UpdatedAt = MechineDateTime.UtcNow;
                         break;
 
                     case EntityState.Deleted:
                         if (entity.Entity is IDeletedAt)
                         {
                             entity.State = EntityState.Unchanged;
-                            ((IDeletedAt)entity.Entity).DeletedAt = MechineDateTime.Now;
+                            ((IDeletedAt)entity.Entity).DeletedAt = MechineDateTime.UtcNow;
                         }
                         break;
 
@@ -567,19 +567,19 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 {
                     case EntityState.Added:
                         if (entity.Entity is ICreatedAt)
-                            ((ICreatedAt)entity.Entity).CreatedAt = MechineDateTime.Now;
+                            ((ICreatedAt)entity.Entity).CreatedAt = MechineDateTime.UtcNow;
                         break;
 
                     case EntityState.Modified:
                         if (entity.Entity is IUpdatedAt)
-                            ((IUpdatedAt)entity.Entity).UpdatedAt = MechineDateTime.Now;
+                            ((IUpdatedAt)entity.Entity).UpdatedAt = MechineDateTime.UtcNow;
                         break;
 
                     case EntityState.Deleted:
                         if (entity.Entity is IDeletedAt)
                         {
                             entity.State = EntityState.Unchanged;
-                            ((IDeletedAt)entity.Entity).DeletedAt = MechineDateTime.Now;
+                            ((IDeletedAt)entity.Entity).DeletedAt = MechineDateTime.UtcNow;
                         }
                         break;
 
