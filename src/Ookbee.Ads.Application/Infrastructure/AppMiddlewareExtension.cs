@@ -7,7 +7,7 @@ using Ookbee.Ads.Infrastructure;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
-    public static class InfrastructureMiddlewareExtensions
+    public static class AppMiddlewareExtension
     {
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app, IWebHostEnvironment env)
         {

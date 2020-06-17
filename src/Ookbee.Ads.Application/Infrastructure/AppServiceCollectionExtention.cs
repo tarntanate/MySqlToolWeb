@@ -19,7 +19,7 @@ using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
-    public static class InfrastructureCollectionExtentions
+    public static class AppServiceCollectionExtention
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
