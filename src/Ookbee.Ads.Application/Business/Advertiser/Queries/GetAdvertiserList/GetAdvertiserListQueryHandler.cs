@@ -29,6 +29,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserList
             var result = new HttpResult<IEnumerable<AdvertiserDto>>();
 
             var items = await AdvertiserDbRepo.FindAsync(
+                selector: AdvertiserDto.Projection,
                 filter: f => f.DeletedAt == null,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,
