@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
                 return result.Fail(campaignResult.StatusCode, campaignResult.Message);
 
             if (campaignResult.Ok &&
-                campaignResult.Data.PricingModel != request.PricingModel.ToString())
+                campaignResult.Data.PricingModel != request.PricingModel)
                 return result.Fail(401, $"You don't have permission to change the Pricing Model.");
 
             var campaignByNameResult = await Mediator.Send(new GetCampaignByNameQuery(request.Name));
