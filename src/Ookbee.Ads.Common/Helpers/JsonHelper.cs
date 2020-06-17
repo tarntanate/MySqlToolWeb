@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Ookbee.Ads.Common.Helpers
 {
@@ -20,6 +21,7 @@ namespace Ookbee.Ads.Common.Helpers
                 return default;
 
             var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             serializerSettings.Converters.Add(new StringEnumConverter());
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

@@ -34,10 +34,6 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
         {
             var result = new HttpResult<long>();
 
-            // var isExistsAdAssetByName = await Mediator.Send(new IsExistsAdAssetByPositionQuery((Position)Enum.Parse(typeof(Position), request.Position)));
-            // if (isExistsAdAssetByName.Ok)
-            //     return result.Fail(409, $"AdAsset '{request.Position.ToString()}' already exists.");
-
             var entity = Mapper
                 .Map(request)
                 .ToANew<AdAssetEntity>(cfg =>
