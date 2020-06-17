@@ -37,8 +37,9 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset
             if (!adAssetResult.Ok)
                 return result.Fail(adAssetResult.StatusCode, adAssetResult.Message);
 
-            var adAssetByPositionResult = await Mediator.Send(new GetAdAssetByPositionQuery(request.Id, request.Position));
-            if (adAssetByPositionResult.Ok)
+            var adAssetByPositionResult = await Mediator.Send(new GetAdAssetByPositionQuery(request.AdId, request.Position));
+            if (adAssetByPositionResult.Ok &&
+                adAssetByPositionResult.Data.Id != request.Id)
                 return result.Fail(409, $"AdAsset '{request.Position.ToString()}' already exists.");
 
             var source = Mapper

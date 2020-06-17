@@ -6,10 +6,12 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetByPosit
 {
     public class IsExistsAdAssetByPositionQuery : IRequest<HttpResult<bool>>
     {
+        public long AdId { get; set; }
         public Position Position { get; set; }
 
-        public IsExistsAdAssetByPositionQuery(Position position)
+        public IsExistsAdAssetByPositionQuery(long adId, Position position)
         {
+            AdId = adId;
             Position = position;
         }
     }

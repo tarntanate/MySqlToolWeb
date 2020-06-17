@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetByPosition
         {
             var result = new HttpResult<AdAssetDto>();
 
-            var item = await AdAssetDbRepo.FirstAsync(filter: f => f.Id == request.Id && f.Position == request.Position);
+            var item = await AdAssetDbRepo.FirstAsync(filter: f => f.AdId == request.AdId && f.Position == request.Position);
             if (item == null)
                 return result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");
 
