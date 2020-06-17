@@ -52,7 +52,7 @@ namespace Ookbee.Ads.Application.Business.Banner
                         .Select(e => new BannerAssetDto()
                         {
                             Id = e.Id,
-                            AssetUrl = e.AssetPath,
+                            AssetPath = e.AssetPath,
                             AssetType = e.AssetType,
                             Position = e.Position,
                         })

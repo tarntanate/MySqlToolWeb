@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
@@ -13,19 +14,24 @@ namespace Ookbee.Ads.Application.Business.Banner
         {
             get
             {
+                Uri uri = null;
                 if (assetUrl.HasValue())
                 {
-                    Uri baseUri;
                     if (GlobalVar.AppSettings.Tencent.Cos.BaseUri.CDN.HasValue())
-                        baseUri = new Uri(GlobalVar.AppSettings.Tencent.Cos.BaseUri.CDN);
+                        uri = new Uri(new Uri(GlobalVar.AppSettings.Tencent.Cos.BaseUri.CDN), AssetPath);
+
+                    else if (GlobalVar.AppSettings.Tencent.Cos.BaseUri.Default.HasValue())
+                        uri = new Uri(new Uri(GlobalVar.AppSettings.Tencent.Cos.BaseUri.Default), AssetPath);
+
                     else
-                        baseUri = new Uri(GlobalVar.AppSettings.Tencent.Cos.BaseUri.Default);
-                    return new Uri(baseUri, assetUrl).ToString();
+                        uri = new Uri(AssetPath);
                 }
-                return assetUrl;
+                return uri?.IsAbsoluteUri == true ? uri?.AbsoluteUri : uri?.ToString() ?? string.Empty;
             }
             set { assetUrl = value; }
         }
+        [JsonIgnore]
+        public string AssetPath { get; set; }
         public string AssetType { get; set; }
         public Position Position { get; set; }
     }

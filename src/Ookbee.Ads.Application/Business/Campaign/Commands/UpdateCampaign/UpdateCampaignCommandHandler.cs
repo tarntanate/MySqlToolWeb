@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AgileObjects.AgileMapper;
+﻿using AgileObjects.AgileMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
@@ -8,6 +6,8 @@ using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 {
