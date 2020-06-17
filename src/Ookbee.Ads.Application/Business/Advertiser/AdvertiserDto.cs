@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
@@ -31,7 +32,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser
                     CreatedAt = entity.CreatedAt,
                     UpdatedAt = entity.UpdatedAt,
                     DeletedAt = entity.DeletedAt,
-                    TotalCampaign = entity.Campaigns.Count
+                    TotalCampaign = entity.Campaigns.Where(campaign => campaign.DeletedAt == null).Count()
                 };
             }
         }
