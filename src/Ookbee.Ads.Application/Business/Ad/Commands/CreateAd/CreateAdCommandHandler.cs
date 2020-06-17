@@ -33,10 +33,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
         private async Task<HttpResult<long>> CreateOnDb(CreateAdCommand request)
         {
             var result = new HttpResult<long>();
-            
-            var isExistsAdByName = await Mediator.Send(new IsExistsAdByNameQuery(request.Name));
-            if (isExistsAdByName.Ok)
-                return result.Fail(409, $"Ad '{request.Name}' already exists.");
 
             var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(request.AdUnitId));
             if (!isExistsAdUnitResult.Ok)
@@ -48,7 +44,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
             var entity = Mapper
                 .Map(request)
-                .ToANew<AdEntity>(cfg => 
+                .ToANew<AdEntity>(cfg =>
                     cfg.Ignore(m => m.AdUnit, m => m.Campaign));
 
             await AdDbRepo.InsertAsync(entity);
