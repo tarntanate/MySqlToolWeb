@@ -9,12 +9,12 @@ using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
 using Ookbee.Ads.Common.Swagger;
-using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
+using System;
 using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
@@ -24,6 +24,8 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             // Config
+            var appsettings = new AppSettings();
+            configuration.GetSection(nameof(AppSettings)).Bind(appsettings);
             services.AddHttpContextAccessor();
             services.AddSingleton<IConfiguration>(configuration);
             services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
@@ -47,13 +49,10 @@ namespace Ookbee.Ads.Application.Infrastructure
             services.AddAllowedHosts(configuration);
 
             // Health
-            // var connMongoDB = GlobalVar.AppSettings.ConnectionStrings.MongoDB.Ads;
-            // var connPostgreSQL = GlobalVar.AppSettings.ConnectionStrings.PostgreSQL.Ads;
-            // var connRedis = GlobalVar.AppSettings.ConnectionStrings.Redis;
-            // services.AddHealthChecks()
-            //         .AddMongoDb(connMongoDB)
-            //         .AddNpgSql(connPostgreSQL)
-            //         .AddRedis(connRedis);
+            services.AddHealthChecks()
+                    .AddMongoDb(appsettings.ConnectionStrings.MongoDB.Ads)
+                    .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
+                    .AddRedis(appsettings.ConnectionStrings.Redis);
 
             // EFCore
             services.AddDbContext<AdsDbContext>();
