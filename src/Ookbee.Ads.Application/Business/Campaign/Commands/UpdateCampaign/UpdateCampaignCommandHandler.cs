@@ -46,7 +46,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
             if (campaignByNameResult.Ok &&
                 campaignByNameResult.Data.Id != request.Id &&
                 campaignByNameResult.Data.Name == request.Name &&
-                campaignByNameResult.Data.PricingModel == request.PricingModel.ToString())
+                campaignByNameResult.Data.PricingModel == request.PricingModel)
                 return result.Fail(409, $"Campaign '{request.Name}' already exists.");
 
             var isExistsAdvertiserResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(request.AdvertiserId));

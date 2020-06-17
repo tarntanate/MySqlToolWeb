@@ -45,7 +45,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
             var campaignByNameResult = await Mediator.Send(new GetCampaignByNameQuery(request.Name));
             if (campaignByNameResult.Ok &&
                 campaignByNameResult.Data.Name == request.Name &&
-                campaignByNameResult.Data.PricingModel == request.PricingModel.ToString())
+                campaignByNameResult.Data.PricingModel == request.PricingModel)
                 return result.Fail(409, $"Campaign '{request.Name}' already exists.");
 
             var entity = Mapper

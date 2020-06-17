@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Ookbee.Ads.Application.Business.Advertiser;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Enums;
 using System;
 using System.Linq.Expressions;
 
@@ -15,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Campaign
         public int TotalAds { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string PricingModel { get; set; }
+        public PricingModel PricingModel { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public decimal? Budget { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -39,7 +40,7 @@ namespace Ookbee.Ads.Application.Business.Campaign
                     TotalAds = entity.Ads.Count,
                     StartDate = entity.StartDate,
                     EndDate = entity.EndDate,
-                    PricingModel = entity.PricingModel.ToString(),
+                    PricingModel = entity.PricingModel,
                     Budget = entity.CampaignCost.Budget,
                     CostPerUnit = entity.CampaignCost.CostPerUnit,
                     Quota = entity.CampaignImpression.Quota,
