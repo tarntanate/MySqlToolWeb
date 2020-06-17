@@ -31,11 +31,13 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
             {
                 if (obj.Ok)
                 {
+                    obj = obj?.Data;
+                    objType = obj?.GetType();
                     responseBody = new
                     {
-                        Data = IsEnumnerable(obj?.GetType())
-                             ? new { items = obj?.Data }
-                             : obj?.Data
+                        Data = IsEnumnerable(objType)
+                             ? new { items = obj }
+                             : obj
                     };
                 }
                 else
