@@ -4,6 +4,7 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Enums;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Business.Campaign
@@ -37,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Campaign
                     DeletedAt = entity.DeletedAt,
                     Name = entity.Name,
                     Description = entity.Description,
-                    TotalAds = entity.Ads.Count,
+                    TotalAds = entity.Ads.Where(ad => ad.DeletedAt == null).Count(),
                     StartDate = entity.StartDate,
                     EndDate = entity.EndDate,
                     PricingModel = entity.PricingModel,
