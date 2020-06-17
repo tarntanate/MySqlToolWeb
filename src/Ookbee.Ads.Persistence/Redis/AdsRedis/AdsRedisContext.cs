@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Persistence.Redis.AdsRedis
     {
         public override string ConnectionString()
         {
-            return GlobalVar.AppSettings.ConnectionStrings.Redis;
+            return GlobalVar.AppSettings.ConnectionStrings.Redis.Ads;
         }
     }
 }

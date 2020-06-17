@@ -52,7 +52,7 @@ namespace Ookbee.Ads.Application.Infrastructure
             services.AddHealthChecks()
                     .AddMongoDb(appsettings.ConnectionStrings.MongoDB.Ads)
                     .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
-                    .AddRedis(appsettings.ConnectionStrings.Redis);
+                    .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
 
             // EFCore
             services.AddDbContext<AdsDbContext>();

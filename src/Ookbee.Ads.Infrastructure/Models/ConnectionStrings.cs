@@ -4,6 +4,6 @@
     {
         public StorageSettings MongoDB { get; set; }
         public StorageSettings PostgreSQL { get; set; }
-        public string Redis { get; set; }
+        public StorageSettings Redis { get; set; }
     }
 }
