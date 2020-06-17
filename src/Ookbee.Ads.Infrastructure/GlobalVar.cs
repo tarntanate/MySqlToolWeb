@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Infrastructure
         {
             get
             {
-                if (appSettings != null)
+                if (appSettings == null)
                     appSettings = (services.GetService(typeof(IOptions<AppSettings>)) as IOptions<AppSettings>)?.Value;
 
                 return appSettings;
@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Infrastructure
         {
             get
             {
-                if (hostingEnvironment != null)
+                if (hostingEnvironment == null)
                     hostingEnvironment = services.GetService(typeof(IWebHostEnvironment)) as IWebHostEnvironment;
 
                 return hostingEnvironment;
@@ -49,7 +49,7 @@ namespace Ookbee.Ads.Infrastructure
         {
             get
             {
-                if (hostingEnvironment != null)
+                if (hostingEnvironment == null)
                     httpContext = (services.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor)?.HttpContext;
 
                 return httpContext;
