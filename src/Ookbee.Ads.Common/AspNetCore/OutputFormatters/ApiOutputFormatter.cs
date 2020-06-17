@@ -67,8 +67,7 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
         {
             if (objType.IsGenericType)
                 return typeof(HttpResult<>).IsAssignableFrom(objType.GetGenericTypeDefinition());
-            else
-                return false;
+            return false;
         }
     }
 }
