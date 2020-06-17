@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CommitUploadUrl
             var bucket = cos.Bucket.Private;
             var key = adAsset.AssetPath;
 
-            var copyObjectResult = await DeleteObject(bucket, key);
+            var copyObjectResult = await CopyObject(cos, bucket, key);
             if (!copyObjectResult.Ok)
                 return result.Fail(copyObjectResult.StatusCode, copyObjectResult.Message);
 
