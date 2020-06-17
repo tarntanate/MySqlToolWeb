@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization.Conventions;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
@@ -40,6 +41,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
                     .AddNewtonsoftJson((options) =>
                     {
+                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         options.SerializerSettings.Converters.Add(new StringEnumConverter());
                         options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
