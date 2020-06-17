@@ -10,6 +10,7 @@ using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
 using Ookbee.Ads.Common.Swagger;
 using Ookbee.Ads.Infrastructure;
+using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
@@ -22,9 +23,13 @@ namespace Ookbee.Ads.Application.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            // MVC
-            services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
+            // Config
             services.AddHttpContextAccessor();
+            services.AddSingleton<IConfiguration>(configuration);
+            services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
+            services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
+
+            // MVC
             services.AddControllers((options) =>
                     {
                         options.Filters.Add(typeof(CustomExceptionFilterAttribute));
@@ -42,13 +47,13 @@ namespace Ookbee.Ads.Application.Infrastructure
             services.AddAllowedHosts(configuration);
 
             // Health
-            var connMongoDB = GlobalVar.AppSettings.ConnectionStrings.MongoDB.Ads;
-            var connPostgreSQL = GlobalVar.AppSettings.ConnectionStrings.PostgreSQL.Ads;
-            var connRedis = GlobalVar.AppSettings.ConnectionStrings.Redis;
-            services.AddHealthChecks()
-                    .AddMongoDb(connMongoDB)
-                    .AddNpgSql(connPostgreSQL)
-                    .AddRedis(connRedis);
+            // var connMongoDB = GlobalVar.AppSettings.ConnectionStrings.MongoDB.Ads;
+            // var connPostgreSQL = GlobalVar.AppSettings.ConnectionStrings.PostgreSQL.Ads;
+            // var connRedis = GlobalVar.AppSettings.ConnectionStrings.Redis;
+            // services.AddHealthChecks()
+            //         .AddMongoDb(connMongoDB)
+            //         .AddNpgSql(connPostgreSQL)
+            //         .AddRedis(connRedis);
 
             // EFCore
             services.AddDbContext<AdsDbContext>();
@@ -71,9 +76,6 @@ namespace Ookbee.Ads.Application.Infrastructure
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-
-            // Services
-            services.AddSingleton<IConfiguration>(configuration);
         }
     }
 }

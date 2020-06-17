@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ookbee.Ads.Common.AspNetCore.Middlewares;
-using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Swagger;
+using Ookbee.Ads.Infrastructure;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
@@ -14,8 +11,7 @@ namespace Ookbee.Ads.Application.Infrastructure
     {
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var x = app.ApplicationServices.GetService<IConfiguration>();
-            HttpContextHelper.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
+            GlobalVar.Services = app.ApplicationServices;
             if (env.IsProduction())
             {
                 app.UseHttpsRedirection();
