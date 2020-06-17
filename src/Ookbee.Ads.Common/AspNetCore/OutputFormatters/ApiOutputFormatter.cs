@@ -24,45 +24,36 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
 
             var obj = (dynamic)context.Object;
             var objType = context.ObjectType;
-            var responseValue = new object();
-            var statusCode = HttpStatusCode.OK;
+            var responseBody = new object();
+            var responseStatusCode = (HttpStatusCode)obj.StatusCode;
 
             if (IsHttpResult(objType))
             {
                 if (obj.Ok)
                 {
-                    obj = obj?.Data;
-                    objType = obj?.GetType();
+                    responseBody = new
+                    {
+                        Data = IsEnumnerable(obj?.GetType())
+                             ? new { items = obj?.Data }
+                             : obj?.Data
+                    };
                 }
                 else
                 {
-                    statusCode = (HttpStatusCode)obj.StatusCode;
-                    if (obj.Message != null)
+                    var reasons = obj.Reasons as Dictionary<string, string[]>;
+                    responseBody = new
                     {
-                        var reasons = obj.Reasons as Dictionary<string, string[]>;
-                        responseValue = new
-                        {
-                            message = "One or more errors occurred while processing the request.",
-                            errors = reasons.Count() > 0 ? obj.Reasons : new List<string>() { obj.Message }
-                        };
-                    }
+                        message = "One or more errors occurred while processing the request.",
+                        errors = reasons.Any()
+                                ? obj.Reasons
+                                : new string[obj.Message]
+                    };
                 }
             }
 
-            if (statusCode == HttpStatusCode.OK)
-            {
-                responseValue = new
-                {
-                    Data = IsEnumnerable(objType) ? new
-                    {
-                        items = obj
-                    } : obj
-                };
-            }
-
             context.HttpContext.Response.ContentType = "application/json";
-            context.HttpContext.Response.StatusCode = (int)statusCode;
-            return context.HttpContext.Response.WriteAsync(JsonHelper.Serialize(responseValue));
+            context.HttpContext.Response.StatusCode = (int)responseStatusCode;
+            return context.HttpContext.Response.WriteAsync(JsonHelper.Serialize(responseBody));
         }
 
         private bool IsEnumnerable(Type objType)

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Common.Result;
-using System;
 
 namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
 {

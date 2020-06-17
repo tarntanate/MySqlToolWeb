@@ -9,7 +9,6 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
         {
             RuleFor(p => p.AdId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
             RuleFor(p => p.AssetPath).Must(BeAValidUri).WithMessage((rule, value) => $"Invalid AssetPath '{value}'");
-
         }
 
         private bool BeAValidUri(string value)
