@@ -46,9 +46,9 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
                     responseBody = new
                     {
                         message = "One or more errors occurred while processing the request.",
-                        errors = reasons.Any()
+                        errors = reasons.Count > 0
                                 ? obj.Reasons
-                                : new string[obj.Message]
+                                : new string[] { obj.Message }
                     };
                 }
             }
