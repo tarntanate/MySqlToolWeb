@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
             builder.HasKey(e => e.Id);
 
             builder.HasOne(e => e.Ad)
-                   .WithMany(e => e.AdAsset)
+                   .WithMany(e => e.AdAssets)
                    .HasForeignKey(e => e.AdId)
                    .IsRequired();
 

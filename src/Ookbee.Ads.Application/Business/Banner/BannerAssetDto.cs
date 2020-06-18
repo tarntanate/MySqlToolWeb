@@ -9,13 +9,12 @@ namespace Ookbee.Ads.Application.Business.Banner
 {
     public class BannerAssetDto : DefaultDto
     {
-        private string assetUrl;
         public string AssetUrl
         {
             get
             {
                 Uri uri = null;
-                if (assetUrl.HasValue())
+                if (AssetPath.HasValue())
                 {
                     if (GlobalVar.AppSettings.Tencent.Cos.BaseUri.CDN.HasValue())
                         uri = new Uri(new Uri(GlobalVar.AppSettings.Tencent.Cos.BaseUri.CDN), AssetPath);
@@ -28,7 +27,6 @@ namespace Ookbee.Ads.Application.Business.Banner
                 }
                 return uri?.IsAbsoluteUri == true ? uri?.AbsoluteUri : uri?.ToString() ?? string.Empty;
             }
-            set { assetUrl = value; }
         }
         [JsonIgnore]
         public string AssetPath { get; set; }

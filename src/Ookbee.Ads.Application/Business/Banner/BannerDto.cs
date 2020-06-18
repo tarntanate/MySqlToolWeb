@@ -47,8 +47,8 @@ namespace Ookbee.Ads.Application.Business.Banner
                         Clicks = null,
                         Impressions = entity.Analytics
                     },
-                    Assets = entity.AdAsset
-                        .Where(a => a.AdId == entity.Id)
+                    Assets = entity.AdAssets
+                        .Where(a => a.DeletedAt == null)
                         .Select(e => new BannerAssetDto()
                         {
                             Id = e.Id,

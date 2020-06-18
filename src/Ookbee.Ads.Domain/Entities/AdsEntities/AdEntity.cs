@@ -24,6 +24,6 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public virtual AdUnitEntity AdUnit { get; set; }
         public virtual CampaignEntity Campaign { get; set; }
 
-        public virtual List<AdAssetEntity> AdAsset { get; set; }
+        public virtual List<AdAssetEntity> AdAssets { get; set; }
     }
 }

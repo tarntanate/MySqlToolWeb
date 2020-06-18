@@ -41,7 +41,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
             var guid = Guid.NewGuid();
             var data = await AdDbRepo.FirstAsync(
                 selector: BannerDto.Projection,
-                filter: f => f.Id == request.AdUnitId && f.DeletedAt == null,
+                filter: f =>
+                    f.Id == request.AdUnitId &&
+                    f.DeletedAt == null,
                 orderBy: f => f.OrderBy(o => guid)
             );
 
