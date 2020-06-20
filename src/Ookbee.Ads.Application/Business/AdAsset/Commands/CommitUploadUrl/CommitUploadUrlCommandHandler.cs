@@ -61,7 +61,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CommitUploadUrl
             if (!copyObjectResult.Ok && copyObjectResult.StatusCode != HttpStatusCode.NoContent)
             {
                 if (copyObjectResult.StatusCode == HttpStatusCode.NotFound)
-                    return result.Fail(404, "Can't move file, File not found.");
+                    return result.Fail(404, "File not found.");
                 return result.Fail(copyObjectResult.StatusCode, copyObjectResult.Message);
             }
 

@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -26,15 +25,13 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Queries.GetCampaignCostBy
         {
             var result = new HttpResult<CampaignCostDto>();
 
-            var item = await CampaignCostDbRepo.FirstAsync(filter: f => f.CampaignId == request.CampaignId);
-            if (item == null)
-                return result.Fail(404, $"CampaignCost '{request.CampaignId}' doesn't exist.");
-                
-            var data = Mapper
-                .Map(item)
-                .ToANew<CampaignCostDto>();
+            var item = await CampaignCostDbRepo.FirstAsync(
+                selector: CampaignCostDto.Projection,
+                filter: f => f.CampaignId == request.CampaignId);
 
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"Cost doesn't exist.");
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -12,7 +11,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitByName
     {
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
-        public GetAdUnitByNameQueryHandler(AdsDbRepository<AdUnitEntity> adUnitDbRepo )
+        public GetAdUnitByNameQueryHandler(AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
             AdUnitDbRepo = adUnitDbRepo;
         }
@@ -26,15 +25,16 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitByName
         {
             var result = new HttpResult<AdUnitDto>();
 
-            var item = await AdUnitDbRepo.FirstAsync(filter: f => f.Name == request.Name && f.DeletedAt == null);
-            if (item == null)
-                return result.Fail(404, $"AdUnit '{request.Name}' doesn't exist.");
+            var item = await AdUnitDbRepo.FirstAsync(
+                selector: AdUnitDto.Projection,
+                filter: f =>
+                    f.Name == request.Name &&
+                    f.DeletedAt == null
+            );
 
-            var data = Mapper
-                .Map(item)
-                .ToANew<AdUnitDto>();
-
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"AdUnit '{request.Name}' doesn't exist.");
         }
     }
 }

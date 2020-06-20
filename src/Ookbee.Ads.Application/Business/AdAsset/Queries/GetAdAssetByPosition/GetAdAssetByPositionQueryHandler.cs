@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -26,18 +25,17 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetByPosition
         {
             var result = new HttpResult<AdAssetDto>();
 
-            var item = await AdAssetDbRepo.FirstAsync(filter: f =>
-                f.AdId == request.AdId &&
-                f.Position == request.Position &&
-                f.DeletedAt == null);
-            if (item == null)
-                return result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");
+            var item = await AdAssetDbRepo.FirstAsync(
+                selector: AdAssetDto.Projection,
+                filter: f =>
+                    f.AdId == request.AdId &&
+                    f.Position == request.Position &&
+                    f.DeletedAt == null
+            );
 
-            var data = Mapper
-                .Map(item)
-                .ToANew<AdAssetDto>();
-
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");
         }
     }
 }

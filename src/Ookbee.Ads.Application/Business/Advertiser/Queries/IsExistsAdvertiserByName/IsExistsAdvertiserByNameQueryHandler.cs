@@ -29,10 +29,10 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserB
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );
-            
-            if (!isExists)
-                return result.Fail(404, $"Advertiser '{request.Name}' doesn't exist.");
-            return result.Success(true);
+
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"Advertiser '{request.Name}' doesn't exist.");
         }
     }
 }

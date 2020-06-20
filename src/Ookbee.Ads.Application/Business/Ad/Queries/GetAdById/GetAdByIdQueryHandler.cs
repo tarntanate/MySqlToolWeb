@@ -28,15 +28,13 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdById
 
             var item = await AdDbRepo.FirstAsync(
                 selector: AdDto.Projection,
-                filter: f => f.Id == request.Id && f.DeletedAt == null);
-            if (item == null)
-                return result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
-                
-            var data = Mapper
-                .Map(item)
-                .ToANew<AdDto>();
+                filter: f =>
+                    f.Id == request.Id &&
+                    f.DeletedAt == null);
 
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
         }
     }
 }

@@ -1,6 +1,5 @@
-﻿using AgileObjects.AgileMapper;
+﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserByName;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -11,13 +10,16 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
 {
     public class CreateAdvertiserCommandHandler : IRequestHandler<CreateAdvertiserCommand, HttpResult<long>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
         public CreateAdvertiserCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdvertiserEntity> advertiserDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             AdvertiserDbRepo = advertiserDbRepo;
         }
@@ -32,17 +34,10 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
         {
             var result = new HttpResult<long>();
 
-            var isExistsAdvertiserByName = await Mediator.Send(new IsExistsAdvertiserByNameQuery(request.Name));
-            if (isExistsAdvertiserByName.Ok)
-                return result.Fail(409, $"Advertiser '{request.Name}' already exists.");
-
-            var entity = Mapper
-                .Map(request)
-                .ToANew<AdvertiserEntity>();
-
+            var entity = Mapper.Map<AdvertiserEntity>(request);
             await AdvertiserDbRepo.InsertAsync(entity);
             await AdvertiserDbRepo.SaveChangesAsync();
-            
+
             return result.Success(entity.Id);
         }
     }

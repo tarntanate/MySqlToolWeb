@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -36,11 +35,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserList
                 length: request.Length
             );
 
-            var data = Mapper
-                .Map(items)
-                .ToANew<IEnumerable<AdvertiserDto>>();
-
-            return result.Success(data);
+            return result.Success(items);
         }
     }
 }

@@ -26,10 +26,10 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.IsExistsCam
             var result = new HttpResult<bool>();
 
             var isExists = await CampaignImpressionDbRepo.AnyAsync(f => f.CampaignId == request.CampaignId);
-            
-            if (!isExists)
-                return result.Fail(404, $"CampaignImpression '{request.CampaignId}' doesn't exist.");
-            return result.Success(true);
+
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"Impression doesn't exist.");
         }
     }
 }

@@ -1,24 +1,25 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
-using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using MediatR;
+using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 {
     public class UpdateAdvertiserCommandHandler : IRequestHandler<UpdateAdvertiserCommand, HttpResult<bool>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
         public UpdateAdvertiserCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdvertiserEntity> advertiserDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             AdvertiserDbRepo = advertiserDbRepo;
         }
@@ -33,23 +34,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
         {
             var result = new HttpResult<bool>();
 
-            var advertiserResult = await Mediator.Send(new GetAdvertiserByIdQuery(request.Id));
-            if (!advertiserResult.Ok)
-                return result.Fail(advertiserResult.StatusCode, advertiserResult.Message);
-
-            var advertiserByNameResult = await Mediator.Send(new GetAdvertiserByNameQuery(request.Name));
-            if (advertiserByNameResult.Ok &&
-                advertiserByNameResult.Data.Id != request.Id &&
-                advertiserByNameResult.Data.Name == request.Name)
-                return result.Fail(409, $"Advertiser '{request.Name}' already exists.");
-
-            var source = Mapper
-                .Map(request)
-                .Over(advertiserResult.Data);
-            var entity = Mapper
-                .Map(source)
-                .ToANew<AdvertiserEntity>();
-
+            var entity = Mapper.Map<AdvertiserEntity>(request);
             await AdvertiserDbRepo.UpdateAsync(entity.Id, entity);
             await AdvertiserDbRepo.SaveChangesAsync();
 

@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,10 +28,12 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.IsExistsAdAssetByPosit
             var isExists = await AdAssetDbRepo.AnyAsync(f =>
                 f.AdId == request.AdId &&
                 f.Position == request.Position &&
-                f.DeletedAt == null);
-            if (!isExists)
-                return result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");
-            return result.Success(true);
+                f.DeletedAt == null
+            );
+
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");
         }
     }
 }

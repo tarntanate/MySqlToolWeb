@@ -1,21 +1,41 @@
 ﻿using FluentValidation;
+using FluentValidation.Validators;
+using MediatR;
+using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Common.Extensions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
 {
     public class CreateAdAssetCommandValidator : AbstractValidator<CreateAdAssetCommand>
     {
-        public CreateAdAssetCommandValidator()
+        private IMediator Mediator { get; }
+
+        public CreateAdAssetCommandValidator(IMediator mediator)
         {
-            RuleFor(p => p.AdId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
-            RuleFor(p => p.AssetPath).Must(BeAValidUri).WithMessage((rule, value) => $"Invalid AssetPath '{value}'");
+            Mediator = mediator;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
+            RuleFor(p => p.AssetPath)
+                .MaximumLength(255)
+                .Must(value => value.HasValue() && value.IsValidHttp())
+                .WithMessage("The '{PropertyName}' address is not valid");
+
+            RuleFor(p => p.AdId)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
+
+            RuleFor(p => p.AdId)
+                .CustomAsync(BeAValidAdId);
         }
 
-        private bool BeAValidUri(string value)
+        private async Task BeAValidAdId(long value, CustomContext context, CancellationToken cancellationToken)
         {
-            if (value.HasValue())
-                return value.IsValidUri();
-            return true;
+            var result = await Mediator.Send(new IsExistsAdByIdQuery(value), cancellationToken);
+            if (!result.Ok)
+                context.AddFailure(result.Message);
         }
     }
 }

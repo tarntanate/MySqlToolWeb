@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -12,7 +11,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName
     {
         private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
 
-        public GetCampaignByNameQueryHandler(AdsDbRepository<CampaignEntity> campaignDbRepo )
+        public GetCampaignByNameQueryHandler(AdsDbRepository<CampaignEntity> campaignDbRepo)
         {
             CampaignDbRepo = campaignDbRepo;
         }
@@ -28,17 +27,14 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName
 
             var item = await CampaignDbRepo.FirstAsync(
                 selector: CampaignDto.Projection,
-                filter: f => f.Name == request.Name && f.DeletedAt == null
+                filter: f =>
+                    f.Name == request.Name &&
+                    f.DeletedAt == null
             );
 
-            if (item == null)
-                return result.Fail(404, $"Campaign '{request.Name}' doesn't exist.");
-
-            var data = Mapper
-                .Map(item)
-                .ToANew<CampaignDto>();
-
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"Campaign '{request.Name}' doesn't exist.");
         }
     }
 }

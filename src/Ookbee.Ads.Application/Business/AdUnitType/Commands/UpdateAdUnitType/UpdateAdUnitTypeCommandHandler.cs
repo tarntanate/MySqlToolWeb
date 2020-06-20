@@ -1,24 +1,25 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
-using Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeByName;
-using Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeById;
-using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using MediatR;
+using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 
 namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.UpdateAdUnitType
 {
     public class UpdateAdUnitTypeCommandHandler : IRequestHandler<UpdateAdUnitTypeCommand, HttpResult<bool>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
 
         public UpdateAdUnitTypeCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             AdUnitTypeDbRepo = adUnitTypeDbRepo;
         }
@@ -33,23 +34,7 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.UpdateAdUnitType
         {
             var result = new HttpResult<bool>();
 
-            var adUnitTypeResult = await Mediator.Send(new GetAdUnitTypeByIdQuery(request.Id));
-            if (!adUnitTypeResult.Ok)
-                return result.Fail(adUnitTypeResult.StatusCode, adUnitTypeResult.Message);
-
-            var adUnitTypeByNameResult = await Mediator.Send(new GetAdUnitTypeByNameQuery(request.Name));
-            if (adUnitTypeByNameResult.Ok &&
-                adUnitTypeByNameResult.Data.Id != request.Id &&
-                adUnitTypeByNameResult.Data.Name == request.Name)
-                return result.Fail(409, $"AdUnitType '{request.Name}' already exists.");
-
-            var source = Mapper
-                .Map(request)
-                .Over(adUnitTypeResult.Data);
-            var entity = Mapper
-                .Map(request)
-                .ToANew<AdUnitTypeEntity>();
-
+            var entity = Mapper.Map<AdUnitTypeEntity>(request);
             await AdUnitTypeDbRepo.UpdateAsync(entity.Id, entity);
             await AdUnitTypeDbRepo.SaveChangesAsync();
 

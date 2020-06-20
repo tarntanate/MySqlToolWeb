@@ -6,8 +6,12 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList
     {
         public GetPublisherListQueryValidator()
         {
-            RuleFor(p => p.Start).GreaterThanOrEqualTo(0);
-            RuleFor(p => p.Length).GreaterThan(0).LessThanOrEqualTo(100);
+            RuleFor(p => p.Start)
+                .GreaterThanOrEqualTo(0);
+
+            RuleFor(p => p.Length)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(100);
         }
     }
 }

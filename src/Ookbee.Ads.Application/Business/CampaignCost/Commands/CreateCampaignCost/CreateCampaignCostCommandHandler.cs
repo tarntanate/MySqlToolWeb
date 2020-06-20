@@ -1,4 +1,4 @@
-﻿using AgileObjects.AgileMapper;
+﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign;
 using Ookbee.Ads.Common.Result;
@@ -12,13 +12,16 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCo
 {
     public class CreateCampaignCostCommandHandler : IRequestHandler<CreateCampaignCostCommand, HttpResult<long>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<CampaignCostEntity> CampaignCostDbRepo { get; }
 
         public CreateCampaignCostCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<CampaignCostEntity> advertiserDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             CampaignCostDbRepo = advertiserDbRepo;
         }
@@ -32,6 +35,7 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCo
         private async Task<HttpResult<long>> CreateOnDb(CreateCampaignCostCommand request)
         {
             var result = new HttpResult<long>();
+            var campaignId = 0L;
 
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -39,38 +43,31 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCo
                 if (!createCampaignResult.Ok)
                     return result.Fail(createCampaignResult.StatusCode, createCampaignResult.Message);
 
-                var createCampaignCostResult = await CreateCampaignCostOnDb(createCampaignResult.Data, request);
+                campaignId = createCampaignResult.Data;
+
+                var createCampaignCostResult = await CreateCampaignCostOnDb(campaignId, request);
                 if (!createCampaignCostResult.Ok)
                     return result.Fail(createCampaignCostResult.StatusCode, createCampaignCostResult.Message);
 
                 scope.Complete();
-
-                return result.Success(createCampaignResult.Data);
             }
+
+            return result.Success(campaignId);
         }
 
         private async Task<HttpResult<long>> CreateCampaignOnDb(CreateCampaignCostCommand request)
         {
-            var command = Mapper
-                .Map(request)
-                .ToANew<CreateCampaignCommand>();
-
-            var result = await Mediator.Send(command);
-
-            return result;
+            var source = Mapper.Map<CreateCampaignRequest>(request);
+            var command = new CreateCampaignCommand(source);
+            return await Mediator.Send(command);
         }
 
         private async Task<HttpResult<long>> CreateCampaignCostOnDb(long campaignId, CreateCampaignCostCommand request)
         {
             var result = new HttpResult<long>();
 
-            var entity = Mapper
-                .Map(request)
-                .ToANew<CampaignCostEntity>(cfg =>
-                    cfg.Ignore(m => m.Campaign));
-
+            var entity = Mapper.Map<CampaignCostEntity>(request);
             entity.CampaignId = campaignId;
-
             await CampaignCostDbRepo.InsertAsync(entity);
             await CampaignCostDbRepo.SaveChangesAsync();
 

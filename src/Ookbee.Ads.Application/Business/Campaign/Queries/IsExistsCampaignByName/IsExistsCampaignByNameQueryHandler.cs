@@ -30,9 +30,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignByNam
                 f.DeletedAt == null
             );
 
-            if (!isExists)
-                return result.Fail(404, $"Campaign '{request.Name}' doesn't exist.");
-            return result.Success(true);
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"Campaign '{request.Name}' doesn't exist.");
         }
     }
 }

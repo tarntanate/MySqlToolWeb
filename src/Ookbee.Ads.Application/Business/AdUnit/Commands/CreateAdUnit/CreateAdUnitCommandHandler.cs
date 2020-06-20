@@ -1,25 +1,25 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AgileObjects.AgileMapper;
+﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitByName;
-using Ookbee.Ads.Application.Business.AdUnitType.Queries.IsExistsAdUnitTypeById;
-using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
 {
     public class CreateAdUnitCommandHandler : IRequestHandler<CreateAdUnitCommand, HttpResult<long>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
         public CreateAdUnitCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             AdUnitDbRepo = adUnitDbRepo;
         }
@@ -34,25 +34,10 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
         {
             var result = new HttpResult<long>();
 
-            var isExistsAdUnitTypeById = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(request.AdUnitTypeId));
-            if (!isExistsAdUnitTypeById.Ok)
-                return result.Fail(isExistsAdUnitTypeById.StatusCode, isExistsAdUnitTypeById.Message);
-
-            var isExistsPublisherById = await Mediator.Send(new IsExistsPublisherByIdQuery(request.PublisherId));
-            if (!isExistsPublisherById.Ok)
-                return result.Fail(isExistsPublisherById.StatusCode, isExistsPublisherById.Message);
-
-            var isExistsAdUnitByName = await Mediator.Send(new IsExistsAdUnitByNameQuery(request.Name));
-            if (isExistsAdUnitByName.Ok)
-                return result.Fail(409, $"AdUnit '{request.Name}' already exists.");
-
-            var entity = Mapper
-                .Map(request)
-                .ToANew<AdUnitEntity>(cfg =>
-                   cfg.Ignore(m => m.AdUnitType, m => m.Publisher));
-
+            var entity = Mapper.Map<AdUnitEntity>(request);
             await AdUnitDbRepo.InsertAsync(entity);
             await AdUnitDbRepo.SaveChangesAsync();
+
             return result.Success(entity.Id);
         }
     }

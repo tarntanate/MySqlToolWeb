@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -31,13 +30,9 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.DeleteAdUnit
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(request.Id));
-            if (!isExistsResult.Ok)
-                return isExistsResult;
-
             await AdUnitDbRepo.DeleteAsync(request.Id);
             await AdUnitDbRepo.SaveChangesAsync();
-            
+
             return result.Success(true);
         }
     }

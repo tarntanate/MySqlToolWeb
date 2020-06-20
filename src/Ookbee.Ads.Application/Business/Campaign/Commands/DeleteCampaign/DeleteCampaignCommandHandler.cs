@@ -31,13 +31,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.DeleteCampaign
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsCampaignByIdQuery(request.Id));
-            if (!isExistsResult.Ok)
-                return isExistsResult;
-
             await CampaignDbRepo.DeleteAsync(request.Id);
             await CampaignDbRepo.SaveChangesAsync();
-            
+
             return result.Success(true);
         }
     }

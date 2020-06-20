@@ -1,26 +1,13 @@
-﻿using System;
-using MediatR;
-using Ookbee.Ads.Infrastructure.Enums;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 {
-    public class UpdateCampaignCommand : IRequest<HttpResult<bool>>
+    public class UpdateCampaignCommand : UpdateCampaignRequest, IRequest<HttpResult<bool>>
     {
         public long Id { get; set; }
-        public long AdvertiserId { get; set; }
-        public PricingModel PricingModel { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
 
-        public UpdateCampaignCommand()
-        {
-
-        }
-
-        public UpdateCampaignCommand(long id, UpdateCampaignCommand request)
+        public UpdateCampaignCommand(long id, UpdateCampaignRequest request)
         {
             Id = id;
             AdvertiserId = request.AdvertiserId;

@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -29,17 +28,14 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList
             var result = new HttpResult<IEnumerable<PublisherDto>>();
 
             var items = await PublisherDbRepo.FindAsync(
+                selector: PublisherDto.Projection,
                 filter: f => f.DeletedAt == null,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,
                 length: request.Length
             );
 
-            var data = Mapper
-                .Map(items)
-                .ToANew<IEnumerable<PublisherDto>>();
-
-            return result.Success(data);
+            return result.Success(items);
         }
     }
 }

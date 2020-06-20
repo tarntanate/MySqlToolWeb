@@ -7,7 +7,10 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
     {
         public DeletePublisherCommandValidator()
         {
-            RuleFor(p => p.Id).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.Id)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
         }
     }
 }

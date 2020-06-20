@@ -42,14 +42,14 @@ namespace Ookbee.Ads.Common.Extensions
             return regex.IsMatch(value.ToLower());
         }
 
+        public static bool IsValidHttp(this string value)
+        {
+            return Uri.TryCreate(value, UriKind.Absolute, out var uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        }
+
         public static bool IsValidUri(this string value)
         {
             return Uri.TryCreate(value, UriKind.Absolute, out var uriResult);
-        }
-
-        public static bool IsValidUriSchemeHttp(this string value)
-        {
-            return Uri.TryCreate(value, UriKind.Absolute, out var uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }
     }
 }

@@ -26,10 +26,10 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Queries.IsExistsCampaignC
             var result = new HttpResult<bool>();
 
             var isExists = await CampaignCostDbRepo.AnyAsync(f => f.CampaignId == request.CampaignId);
-            
-            if (!isExists)
-                return result.Fail(404, $"CampaignCost '{request.CampaignId}' doesn't exist.");
-            return result.Success(true);
+
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"Cost doesn't exist.");
         }
     }
 }

@@ -1,51 +1,97 @@
 ﻿using FluentValidation;
+using FluentValidation.Validators;
+using MediatR;
+using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
+using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Extensions;
-using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 {
     public class UpdateAdCommandValidator : AbstractValidator<UpdateAdCommand>
     {
-        public UpdateAdCommandValidator()
+        private IMediator Mediator { get; }
+
+        public UpdateAdCommandValidator(IMediator mediator)
         {
-            RuleFor(p => p.AdUnitId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
-            RuleFor(p => p.CampaignId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
-            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
-            RuleFor(p => p.Description).MaximumLength(500);
-            RuleFor(p => p.BackgroundColor).Must(BeARGBHexColor).WithMessage("BackgroundColor only support rgb format.");
-            RuleFor(p => p.ForegroundColor).Must(BeARGBHexColor).WithMessage("ForegroundColor only support rgb format.");
-            RuleFor(p => p.Platforms).Must(value => value != null || value.Count() < 4).WithMessage((rule, value) => $"The length of 'Analytics' must be 3 items or fewer. You entered '{value}' items.");
-            RuleFor(p => p.Analytics).Must(value => value != null || value.Count() < 4).WithMessage((rule, value) => $"The length of 'Platforms' must be 3 items or fewer. You entered '{value}' items.");
-            RuleForEach(p => p.Analytics).Must(BeAValidUriSchemeHttp).WithMessage((rule, value) => $"Invalid Analytics URL '{value}'");
-            RuleForEach(p => p.Platforms).Must(BeAValidPlatform).WithMessage((rule, value) => $"Platforms only support 'Android', 'iOS' and 'Web'");
-            RuleFor(p => p.AppLink).MaximumLength(500);
-            RuleFor(p => p.WebLink).MaximumLength(500);
+            Mediator = mediator;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
+            RuleFor(p => p.Id)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
+
+            RuleFor(p => p.Name)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(40);
+
+            RuleFor(p => p.Description)
+                .MaximumLength(500);
+
+            RuleFor(p => p.BackgroundColor)
+                .Must(value => !value.HasValue() || value.IsValidRGBHexColor())
+                .WithMessage("The '{PropertyName}' is not valid RGB color");
+
+            RuleFor(p => p.ForegroundColor)
+                .Must(value => !value.HasValue() || value.IsValidRGBHexColor())
+                .WithMessage("The '{PropertyName}' is not valid RGB color");
+
+            RuleForEach(p => p.Analytics)
+                .Must(value => value.HasValue() && value.IsValidHttp())
+                .WithMessage("The '{PropertyName}' is not valid HTTP(S) address");
+
+            RuleFor(p => p.Platforms)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("The '{PropertyName}' is required");
+
+            RuleForEach(p => p.Platforms)
+                .NotNull()
+                .Must(value => value.HasValue())
+                .WithMessage("The '{PropertyName}' must be 3 items or fewer");
+
+            RuleFor(p => p.AppLink)
+                .MaximumLength(255)
+                .Must(value => value.HasValue() && value.IsValidUri())
+                .WithMessage("The '{PropertyName}' address is not valid");
+
+            RuleFor(p => p.WebLink)
+                .MaximumLength(255)
+                .Must(value => value.HasValue() && value.IsValidHttp())
+                .WithMessage("The '{PropertyName}' address is not valid");
+
+            RuleFor(p => p.AdUnitId)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
+
+            RuleFor(p => p.CampaignId)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
+
+            RuleFor(p => p.AdUnitId)
+                .CustomAsync(BeValidAdUnitId);
+
+            RuleFor(p => p.CampaignId)
+                .CustomAsync(BeValidCampaignId);
         }
 
-        private bool BeARGBHexColor(string value)
+        private async Task BeValidAdUnitId(long value, CustomContext context, CancellationToken cancellationToken)
         {
-            if (value.HasValue())
-                return value.IsValidRGBHexColor();
-            return true;
+            var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(value));
+            if (!isExistsAdUnitResult.Ok)
+                context.AddFailure(isExistsAdUnitResult.Message);
         }
 
-        private bool BeAValidUri(string value)
+        private async Task BeValidCampaignId(long value, CustomContext context, CancellationToken cancellationToken)
         {
-            return value.IsValidUri();
-        }
-
-        private bool BeAValidUriSchemeHttp(string value)
-        {
-            return value.IsValidUriSchemeHttp();
-        }
-
-        private bool BeAValidPlatform(string value)
-        {
-            if (!value.HasValue())
-                return false;
-                
-            var platforms = new string[] { "Android", "iOS", "Web" };
-            return platforms.Contains(value);
+            var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(value));
+            if (!isExistsCampaignResult.Ok)
+                context.AddFailure(isExistsCampaignResult.Message);
         }
     }
 }

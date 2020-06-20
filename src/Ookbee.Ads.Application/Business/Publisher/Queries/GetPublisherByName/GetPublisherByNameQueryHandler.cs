@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -26,19 +25,16 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName
         {
             var result = new HttpResult<PublisherDto>();
 
-            var item = await PublisherDbRepo.FirstAsync(filter: f =>
-                f.Name == request.Name &&
-                f.DeletedAt == null
+            var item = await PublisherDbRepo.FirstAsync(
+                selector: PublisherDto.Projection,
+                filter: f =>
+                    f.Name == request.Name &&
+                    f.DeletedAt == null
             );
 
-            if (item == null)
-                return result.Fail(404, $"Publisher '{request.Name}' doesn't exist.");
-
-            var data = Mapper
-                .Map(item)
-                .ToANew<PublisherDto>();
-
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"Publisher '{request.Name}' doesn't exist.");
         }
     }
 }

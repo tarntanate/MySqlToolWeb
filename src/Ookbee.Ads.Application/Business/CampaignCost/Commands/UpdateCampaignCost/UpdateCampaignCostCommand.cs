@@ -1,27 +1,13 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.UpdateCampaignCost
 {
-    public class UpdateCampaignCostCommand : IRequest<HttpResult<bool>>
+    public class UpdateCampaignCostCommand : UpdateCampaignCostRequest, IRequest<HttpResult<bool>>
     {
         public long Id { get; set; }
-        public long AdvertiserId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public string PricingModel { get; set; }
-        public decimal Budget { get; set; }
-        public decimal CostPerUnit { get; set; }
 
-        public UpdateCampaignCostCommand()
-        {
-
-        }
-
-        public UpdateCampaignCostCommand(long id, UpdateCampaignCostCommand request)
+        public UpdateCampaignCostCommand(long id, UpdateCampaignCostRequest request)
         {
             Id = id;
             AdvertiserId = request.AdvertiserId;

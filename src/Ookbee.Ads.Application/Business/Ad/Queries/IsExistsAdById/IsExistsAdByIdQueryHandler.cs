@@ -29,10 +29,10 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById
                 f.Id == request.Id &&
                 f.DeletedAt == null
             );
-            
-            if (!isExists)
-                return result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
-            return result.Success(true);
+
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
         }
     }
 }

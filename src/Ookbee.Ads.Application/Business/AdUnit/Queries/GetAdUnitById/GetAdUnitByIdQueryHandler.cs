@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -28,15 +27,12 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitById
 
             var item = await AdUnitDbRepo.FirstAsync(
                 selector: AdUnitDto.Projection,
-                filter: f => f.Id == request.Id && f.DeletedAt == null);
-            if (item == null)
-                return result.Fail(404, $"AdUnit '{request.Id}' doesn't exist.");
-                
-            var data = Mapper
-                .Map(item)
-                .ToANew<AdUnitDto>();
+                filter: f => f.Id == request.Id && f.DeletedAt == null
+            );
 
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"AdUnit '{request.Id}' doesn't exist.");
         }
     }
 }

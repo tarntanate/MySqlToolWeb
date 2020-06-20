@@ -1,4 +1,4 @@
-﻿using AgileObjects.AgileMapper;
+﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign;
 using Ookbee.Ads.Common.Result;
@@ -12,13 +12,16 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
 {
     public class CreateCampaignImpressionCommandHandler : IRequestHandler<CreateCampaignImpressionCommand, HttpResult<long>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<CampaignImpressionEntity> CampaignImpressionDbRepo { get; }
 
         public CreateCampaignImpressionCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<CampaignImpressionEntity> advertiserDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             CampaignImpressionDbRepo = advertiserDbRepo;
         }
@@ -32,6 +35,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
         private async Task<HttpResult<long>> CreateOnDb(CreateCampaignImpressionCommand request)
         {
             var result = new HttpResult<long>();
+            var campaignId = 0L;
 
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -39,38 +43,31 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
                 if (!createCampaignResult.Ok)
                     return result.Fail(createCampaignResult.StatusCode, createCampaignResult.Message);
 
-                var createCampaignImpressionResult = await CreateCampaignImpressionOnDb(createCampaignResult.Data, request);
+                campaignId = createCampaignResult.Data;
+
+                var createCampaignImpressionResult = await CreateCampaignImpressionOnDb(campaignId, request);
                 if (!createCampaignImpressionResult.Ok)
                     return result.Fail(createCampaignImpressionResult.StatusCode, createCampaignImpressionResult.Message);
 
                 scope.Complete();
-
-                return result.Success(createCampaignResult.Data);
             }
+
+            return result.Success(campaignId);
         }
 
         private async Task<HttpResult<long>> CreateCampaignOnDb(CreateCampaignImpressionCommand request)
         {
-            var command = Mapper
-                .Map(request)
-                .ToANew<CreateCampaignCommand>();
-
-            var result = await Mediator.Send(command);
-
-            return result;
+            var source = Mapper.Map<CreateCampaignRequest>(request);
+            var command = new CreateCampaignCommand(source);
+            return await Mediator.Send(command);
         }
 
         private async Task<HttpResult<long>> CreateCampaignImpressionOnDb(long campaignId, CreateCampaignImpressionCommand request)
         {
             var result = new HttpResult<long>();
 
-            var entity = Mapper
-                .Map(request)
-                .ToANew<CampaignImpressionEntity>(cfg =>
-                    cfg.Ignore(m => m.Campaign));
-
+            var entity = Mapper.Map<CampaignImpressionEntity>(request);
             entity.CampaignId = campaignId;
-
             await CampaignImpressionDbRepo.InsertAsync(entity);
             await CampaignImpressionDbRepo.SaveChangesAsync();
 

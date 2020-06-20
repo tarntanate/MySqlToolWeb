@@ -1,23 +1,25 @@
-﻿using AgileObjects.AgileMapper;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdUnitType.Queries.IsExistsAdUnitTypeByName;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType
 {
     public class CreateAdUnitTypeCommandHandler : IRequestHandler<CreateAdUnitTypeCommand, HttpResult<long>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
 
         public CreateAdUnitTypeCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             AdUnitTypeDbRepo = adUnitTypeDbRepo;
         }
@@ -32,14 +34,7 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType
         {
             var result = new HttpResult<long>();
 
-            var isExistsAdUnitTypeByName = await Mediator.Send(new IsExistsAdUnitTypeByNameQuery(request.Name));
-            if (isExistsAdUnitTypeByName.Ok)
-                return result.Fail(409, $"AdUnitType '{request.Name}' already exists.");
-
-            var entity = Mapper
-                .Map(request)
-                .ToANew<AdUnitTypeEntity>();
-
+            var entity = Mapper.Map<AdUnitTypeEntity>(request);
             await AdUnitTypeDbRepo.InsertAsync(entity);
             await AdUnitTypeDbRepo.SaveChangesAsync();
 

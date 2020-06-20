@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -30,10 +29,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
         private async Task<HttpResult<bool>> DeleteOnDb(DeletePublisherCommand request)
         {
             var result = new HttpResult<bool>();
-
-            var isExistsResult = await Mediator.Send(new IsExistsPublisherByIdQuery(request.Id));
-            if (!isExistsResult.Ok)
-                return isExistsResult;
 
             await PublisherDbRepo.DeleteAsync(request.Id);
             await PublisherDbRepo.SaveChangesAsync();

@@ -6,9 +6,17 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
     {
         public GetAdAssetListQueryValidator()
         {
-            RuleFor(p => p.AdId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue).When(m => m.AdId != null);
-            RuleFor(p => p.Start).GreaterThanOrEqualTo(0);
-            RuleFor(p => p.Length).GreaterThan(0).LessThanOrEqualTo(100);
+            RuleFor(p => p.Start)
+                .GreaterThanOrEqualTo(0);
+
+            RuleFor(p => p.Length)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(100);
+
+            RuleFor(p => p.AdId)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
         }
     }
 }

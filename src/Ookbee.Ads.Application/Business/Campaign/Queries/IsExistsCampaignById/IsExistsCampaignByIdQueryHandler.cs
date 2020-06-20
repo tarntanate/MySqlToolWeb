@@ -24,15 +24,15 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById
         private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsCampaignByIdQuery request)
         {
             var result = new HttpResult<bool>();
-            
+
             var isExists = await CampaignDbRepo.AnyAsync(f =>
                 f.Id == request.Id &&
                 f.DeletedAt == null
             );
 
-            if (!isExists)
-                return result.Fail(404, $"Campaign '{request.Id}' doesn't exist.");
-            return result.Success(true);
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"Campaign '{request.Id}' doesn't exist.");
         }
     }
 }

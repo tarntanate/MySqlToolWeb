@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Publisher;
 using Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher;
 using Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher;
@@ -9,6 +8,7 @@ using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Services.Manager.Controllers
@@ -18,23 +18,23 @@ namespace Ookbee.Ads.Services.Manager.Controllers
     public class PublishersController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<PublisherDto>>> GetList([FromQuery]int start, [FromQuery] int length)
-            => await Mediator.Send(new GetPublisherListQuery(start, length));
+        public async Task<HttpResult<IEnumerable<PublisherDto>>> GetList([FromQuery] int start, [FromQuery] int length, CancellationToken cancellationToken)
+            => await Mediator.Send(new GetPublisherListQuery(start, length), cancellationToken);
 
         [HttpGet("{id}")]
-        public async Task<HttpResult<PublisherDto>> GetById([FromRoute]long id)
-            => await Mediator.Send(new GetPublisherByIdQuery(id));
+        public async Task<HttpResult<PublisherDto>> GetById([FromRoute] long id, CancellationToken cancellationToken)
+            => await Mediator.Send(new GetPublisherByIdQuery(id), cancellationToken);
 
         [HttpPost]
-        public async Task<HttpResult<long>> Create([FromBody]CreatePublisherCommand request)
-            => await Mediator.Send(new CreatePublisherCommand(request));
+        public async Task<HttpResult<long>> Create([FromBody] CreatePublisherRequest request, CancellationToken cancellationToken)
+            => await Mediator.Send(new CreatePublisherCommand(request), cancellationToken);
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute]long id, [FromBody]UpdatePublisherCommand request)
-            => await Mediator.Send(new UpdatePublisherCommand(id, request));
+        public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdatePublisherCommand request, CancellationToken cancellationToken)
+            => await Mediator.Send(new UpdatePublisherCommand(id, request), cancellationToken);
 
         [HttpDelete("{id}")]
-        public async Task<HttpResult<bool>> Delete([FromRoute]long id)
-            => await Mediator.Send(new DeletePublisherCommand(id));
+        public async Task<HttpResult<bool>> Delete([FromRoute] long id, CancellationToken cancellationToken)
+            => await Mediator.Send(new DeletePublisherCommand(id), cancellationToken);
     }
 }

@@ -1,3 +1,5 @@
+using System.Reflection;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,8 +17,6 @@ using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
-using System;
-using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
@@ -34,27 +34,27 @@ namespace Ookbee.Ads.Application.Infrastructure
 
             // MVC
             services.AddControllers((options) =>
-                    {
-                        options.Filters.Add(typeof(CustomExceptionFilterAttribute));
-                        options.OutputFormatters.Insert(0, new ApiOutputFormatter());
-                    })
-                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
-                    .AddNewtonsoftJson((options) =>
-                    {
-                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                        options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                    });
+            {
+                options.Filters.Add(typeof(CustomExceptionFilterAttribute));
+                options.OutputFormatters.Insert(0, new ApiOutputFormatter());
+            })
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
+                .AddNewtonsoftJson((options) =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
 
             // CORS
             services.AddAllowedHosts(configuration);
 
             // Health
             services.AddHealthChecks()
-                    .AddMongoDb(appsettings.ConnectionStrings.MongoDB.Ads)
-                    .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
-                    .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
+                .AddMongoDb(appsettings.ConnectionStrings.MongoDB.Ads)
+                .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
+                .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
 
             // EFCore
             services.AddDbContext<AdsDbContext>();
@@ -72,6 +72,9 @@ namespace Ookbee.Ads.Application.Infrastructure
 
             // Swagger
             services.AddSwaggerDocs();
+
+            // AutoMapper
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Mediator
             services.AddMediatR(Assembly.GetExecutingAssembly());

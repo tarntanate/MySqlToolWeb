@@ -3,22 +3,11 @@ using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 {
-    public class UpdateAdvertiserCommand : IRequest<HttpResult<bool>>
+    public class UpdateAdvertiserCommand : UpdateAdvertiserRequest, IRequest<HttpResult<bool>>
     {
         public long Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string ImagePath { get; set; }
-        public string Contact { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
 
-        public UpdateAdvertiserCommand()
-        {
-
-        }
-
-        public UpdateAdvertiserCommand(long id, UpdateAdvertiserCommand request)
+        public UpdateAdvertiserCommand(long id, UpdateAdvertiserRequest request)
         {
             Id = id;
             Name = request.Name;

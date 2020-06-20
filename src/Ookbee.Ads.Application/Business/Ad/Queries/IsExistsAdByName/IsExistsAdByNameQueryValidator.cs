@@ -6,7 +6,10 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName
     {
         public IsExistsAdByNameQueryValidator()
         {
-            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
+            RuleFor(p => p.Name)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(40);
         }
     }
 }

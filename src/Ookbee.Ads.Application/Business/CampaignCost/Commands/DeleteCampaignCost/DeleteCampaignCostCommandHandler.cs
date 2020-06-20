@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.CampaignCost.Queries.IsExistsCampaignCostById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -31,13 +30,9 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.DeleteCampaignCo
         {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsCampaignCostByIdQuery(request.Id));
-            if (!isExistsResult.Ok)
-                return isExistsResult;
-
             await CampaignCostDbRepo.DeleteAsync(request.Id);
             await CampaignCostDbRepo.SaveChangesAsync();
-            
+
             return result.Success(true);
         }
     }

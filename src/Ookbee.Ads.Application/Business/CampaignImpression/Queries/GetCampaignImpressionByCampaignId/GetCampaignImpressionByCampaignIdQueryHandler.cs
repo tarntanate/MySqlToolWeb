@@ -26,15 +26,13 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.GetCampaign
         {
             var result = new HttpResult<CampaignImpressionDto>();
 
-            var item = await CampaignImpressionDbRepo.FirstAsync(filter: f => f.CampaignId == request.CampaignId);
-            if (item == null)
-                return result.Fail(404, $"CampaignImpression '{request.CampaignId}' doesn't exist.");
-                
-            var data = Mapper
-                .Map(item)
-                .ToANew<CampaignImpressionDto>();
+            var item = await CampaignImpressionDbRepo.FirstAsync(
+                selector: CampaignImpressionDto.Projection,
+                filter: f => f.CampaignId == request.CampaignId);
 
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"Impression doesn't exist.");
         }
     }
 }

@@ -1,7 +1,5 @@
-﻿using AgileObjects.AgileMapper;
+﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName;
-using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -12,44 +10,31 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
 {
     public class UpdatePublisherCommandHandler : IRequestHandler<UpdatePublisherCommand, HttpResult<bool>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
         public UpdatePublisherCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<PublisherEntity> publisherDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             PublisherDbRepo = publisherDbRepo;
         }
 
         public async Task<HttpResult<bool>> Handle(UpdatePublisherCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnDb(request);
+            var result = await UpdateOnDb(request, cancellationToken);
             return result;
         }
 
-        private async Task<HttpResult<bool>> UpdateOnDb(UpdatePublisherCommand request)
+        private async Task<HttpResult<bool>> UpdateOnDb(UpdatePublisherCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
 
-            var publisherResult = await Mediator.Send(new GetPublisherByIdQuery(request.Id));
-            if (!publisherResult.Ok)
-                return result.Fail(publisherResult.StatusCode, publisherResult.Message);
-
-            var publisherByNameResult = await Mediator.Send(new GetPublisherByNameQuery(request.Name));
-            if (publisherByNameResult.Ok &&
-                publisherByNameResult.Data.Id != request.Id &&
-                publisherByNameResult.Data.Name == request.Name)
-                return result.Fail(409, $"Publisher '{request.Name}' already exists.");
-
-            var source = Mapper
-                .Map(request)
-                .Over(publisherResult.Data);
-            var entity = Mapper
-                .Map(source)
-                .ToANew<PublisherEntity>();
-
+            var entity = Mapper.Map<PublisherEntity>(request);
             await PublisherDbRepo.UpdateAsync(entity.Id, entity);
             await PublisherDbRepo.SaveChangesAsync();
 

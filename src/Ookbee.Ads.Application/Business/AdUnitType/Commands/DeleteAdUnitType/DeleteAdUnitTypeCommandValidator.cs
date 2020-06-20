@@ -6,7 +6,10 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.DeleteAdUnitType
     {
         public DeleteAdUnitTypeCommandValidator()
         {
-            RuleFor(p => p.Id).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.Id)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
         }
     }
 }

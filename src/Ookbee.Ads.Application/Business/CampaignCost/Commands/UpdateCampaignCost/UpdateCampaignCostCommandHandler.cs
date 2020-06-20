@@ -1,7 +1,6 @@
-﻿using AgileObjects.AgileMapper;
+﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign;
-using Ookbee.Ads.Application.Business.CampaignCost.Queries.GetCampaignCostById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -13,13 +12,16 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.UpdateCampaignCo
 {
     public class UpdateCampaignCostCommandHandler : IRequestHandler<UpdateCampaignCostCommand, HttpResult<bool>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<CampaignCostEntity> CampaignCostDbRepo { get; }
 
         public UpdateCampaignCostCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<CampaignCostEntity> advertiserDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             CampaignCostDbRepo = advertiserDbRepo;
         }
@@ -38,46 +40,37 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.UpdateCampaignCo
             {
                 var updateCampaignResult = await UpdateCampaignOnDb(request);
                 if (!updateCampaignResult.Ok)
+                {
+                    scope.Dispose();
                     return result.Fail(updateCampaignResult.StatusCode, updateCampaignResult.Message);
+                }
 
                 var updateCampaignCostResult = await UpdateCampaignCostOnDb(request);
                 if (!updateCampaignCostResult.Ok)
+                {
+                    scope.Dispose();
                     return result.Fail(updateCampaignCostResult.StatusCode, updateCampaignCostResult.Message);
+                }
 
                 scope.Complete();
-
-                return result.Success(true);
             }
+
+            return result.Success(true);
         }
 
         private async Task<HttpResult<bool>> UpdateCampaignOnDb(UpdateCampaignCostCommand request)
         {
-            var command = Mapper
-                .Map(request)
-                .ToANew<UpdateCampaignCommand>();
-
-            var result = await Mediator.Send(command);
-
-            return result;
+            var source = Mapper.Map<UpdateCampaignRequest>(request);
+            var command = new UpdateCampaignCommand(request.Id, source);
+            return await Mediator.Send(command);
         }
 
         private async Task<HttpResult<bool>> UpdateCampaignCostOnDb(UpdateCampaignCostCommand request)
         {
             var result = new HttpResult<bool>();
 
-            var campaignCostResult = await Mediator.Send(new GetCampaignCostByCampaignIdQuery(request.Id));
-            if (!campaignCostResult.Ok)
-                return result.Fail(campaignCostResult.StatusCode, campaignCostResult.Message);
-
-            var source = Mapper
-                .Map(request)
-                .Over(campaignCostResult.Data, cfg =>
-                    cfg.Ignore(m => m.Id));
-            var entity = Mapper
-                .Map(source)
-                .ToANew<CampaignCostEntity>(cfg =>
-                    cfg.Ignore(m => m.Campaign));
-
+            var entity = Mapper.Map<CampaignCostEntity>(request);
+            entity.CampaignId = request.Id;
             await CampaignCostDbRepo.UpdateAsync(entity.Id, entity);
             await CampaignCostDbRepo.SaveChangesAsync();
 

@@ -4,6 +4,6 @@ namespace Ookbee.Ads.Infrastructure.Enums
     {
         Android,
         iOS,
-        Website
+        Web
     }
 }

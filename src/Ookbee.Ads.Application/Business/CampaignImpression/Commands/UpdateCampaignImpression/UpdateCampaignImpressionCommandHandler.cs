@@ -1,25 +1,27 @@
-﻿using AgileObjects.AgileMapper;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Transactions;
+using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign;
-using Ookbee.Ads.Application.Business.CampaignImpression.Queries.GetCampaignImpressionById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Transactions;
 
 namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCampaignImpression
 {
     public class UpdateCampaignImpressionCommandHandler : IRequestHandler<UpdateCampaignImpressionCommand, HttpResult<bool>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<CampaignImpressionEntity> CampaignImpressionDbRepo { get; }
 
         public UpdateCampaignImpressionCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<CampaignImpressionEntity> advertiserDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             CampaignImpressionDbRepo = advertiserDbRepo;
         }
@@ -38,46 +40,37 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCamp
             {
                 var updateCampaignResult = await UpdateCampaignOnDb(request);
                 if (!updateCampaignResult.Ok)
+                {
+                    scope.Dispose();
                     return result.Fail(updateCampaignResult.StatusCode, updateCampaignResult.Message);
+                }
 
                 var updateCampaignImpressionResult = await UpdateCampaignImpressionOnDb(request);
                 if (!updateCampaignImpressionResult.Ok)
+                {
+                    scope.Dispose();
                     return result.Fail(updateCampaignImpressionResult.StatusCode, updateCampaignImpressionResult.Message);
+                }
 
                 scope.Complete();
-
-                return result.Success(true);
             }
+
+            return result.Success(true);
         }
 
         private async Task<HttpResult<bool>> UpdateCampaignOnDb(UpdateCampaignImpressionCommand request)
         {
-            var command = Mapper
-                .Map(request)
-                .ToANew<UpdateCampaignCommand>();
-
-            var result = await Mediator.Send(command);
-
-            return result;
+            var source = Mapper.Map<UpdateCampaignRequest>(request);
+            var command = new UpdateCampaignCommand(request.Id, source);
+            return await Mediator.Send(command);
         }
 
         private async Task<HttpResult<bool>> UpdateCampaignImpressionOnDb(UpdateCampaignImpressionCommand request)
         {
             var result = new HttpResult<bool>();
 
-            var campaignImpressionResult = await Mediator.Send(new GetCampaignImpressionByCampaignIdQuery(request.Id));
-            if (!campaignImpressionResult.Ok)
-                return result.Fail(campaignImpressionResult.StatusCode, campaignImpressionResult.Message);
-
-            var source = Mapper
-                .Map(request)
-                .Over(campaignImpressionResult.Data, cfg =>
-                    cfg.Ignore(m => m.Id));
-            var entity = Mapper
-                .Map(source)
-                .ToANew<CampaignImpressionEntity>(cfg =>
-                    cfg.Ignore(m => m.Campaign));
-
+            var entity = Mapper.Map<CampaignImpressionEntity>(request);
+            entity.CampaignId = request.Id;
             await CampaignImpressionDbRepo.UpdateAsync(entity.Id, entity);
             await CampaignImpressionDbRepo.SaveChangesAsync();
 

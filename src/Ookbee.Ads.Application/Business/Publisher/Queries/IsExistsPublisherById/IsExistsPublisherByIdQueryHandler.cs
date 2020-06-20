@@ -24,15 +24,15 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByI
         private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsPublisherByIdQuery request)
         {
             var result = new HttpResult<bool>();
-            
+
             var isExists = await PublisherDbRepo.AnyAsync(f =>
                 f.Id == request.Id &&
                 f.DeletedAt == null
             );
 
-            if (!isExists)
-                return result.Fail(404, $"Publisher '{request.Id}' doesn't exist.");
-            return result.Success(true);
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"Publisher '{request.Id}' doesn't exist.");
         }
     }
 }

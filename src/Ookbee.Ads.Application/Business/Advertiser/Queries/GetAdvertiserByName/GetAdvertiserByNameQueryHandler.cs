@@ -26,19 +26,16 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName
         {
             var result = new HttpResult<AdvertiserDto>();
 
-            var item = await AdvertiserDbRepo.FirstAsync(filter: f =>
-                f.Name == request.Name &&
-                f.DeletedAt == null
+            var item = await AdvertiserDbRepo.FirstAsync(
+                selector: AdvertiserDto.Projection,
+                filter: f =>
+                    f.Name == request.Name &&
+                    f.DeletedAt == null
             );
 
-            if (item == null)
-                return result.Fail(404, $"Advertiser '{request.Name}' doesn't exist.");
-
-            var data = Mapper
-                .Map(item)
-                .ToANew<AdvertiserDto>();
-
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"Advertiser '{request.Name}' doesn't exist.");
         }
     }
 }

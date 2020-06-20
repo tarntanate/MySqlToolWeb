@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Common.Extensions;
@@ -23,10 +22,10 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
 
         public async Task<HttpResult<IEnumerable<AdAssetDto>>> Handle(GetAdAssetListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
+            return await GetListOnDb(request, cancellationToken);
         }
 
-        private async Task<HttpResult<IEnumerable<AdAssetDto>>> GetListOnDb(GetAdAssetListQuery request)
+        private async Task<HttpResult<IEnumerable<AdAssetDto>>> GetListOnDb(GetAdAssetListQuery request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<IEnumerable<AdAssetDto>>();
 
@@ -44,11 +43,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
                 length: request.Length
             );
 
-            var data = Mapper
-                .Map(items)
-                .ToANew<IEnumerable<AdAssetDto>>();
-
-            return result.Success(data);
+            return result.Success(items);
         }
     }
 }

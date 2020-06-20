@@ -26,15 +26,16 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetById
         {
             var result = new HttpResult<AdAssetDto>();
 
-            var item = await AdAssetDbRepo.FirstAsync(filter: f => f.Id == request.Id && f.DeletedAt == null);
-            if (item == null)
-                return result.Fail(404, $"AdAsset '{request.Id}' doesn't exist.");
-                
-            var data = Mapper
-                .Map(item)
-                .ToANew<AdAssetDto>();
+            var item = await AdAssetDbRepo.FirstAsync(
+                selector: AdAssetDto.Projection,
+                filter: f =>
+                    f.Id == request.Id &&
+                    f.DeletedAt == null
+            );
 
-            return result.Success(data);
+            return (item != null)
+                ? result.Success(item)
+                : result.Fail(404, $"AdAsset '{request.Id}' doesn't exist.");
         }
     }
 }

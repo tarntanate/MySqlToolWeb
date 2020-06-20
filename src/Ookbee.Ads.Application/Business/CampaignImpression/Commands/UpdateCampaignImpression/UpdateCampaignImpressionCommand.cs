@@ -1,26 +1,13 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCampaignImpression
 {
-    public class UpdateCampaignImpressionCommand : IRequest<HttpResult<bool>>
+    public class UpdateCampaignImpressionCommand : UpdateCampaignImpressionRequest, IRequest<HttpResult<bool>>
     {
         public long Id { get; set; }
-        public long AdvertiserId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public string PricingModel { get; set; }
-        public decimal Quota { get; set; }
 
-        public UpdateCampaignImpressionCommand()
-        {
-
-        }
-
-        public UpdateCampaignImpressionCommand(long id, UpdateCampaignImpressionCommand request)
+        public UpdateCampaignImpressionCommand(long id, UpdateCampaignImpressionRequest request)
         {
             Id = id;
             AdvertiserId = request.AdvertiserId;

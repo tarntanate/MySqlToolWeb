@@ -6,7 +6,10 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Queries.GetCampaignCostBy
     {
         public GetCampaignCostByCampaignIdQueryValidator()
         {
-            RuleFor(p => p.CampaignId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.CampaignId)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
         }
     }
 }

@@ -29,10 +29,10 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitByName
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );
-            
-            if (!isExists)
-                return result.Fail(404, $"AdUnit '{request.Name}' doesn't exist.");
-            return result.Success(true);
+
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"AdUnit '{request.Name}' doesn't exist.");
         }
     }
 }

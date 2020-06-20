@@ -7,8 +7,14 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
     {
         public GenerateUploadUrlCommandValidator()
         {
-            RuleFor(p => p.Id).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
-            RuleFor(p => p.Extension).NotNull().NotEmpty().Must(BeAValidFileExtension).WithMessage("Only .jpg .jpeg and .png file is supported.");
+            RuleFor(p => p.Id)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("The '{PropertyName}' is not a valid");
+
+            RuleFor(p => p.Extension)
+                .Must(value => value.HasValue() && (value.IsValidJpeg() || value.IsValidPng()))
+                .WithMessage("Only .jpg .jpeg and .png file is supported.");
         }
 
         private bool BeAValidFileExtension(string value)

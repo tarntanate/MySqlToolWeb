@@ -46,11 +46,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdList
                 start: request.Start,
                 length: request.Length
             );
-            var data = Mapper
-                .Map(items)
-                .ToANew<IEnumerable<AdDto>>();
 
-            return result.Success(data);
+            return result.Success(items);
         }
     }
 }
