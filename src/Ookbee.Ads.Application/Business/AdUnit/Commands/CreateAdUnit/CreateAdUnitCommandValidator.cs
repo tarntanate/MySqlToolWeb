@@ -27,12 +27,12 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
             RuleFor(p => p.AdUnitTypeId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.PublisherId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.Name)
                 .CustomAsync(BeAValidName);
@@ -61,7 +61,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
         private async Task BeAValidName(string value, CustomContext context, CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(new IsExistsAdUnitByNameQuery(value));
-            if (!result.Ok)
+            if (result.Ok)
                 context.AddFailure(result.Message);
         }
     }

@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
             RuleFor(p => p.AdId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
         }
     }
 }

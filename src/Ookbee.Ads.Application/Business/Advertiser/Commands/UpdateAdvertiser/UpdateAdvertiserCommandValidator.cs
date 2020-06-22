@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Validators;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserByName;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName;
 using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.Name)
                 .NotNull()
@@ -35,18 +35,18 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 
             RuleFor(p => p.ImagePath)
                 .MaximumLength(255)
-                .Must(value => !value.HasValue() && value.IsValidUri())
-                .WithMessage("The '{PropertyName}' address is not valid");
+                .Must(value => !value.HasValue() || value.IsValidUri())
+                .WithMessage("'{PropertyName}' address is not valid");
 
             RuleFor(p => p.Email)
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidEmailAddress())
-                .WithMessage("Please specify a valid 'Email'.");
+                .WithMessage("'{PropertyName}' address is not valid");
 
             RuleFor(p => p.PhoneNumber)
                 .MaximumLength(10)
                 .Must(value => !value.HasValue() || value.IsValidPhoneNumber())
-                .WithMessage("Please specify a valid 'PhoneNumber'.").MaximumLength(10);
+                .WithMessage("'{PropertyName}' is not valid");
 
             RuleFor(p => p.Name)
                 .CustomAsync(BeAValidName);
@@ -54,8 +54,11 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 
         private async Task BeAValidName(string value, CustomContext context, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new IsExistsAdvertiserByNameQuery(value));
-            if (result.Ok)
+            var validate = context.InstanceToValidate as UpdateAdvertiserCommand;
+            var result = await Mediator.Send(new GetAdvertiserByNameQuery(value));
+            if (result.Ok &&
+                result.Data.Id != validate.Id &&
+                result.Data.Name == value)
                 context.AddFailure($"Advertiser '{value}' already exists.");
         }
     }

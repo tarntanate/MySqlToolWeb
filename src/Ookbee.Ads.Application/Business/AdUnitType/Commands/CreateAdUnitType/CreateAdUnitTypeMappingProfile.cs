@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType
     {
         public CreateAdUnitTypeMappingProfile()
         {
-            CreateMap<CreateAdUnitTypeCommand, AdUnitEntity>();
+            CreateMap<CreateAdUnitTypeCommand, AdUnitTypeEntity>();
         }
     }
 }

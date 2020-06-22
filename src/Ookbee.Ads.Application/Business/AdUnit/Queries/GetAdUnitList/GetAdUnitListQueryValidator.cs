@@ -27,12 +27,12 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
             RuleFor(p => p.AdUnitTypeId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.PublisherId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.AdUnitTypeId)
                 .CustomAsync(BeValidAdUnitTypeId);

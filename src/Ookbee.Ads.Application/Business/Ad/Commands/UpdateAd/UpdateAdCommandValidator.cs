@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.Name)
                 .NotNull()
@@ -33,45 +33,45 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
             RuleFor(p => p.BackgroundColor)
                 .Must(value => !value.HasValue() || value.IsValidRGBHexColor())
-                .WithMessage("The '{PropertyName}' is not valid RGB color");
+                .WithMessage("'{PropertyName}' is not valid RGB color");
 
             RuleFor(p => p.ForegroundColor)
                 .Must(value => !value.HasValue() || value.IsValidRGBHexColor())
-                .WithMessage("The '{PropertyName}' is not valid RGB color");
+                .WithMessage("'{PropertyName}' is not valid RGB color");
 
             RuleForEach(p => p.Analytics)
                 .Must(value => value.HasValue() && value.IsValidHttp())
-                .WithMessage("The '{PropertyName}' is not valid HTTP(S) address");
+                .WithMessage("'{PropertyName}' is not valid HTTP(S) address");
 
             RuleFor(p => p.Platforms)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("The '{PropertyName}' is required");
+                .WithMessage("'{PropertyName}' is required");
 
             RuleForEach(p => p.Platforms)
                 .NotNull()
                 .Must(value => value.HasValue())
-                .WithMessage("The '{PropertyName}' must be 3 items or fewer");
+                .WithMessage("'{PropertyName}' must be 3 items or fewer");
 
             RuleFor(p => p.AppLink)
                 .MaximumLength(255)
-                .Must(value => value.HasValue() && value.IsValidUri())
-                .WithMessage("The '{PropertyName}' address is not valid");
+                .Must(value => !value.HasValue() && value.IsValidUri())
+                .WithMessage("'{PropertyName}' address is not valid");
 
             RuleFor(p => p.WebLink)
                 .MaximumLength(255)
                 .Must(value => value.HasValue() && value.IsValidHttp())
-                .WithMessage("The '{PropertyName}' address is not valid");
+                .WithMessage("'{PropertyName}' address is not valid");
 
             RuleFor(p => p.AdUnitId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.CampaignId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.AdUnitId)
                 .CustomAsync(BeValidAdUnitId);

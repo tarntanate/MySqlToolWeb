@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.DeleteAdUnit
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
         }
     }
 }

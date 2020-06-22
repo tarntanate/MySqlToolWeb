@@ -3,6 +3,7 @@ using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,6 +20,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.UpdateAdUnit
             IMediator mediator,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             AdUnitDbRepo = adUnitDbRepo;
         }
@@ -33,11 +35,19 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.UpdateAdUnit
         {
             var result = new HttpResult<bool>();
 
-            var entity = Mapper.Map<AdUnitEntity>(request);
-            await AdUnitDbRepo.UpdateAsync(entity.Id, entity);
-            await AdUnitDbRepo.SaveChangesAsync();
+            try
+            {
+                var entity = Mapper.Map<AdUnitEntity>(request);
+                await AdUnitDbRepo.UpdateAsync(entity.Id, entity);
+                await AdUnitDbRepo.SaveChangesAsync();
 
-            return result.Success(true);
+                return result.Success(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return result.Fail(500, ex.Message);
+            }
         }
     }
 }

@@ -50,12 +50,12 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
             RuleFor(p => p.AppLink)
                 .MaximumLength(255)
-                .Must(value => value.HasValue() && value.IsValidUri())
+                .Must(value => !value.HasValue() || value.IsValidUri())
                 .WithMessage("The '{PropertyName}' address is not valid");
 
             RuleFor(p => p.WebLink)
                 .MaximumLength(255)
-                .Must(value => value.HasValue() && value.IsValidHttp())
+                .Must(value => !value.HasValue() && value.IsValidHttp())
                 .WithMessage("The '{PropertyName}' address is not valid");
 
             RuleFor(p => p.AdUnitId)

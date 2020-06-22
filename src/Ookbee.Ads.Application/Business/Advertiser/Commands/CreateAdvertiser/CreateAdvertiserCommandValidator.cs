@@ -30,18 +30,18 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
 
             RuleFor(p => p.ImagePath)
                 .MaximumLength(255)
-                .Must(value => !value.HasValue() && value.IsValidUri())
-                .WithMessage("The '{PropertyName}' address is not valid");
+                .Must(value => !value.HasValue() || value.IsValidUri())
+                .WithMessage("'{PropertyName}' address is not valid");
 
             RuleFor(p => p.Email)
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidEmailAddress())
-                .WithMessage("Please specify a valid 'Email'.");
+                .WithMessage("'{PropertyName}' address is not valid");
 
             RuleFor(p => p.PhoneNumber)
                 .MaximumLength(10)
                 .Must(value => !value.HasValue() || value.IsValidPhoneNumber())
-                .WithMessage("Please specify a valid 'PhoneNumber'.").MaximumLength(10);
+                .WithMessage("'{PropertyName}' is not valid");
 
             RuleFor(p => p.Name)
                 .CustomAsync(BeAValidName);

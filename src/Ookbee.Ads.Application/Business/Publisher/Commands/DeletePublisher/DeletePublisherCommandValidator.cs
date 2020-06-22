@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
         }
     }
 }

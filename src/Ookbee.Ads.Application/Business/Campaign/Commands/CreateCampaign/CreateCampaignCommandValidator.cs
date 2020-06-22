@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
             RuleFor(p => p.AdvertiserId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.Name)
                 .CustomAsync(BeAValidName);

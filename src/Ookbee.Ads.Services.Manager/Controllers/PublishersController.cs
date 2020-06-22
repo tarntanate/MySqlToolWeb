@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Services.Manager.Controllers
             => await Mediator.Send(new CreatePublisherCommand(request), cancellationToken);
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdatePublisherCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdatePublisherRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdatePublisherCommand(id, request), cancellationToken);
 
         [HttpDelete("{id}")]

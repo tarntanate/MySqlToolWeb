@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
@@ -37,12 +37,12 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
             RuleFor(p => p.AdvertiserId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.AdvertiserId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("The '{PropertyName}' is not a valid");
+                .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.Name)
                 .CustomAsync(BeAValidName);

@@ -27,8 +27,8 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
 
             RuleFor(p => p.ImagePath)
                 .MaximumLength(255)
-                .Must(value => value.HasValue() && value.IsValidUri())
-                .WithMessage("The '{PropertyName}' address is not valid");
+                .Must(value => !value.HasValue() || value.IsValidUri())
+                .WithMessage("'{PropertyName}' address is not valid");
 
             RuleFor(p => p.Name)
                 .CustomAsync(BeAValidName);
