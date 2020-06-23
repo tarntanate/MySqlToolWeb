@@ -31,9 +31,12 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
 
         private async Task BeValidAdId(long? value, CustomContext context, CancellationToken cancellationToken)
         {
-            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value.Value));
-            if (!isExistsAdResult.Ok)
-                context.AddFailure(isExistsAdResult.Message);
+            if (value != null)
+            {
+                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value.Value));
+                if (!isExistsAdResult.Ok)
+                    context.AddFailure(isExistsAdResult.Message);
+            }
         }
     }
 }

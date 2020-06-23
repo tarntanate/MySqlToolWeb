@@ -37,16 +37,22 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
 
         private async Task BeValidAdUnitTypeId(long? value, CustomContext context, CancellationToken cancellationToken)
         {
-            var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value.Value));
-            if (!isExistsAdUnitResult.Ok)
-                context.AddFailure(isExistsAdUnitResult.Message);
+            if (value != null)
+            {
+                var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value.Value));
+                if (!isExistsAdUnitResult.Ok)
+                    context.AddFailure(isExistsAdUnitResult.Message);
+            }
         }
 
         private async Task BeValidPublisherId(long? value, CustomContext context, CancellationToken cancellationToken)
         {
-            var isExistsPublisherResult = await Mediator.Send(new IsExistsPublisherByIdQuery(value.Value));
-            if (!isExistsPublisherResult.Ok)
-                context.AddFailure(isExistsPublisherResult.Message);
+            if (value != null)
+            {
+                var isExistsPublisherResult = await Mediator.Send(new IsExistsPublisherByIdQuery(value.Value));
+                if (!isExistsPublisherResult.Ok)
+                    context.AddFailure(isExistsPublisherResult.Message);
+            }
         }
     }
 }
