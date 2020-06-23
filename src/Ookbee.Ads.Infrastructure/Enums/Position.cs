@@ -10,6 +10,7 @@ namespace Ookbee.Ads.Infrastructure.Enums
         Right,
         Bottom,
         BottomLeft,
-        BottomRight
+        BottomRight,
+        Text
     }
 }
