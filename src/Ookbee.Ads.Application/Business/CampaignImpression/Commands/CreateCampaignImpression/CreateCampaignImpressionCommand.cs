@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
             StartDate = request.StartDate;
             EndDate = request.EndDate;
             PricingModel = request.PricingModel;
-            Qouta = request.Qouta;
+            Quota = request.Quota;
         }
     }
 }
