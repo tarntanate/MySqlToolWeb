@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
                 .GreaterThanOrEqualTo(MechineDateTime.Now)
                 .GreaterThan(p => p.StartDate);
 
-            RuleFor(p => p.Qouta)
+            RuleFor(p => p.Quota)
                 .GreaterThan(0);
 
             RuleFor(p => p.AdvertiserId)
