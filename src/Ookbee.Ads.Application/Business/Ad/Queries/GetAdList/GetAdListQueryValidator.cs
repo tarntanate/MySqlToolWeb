@@ -3,7 +3,6 @@ using FluentValidation.Validators;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
-using Ookbee.Ads.Common.Extensions;
 using System.Threading;
 using System.Threading.Tasks;
 
