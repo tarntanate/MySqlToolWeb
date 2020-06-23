@@ -11,6 +11,5 @@ namespace Ookbee.Ads.Infrastructure.Enums
         Bottom,
         BottomLeft,
         BottomRight,
-        Text
     }
 }
