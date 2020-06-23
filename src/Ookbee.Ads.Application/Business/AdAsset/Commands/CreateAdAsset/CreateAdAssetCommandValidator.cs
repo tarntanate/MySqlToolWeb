@@ -17,11 +17,6 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            RuleFor(p => p.AssetPath)
-                .MaximumLength(255)
-                .Must(value => value.HasValue() && value.IsValidHttp())
-                .WithMessage("'{PropertyName}' address is not valid");
-
             RuleFor(p => p.AdId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)

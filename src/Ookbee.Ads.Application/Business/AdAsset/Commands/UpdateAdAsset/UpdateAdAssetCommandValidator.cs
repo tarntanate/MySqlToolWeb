@@ -22,10 +22,6 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset
                 .LessThanOrEqualTo(long.MaxValue)
                 .WithMessage("'{PropertyName}' is not a valid");
 
-            RuleFor(p => p.AssetPath)
-                .Must(value => value.HasValue() && value.IsValidHttp())
-                .WithMessage("'{PropertyName}' is not valid HTTP(S) address");
-
             RuleFor(p => p.AdId)
                 .CustomAsync(BeAValidAdId);
         }

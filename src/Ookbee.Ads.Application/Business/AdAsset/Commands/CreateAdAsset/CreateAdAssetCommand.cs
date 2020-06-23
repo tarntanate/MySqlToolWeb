@@ -9,7 +9,6 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
         {
             AdId = request.AdId;
             AssetType = request.AssetType;
-            AssetPath = request.AssetPath;
             Position = request.Position;
         }
     }

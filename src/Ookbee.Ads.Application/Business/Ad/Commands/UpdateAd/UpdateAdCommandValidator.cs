@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
 using MediatR;
+using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Extensions;
@@ -19,6 +20,16 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(p => p.Id)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("'{PropertyName}' is not a valid");
+
+            RuleFor(p => p.CampaignId)
+                .GreaterThan(0)
+                .LessThanOrEqualTo(long.MaxValue)
+                .WithMessage("'{PropertyName}' is not a valid");
+
+            RuleFor(p => p.CampaignId)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
                 .WithMessage("'{PropertyName}' is not a valid");
@@ -55,29 +66,29 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
             RuleFor(p => p.AppLink)
                 .MaximumLength(255)
-                .Must(value => !value.HasValue() && value.IsValidUri())
+                .Must(value => !value.HasValue() || value.IsValidUri())
                 .WithMessage("'{PropertyName}' address is not valid");
 
             RuleFor(p => p.WebLink)
                 .MaximumLength(255)
-                .Must(value => value.HasValue() && value.IsValidHttp())
+                .Must(value => !value.HasValue() || value.IsValidHttp())
                 .WithMessage("'{PropertyName}' address is not valid");
 
-            RuleFor(p => p.AdUnitId)
-                .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("'{PropertyName}' is not a valid");
-
-            RuleFor(p => p.CampaignId)
-                .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("'{PropertyName}' is not a valid");
+            RuleFor(p => p.Id)
+                .CustomAsync(BeValidAdId);
 
             RuleFor(p => p.AdUnitId)
                 .CustomAsync(BeValidAdUnitId);
 
             RuleFor(p => p.CampaignId)
                 .CustomAsync(BeValidCampaignId);
+        }
+
+        private async Task BeValidAdId(long value, CustomContext context, CancellationToken cancellationToken)
+        {
+            var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value));
+            if (!isExistsAdResult.Ok)
+                context.AddFailure(isExistsAdResult.Message);
         }
 
         private async Task BeValidAdUnitId(long value, CustomContext context, CancellationToken cancellationToken)
