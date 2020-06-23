@@ -2,6 +2,7 @@
 using FluentValidation.Validators;
 using MediatR;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
+using Ookbee.Ads.Common.Extensions;
 using System.Threading;
 using System.Threading.Tasks;
 
