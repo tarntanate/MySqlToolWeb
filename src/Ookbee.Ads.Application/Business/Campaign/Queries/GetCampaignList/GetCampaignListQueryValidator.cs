@@ -6,6 +6,7 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Enums;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
 {
@@ -36,11 +37,14 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
                 .CustomAsync(BeValidAdvertiserId);
         }
 
-        private async System.Threading.Tasks.Task BeValidAdvertiserId(long? value, CustomContext context, CancellationToken cancellationToken)
+        private async Task BeValidAdvertiserId(long? value, CustomContext context, CancellationToken cancellationToken)
         {
-            var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value.Value));
-            if (!isExistsAdUnitResult.Ok)
-                context.AddFailure(isExistsAdUnitResult.Message);
+            if (value != null)
+            {
+                var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value.Value));
+                if (!isExistsAdUnitResult.Ok)
+                    context.AddFailure(isExistsAdUnitResult.Message);
+            }
         }
 
         private bool BeValidPricingModel(string value)
