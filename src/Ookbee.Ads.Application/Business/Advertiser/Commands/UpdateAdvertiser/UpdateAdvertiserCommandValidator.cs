@@ -1,8 +1,6 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using FluentValidation;
-using FluentValidation.Validators;
+﻿using FluentValidation;
 using MediatR;
+using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserById;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName;
 using Ookbee.Ads.Common.Extensions;
 
@@ -20,12 +18,27 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("'{PropertyName}' is not a valid");
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var validate = context.InstanceToValidate as UpdateAdvertiserCommand;
+                    var result = await Mediator.Send(new GetAdvertiserByIdQuery(value), cancellationToken);
+                    if (!result.Ok)
+                        context.AddFailure(result.Message);
+                });
 
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(40);
+                .MaximumLength(40)
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var validate = context.InstanceToValidate as UpdateAdvertiserCommand;
+                    var result = await Mediator.Send(new GetAdvertiserByNameQuery(value), cancellationToken);
+                    if (result.Ok &&
+                        result.Data.Id != validate.Id &&
+                        result.Data.Name == value)
+                        context.AddFailure($"'{context.PropertyName}' already exists.");
+                });
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
@@ -47,19 +60,6 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
                 .MaximumLength(10)
                 .Must(value => !value.HasValue() || value.IsValidPhoneNumber())
                 .WithMessage("'{PropertyName}' is not valid");
-
-            RuleFor(p => p.Name)
-                .CustomAsync(BeAValidName);
-        }
-
-        private async Task BeAValidName(string value, CustomContext context, CancellationToken cancellationToken)
-        {
-            var validate = context.InstanceToValidate as UpdateAdvertiserCommand;
-            var result = await Mediator.Send(new GetAdvertiserByNameQuery(value));
-            if (result.Ok &&
-                result.Data.Id != validate.Id &&
-                result.Data.Name == value)
-                context.AddFailure($"Advertiser '{value}' already exists.");
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using MediatR;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName;
+using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
 using Ookbee.Ads.Common.Extensions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
 {
@@ -19,13 +17,26 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
 
             RuleFor(p => p.Id)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("'{PropertyName}' is not a valid");
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var result = await Mediator.Send(new IsExistsPublisherByIdQuery(value), cancellationToken);
+                    if (!result.Ok)
+                        context.AddFailure(result.Message);
+                });
 
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(40);
+                .MaximumLength(40)
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var validate = context.InstanceToValidate as UpdatePublisherCommand;
+                    var result = await Mediator.Send(new GetPublisherByNameQuery(value), cancellationToken);
+                    if (result.Ok &&
+                        result.Data.Id != validate.Id &&
+                        result.Data.Name == value)
+                        context.AddFailure($"'{context.PropertyName}' already exists.");
+                });
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
@@ -34,16 +45,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidUri())
                 .WithMessage("'{PropertyName}' address is not valid");
-        }
-
-        private async Task BeAValidName(string value, CustomContext context, CancellationToken cancellationToken)
-        {
-            var validate = context.InstanceToValidate as UpdatePublisherCommand;
-            var result = await Mediator.Send(new GetPublisherByNameQuery(value));
-            if (result.Ok &&
-                result.Data.Id != validate.Id &&
-                result.Data.Name == value)
-                context.AddFailure($"Publisher '{value}' already exists.");
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using FluentValidation;
-using FluentValidation.Validators;
+﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherByName;
 using Ookbee.Ads.Common.Extensions;
@@ -20,7 +17,13 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(40);
+                .MaximumLength(40)
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var result = await Mediator.Send(new GetPublisherByNameQuery(value), cancellationToken);
+                    if (result.Ok)
+                        context.AddFailure($"'{context.PropertyName}' already exists.");
+                });
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
@@ -29,16 +32,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidUri())
                 .WithMessage("'{PropertyName}' address is not valid");
-
-            RuleFor(p => p.Name)
-                .CustomAsync(BeAValidName);
-        }
-
-        private async Task BeAValidName(string value, CustomContext context, CancellationToken cancellationToken)
-        {
-            var result = await Mediator.Send(new GetPublisherByNameQuery(value));
-            if (result.Ok)
-                context.AddFailure($"Publisher '{value}' already exists.");
         }
     }
 }

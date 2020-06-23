@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using FluentValidation;
-using FluentValidation.Validators;
+﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdUnitType.Queries.IsExistsAdUnitTypeByName;
 
@@ -19,20 +16,15 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(40);
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var result = await Mediator.Send(new IsExistsAdUnitTypeByNameQuery(value), cancellationToken);
+                    if (result.Ok)
+                        context.AddFailure($"'{context.PropertyName}' already exists.");
+                });
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
-
-            RuleFor(p => p.Name)
-                .CustomAsync(BeAValidName);
-        }
-
-        private async Task BeAValidName(string value, CustomContext context, CancellationToken cancellationToken)
-        {
-            var result = await Mediator.Send(new IsExistsAdUnitTypeByNameQuery(value));
-            if (result.Ok)
-                context.AddFailure($"AdUnitType '{value}' already exists.");
         }
     }
 }

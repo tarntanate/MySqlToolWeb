@@ -1,7 +1,5 @@
 ﻿using System.Threading;
-using System.Threading.Tasks;
 using FluentValidation;
-using FluentValidation.Validators;
 using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;
@@ -16,11 +14,29 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
         public CreateCampaignCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
+            RuleFor(p => p.AdvertiserId)
+                .GreaterThan(0)
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var result = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value), cancellationToken);
+                    if (!result.Ok)
+                        context.AddFailure(result.Message);
+                });
 
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(40);
+                .MaximumLength(40)
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var validate = context.InstanceToValidate as CreateCampaignCommand;
+                    var result = await Mediator.Send(new GetCampaignByNameQuery(value), cancellationToken);
+                    if (result.Ok &&
+                        result.Data.Name == value)
+                        context.AddFailure($"'{context.PropertyName}' already exists.");
+                });
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
@@ -30,33 +46,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 
             RuleFor(p => p.EndDate)
                 .GreaterThanOrEqualTo(MechineDateTime.Now.Date);
-
-            RuleFor(p => p.AdvertiserId)
-                .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("'{PropertyName}' is not a valid");
-
-            RuleFor(p => p.Name)
-                .CustomAsync(BeAValidName);
-
-            RuleFor(p => p.AdvertiserId)
-                .CustomAsync(BeValidAdvertiserId);
-        }
-
-        private async Task BeValidAdvertiserId(long value, CustomContext context, CancellationToken cancellationToken)
-        {
-            var result = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value), cancellationToken);
-            if (!result.Ok)
-                context.AddFailure(result.Message);
-        }
-
-        private async Task BeAValidName(string value, CustomContext context, CancellationToken cancellationToken)
-        {
-            var validate = context.InstanceToValidate as CreateCampaignCommand;
-            var result = await Mediator.Send(new GetCampaignByNameQuery(value));
-            if (result.Ok &&
-                result.Data.Name == value)
-                context.AddFailure($"Campaign '{value}' already exists.");
         }
     }
 }
