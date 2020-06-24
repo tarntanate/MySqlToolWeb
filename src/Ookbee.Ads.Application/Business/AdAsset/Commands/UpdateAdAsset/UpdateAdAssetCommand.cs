@@ -11,6 +11,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset
         {
             Id = id;
             AdId = request.AdId;
+            AssetPath = request.AssetPath;
             AssetType = request.AssetType;
             Position = request.Position;
         }

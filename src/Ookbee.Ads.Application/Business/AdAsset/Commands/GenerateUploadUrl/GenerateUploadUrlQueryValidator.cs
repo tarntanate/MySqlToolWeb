@@ -16,10 +16,5 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
                 .Must(value => value.HasValue() && (value.IsValidJpeg() || value.IsValidPng()))
                 .WithMessage("Only .jpg .jpeg and .png file is supported.");
         }
-
-        private bool BeAValidFileExtension(string value)
-        {
-            return value.IsValidJpeg() || value.IsValidPng();
-        }
     }
 }
