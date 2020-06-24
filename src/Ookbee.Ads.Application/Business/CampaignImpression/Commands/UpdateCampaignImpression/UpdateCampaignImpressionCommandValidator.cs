@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 
 namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCampaignImpression
