@@ -14,6 +14,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             CampaignId = request.CampaignId;
             Name = request.Name;
             Description = request.Description;
+            Status = request.Status;
             ForegroundColor = request.ForegroundColor;
             BackgroundColor = request.BackgroundColor;
             Analytics = request.Analytics;

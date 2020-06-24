@@ -15,7 +15,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
 
         private bool BeAValidEventType(string value)
         {
-            if (value.HasValue() && Enum.TryParse<AdsEvent>(value, true, out var adsEvent))
+            if (value.HasValue() && Enum.TryParse<AdEvent>(value, true, out var adsEvent))
                 return true;
             return true;
         }

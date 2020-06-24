@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
+using Ookbee.Ads.Infrastructure.Enums;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
@@ -10,6 +11,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public long CampaignId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public AdStatus Status { get; set; }
         public int? CountdownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }

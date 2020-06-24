@@ -37,21 +37,21 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
             var requestLogResult = await Mediator.Send(new GetRequestLogByIdQuery(request.EventId));
             if (!requestLogResult.Ok)
                 return result.Fail(requestLogResult.StatusCode, requestLogResult.Message);
-            
+
             if (requestLogResult.Data.IsFill &&
-                Enum.TryParse<AdsEvent>(request.EventType, true, out var adsEvent))
+                Enum.TryParse<AdEvent>(request.EventType, true, out var adsEvent))
             {
                 switch (adsEvent)
                 {
-                    case AdsEvent.Click:
+                    case AdEvent.Click:
                         requestLogResult.Data.IsClick = true;
                         break;
 
-                    case AdsEvent.Display:
+                    case AdEvent.Display:
                         requestLogResult.Data.IsDisplay = true;
                         break;
 
-                    case AdsEvent.Impression:
+                    case AdEvent.Impression:
                         requestLogResult.Data.IsImpression = true;
                         break;
 

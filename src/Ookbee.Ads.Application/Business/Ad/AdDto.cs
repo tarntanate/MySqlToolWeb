@@ -6,6 +6,7 @@ using Ookbee.Ads.Application.Business.Campaign;
 using Ookbee.Ads.Application.Business.Publisher;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Enums;
 using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Ookbee.Ads.Application.Business.Ad
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public AdStatus Status { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? CountdownSecond { get; set; }
         public string ForegroundColor { get; set; }
@@ -36,6 +38,7 @@ namespace Ookbee.Ads.Application.Business.Ad
                     Id = entity.Id,
                     Name = entity.Name,
                     Description = entity.Description,
+                    Status = entity.Status,
                     CountdownSecond = entity.CountdownSecond,
                     ForegroundColor = entity.ForegroundColor,
                     BackgroundColor = entity.BackgroundColor,

@@ -9,6 +9,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
         public long CampaignId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public AdStatus Status { get; set; }
         public int? CooldownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
