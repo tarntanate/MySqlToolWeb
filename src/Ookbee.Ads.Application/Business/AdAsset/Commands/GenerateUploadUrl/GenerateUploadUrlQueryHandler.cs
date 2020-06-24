@@ -1,4 +1,4 @@
-﻿using AgileObjects.AgileMapper;
+﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset;
 using Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetById;
@@ -16,13 +16,16 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
 {
     public class GenerateUploadUrlCommandHandler : IRequestHandler<GenerateUploadUrlCommand, HttpResult<string>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
         public GenerateUploadUrlCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             AdAssetDbRepo = adUnitDbRepo;
         }
@@ -52,7 +55,8 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
             var assetMimeType = MimeTypeMap.GetMimeType(request.Extension);
             adAsset.AssetPath = targetKey;
             adAsset.AssetType = assetMimeType.Split('/')[0].ToUpperFirstLetter();
-            var updateAdAssetCommand = Mapper.Map(adAsset).ToANew<UpdateAdAssetCommand>();
+            var updateAdAssetRequest = Mapper.Map<UpdateAdAssetRequest>(adAsset);
+            var updateAdAssetCommand = new UpdateAdAssetCommand(adAsset.Id, updateAdAssetRequest);
             var updateAdAssetResult = await Mediator.Send(updateAdAssetCommand);
             if (!updateAdAssetResult.Ok)
                 return result.Fail(updateAdAssetResult.StatusCode, updateAdAssetResult.Message);
