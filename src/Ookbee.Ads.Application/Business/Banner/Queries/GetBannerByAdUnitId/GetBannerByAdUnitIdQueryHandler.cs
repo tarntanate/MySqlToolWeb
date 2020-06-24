@@ -3,6 +3,7 @@ using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Application.Business.Analytics.Commands.CreateRequestLog;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -42,7 +43,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
             var data = await AdDbRepo.FirstAsync(
                 selector: BannerDto.Projection,
                 filter: f =>
-                    f.Id == request.AdUnitId &&
+                    f.AdUnitId == request.AdUnitId &&
+                    f.Campaign.StartDate <= MechineDateTime.Now &&
+                    f.Campaign.EndDate >= MechineDateTime.Now &&
                     f.DeletedAt == null,
                 orderBy: f => f.OrderBy(o => guid)
             );
