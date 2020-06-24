@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName;

@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCamp
     {
         private IMediator Mediator { get; }
 
-        public UpdateCampaignImpressionCommandValidator(IMediator mediator, CancellationToken cancellation)
+        public UpdateCampaignImpressionCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
