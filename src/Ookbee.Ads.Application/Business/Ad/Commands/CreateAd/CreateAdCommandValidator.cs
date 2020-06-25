@@ -3,6 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Extensions;
+using System.Linq;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 {
@@ -56,11 +57,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             RuleFor(p => p.Platforms)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("'{PropertyName}' is required");
-
-            RuleForEach(p => p.Platforms)
-                .NotNull()
-                .Must(value => value.HasValue())
+                .Must(value => value.Count() <= 3)
                 .WithMessage("'{PropertyName}' must be 3 items or fewer");
 
             RuleFor(p => p.AppLink)

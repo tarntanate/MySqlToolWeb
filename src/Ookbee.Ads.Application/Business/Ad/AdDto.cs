@@ -24,10 +24,12 @@ namespace Ookbee.Ads.Application.Business.Ad
         public string BackgroundColor { get; set; }
         public string AppLink { get; set; }
         public string WebLink { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<AdNetwork> AdNetworks { get; set; }
         public List<string> Analytics { get; set; }
+        public List<Platform> Platforms { get; set; }
         public AdUnitDto AdUnit { get; set; }
         public CampaignDto Campaign { get; set; }
-        public List<string> Platforms { get; set; }
 
         public static Expression<Func<AdEntity, AdDto>> Projection
         {
@@ -44,6 +46,7 @@ namespace Ookbee.Ads.Application.Business.Ad
                     BackgroundColor = entity.BackgroundColor,
                     AppLink = entity.AppLink,
                     WebLink = entity.WebLink,
+                    AdNetworks = entity.AdUnit.AdNetworks,
                     Analytics = entity.Analytics,
                     AdUnit = new AdUnitDto()
                     {

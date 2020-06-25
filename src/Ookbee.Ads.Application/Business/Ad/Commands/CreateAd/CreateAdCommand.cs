@@ -15,7 +15,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             ForegroundColor = request.ForegroundColor;
             BackgroundColor = request.BackgroundColor;
             Analytics = request.Analytics;
-            Platforms = request.Platforms;
             AppLink = request.AppLink;
             WebLink = request.WebLink;
         }

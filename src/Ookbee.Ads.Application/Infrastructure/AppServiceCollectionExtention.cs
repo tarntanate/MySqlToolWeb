@@ -74,7 +74,7 @@ namespace Ookbee.Ads.Application.Infrastructure
             services.AddSwaggerDocs();
 
             // AutoMapper
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(cfg => { cfg.AllowNullCollections = true; }, Assembly.GetExecutingAssembly());
 
             // Mediator
             services.AddMediatR(Assembly.GetExecutingAssembly());

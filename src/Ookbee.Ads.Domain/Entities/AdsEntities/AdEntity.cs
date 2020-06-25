@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public List<string> Analytics { get; set; }
-        public List<string> Platforms { get; set; }
+        public List<Platform> Platforms { get; set; }
         public string AppLink { get; set; }
         public string WebLink { get; set; }
         public DateTime? CreatedAt { get; set; }

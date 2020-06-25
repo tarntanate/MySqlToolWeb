@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
@@ -29,6 +31,11 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
                    .HasConversion(
                         v => v.ToString(),
                         v => (AdStatus)Enum.Parse(typeof(AdStatus), v));
+
+            builder.Property(e => e.Platforms)
+                   .HasConversion(
+                        v => v.ConvertAll(x => x.ToString()),
+                        v => v.Select(x => (Platform)Enum.Parse(typeof(Platform), x)).ToList());
         }
     }
 }

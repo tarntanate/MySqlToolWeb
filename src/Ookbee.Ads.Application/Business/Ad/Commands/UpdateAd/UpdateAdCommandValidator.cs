@@ -4,6 +4,7 @@ using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignById;
 using Ookbee.Ads.Common.Extensions;
+using System.Linq;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 {
@@ -63,9 +64,10 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                 .Must(value => value.HasValue() && value.IsValidHttp())
                 .WithMessage("'{PropertyName}' is not valid HTTP(S) address");
 
-            RuleForEach(p => p.Platforms)
+            RuleFor(p => p.Platforms)
                 .NotNull()
-                .Must(value => value.HasValue())
+                .NotEmpty()
+                .Must(value => value.Count() <= 3)
                 .WithMessage("'{PropertyName}' must be 3 items or fewer");
 
             RuleFor(p => p.AppLink)

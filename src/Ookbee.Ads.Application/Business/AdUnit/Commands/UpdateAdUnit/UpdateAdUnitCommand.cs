@@ -14,6 +14,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.UpdateAdUnit
             PublisherId = request.PublisherId;
             Name = request.Name;
             Description = request.Description;
+            AdNetworks = request.AdNetworks;
         }
     }
 }

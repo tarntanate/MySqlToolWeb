@@ -3,6 +3,8 @@ using MediatR;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitByName;
 using Ookbee.Ads.Application.Business.AdUnitType.Queries.IsExistsAdUnitTypeById;
 using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
+using Ookbee.Ads.Common.Extensions;
+using System.Linq;
 
 namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
 {
@@ -44,6 +46,10 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
+
+            RuleFor(p => p.AdNetworks)
+                .Must(value => !value.HasValue() || value.Count() <= 3)
+                .WithMessage("'{PropertyName}' must be 3 items or fewer");
         }
     }
 }
