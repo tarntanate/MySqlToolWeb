@@ -1,4 +1,3 @@
-using System.Reflection;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -17,6 +16,7 @@ using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
+using System.Reflection;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
