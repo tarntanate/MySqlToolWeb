@@ -64,11 +64,40 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
             RuleFor(p => p.Description)
                 .MaximumLength(500);
 
-            RuleFor(p => p.StartDate)
-                .GreaterThanOrEqualTo(MechineDateTime.Now.Date);
+            // RuleFor(p => p.StartDate)
+            //     .GreaterThanOrEqualTo(MechineDateTime.Now.Date);
 
+             RuleFor(p => p.StartDate)
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var validate = context.InstanceToValidate as UpdateCampaignCommand;
+                    var result = await Mediator.Send(new GetCampaignByIdQuery(validate.Id), cancellationToken);
+                    if (!result.Ok)
+                        context.AddFailure(result.Message);
+
+                    if (result.Ok && result.Data.StartDate.ToUniversalTime() != validate.StartDate.ToUniversalTime()) {
+                        if (validate.StartDate.ToUniversalTime() <= MechineDateTime.UtcNow)
+                            context.AddFailure($"Campaign Start Date must greater than current time");
+                    }
+                });
+            
             RuleFor(p => p.EndDate)
-                .GreaterThanOrEqualTo(MechineDateTime.Now.Date);
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    var validate = context.InstanceToValidate as UpdateCampaignCommand;
+                    var result = await Mediator.Send(new GetCampaignByIdQuery(validate.Id), cancellationToken);
+                    if (!result.Ok)
+                        context.AddFailure(result.Message);
+
+                    if (result.Ok && result.Data.EndDate.ToUniversalTime() != validate.EndDate.ToUniversalTime()) {
+                        if (validate.EndDate.ToUniversalTime() <= MechineDateTime.UtcNow)
+                            context.AddFailure($"Campaign End Date must greater than current time");
+                        if (validate.EndDate <= result.Data.StartDate)
+                            context.AddFailure($"Campaign End Date must greater than campaign's start date");
+                    }
+                });
+
+            
         }
     }
 }
