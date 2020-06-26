@@ -42,6 +42,10 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             RuleFor(p => p.Description)
                 .MaximumLength(500);
 
+            RuleFor(p => p.Status)
+                .NotNull()
+                .NotEmpty();
+
             RuleFor(p => p.BackgroundColor)
                 .Must(value => !value.HasValue() || value.IsValidRGBHexColor())
                 .WithMessage("'{PropertyName}' is not valid RGB color");

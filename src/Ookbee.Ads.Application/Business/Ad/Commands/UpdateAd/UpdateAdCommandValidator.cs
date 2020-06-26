@@ -79,7 +79,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidHttp())
                 .WithMessage("'{PropertyName}' address is not valid");
-
+            RuleFor(p => p.Status)
+                .NotNull()
+                .NotEmpty();
         }
     }
 }
