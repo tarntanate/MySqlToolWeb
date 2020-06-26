@@ -19,6 +19,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             BackgroundColor = request.BackgroundColor;
             Analytics = request.Analytics;
             Platforms = request.Platforms;
+            Status = request.Status;
             AppLink = request.AppLink;
             WebLink = request.WebLink;
         }
