@@ -66,7 +66,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
             RuleFor(p => p.Platforms)
                 .NotNull()
-                .NotEmpty()
+                // .NotEmpty()
                 .Must(value => value.Count() <= 3)
                 .WithMessage("'{PropertyName}' must be 3 items or fewer");
 
