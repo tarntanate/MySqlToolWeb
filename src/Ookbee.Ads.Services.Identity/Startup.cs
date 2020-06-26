@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Extensions.Builder;
+using Ookbee.Ads.Application.Extensions.DependencyInjection;
 
 namespace Ookbee.Ads.Services.Identity
 {

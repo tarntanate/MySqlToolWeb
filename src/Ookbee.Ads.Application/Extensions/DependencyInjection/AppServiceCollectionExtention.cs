@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization.Conventions;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
@@ -18,7 +19,7 @@ using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using System.Reflection;
 
-namespace Ookbee.Ads.Application.Infrastructure
+namespace Ookbee.Ads.Application.Extensions.DependencyInjection
 {
     public static class AppServiceCollectionExtention
     {
@@ -52,9 +53,9 @@ namespace Ookbee.Ads.Application.Infrastructure
 
             // Health
             services.AddHealthChecks()
-                .AddMongoDb(appsettings.ConnectionStrings.MongoDB.Ads)
-                .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
-                .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
+                    .AddMongoDb(appsettings.ConnectionStrings.MongoDB.Ads)
+                    .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
+                    .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
 
             // EFCore
             services.AddDbContext<AdsDbContext>();

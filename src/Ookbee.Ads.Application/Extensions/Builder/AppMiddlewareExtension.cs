@@ -5,7 +5,7 @@ using Ookbee.Ads.Common.AspNetCore.Middlewares;
 using Ookbee.Ads.Common.Swagger;
 using Ookbee.Ads.Infrastructure;
 
-namespace Ookbee.Ads.Application.Infrastructure
+namespace Ookbee.Ads.Application.Extensions.Builder
 {
     public static class AppMiddlewareExtension
     {
