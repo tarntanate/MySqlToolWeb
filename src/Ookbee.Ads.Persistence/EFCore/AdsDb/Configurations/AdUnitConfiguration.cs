@@ -25,9 +25,8 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 
             builder.Property(e => e.AdNetworks)
                    .HasConversion(
-                            v => v.ToString(),
-                            v => (AdNetwork)Enum.Parse(typeof(AdNetwork), v));
-                     //    v => v.Select(x => (AdNetwork)Enum.Parse(typeof(AdNetwork), x)).ToList());
+                            v => v.ConvertAll(x => x.ToString()),
+                            v => v.Select(x => (AdNetwork)Enum.Parse(typeof(AdNetwork), x)).ToList());
 
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();

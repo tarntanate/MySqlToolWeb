@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Ad
         public string AppLink { get; set; }
         public string WebLink { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public AdNetwork AdNetworks { get; set; }
+        public List<AdNetwork> AdNetworks { get; set; }
         public List<string> Analytics { get; set; }
         public List<Platform> Platforms { get; set; }
         public AdUnitDto AdUnit { get; set; }

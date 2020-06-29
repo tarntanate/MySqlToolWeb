@@ -9,6 +9,6 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
         public long PublisherId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public AdNetwork AdNetworks { get; set; }
+        public List<AdNetwork> AdNetworks { get; set; }
     }
 }
