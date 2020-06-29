@@ -8,7 +8,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByI
         {
             RuleFor(p => p.Id)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
                 .WithMessage("'{PropertyName}' is not a valid");
         }
     }

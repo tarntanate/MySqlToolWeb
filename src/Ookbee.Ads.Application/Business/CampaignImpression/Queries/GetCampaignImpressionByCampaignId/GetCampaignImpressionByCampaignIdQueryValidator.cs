@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.GetCampaign
     {
         public GetCampaignImpressionByCampaignIdQueryValidator()
         {
-            RuleFor(p => p.CampaignId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.CampaignId).GreaterThan(0);
         }
     }
 }

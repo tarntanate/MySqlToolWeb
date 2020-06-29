@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
     {
         public GetBannerByAdUnitIdQueryValidator()
         {
-            RuleFor(p => p.AdUnitId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.AdUnitId).GreaterThan(0);
             RuleFor(p => p.AppCode).NotNull().NotEmpty();
             RuleFor(p => p.AppVersion).NotNull().NotEmpty();
             RuleFor(p => p.Platform).Must(BeAValidPlatform).WithMessage($"Platforms only support 'Android', 'iOS' and 'Web'");
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
         {
             if (!value.HasValue())
                 return false;
-                
+
             var platforms = new string[] { "Android", "iOS", "Web" };
             return platforms.Contains(value);
         }

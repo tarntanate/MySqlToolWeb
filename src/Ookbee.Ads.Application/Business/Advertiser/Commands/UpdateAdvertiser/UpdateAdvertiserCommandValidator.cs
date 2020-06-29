@@ -17,7 +17,6 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
 
             RuleFor(p => p.Id)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var validate = context.InstanceToValidate as UpdateAdvertiserCommand;

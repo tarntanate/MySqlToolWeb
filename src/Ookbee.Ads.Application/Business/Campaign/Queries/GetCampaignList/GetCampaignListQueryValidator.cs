@@ -1,12 +1,8 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using MediatR;
 using Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserById;
-using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Enums;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
 {
@@ -27,31 +23,25 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
                 .LessThanOrEqualTo(100);
 
             RuleFor(p => p.PricingModel)
-                .Must(BeValidPricingModel)
-                .When(m => m.PricingModel.HasValue())
-                .WithMessage("Only 'CPM' and 'IMP' Pricing Model is supported.");
+                .NotNull()
+                .NotEmpty()
+                .Custom((value, context) =>
+               {
+                   if (!Enum.TryParse<PricingModel>(value, true, out var pricingModel))
+                       context.AddFailure("Only 'CPM' and 'IMP' Pricing Model is supported.");
+               });
 
             RuleFor(p => p.AdvertiserId)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .CustomAsync(BeValidAdvertiserId);
-        }
-
-        private async Task BeValidAdvertiserId(long? value, CustomContext context, CancellationToken cancellationToken)
-        {
-            if (value != null)
-            {
-                var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value.Value));
-                if (!isExistsAdUnitResult.Ok)
-                    context.AddFailure(isExistsAdUnitResult.Message);
-            }
-        }
-
-        private bool BeValidPricingModel(string value)
-        {
-            if (Enum.TryParse<PricingModel>(value, true, out var pricingModel))
-                return true;
-            return false;
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    if (value != null)
+                    {
+                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value.Value));
+                        if (!isExistsAdUnitResult.Ok)
+                            context.AddFailure(isExistsAdUnitResult.Message);
+                    }
+                });
         }
     }
 }

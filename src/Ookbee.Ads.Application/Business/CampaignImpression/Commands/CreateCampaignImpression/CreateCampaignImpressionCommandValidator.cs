@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using System.Threading;
 
 namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCampaignImpression
 {
@@ -13,8 +12,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            RuleFor(p => p.Quota)
-                .GreaterThan(0);
+            RuleFor(p => p.Quota).GreaterThan(0);
         }
     }
 }

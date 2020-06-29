@@ -26,34 +26,27 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdList
 
             RuleFor(p => p.AdUnitId)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .CustomAsync(BeValidAdUnitId);
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    if (value != null)
+                    {
+                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(value.Value), cancellationToken);
+                        if (!isExistsAdUnitResult.Ok)
+                            context.AddFailure(isExistsAdUnitResult.Message);
+                    }
+                });
 
             RuleFor(p => p.CampaignId)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .CustomAsync(BeValidCampaignId);
-        }
-
-        private async Task BeValidAdUnitId(long? value, CustomContext context, CancellationToken cancellationToken)
-        {
-            if (value != null)
-            {
-                var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(value.Value));
-                if (!isExistsAdUnitResult.Ok)
-                    context.AddFailure(isExistsAdUnitResult.Message);
-            }
-        }
-
-        private async Task BeValidCampaignId(long? value, CustomContext context, CancellationToken cancellationToken)
-        {
-            if (value != null)
-            {
-                var x = value;
-                var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(value.Value));
-                if (!isExistsCampaignResult.Ok)
-                    context.AddFailure(isExistsCampaignResult.Message);
-            }
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    if (value != null)
+                    {
+                        var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(value.Value), cancellationToken);
+                        if (!isExistsCampaignResult.Ok)
+                            context.AddFailure(isExistsCampaignResult.Message);
+                    }
+                });
         }
     }
 }

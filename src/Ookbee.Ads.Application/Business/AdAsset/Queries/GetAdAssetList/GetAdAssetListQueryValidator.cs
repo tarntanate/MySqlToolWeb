@@ -1,10 +1,6 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using MediatR;
 using Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdById;
-using Ookbee.Ads.Common.Extensions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
 {
@@ -26,18 +22,15 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
 
             RuleFor(p => p.AdId)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .WithMessage("'{PropertyName}' is not a valid");
-        }
-
-        private async Task BeValidAdId(long? value, CustomContext context, CancellationToken cancellationToken)
-        {
-            if (value != null)
-            {
-                var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value.Value));
-                if (!isExistsAdResult.Ok)
-                    context.AddFailure(isExistsAdResult.Message);
-            }
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    if (value != null)
+                    {
+                        var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value.Value), cancellationToken);
+                        if (!isExistsAdResult.Ok)
+                            context.AddFailure(isExistsAdResult.Message);
+                    }
+                });
         }
     }
 }

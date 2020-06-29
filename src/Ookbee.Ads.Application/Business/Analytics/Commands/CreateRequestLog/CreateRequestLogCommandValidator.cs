@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.CreateRequestLog
     {
         public CreateRequestLogCommandValidator()
         {
-            RuleFor(p => p.AdUnitId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.AdUnitId).GreaterThan(0);
         }
     }
 }

@@ -1,8 +1,8 @@
+using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Application.Business.Advertiser
 {

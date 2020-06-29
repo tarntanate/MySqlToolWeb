@@ -1,5 +1,5 @@
-﻿using System;
-using Ookbee.Ads.Infrastructure.Enums;
+﻿using Ookbee.Ads.Infrastructure.Enums;
+using System;
 
 namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCost
 {

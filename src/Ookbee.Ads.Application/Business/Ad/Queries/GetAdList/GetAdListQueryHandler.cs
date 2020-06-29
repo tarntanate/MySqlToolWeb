@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;

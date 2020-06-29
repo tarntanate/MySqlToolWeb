@@ -9,7 +9,6 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
         {
             RuleFor(p => p.Id)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
                 .WithMessage("'{PropertyName}' is not a valid");
 
             RuleFor(p => p.Extension)

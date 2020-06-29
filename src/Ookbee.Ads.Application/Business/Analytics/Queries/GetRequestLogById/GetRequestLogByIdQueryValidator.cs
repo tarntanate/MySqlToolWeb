@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.Queries.GetRequestLogById
     {
         public GetRequestLogByIdQueryValidator()
         {
-            RuleFor(p => p.Id).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.Id).GreaterThan(0);
         }
     }
 }

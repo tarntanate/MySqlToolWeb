@@ -1,4 +1,4 @@
-﻿using AgileObjects.AgileMapper;
+﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
@@ -10,13 +10,16 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.CreateRequestLog
 {
     public class CreateRequestLogCommandHandler : IRequestHandler<CreateRequestLogCommand, HttpResult<long>>
     {
+        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AnalyticsDbRepository<RequestLogEntity> RequestLogDbRepo { get; }
 
         public CreateRequestLogCommandHandler(
+            IMapper mapper,
             IMediator mediator,
             AnalyticsDbRepository<RequestLogEntity> requestLogDbRepo)
         {
+            Mapper = mapper;
             Mediator = mediator;
             RequestLogDbRepo = requestLogDbRepo;
         }
@@ -31,9 +34,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.CreateRequestLog
         {
             var result = new HttpResult<long>();
 
-            var entity = Mapper
-                .Map(request)
-                .ToANew<RequestLogEntity>();
+            var entity = Mapper.Map<RequestLogEntity>(request);
 
             await RequestLogDbRepo.InsertAsync(entity);
             await RequestLogDbRepo.SaveChangesAsync();

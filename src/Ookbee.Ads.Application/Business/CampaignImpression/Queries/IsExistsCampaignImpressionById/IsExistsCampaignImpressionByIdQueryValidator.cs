@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.IsExistsCam
     {
         public IsExistsCampaignImpressionByIdQueryValidator()
         {
-            RuleFor(p => p.Id).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.Id).GreaterThan(0);
         }
     }
 }

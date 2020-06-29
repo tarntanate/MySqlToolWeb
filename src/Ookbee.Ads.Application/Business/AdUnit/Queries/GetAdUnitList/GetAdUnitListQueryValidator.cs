@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdUnitType.Queries.IsExistsAdUnitTypeById;
 using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
 {
@@ -26,33 +23,27 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
 
             RuleFor(p => p.AdUnitTypeId)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .CustomAsync(BeValidAdUnitTypeId);
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    if (value != null)
+                    {
+                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value.Value), cancellationToken);
+                        if (!isExistsAdUnitResult.Ok)
+                            context.AddFailure(isExistsAdUnitResult.Message);
+                    }
+                });
 
             RuleFor(p => p.PublisherId)
                 .GreaterThan(0)
-                .LessThanOrEqualTo(long.MaxValue)
-                .CustomAsync(BeValidPublisherId);
-        }
-
-        private async Task BeValidAdUnitTypeId(long? value, CustomContext context, CancellationToken cancellationToken)
-        {
-            if (value != null)
-            {
-                var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value.Value));
-                if (!isExistsAdUnitResult.Ok)
-                    context.AddFailure(isExistsAdUnitResult.Message);
-            }
-        }
-
-        private async Task BeValidPublisherId(long? value, CustomContext context, CancellationToken cancellationToken)
-        {
-            if (value != null)
-            {
-                var isExistsPublisherResult = await Mediator.Send(new IsExistsPublisherByIdQuery(value.Value));
-                if (!isExistsPublisherResult.Ok)
-                    context.AddFailure(isExistsPublisherResult.Message);
-            }
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    if (value != null)
+                    {
+                        var isExistsPublisherResult = await Mediator.Send(new IsExistsPublisherByIdQuery(value.Value), cancellationToken);
+                        if (!isExistsPublisherResult.Ok)
+                            context.AddFailure(isExistsPublisherResult.Message);
+                    }
+                });
         }
     }
 }

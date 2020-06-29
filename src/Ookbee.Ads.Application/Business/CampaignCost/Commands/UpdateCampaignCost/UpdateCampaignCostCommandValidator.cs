@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using System.Threading;
 
 namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.UpdateCampaignCost
 {

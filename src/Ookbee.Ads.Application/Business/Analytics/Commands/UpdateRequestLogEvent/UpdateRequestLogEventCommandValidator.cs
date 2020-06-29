@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
     {
         public UpdateRequestLogEventCommandValidator()
         {
-            RuleFor(p => p.EventId).GreaterThan(0).LessThanOrEqualTo(long.MaxValue);
+            RuleFor(p => p.EventId).GreaterThan(0);
             RuleFor(p => p.EventType).Must(BeAValidEventType).WithMessage($"'Event Type' only support 'Click', 'Display' and 'Impression'.");
         }
 
