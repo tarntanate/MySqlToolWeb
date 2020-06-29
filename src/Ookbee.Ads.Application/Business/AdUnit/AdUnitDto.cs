@@ -3,7 +3,9 @@ using Ookbee.Ads.Application.Business.AdUnitType;
 using Ookbee.Ads.Application.Business.Publisher;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Enums;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Business.AdUnit
@@ -16,6 +18,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit
         public AdUnitTypeDto AdUnitType { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PublisherDto Publisher { get; set; }
+        public List<AdNetwork> AdNetworks { get; set; }
 
         public static Expression<Func<AdUnitEntity, AdUnitDto>> Projection
         {
@@ -26,6 +29,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit
                     Id = entity.Id,
                     Name = entity.Name,
                     Description = entity.Description,
+                    AdNetworks = entity.AdNetworks,
                     AdUnitType = new AdUnitTypeDto()
                     {
                         Id = entity.AdUnitType.Id,

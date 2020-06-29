@@ -66,7 +66,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
             RuleFor(p => p.Platforms)
                 .NotNull()
-                .NotEmpty()
+                // .NotEmpty()
                 .Must(value => value.Count() <= 3)
                 .WithMessage("'{PropertyName}' must be 3 items or fewer");
 
@@ -79,7 +79,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidHttp())
                 .WithMessage("'{PropertyName}' address is not valid");
-
+            RuleFor(p => p.Status)
+                .NotNull()
+                .NotEmpty();
         }
     }
 }

@@ -18,6 +18,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             Analytics = request.Analytics;
             AppLink = request.AppLink;
             WebLink = request.WebLink;
+            Platforms = request.Platforms;
+            Status = request.Status;
         }
     }
 }
