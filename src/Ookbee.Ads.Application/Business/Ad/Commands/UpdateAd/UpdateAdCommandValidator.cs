@@ -52,6 +52,10 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             RuleFor(p => p.Description)
                 .MaximumLength(500);
 
+            RuleFor(p => p.Status)
+                .NotNull()
+                .NotEmpty();
+
             RuleFor(p => p.BackgroundColor)
                 .Must(value => !value.HasValue() || value.IsValidRGBHexColor())
                 .WithMessage("'{PropertyName}' is not valid RGB color");
@@ -66,7 +70,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
 
             RuleFor(p => p.Platforms)
                 .NotNull()
-                // .NotEmpty()
                 .Must(value => value.Count() <= 3)
                 .WithMessage("'{PropertyName}' must be 3 items or fewer");
 
@@ -79,9 +82,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidHttp())
                 .WithMessage("'{PropertyName}' address is not valid");
-            RuleFor(p => p.Status)
-                .NotNull()
-                .NotEmpty();
         }
     }
 }
