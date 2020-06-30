@@ -1,11 +1,19 @@
 ﻿using FluentValidation;
+using MediatR;
+using Ookbee.Ads.Application.Business.User.Queries.GetUserById;
+using Ookbee.Ads.Application.Business.UserRole.Queries.GetUserRoleById;
 
 namespace Ookbee.Ads.Application.Business.UserRoleMapping.Queries.GetUserRoleMappingList
 {
     public class GetUserRoleMappingListQueryValidator : AbstractValidator<GetUserRoleMappingListQuery>
     {
-        public GetUserRoleMappingListQueryValidator()
+        private IMediator Mediator { get; }
+
+        public GetUserRoleMappingListQueryValidator(IMediator mediator)
         {
+            Mediator = mediator;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(p => p.Start)
                 .GreaterThanOrEqualTo(0);
 

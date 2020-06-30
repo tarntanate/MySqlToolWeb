@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.UserRoleMapping.Commands.CreateUserRoleMapping
 {
-    public class CreateUserRoleMappingCommandHandler : IRequestHandler<CreateUserRoleMappingCommand, HttpResult<long>>
+    public class CreateUserRoleMappingCommandHandler : IRequestHandler<CreateUserRoleMappingCommand, HttpResult<bool>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
@@ -24,21 +24,21 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Commands.CreateUserRol
             UserRoleMappingDbRepo = userRoleMappingDbRepo;
         }
 
-        public async Task<HttpResult<long>> Handle(CreateUserRoleMappingCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(CreateUserRoleMappingCommand request, CancellationToken cancellationToken)
         {
             var result = await CreateOnDb(request);
             return result;
         }
 
-        private async Task<HttpResult<long>> CreateOnDb(CreateUserRoleMappingCommand request)
+        private async Task<HttpResult<bool>> CreateOnDb(CreateUserRoleMappingCommand request)
         {
-            var result = new HttpResult<long>();
+            var result = new HttpResult<bool>();
 
             var entity = Mapper.Map<UserRoleMappingEntity>(request);
             await UserRoleMappingDbRepo.InsertAsync(entity);
             await UserRoleMappingDbRepo.SaveChangesAsync();
 
-            return result.Success(entity.Id);
+            return result.Success(true);
         }
     }
 }

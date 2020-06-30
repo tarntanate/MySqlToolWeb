@@ -2,9 +2,10 @@ using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
-    public class UserPermissionEntity : BaseEntity
+    public class UserPermissionEntity : BaseEntity, IBaseIdentity
     {
-        public long AuthRoleId { get; set; }
+        public long Id { get; set; }
+        public long RoleId { get; set; }
         public string ExtensionName { get; set; }
         public bool IsCreate { get; set; }
         public bool IsRead { get; set; }

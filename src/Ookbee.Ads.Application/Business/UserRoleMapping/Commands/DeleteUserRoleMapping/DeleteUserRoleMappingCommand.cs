@@ -5,11 +5,13 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Commands.DeleteUserRol
 {
     public class DeleteUserRoleMappingCommand : IRequest<HttpResult<bool>>
     {
-        public long Id { get; set; }
+        public long UserId { get; set; }
+        public long RoleId { get; set; }
 
-        public DeleteUserRoleMappingCommand(long id)
+        public DeleteUserRoleMappingCommand(long userId, long roleId)
         {
-            Id = id;
+            UserId = userId;
+            RoleId = roleId;
         }
     }
 }

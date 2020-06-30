@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
-    public class UserRoleEntity : BaseEntity, ICreatedAt, IUpdatedAt, IDeletedAt
+    public class UserRoleEntity : BaseEntity, IBaseIdentity, ICreatedAt, IUpdatedAt, IDeletedAt
     {
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime? CreatedAt { get; set; }

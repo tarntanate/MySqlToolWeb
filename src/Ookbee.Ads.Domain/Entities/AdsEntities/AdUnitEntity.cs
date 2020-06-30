@@ -5,8 +5,9 @@ using System.Collections.Generic;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
-    public class AdUnitEntity : BaseEntity, ICreatedAt, IUpdatedAt, IDeletedAt
+    public class AdUnitEntity : BaseEntity, IBaseIdentity, ICreatedAt, IUpdatedAt, IDeletedAt
     {
+        public long Id { get; set; }
         public long AdUnitTypeId { get; set; }
         public long PublisherId { get; set; }
         public string Name { get; set; }

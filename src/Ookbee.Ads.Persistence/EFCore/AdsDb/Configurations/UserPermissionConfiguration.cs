@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 
             builder.HasOne(e => e.Role)
                    .WithMany(e => e.Permissions)
-                   .HasForeignKey(e => e.AuthRoleId)
+                   .HasForeignKey(e => e.RoleId)
                    .IsRequired();
 
             builder.Property(e => e.Id)

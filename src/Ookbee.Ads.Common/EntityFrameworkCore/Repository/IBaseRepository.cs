@@ -107,7 +107,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
         /// delete by id
         /// </summary>
         /// <param name="id">id</param>
-        void Delete(object id);
+        void Delete(params object[] keyValues);
 
         /// <summary>
         /// save an entity data
@@ -218,7 +218,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
         /// delete by id
         /// </summary>
         /// <param name="id">id</param>
-        Task DeleteAsync(object id);
+        Task DeleteAsync(params object[] keyValues);
 
         /// <summary>
         /// save an entity data

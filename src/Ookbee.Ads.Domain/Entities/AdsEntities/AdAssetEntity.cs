@@ -4,8 +4,9 @@ using Ookbee.Ads.Infrastructure.Enums;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
-    public class AdAssetEntity : BaseEntity, ICreatedAt, IUpdatedAt, IDeletedAt
+    public class AdAssetEntity : BaseEntity, IBaseIdentity, ICreatedAt, IUpdatedAt, IDeletedAt
     {
+        public long Id { get; set; }
         public long AdId { get; set; }
         public string AssetType { get; set; }
         public string AssetPath { get; set; }

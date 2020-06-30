@@ -6,7 +6,9 @@ namespace Ookbee.Ads.Application.Business.User.Queries.GetUserById
     {
         public GetUserByIdQueryValidator()
         {
-            RuleFor(p => p.Id).GreaterThan(0);
+            RuleFor(p => p.Id)
+                .GreaterThan(0)
+                .WithMessage("'{PropertyName}' is not a valid");
         }
     }
 }

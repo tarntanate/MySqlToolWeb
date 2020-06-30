@@ -43,8 +43,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
                 .MaximumLength(500);
 
             RuleFor(p => p.Status)
-                .NotNull()
-                .NotEmpty();
+                .NotNull();
 
             RuleFor(p => p.BackgroundColor)
                 .Must(value => !value.HasValue() || value.IsValidRGBHexColor())
@@ -60,7 +59,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
 
             RuleFor(p => p.Platforms)
                 .NotNull()
-                .NotEmpty()
                 .Must(value => value.Count() <= 3)
                 .WithMessage("'{PropertyName}' must be 3 items or fewer");
 

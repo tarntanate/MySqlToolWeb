@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Ookbee.Ads.Common.Builders;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -27,8 +29,17 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Queries.GetUserRoleMap
         {
             var result = new HttpResult<IEnumerable<UserRoleMappingDto>>();
 
+            var predicate = PredicateBuilder.True<UserRoleMappingEntity>();
+
+            if (request.UserId.HasValue())
+                predicate = predicate.And(f => f.UserId == request.UserId);
+
+            if (request.RoleId.HasValue())
+                predicate = predicate.And(f => f.RoleId == request.RoleId);
+
             var items = await UserRoleMappingDbRepo.FindAsync(
                 selector: UserRoleMappingDto.Projection,
+                filter: predicate,
                 orderBy: f => f.OrderBy(o => o.UserId),
                 start: request.Start,
                 length: request.Length

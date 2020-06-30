@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Business.UserPermission.Commands.CreateUserPerm
                         context.AddFailure(result.Message);
                 });
 
-            RuleFor(p => p.Name)
+            RuleFor(p => p.ExtensionName)
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(40)
@@ -34,9 +34,6 @@ namespace Ookbee.Ads.Application.Business.UserPermission.Commands.CreateUserPerm
                     if (result.Ok)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
-
-            RuleFor(p => p.Description)
-                .MaximumLength(500);
         }
     }
 }

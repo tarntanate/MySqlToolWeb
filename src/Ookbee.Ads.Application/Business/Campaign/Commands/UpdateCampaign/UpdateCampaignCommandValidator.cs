@@ -95,8 +95,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
                             context.AddFailure($"Campaign 'End Date' must greater than campaign's start date");
                     }
                 });
-
-
         }
     }
 }

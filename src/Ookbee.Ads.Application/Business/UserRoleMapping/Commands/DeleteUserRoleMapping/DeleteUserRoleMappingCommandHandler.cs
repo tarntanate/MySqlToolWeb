@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Commands.DeleteUserRol
         {
             var result = new HttpResult<bool>();
 
-            await UserRoleMappingDbRepo.DeleteAsync(request.Id);
+            await UserRoleMappingDbRepo.DeleteAsync(new { request.UserId, request.RoleId });
             await UserRoleMappingDbRepo.SaveChangesAsync();
 
             return result.Success(true);

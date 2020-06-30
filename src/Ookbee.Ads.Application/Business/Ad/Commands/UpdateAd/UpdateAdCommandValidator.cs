@@ -53,8 +53,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
                 .MaximumLength(500);
 
             RuleFor(p => p.Status)
-                .NotNull()
-                .NotEmpty();
+                .NotNull();
 
             RuleFor(p => p.BackgroundColor)
                 .Must(value => !value.HasValue() || value.IsValidRGBHexColor())

@@ -35,7 +35,7 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Commands.UpdateUserRol
             var result = new HttpResult<bool>();
 
             var entity = Mapper.Map<UserRoleMappingEntity>(request);
-            await UserRoleMappingDbRepo.UpdateAsync(entity.Id, entity);
+            await UserRoleMappingDbRepo.UpdateAsync(new { request.UserId, request.RoleId }, entity);
             await UserRoleMappingDbRepo.SaveChangesAsync();
 
             return result.Success(true);

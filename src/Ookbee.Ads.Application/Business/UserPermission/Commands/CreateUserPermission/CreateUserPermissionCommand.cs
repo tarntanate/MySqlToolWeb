@@ -8,8 +8,11 @@ namespace Ookbee.Ads.Application.Business.UserPermission.Commands.CreateUserPerm
         public CreateUserPermissionCommand(CreateUserPermissionRequest request)
         {
             RoleId = request.RoleId;
-            Name = request.Name;
-            Description = request.Description;
+            ExtensionName = request.ExtensionName;
+            IsCreate = request.IsCreate;
+            IsRead = request.IsRead;
+            IsUpdate = request.IsUpdate;
+            IsDelete = request.IsDelete;
         }
     }
 }

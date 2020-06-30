@@ -241,11 +241,11 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
         /// delete by id
         /// </summary>
         /// <param name="id">id</param>
-        public void Delete(object id)
+        public void Delete(params object[] keyValues)
         {
-            var entityExists = First(id);
+            var entityExists = First(keyValues);
             if (entityExists == null)
-                throw new Exception($"There was a problem deleting {typeof(TEntity).Name}({id}), Data not found.");
+                throw new Exception($"There was a problem deleting {typeof(TEntity).Name}({keyValues}), Data not found.");
 
             DbSet.Remove(entityExists);
         }
@@ -542,11 +542,11 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
         /// delete by id
         /// </summary>
         /// <param name="id">id</param>
-        public async Task DeleteAsync(object id)
+        public async Task DeleteAsync(params object[] keyValues)
         {
-            var entityExists = await FirstAsync(id);
+            var entityExists = await FirstAsync(keyValues);
             if (entityExists == null)
-                throw new Exception($"There was a problem deleting {typeof(TEntity).Name}({id}), Data not found.");
+                throw new Exception($"There was a problem deleting {typeof(TEntity).Name}({keyValues}), Data not found.");
 
             DbSet.Remove(entityExists);
         }

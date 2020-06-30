@@ -4,8 +4,9 @@ using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
-    public class AdvertiserEntity : BaseEntity, ICreatedAt, IUpdatedAt, IDeletedAt
+    public class AdvertiserEntity : BaseEntity, IBaseIdentity, ICreatedAt, IUpdatedAt, IDeletedAt
     {
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImagePath { get; set; }

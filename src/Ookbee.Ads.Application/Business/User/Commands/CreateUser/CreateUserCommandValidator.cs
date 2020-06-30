@@ -15,13 +15,7 @@ namespace Ookbee.Ads.Application.Business.User.Commands.CreateUser
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(p => p.Id)
-                .GreaterThan(0)
-                .CustomAsync(async (value, context, cancellationToken) =>
-                {
-                    var result = await Mediator.Send(new IsExistsUserByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
-                        context.AddFailure(result.Message);
-                });
+                .GreaterThan(0);
 
             RuleFor(p => p.DisplayName)
                 .MaximumLength(500);

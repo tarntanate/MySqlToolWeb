@@ -5,10 +5,10 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Commands.UpdateUserRol
 {
     public class UpdateUserRoleMappingCommand : UpdateUserRoleMappingRequest, IRequest<HttpResult<bool>>
     {
-        public UpdateUserRoleMappingCommand(long userId, long roleId)
+        public UpdateUserRoleMappingCommand(UpdateUserRoleMappingRequest request)
         {
-            UserId = userId;
-            RoleId = roleId;
+            UserId = request.UserId;
+            RoleId = request.RoleId;
         }
     }
 }

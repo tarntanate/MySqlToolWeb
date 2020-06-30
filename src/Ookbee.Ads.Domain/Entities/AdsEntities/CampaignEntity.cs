@@ -5,8 +5,9 @@ using Ookbee.Ads.Infrastructure.Enums;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
-    public class CampaignEntity : BaseEntity, ICreatedAt, IUpdatedAt, IDeletedAt
+    public class CampaignEntity : BaseEntity, IBaseIdentity, ICreatedAt, IUpdatedAt, IDeletedAt
     {
+        public long Id { get; set; }
         public long AdvertiserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

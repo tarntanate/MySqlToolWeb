@@ -3,8 +3,9 @@ using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 
 namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
 {
-    public class RequestLogEntity : BaseEntity, ICreatedAt
+    public class RequestLogEntity : BaseEntity, IBaseIdentity, ICreatedAt
     {
+        public long Id { get; set; }
         public long? AdId { get; set; }
         public long AdUnitId { get; set; }
         public string Platform { get; set; }

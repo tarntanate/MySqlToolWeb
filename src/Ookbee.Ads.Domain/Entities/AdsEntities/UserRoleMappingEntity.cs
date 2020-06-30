@@ -2,7 +2,7 @@ using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
-    public class UserRoleMappingEntity : BaseEntity
+    public class UserRoleMappingEntity : BaseEntity, IBaseEntity
     {
         public long UserId { get; set; }
         public long RoleId { get; set; }
