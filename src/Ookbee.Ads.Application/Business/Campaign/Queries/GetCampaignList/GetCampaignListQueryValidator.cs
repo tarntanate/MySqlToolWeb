@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
                 // .NotEmpty()
                 .Custom((value, context) =>
                {
-                   if (!Enum.TryParse<PricingModel>(value, true, out var pricingModel))
+                   if (!String.IsNullOrEmpty(value) && !Enum.TryParse<PricingModel>(value, true, out var pricingModel))
                        context.AddFailure("Only 'CPM' and 'IMP' Pricing Model is supported.");
                });
 
