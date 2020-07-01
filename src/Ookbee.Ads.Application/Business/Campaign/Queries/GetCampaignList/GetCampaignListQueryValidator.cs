@@ -23,8 +23,8 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
                 .LessThanOrEqualTo(100);
 
             RuleFor(p => p.PricingModel)
-                .NotNull()
-                .NotEmpty()
+                // .NotNull()
+                // .NotEmpty()
                 .Custom((value, context) =>
                {
                    if (!Enum.TryParse<PricingModel>(value, true, out var pricingModel))
