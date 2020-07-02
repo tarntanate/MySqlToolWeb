@@ -22,8 +22,8 @@ namespace Ookbee.Ads.Application.Business.Ad
         public int? CountdownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
-        public string AppLink { get; set; }
-        public string WebLink { get; set; }
+        // public string AppLink { get; set; }
+        public string LinkUrl { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<AdNetwork> AdNetworks { get; set; }
         public List<string> Analytics { get; set; }
@@ -44,8 +44,8 @@ namespace Ookbee.Ads.Application.Business.Ad
                     CountdownSecond = entity.CountdownSecond,
                     ForegroundColor = entity.ForegroundColor,
                     BackgroundColor = entity.BackgroundColor,
-                    AppLink = entity.AppLink,
-                    WebLink = entity.WebLink,
+                    // AppLink = entity.AppLink,
+                    LinkUrl = entity.WebLink,
                     AdNetworks = entity.AdUnit.AdNetworks,
                     Analytics = entity.Analytics,
                     AdUnit = new AdUnitDto()
