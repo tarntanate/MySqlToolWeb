@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Services.Manager.Controllers
         public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdateAdRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdateAdCommand(id, request), cancellationToken);
 
-        [HttpPut("{id}/status")]
+        [HttpPut("status/{id}")]
         public async Task<HttpResult<bool>> UpdateAdStatus([FromRoute] long id, [FromBody] UpdateAdStatusRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdateAdStatusCommand(id, request), cancellationToken);
 
