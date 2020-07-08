@@ -55,7 +55,7 @@ namespace Ookbee.Ads.Application.Business.Ad
                     Analytics = entity.Analytics,
                     // AdAssets = Mapper.Map<AdEntity>(entity.AdAssets.FirstOrDefault(a => a.Position == Position.Center)),
                     // AdAsset  = entity.AdAssets.FirstOrDefault(a => a.Position == Position.Center),
-                    PreviewAdAsset  =  entity.AdAssets.AsQueryable().Select(AdAssetDto.Projection).FirstOrDefault(a => a.Position == Position.Center),
+                    PreviewAdAsset  =  entity.AdAssets.AsQueryable().Select(AdAssetDto.Projection).FirstOrDefault(a => a.Position == Position.Center && a.DeletedAt == null),
                     AdUnit = new AdUnitDto()
                     {
                         Id = entity.AdUnit.Id,
