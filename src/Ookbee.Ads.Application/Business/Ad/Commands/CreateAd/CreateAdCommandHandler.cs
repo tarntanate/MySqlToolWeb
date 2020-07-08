@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             await AdDbRepo.InsertAsync(entity);
             await AdDbRepo.SaveChangesAsync(cancellationToken);
 
-            return result.Success(entity.Id);
+            return result.Success(entity.Id, entity.Id, entity);
         }
     }
 }

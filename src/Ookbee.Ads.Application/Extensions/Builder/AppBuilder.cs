@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Ookbee.Ads.Application.Infrastructure
+namespace Ookbee.Ads.Application.Extensions.Builder
 {
     public static class AppBuilder
     {

@@ -8,8 +8,7 @@ using ValidationException = Ookbee.Ads.Common.Exceptions.ValidationException;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
-    public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+    public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private IEnumerable<IValidator<TRequest>> Validators { get; }
 

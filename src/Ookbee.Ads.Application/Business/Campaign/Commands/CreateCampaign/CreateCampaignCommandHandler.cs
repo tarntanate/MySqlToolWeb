@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
             await CampaignDbRepo.InsertAsync(entity);
             await CampaignDbRepo.SaveChangesAsync();
 
-            return result.Success(entity.Id);
+            return result.Success(entity.Id, entity.Id, entity);
         }
     }
 }

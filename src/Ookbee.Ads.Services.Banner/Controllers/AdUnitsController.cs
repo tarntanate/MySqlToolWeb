@@ -20,7 +20,6 @@ namespace Ookbee.Ads.Services.Banner.Controllers
             [FromHeader(Name = "Ookbee-Device-OS")] string deviceOs,
             [FromHeader(Name = "Ookbee-Platform")] string platform,
             [FromHeader(Name = "User-Agent")] string userAgent)
-            => await Mediator.Send(new GetBannerByAdUnitIdQuery(
-                adUnitId, appCode, appVersion, deviceId, deviceOs, platform, userAgent));
+            => await Mediator.Send(new GetBannerByAdUnitIdQuery(adUnitId, appCode, appVersion, deviceId, deviceOs, platform, userAgent));
     }
 }

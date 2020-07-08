@@ -13,6 +13,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+        public virtual List<ActivityLogEntity> ActivityLogs { get; set; }
         public virtual List<UserRoleMappingEntity> UserRoleMappings { get; set; }
     }
 }

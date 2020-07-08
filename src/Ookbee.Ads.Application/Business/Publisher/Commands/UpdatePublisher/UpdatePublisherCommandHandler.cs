@@ -1,7 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics;
+using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.ActivityLog.Commands.CreateActivityLog;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
             await PublisherDbRepo.UpdateAsync(entity.Id, entity);
             await PublisherDbRepo.SaveChangesAsync();
 
-            return result.Success(true);
+            return result.Success(true, entity.Id, entity);
         }
     }
 }

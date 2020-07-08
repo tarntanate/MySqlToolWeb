@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.UpdateAdvertiser
             await AdvertiserDbRepo.UpdateAsync(entity.Id, entity);
             await AdvertiserDbRepo.SaveChangesAsync();
 
-            return result.Success(true);
+            return result.Success(true, entity.Id, entity);
         }
     }
 }

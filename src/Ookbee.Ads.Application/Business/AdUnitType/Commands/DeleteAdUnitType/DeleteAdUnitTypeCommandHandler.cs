@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.DeleteAdUnitType
             await AdUnitTypeDbRepo.DeleteAsync(request.Id);
             await AdUnitTypeDbRepo.SaveChangesAsync();
 
-            return result.Success(true);
+            return result.Success(true, request.Id, null);
         }
     }
 }

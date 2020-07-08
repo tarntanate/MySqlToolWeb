@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.CreatePublisher
             await PublisherDbRepo.InsertAsync(entity);
             await PublisherDbRepo.SaveChangesAsync();
 
-            return result.Success(entity.Id);
+            return result.Success(entity.Id, entity.Id, entity);
         }
     }
 }

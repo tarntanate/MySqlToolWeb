@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Extensions.Builder;
 
 namespace Ookbee.Ads.Services.Banner
 {

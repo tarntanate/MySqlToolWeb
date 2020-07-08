@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType
             await AdUnitTypeDbRepo.InsertAsync(entity);
             await AdUnitTypeDbRepo.SaveChangesAsync();
 
-            return result.Success(entity.Id);
+            return result.Success(entity.Id, entity.Id, entity);
         }
     }
 }

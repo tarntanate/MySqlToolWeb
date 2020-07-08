@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd
             await AdDbRepo.DeleteAsync(request.Id);
             await AdDbRepo.SaveChangesAsync(cancellationToken);
 
-            return result.Success(true);
+            return result.Success(true, request.Id, null);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.UpdateAdUnit
                 await AdUnitDbRepo.UpdateAsync(entity.Id, entity);
                 await AdUnitDbRepo.SaveChangesAsync();
 
-                return result.Success(true);
+                return result.Success(true, entity.Id, entity);
             }
             catch (Exception ex)
             {

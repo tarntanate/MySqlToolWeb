@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.DeletePublisher
             await PublisherDbRepo.DeleteAsync(request.Id);
             await PublisherDbRepo.SaveChangesAsync();
 
-            return result.Success(true);
+            return result.Success(true, request.Id, null);
         }
     }
 }
