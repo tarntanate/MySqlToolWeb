@@ -10,7 +10,6 @@ using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Business.Ad
@@ -27,9 +26,9 @@ namespace Ookbee.Ads.Application.Business.Ad
         public string LinkUrl { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<AdNetwork> AdNetworks { get; set; }
-        public AdAssetDto PreviewAdAsset { get; set; }
         public List<string> Analytics { get; set; }
         public List<Platform> Platforms { get; set; }
+        public List<AdAssetDto> Assets { get; set; }
         public AdUnitDto AdUnit { get; set; }
         public CampaignDto Campaign { get; set; }
 
@@ -49,6 +48,7 @@ namespace Ookbee.Ads.Application.Business.Ad
                     LinkUrl = entity.WebLink,
                     AdNetworks = entity.AdUnit.AdNetworks,
                     Analytics = entity.Analytics,
+                    Platforms = entity.Platforms,
                     AdUnit = new AdUnitDto()
                     {
                         Id = entity.AdUnit.Id,
@@ -87,8 +87,7 @@ namespace Ookbee.Ads.Application.Business.Ad
                             Email = entity.Campaign.Advertiser.Email,
                             PhoneNumber = entity.Campaign.Advertiser.PhoneNumber,
                         }
-                    },
-                    Platforms = entity.Platforms,
+                    }
                 };
             }
         }
