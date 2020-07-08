@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Ookbee.Ads.Application.Business.User;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;

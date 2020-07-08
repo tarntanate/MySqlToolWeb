@@ -12,14 +12,12 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             Name = request.Name;
             Description = request.Description;
             Status = request.Status;
-            Platforms = request.Platforms;
             ForegroundColor = request.ForegroundColor;
             BackgroundColor = request.BackgroundColor;
             Analytics = request.Analytics;
+            Platforms = request.Platforms;
             AppLink = request.AppLink;
             LinkUrl = request.LinkUrl;
-            Platforms = request.Platforms;
-            Status = request.Status;
         }
     }
 }

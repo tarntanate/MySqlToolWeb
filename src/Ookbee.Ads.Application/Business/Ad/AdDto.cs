@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Ookbee.Ads.Application.Business.AdAsset;
 using Ookbee.Ads.Application.Business.AdUnit;
 using Ookbee.Ads.Application.Business.AdUnitType;
 using Ookbee.Ads.Application.Business.Advertiser;
@@ -8,10 +9,9 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Enums;
 using System;
-using System.Linq.Expressions;
 using System.Collections.Generic;
-using Ookbee.Ads.Application.Business.AdAsset;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Business.Ad
 {
@@ -24,7 +24,6 @@ namespace Ookbee.Ads.Application.Business.Ad
         public int? CountdownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
-        // public string AppLink { get; set; }
         public string LinkUrl { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<AdNetwork> AdNetworks { get; set; }
@@ -38,8 +37,6 @@ namespace Ookbee.Ads.Application.Business.Ad
         {
             get
             {
-                // var adAssetDto = new List<AdAssetDto>();
-                // adAssetDto.
                 return entity => new AdDto()
                 {
                     Id = entity.Id,
@@ -49,13 +46,9 @@ namespace Ookbee.Ads.Application.Business.Ad
                     CountdownSecond = entity.CountdownSecond,
                     ForegroundColor = entity.ForegroundColor,
                     BackgroundColor = entity.BackgroundColor,
-                    // AppLink = entity.AppLink,
                     LinkUrl = entity.WebLink,
                     AdNetworks = entity.AdUnit.AdNetworks,
                     Analytics = entity.Analytics,
-                    // AdAssets = Mapper.Map<AdEntity>(entity.AdAssets.FirstOrDefault(a => a.Position == Position.Center)),
-                    // AdAsset  = entity.AdAssets.FirstOrDefault(a => a.Position == Position.Center),
-                    PreviewAdAsset  =  entity.AdAssets.AsQueryable().Select(AdAssetDto.Projection).FirstOrDefault(a => a.Position == Position.Center),
                     AdUnit = new AdUnitDto()
                     {
                         Id = entity.AdUnit.Id,

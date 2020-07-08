@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Infrastructure.Enums;
