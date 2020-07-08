@@ -37,8 +37,8 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
             if (request.AdvertiserId.HasValue() && request.AdvertiserId > 0)
                 predicate = predicate.And(f => f.AdvertiserId == request.AdvertiserId);
 
-            if (request.PricingModel.HasValue() && Enum.TryParse<PricingModel>(request.PricingModel, true, out var pricingModel))
-                predicate = predicate.And(f => f.PricingModel == pricingModel);
+            // if (request.PricingModel.HasValue() && Enum.TryParse<PricingModel>(request.PricingModel, true, out var pricingModel))
+            //     predicate = predicate.And(f => f.PricingModel == pricingModel);
 
             var items = await CampaignDbRepo.FindAsync(
                 selector: CampaignDto.Projection,

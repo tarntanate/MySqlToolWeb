@@ -3,6 +3,7 @@ using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Commands.CreateAd;
 using Ookbee.Ads.Application.Business.Ad.Commands.DeleteAd;
 using Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd;
+using Ookbee.Ads.Application.Business.Ad.Commands.UpdateAdStatus;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
@@ -32,6 +33,10 @@ namespace Ookbee.Ads.Services.Manager.Controllers
         [HttpPut("{id}")]
         public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdateAdRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdateAdCommand(id, request), cancellationToken);
+
+        [HttpPut("status/{id}")]
+        public async Task<HttpResult<bool>> UpdateAdStatus([FromRoute] long id, [FromBody] UpdateAdStatusRequest request, CancellationToken cancellationToken)
+            => await Mediator.Send(new UpdateAdStatusCommand(id, request), cancellationToken);
 
         [HttpDelete("{id}")]
         public async Task<HttpResult<bool>> Delete([FromRoute] long id, CancellationToken cancellationToken)

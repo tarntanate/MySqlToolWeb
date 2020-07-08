@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             Platforms = request.Platforms;
             Status = request.Status;
             AppLink = request.AppLink;
-            WebLink = request.WebLink;
+            LinkUrl = request.LinkUrl;
         }
     }
 }

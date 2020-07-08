@@ -16,6 +16,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
         public List<string> Analytics { get; set; }
         public List<Platform> Platforms { get; set; }
         public string AppLink { get; set; }
-        public string WebLink { get; set; }
+        public string LinkUrl { get; set; }
     }
 }

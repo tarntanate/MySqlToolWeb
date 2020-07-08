@@ -7,7 +7,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
     {
         public CreateAdMappingProfile()
         {
-            CreateMap<CreateAdCommand, AdEntity>();
+            CreateMap<CreateAdCommand, AdEntity>()
+                .ForMember(dest => dest.WebLink, opts => opts.MapFrom(src => src.LinkUrl));
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Business.Banner
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string AppLink { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string WebLink { get; set; }
+        public string LinkUrl { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BannerAnalyticsDto Analytics { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.Banner
                     ForegroundColor = entity.ForegroundColor,
                     BackgroundColor = entity.BackgroundColor,
                     AppLink = entity.AppLink,
-                    WebLink = entity.WebLink,
+                    LinkUrl = entity.WebLink,
                     Analytics = new BannerAnalyticsDto()
                     {
                         Clicks = null,
