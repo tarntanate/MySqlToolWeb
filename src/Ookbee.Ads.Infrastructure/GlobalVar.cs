@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Infrastructure
 {
     public static class GlobalVar
     {
-        public static IServiceProvider services = null;
+        private static IServiceProvider services = null;
         public static IServiceProvider Services
         {
             get { return services; }
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Infrastructure
             }
         }
 
-        public static AppSettings appSettings = null;
+        private static AppSettings appSettings = null;
         public static AppSettings AppSettings
         {
             get
@@ -32,7 +32,7 @@ namespace Ookbee.Ads.Infrastructure
             }
         }
 
-        public static IWebHostEnvironment hostingEnvironment = null;
+        private static IWebHostEnvironment hostingEnvironment = null;
         public static IWebHostEnvironment HostingEnvironment
         {
             get
@@ -44,7 +44,7 @@ namespace Ookbee.Ads.Infrastructure
             }
         }
 
-        public static HttpContext httpContext = null;
+        private static HttpContext httpContext = null;
         public static HttpContext HttpContext
         {
             get

@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 
 namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
 {
@@ -39,7 +40,6 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
             if (!isExistsAdUnitResult.Ok)
                 return result.Fail(isExistsAdUnitResult.StatusCode, isExistsAdUnitResult.Message);
 
-            var guid = Guid.NewGuid();
             var data = await AdDbRepo.FirstAsync(
                 selector: BannerDto.Projection,
                 filter: f =>
@@ -47,7 +47,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
                     f.Campaign.StartDate <= MechineDateTime.Now &&
                     f.Campaign.EndDate >= MechineDateTime.Now &&
                     f.DeletedAt == null,
-                orderBy: f => f.OrderBy(o => guid)
+                orderBy: f => f.OrderBy(o => o.Status)
             );
 
             var createRequestLogResult = await CreateRequestLogOnDb(request, data?.Id);
