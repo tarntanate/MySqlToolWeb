@@ -243,3 +243,4 @@ _Pvt_Extensions
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
+*.code-workspace
