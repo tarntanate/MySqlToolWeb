@@ -48,7 +48,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
                 selector: AdUnitDto.Projection,
                 filter: c => c.Id == request.AdUnitId);
 
-            var dataBannerDto = await AdDbRepo.FirstAsync(
+            var banner = await AdDbRepo.FirstAsync(
                 selector: BannerDto.Projection,
                 filter: f =>
                     f.AdUnitId == request.AdUnitId &&
@@ -58,24 +58,24 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
                 orderBy: f => f.OrderBy(o => o.Status)
             );
 
-            string type = dataAdUnitDto.AdNetworks.FirstOrDefault().ToString();
+            string type = dataAdUnitDto.AdNetworks.Count() > 0 ? dataAdUnitDto.AdNetworks.First().ToString() : "none";
 
-            var createRequestLogResult = await CreateRequestLogOnDb(request, dataBannerDto?.Id);
+            var createRequestLogResult = await CreateRequestLogOnDb(request, banner?.Id);
             if (!createRequestLogResult.Ok)
                 return result.Fail(createRequestLogResult.StatusCode, createRequestLogResult.StatusMessage);
 
-            if (dataBannerDto.HasValue())
+            if (banner.HasValue())
             {
                 type = dataAdUnitDto.AdUnitType.Name;
                 var baseUri = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var requestLogId = createRequestLogResult.Data;
-                dataBannerDto.AddClickUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=click");
-                dataBannerDto.AddImpressionUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=impression");
+                banner.AddClickUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=click");
+                banner.AddImpressionUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=impression");
             }
 
             return result.Success(new BannerResultDto {
                 Type = type,
-                Banner = dataBannerDto,
+                Banner = banner,
             });
         }
 
