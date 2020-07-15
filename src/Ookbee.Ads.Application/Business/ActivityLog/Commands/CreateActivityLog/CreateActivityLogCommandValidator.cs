@@ -29,9 +29,9 @@ namespace Ookbee.Ads.Application.Business.ActivityLog.Commands.CreateActivityLog
                 .NotNull()
                 .NotEmpty();
 
-            RuleFor(p => p.ObjectData)
-                .NotNull()
-                .NotEmpty();
+            // RuleFor(p => p.ObjectData)
+            //     .NotNull()
+            //     .NotEmpty();
         }
     }
 }

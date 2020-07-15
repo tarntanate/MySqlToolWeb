@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Infrastructure.Enums;
 
 namespace Ookbee.Ads.Application.Business.Banner
 {

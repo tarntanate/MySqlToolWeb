@@ -12,35 +12,43 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Ookbee.Ads.Application.Business.AdUnit;
 
 namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
 {
-    public class GetBannerByAdUnitIdQueryHandler : IRequestHandler<GetBannerByAdUnitIdQuery, HttpResult<BannerDto>>
+    public class GetBannerByAdUnitIdQueryHandler : IRequestHandler<GetBannerByAdUnitIdQuery, HttpResult<BannerResultDto>>
     {
         private IMediator Mediator { get; }
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
+        private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
         public GetBannerByAdUnitIdQueryHandler(
             IMediator mediator,
-            AdsDbRepository<AdEntity> adDbRepo)
+            AdsDbRepository<AdEntity> adDbRepo,
+            AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
             Mediator = mediator;
             AdDbRepo = adDbRepo;
+            AdUnitDbRepo = adUnitDbRepo;
         }
-        public async Task<HttpResult<BannerDto>> Handle(GetBannerByAdUnitIdQuery request, CancellationToken cancellationToken)
+        public async Task<HttpResult<BannerResultDto>> Handle(GetBannerByAdUnitIdQuery request, CancellationToken cancellationToken)
         {
             return await GetOnDb(request);
         }
 
-        private async Task<HttpResult<BannerDto>> GetOnDb(GetBannerByAdUnitIdQuery request)
+        private async Task<HttpResult<BannerResultDto>> GetOnDb(GetBannerByAdUnitIdQuery request)
         {
-            var result = new HttpResult<BannerDto>();
+            var result = new HttpResult<BannerResultDto>();
 
             var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(request.AdUnitId));
             if (!isExistsAdUnitResult.Ok)
                 return result.Fail(isExistsAdUnitResult.StatusCode, isExistsAdUnitResult.Message);
 
-            var data = await AdDbRepo.FirstAsync(
+            var dataAdUnitDto = await AdUnitDbRepo.FirstAsync(
+                selector: AdUnitDto.Projection,
+                filter: c => c.Id == request.AdUnitId);
+
+            var dataBannerDto = await AdDbRepo.FirstAsync(
                 selector: BannerDto.Projection,
                 filter: f =>
                     f.AdUnitId == request.AdUnitId &&
@@ -50,19 +58,22 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
                 orderBy: f => f.OrderBy(o => o.Status)
             );
 
-            var createRequestLogResult = await CreateRequestLogOnDb(request, data?.Id);
-            if (!createRequestLogResult.Ok)
-                return result.Fail(createRequestLogResult.StatusCode, createRequestLogResult.StatusMessage);
+            // var createRequestLogResult = await CreateRequestLogOnDb(request, dataBannerDto?.Id);
+            // if (!createRequestLogResult.Ok)
+            //     return result.Fail(createRequestLogResult.StatusCode, createRequestLogResult.StatusMessage);
 
-            if (data.HasValue())
+            if (dataBannerDto.HasValue())
             {
                 var baseUri = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
-                var requestLogId = createRequestLogResult.Data;
-                data.AddClickUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=click");
-                data.AddImpressionUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=impression");
+                var requestLogId = "12345"; // createRequestLogResult.Data;
+                dataBannerDto.AddClickUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=click");
+                dataBannerDto.AddImpressionUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=impression");
             }
 
-            return result.Success(data);
+            return result.Success(new BannerResultDto {
+                AdUnit = dataAdUnitDto,
+                Banner = null,
+            });
         }
 
         private async Task<HttpResult<long>> CreateRequestLogOnDb(GetBannerByAdUnitIdQuery request, long? adId = null)

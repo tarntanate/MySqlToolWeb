@@ -21,6 +21,10 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             DbSet = DbContext.Set<TEntity>();
         }
 
+        public DbSet<TEntity> GetDbSet() {
+            return DbSet;
+        }
+
         /// <summary>
         /// determines whether any element of a sequence exists or satisfies a condition.
         /// </summary>
@@ -383,6 +387,33 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
 
             if (filter != null)
                 query = query.Where(filter);
+
+            if (orderBy != null)
+                return await orderBy(query).Select(selector).FirstOrDefaultAsync();
+
+            return await query.Select(selector).FirstOrDefaultAsync();
+        }
+
+        public async Task<TResult> FirstAsync2<TResult>(
+            Expression<Func<TEntity, TResult>> selector,
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<TEntity, IEnumerable<TResult>> selectMany = null,
+            bool disableTracking = true)
+        {
+            IQueryable<TEntity> query = DbSet;
+
+            if (disableTracking)
+                query = query.AsNoTracking();
+
+           
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (selectMany != null)
+                // query = query.SelectMany(selectMany);
+                return query.SelectMany(selectMany).DefaultIfEmpty().FirstOrDefault();
+
 
             if (orderBy != null)
                 return await orderBy(query).Select(selector).FirstOrDefaultAsync();
