@@ -13,6 +13,7 @@ namespace Ookbee.Ads.Application.Business.Banner
     public class AdUnitDto : DefaultDto
     {
         public string Name { get; set; }
+        public AdUnitTypeEntity AdUnitType { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, ReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
         public IEnumerable<AdNetwork> AdNetworks { get; set; }
 
@@ -24,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.Banner
                 {
                     Id = entity.Id,
                     Name = entity.Name,
+                    AdUnitType = entity.AdUnitType,
                     AdNetworks = entity.AdNetworks
                 };
             }

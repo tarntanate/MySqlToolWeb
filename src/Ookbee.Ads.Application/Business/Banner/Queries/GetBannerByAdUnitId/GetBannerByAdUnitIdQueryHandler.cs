@@ -58,12 +58,15 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
                 orderBy: f => f.OrderBy(o => o.Status)
             );
 
+            string type = dataAdUnitDto.AdNetworks.FirstOrDefault().ToString();
+
             var createRequestLogResult = await CreateRequestLogOnDb(request, dataBannerDto?.Id);
             if (!createRequestLogResult.Ok)
                 return result.Fail(createRequestLogResult.StatusCode, createRequestLogResult.StatusMessage);
 
             if (dataBannerDto.HasValue())
             {
+                type = dataAdUnitDto.AdUnitType.Name;
                 var baseUri = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var requestLogId = createRequestLogResult.Data;
                 dataBannerDto.AddClickUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=click");
@@ -71,7 +74,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
             }
 
             return result.Success(new BannerResultDto {
-                AdUnit = dataAdUnitDto,
+                Type = type,
                 Banner = dataBannerDto,
             });
         }

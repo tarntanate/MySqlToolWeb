@@ -12,7 +12,8 @@ namespace Ookbee.Ads.Application.Business.Banner
 {
     public class BannerResultDto
     {
-        public AdUnitDto AdUnit { get; set; }
+
+        public string Type { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public BannerDto Banner { get; set; }
