@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Services.Banner.Controllers
     [Route("api/ad-units")]
     public class AdUnitsController : ApiController
     {
-        [HttpGet("{adUnitId}/banner")]
+        [HttpGet("{adUnitId}")]
         public async Task<HttpResult<BannerDto>> GetById(
             [FromRoute] long adUnitId,
             [FromHeader(Name = "Ookbee-App-Code")] string appCode,
