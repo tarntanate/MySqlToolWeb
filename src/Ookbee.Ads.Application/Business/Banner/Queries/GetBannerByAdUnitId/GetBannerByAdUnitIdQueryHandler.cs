@@ -58,21 +58,21 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
                 orderBy: f => f.OrderBy(o => o.Status)
             );
 
-            // var createRequestLogResult = await CreateRequestLogOnDb(request, dataBannerDto?.Id);
-            // if (!createRequestLogResult.Ok)
-            //     return result.Fail(createRequestLogResult.StatusCode, createRequestLogResult.StatusMessage);
+            var createRequestLogResult = await CreateRequestLogOnDb(request, dataBannerDto?.Id);
+            if (!createRequestLogResult.Ok)
+                return result.Fail(createRequestLogResult.StatusCode, createRequestLogResult.StatusMessage);
 
             if (dataBannerDto.HasValue())
             {
                 var baseUri = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
-                var requestLogId = "12345"; // createRequestLogResult.Data;
+                var requestLogId = createRequestLogResult.Data;
                 dataBannerDto.AddClickUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=click");
                 dataBannerDto.AddImpressionUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=impression");
             }
 
             return result.Success(new BannerResultDto {
                 AdUnit = dataAdUnitDto,
-                Banner = null,
+                Banner = dataBannerDto,
             });
         }
 
