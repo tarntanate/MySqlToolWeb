@@ -58,7 +58,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
                 orderBy: f => f.OrderBy(o => o.Status)
             );
 
-            string type = dataAdUnitDto.AdNetworks.Count() > 0 ? dataAdUnitDto.AdNetworks.First().ToString() : "none";
+            string type = dataAdUnitDto.AdNetworks != null && dataAdUnitDto.AdNetworks.Count() > 0 ? dataAdUnitDto.AdNetworks.First().ToString() : "none";
 
             var createRequestLogResult = await CreateRequestLogOnDb(request, banner?.Id);
             if (!createRequestLogResult.Ok)
