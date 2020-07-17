@@ -81,7 +81,13 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetAdUnitById
                         Clicks = new List<string>(),
                         Impressions = ad.Analytics.ToList<string>(),
                     },
-                    Assets = !adAssets.HasValue() ? null : adAssets
+                    Assets = adAssets.Select(asset => new BannerAssetDto()
+                    {
+                        Id = asset.Id,
+                        AssetPath = asset.AssetPath,
+                        AssetType = asset.AssetType,
+                        Position = asset.Position,
+                    })
                 },
                 AdUnitType = getAdUnitById.Data.Name,
                 AdNetworks = getAdUnitById.Data.AdNetworks,

@@ -31,6 +31,6 @@ namespace Ookbee.Ads.Application.Business.Banner
 
         public IEnumerable<Platform> Platforms { get; set; }
 
-        public IEnumerable<AdAssetDto> Assets { get; set; }
+        public IEnumerable<BannerAssetDto> Assets { get; set; }
     }
 }
