@@ -15,10 +15,10 @@ namespace Ookbee.Ads.Application.Business.AdUnit
         public string Name { get; set; }
         public string Description { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<AdNetwork> AdNetworks { get; set; }
         public AdUnitTypeDto AdUnitType { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PublisherDto Publisher { get; set; }
-        public List<AdNetwork> AdNetworks { get; set; }
 
         public static Expression<Func<AdUnitEntity, AdUnitDto>> Projection
         {

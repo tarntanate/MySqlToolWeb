@@ -3,7 +3,7 @@ using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
 {
-    public class GetBannerByAdUnitIdQuery : IRequest<HttpResult<BannerResultDto>>
+    public class GetBannerByAdUnitIdQuery : IRequest<HttpResult<BannerDto>>
     {
         public long AdUnitId { get; set; }
         public string AppCode { get; set; }

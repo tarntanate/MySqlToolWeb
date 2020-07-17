@@ -1,14 +1,16 @@
-using System;
 using Newtonsoft.Json;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Enums;
+using System;
 
 namespace Ookbee.Ads.Application.Business.Banner
 {
     public class BannerAssetDto : DefaultDto
     {
+        public string AssetType { get; set; }
+
         public string AssetUrl
         {
             get
@@ -28,9 +30,9 @@ namespace Ookbee.Ads.Application.Business.Banner
                 return uri?.IsAbsoluteUri == true ? uri?.AbsoluteUri : uri?.ToString() ?? string.Empty;
             }
         }
+        public Position Position { get; set; }
+
         [JsonIgnore]
         public string AssetPath { get; set; }
-        public string AssetType { get; set; }
-        public Position Position { get; set; }
     }
 }

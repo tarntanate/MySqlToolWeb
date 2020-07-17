@@ -1,82 +1,109 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitById;
+using Ookbee.Ads.Application.Business.Ad;
+using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
+using Ookbee.Ads.Application.Business.Ad.Queries.GetAdList;
+using Ookbee.Ads.Application.Business.AdAsset;
+using Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetByAdId;
+using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitById;
 using Ookbee.Ads.Application.Business.Analytics.Commands.CreateRequestLog;
+using Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Ookbee.Ads.Application.Business.AdUnit;
 
-namespace Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId
+namespace Ookbee.Ads.Application.Business.Banner.Queries.GetAdUnitById
 {
-    public class GetBannerByAdUnitIdQueryHandler : IRequestHandler<GetBannerByAdUnitIdQuery, HttpResult<BannerResultDto>>
+    public class GetBannerByAdUnitIdHandler : IRequestHandler<GetBannerByAdUnitIdQuery, HttpResult<BannerDto>>
     {
         private IMediator Mediator { get; }
-        private AdsDbRepository<AdEntity> AdDbRepo { get; }
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
-        public GetBannerByAdUnitIdQueryHandler(
-            IMediator mediator,
-            AdsDbRepository<AdEntity> adDbRepo,
-            AdsDbRepository<AdUnitEntity> adUnitDbRepo)
+        public GetBannerByAdUnitIdHandler(IMediator mediator, AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
             Mediator = mediator;
-            AdDbRepo = adDbRepo;
             AdUnitDbRepo = adUnitDbRepo;
         }
-        public async Task<HttpResult<BannerResultDto>> Handle(GetBannerByAdUnitIdQuery request, CancellationToken cancellationToken)
+
+        public async Task<HttpResult<BannerDto>> Handle(GetBannerByAdUnitIdQuery request, CancellationToken cancellationToken)
         {
             return await GetOnDb(request);
         }
 
-        private async Task<HttpResult<BannerResultDto>> GetOnDb(GetBannerByAdUnitIdQuery request)
+        private async Task<HttpResult<BannerDto>> GetOnDb(GetBannerByAdUnitIdQuery request)
         {
-            var result = new HttpResult<BannerResultDto>();
+            var result = new HttpResult<BannerDto>();
 
-            var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(request.AdUnitId));
-            if (!isExistsAdUnitResult.Ok)
-                return result.Fail(isExistsAdUnitResult.StatusCode, isExistsAdUnitResult.Message);
+            AdDto ad = null;
+            List<AdAssetDto> adAssets = null;
 
-            var dataAdUnitDto = await AdUnitDbRepo.FirstAsync(
-                selector: AdUnitDto.Projection,
-                filter: c => c.Id == request.AdUnitId);
+            var getAdUnitById = await Mediator.Send(new GetAdUnitByIdQuery(request.AdUnitId));
+            if (!getAdUnitById.Ok)
+                return result.Fail(getAdUnitById.StatusCode, getAdUnitById.Message);
 
-            var banner = await AdDbRepo.FirstAsync(
-                selector: BannerDto.Projection,
-                filter: f =>
-                    f.AdUnitId == request.AdUnitId &&
-                    f.Campaign.StartDate <= MechineDateTime.Now &&
-                    f.Campaign.EndDate >= MechineDateTime.Now &&
-                    f.DeletedAt == null,
-                orderBy: f => f.OrderBy(o => o.Status)
-            );
+            var adId = await GetAvalibleAdId(request.AdUnitId);
+            if (adId.HasValue())
+            {
+                var getAdById = await Mediator.Send(new GetAdByIdQuery(adId.Value));
+                if (getAdById.Ok)
+                {
+                    ad = getAdById.Data;
+                    var getAdAssetByAdId = await Mediator.Send(new GetAdAssetByAdIdQuery(adId.Value));
+                    if (getAdAssetByAdId.Ok)
+                    {
+                        adAssets = getAdAssetByAdId.Data.ToList();
+                    }
+                }
+            }
 
-            string type = dataAdUnitDto.AdNetworks != null && dataAdUnitDto.AdNetworks.Count() > 0 ? dataAdUnitDto.AdNetworks.First().ToString() : "none";
-
-            var createRequestLogResult = await CreateRequestLogOnDb(request, banner?.Id);
+            var createRequestLogResult = await CreateRequestLogOnDb(request, adId);
             if (!createRequestLogResult.Ok)
                 return result.Fail(createRequestLogResult.StatusCode, createRequestLogResult.StatusMessage);
 
-            if (banner.HasValue())
+            var banner = new BannerDto()
             {
-                type = dataAdUnitDto.AdUnitType.Name;
+                Ad = !ad.HasValue() ? null : new BannerAdDto()
+                {
+                    Id = ad.Id,
+                    Name = ad.Name,
+                    CountdownSecond = ad.CountdownSecond,
+                    ForegroundColor = ad.ForegroundColor,
+                    BackgroundColor = ad.BackgroundColor,
+                    LinkUrl = ad.LinkUrl,
+                    Analytics = new BannerAnalyticsDto()
+                    {
+                        Clicks = new List<string>(),
+                        Impressions = ad.Analytics.ToList<string>(),
+                    },
+                    Assets = !adAssets.HasValue() ? null : adAssets
+                },
+                AdUnitType = getAdUnitById.Data.Name,
+                AdNetworks = getAdUnitById.Data.AdNetworks,
+            };
+
+            if (banner?.Ad?.Analytics != null)
+            {
                 var baseUri = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
-                var requestLogId = createRequestLogResult.Data;
-                banner.AddClickUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=click");
-                banner.AddImpressionUrl($"{baseUri}/api/statistics?eventId={requestLogId}&eventType=impression");
+                var eventId = createRequestLogResult.Data;
+                banner.Ad.Analytics.Clicks.Insert(0, $"{baseUri}/api/events/{eventId}/click");
+                banner.Ad.Analytics.Impressions.Insert(0, $"{baseUri}/api/events/{eventId}/impression");
             }
 
-            return result.Success(new BannerResultDto {
-                Type = type,
-                Banner = banner,
-            });
+            return result.Success(banner);
+        }
+
+        private async Task<long?> GetAvalibleAdId(long adUnitId)
+        {
+            var ads = await Mediator.Send(new GetAdListQuery(0, 100, adUnitId, null));
+            var adIds = ads.Data.Select(f => f.Id).ToList();
+            var adId = adIds.OrderBy(x => new Random().Next()).Take(1).FirstOrDefault();
+            return adId > 0 ? adId : default;
         }
 
         private async Task<HttpResult<long>> CreateRequestLogOnDb(GetBannerByAdUnitIdQuery request, long? adId = null)

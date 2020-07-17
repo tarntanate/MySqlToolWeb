@@ -1,136 +1,136 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Serv.Analytics-loc",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Analytics.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "requireExactSource": false,
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Localhost",
-        "ASPNETCORE_URLS": "http://localhost:8130/"
-      }
-    },
-    {
-      "name": "Serv.Analytics-dev",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Analytics.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "requireExactSource": false,
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:8130/"
-      }
-    },
-    {
-      "name": "Serv.Banner-loc",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Banner/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Banner.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "requireExactSource": false,
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Localhost",
-        "ASPNETCORE_URLS": "http://localhost:8140/"
-      }
-    },
-    {
-      "name": "Serv.Banner-dev",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Banner/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Banner.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "requireExactSource": false,
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:8140/"
-      }
-    },
-    {
-      "name": "Serv.Identity-loc",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Identity.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "requireExactSource": false,
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Localhost",
-        "ASPNETCORE_URLS": "http://localhost:8110/"
-      }
-    },
-    {
-      "name": "Serv.Identity-dev",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Identity.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "requireExactSource": false,
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:8110/"
-      }
-    },
-    {
-      "name": "Serv.Manager-loc",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "requireExactSource": false,
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Localhost",
-        "ASPNETCORE_URLS": "http://localhost:8120/"
-      }
-    },
-    {
-      "name": "Serv.Manager-dev",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false,
-      "requireExactSource": false,
-      "stopAtEntry": false,
-      "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://localhost:8120/"
-      }
-    }
-  ]
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Serv.Analytics-loc",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Analytics.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:8130/"
+            }
+        },
+        {
+            "name": "Serv.Analytics-dev",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Analytics.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8130/"
+            }
+        },
+        {
+            "name": "Serv.Banner-loc",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Banner/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Banner.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:8140/"
+            }
+        },
+        {
+            "name": "Serv.Banner-dev",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Banner/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Banner.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8140/"
+            }
+        },
+        {
+            "name": "Serv.Identity-loc",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Identity.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:8110/"
+            }
+        },
+        {
+            "name": "Serv.Identity-dev",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Identity/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Identity.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8110/"
+            }
+        },
+        {
+            "name": "Serv.Manager-loc",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:8120/"
+            }
+        },
+        {
+            "name": "Serv.Manager-dev",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Manager/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Manager.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:8120/"
+            }
+        }
+    ]
 }

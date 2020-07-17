@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Services.Banner.Controllers
     public class AdUnitsController : ApiController
     {
         [HttpGet("{adUnitId}")]
-        public async Task<HttpResult<BannerResultDto>> GetById(
+        public async Task<HttpResult<BannerDto>> GetById(
             [FromRoute] long adUnitId,
             [FromHeader(Name = "Ookbee-App-Code")] string appCode,
             [FromHeader(Name = "Ookbee-App-Version")] string appVersion,
