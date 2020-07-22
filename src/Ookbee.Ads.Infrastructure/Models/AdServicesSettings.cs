@@ -6,5 +6,6 @@ namespace Ookbee.Ads.Infrastructure.Models
         public BaseUriSettings<AddressSettings> Banner { get; set; }
         public BaseUriSettings<AddressSettings> Identity { get; set; }
         public BaseUriSettings<AddressSettings> Manager { get; set; }
+        public BaseUriSettings<AddressSettings> RequestLog { get; set; }
     }
 }

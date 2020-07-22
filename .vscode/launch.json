@@ -17,7 +17,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Localhost",
-                "ASPNETCORE_URLS": "http://localhost:8130/"
+                "ASPNETCORE_URLS": "http://localhost:5030/"
             }
         },
         {
@@ -33,7 +33,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:8130/"
+                "ASPNETCORE_URLS": "http://localhost:5030/"
             }
         },
         {
@@ -49,7 +49,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Localhost",
-                "ASPNETCORE_URLS": "http://localhost:8140/"
+                "ASPNETCORE_URLS": "http://localhost:5040/"
             }
         },
         {
@@ -65,7 +65,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:8140/"
+                "ASPNETCORE_URLS": "http://localhost:5040/"
             }
         },
         {
@@ -81,7 +81,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Localhost",
-                "ASPNETCORE_URLS": "http://localhost:8110/"
+                "ASPNETCORE_URLS": "http://localhost:5010/"
             }
         },
         {
@@ -97,7 +97,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:8110/"
+                "ASPNETCORE_URLS": "http://localhost:5010/"
             }
         },
         {
@@ -113,7 +113,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Localhost",
-                "ASPNETCORE_URLS": "http://localhost:8120/"
+                "ASPNETCORE_URLS": "http://localhost:5020/"
             }
         },
         {
@@ -129,7 +129,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:8120/"
+                "ASPNETCORE_URLS": "http://localhost:5020/"
             }
         }
     ]
