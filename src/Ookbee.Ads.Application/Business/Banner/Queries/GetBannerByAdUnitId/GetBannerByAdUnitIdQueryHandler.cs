@@ -3,7 +3,7 @@ using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.AdAsset;
-using Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetByAdId;
+using Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitById;
 using Ookbee.Ads.Application.Business.Analytics.Commands.CreateRequestLog;
 using Ookbee.Ads.Application.Business.Banner.Queries.GetBannerByAdUnitId;
@@ -54,10 +54,10 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetAdUnitById
                 if (getAdById.Ok)
                 {
                     ad = getAdById.Data;
-                    var getAdAssetByAdId = await Mediator.Send(new GetAdAssetByAdIdQuery(adId.Value));
-                    if (getAdAssetByAdId.Ok)
+                    var getAdAssetList = await Mediator.Send(new GetAdAssetListQuery(0, 100, adId.Value));
+                    if (getAdAssetList.Ok)
                     {
-                        adAssets = getAdAssetByAdId.Data.ToList();
+                        adAssets = getAdAssetList.Data.ToList();
                     }
                 }
             }
@@ -66,39 +66,34 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetAdUnitById
             if (!createRequestLogResult.Ok)
                 return result.Fail(createRequestLogResult.StatusCode, createRequestLogResult.StatusMessage);
 
-            var banner = new BannerDto()
+            var banner = new BannerDto();
+            banner.Ad = !ad.HasValue() ? null : new BannerAdDto()
             {
-                Ad = !ad.HasValue() ? null : new BannerAdDto()
+                CountdownSecond = ad.CountdownSecond,
+                ForegroundColor = ad.ForegroundColor,
+                BackgroundColor = ad.BackgroundColor,
+                LinkUrl = ad.LinkUrl,
+                Assets = adAssets.Where(asset => asset.DeletedAt == null).Select(asset => new BannerAssetDto()
                 {
-                    Id = ad.Id,
-                    Name = ad.Name,
-                    CountdownSecond = ad.CountdownSecond,
-                    ForegroundColor = ad.ForegroundColor,
-                    BackgroundColor = ad.BackgroundColor,
-                    LinkUrl = ad.LinkUrl,
-                    Analytics = new BannerAnalyticsDto()
-                    {
-                        Clicks = new List<string>(),
-                        Impressions = ad.Analytics.ToList<string>(),
-                    },
-                    Assets = adAssets.Select(asset => new BannerAssetDto()
-                    {
-                        Id = asset.Id,
-                        AssetPath = asset.AssetPath,
-                        AssetType = asset.AssetType,
-                        Position = asset.Position,
-                    })
-                },
-                AdUnitType = getAdUnitById.Data.Name,
-                AdNetworks = getAdUnitById.Data.AdNetworks,
+                    AssetPath = asset.AssetPath,
+                    AssetType = asset.AssetType,
+                    Position = asset.Position,
+                })
             };
+            banner.AdNetworks = ad.HasValue() ? null : getAdUnitById.Data.AdNetworks;
+            banner.Analytics = new BannerAnalyticsDto()
+            {
+                Clicks = new List<string>(),
+                Impressions = !ad.HasValue() ? new List<string>() : ad.Analytics.ToList<string>(),
+            };
+            banner.AdUnitType = getAdUnitById.Data.Name;
 
-            if (banner?.Ad?.Analytics != null)
+            if (banner?.Analytics != null)
             {
                 var baseUri = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var eventId = createRequestLogResult.Data;
-                banner.Ad.Analytics.Clicks.Insert(0, $"{baseUri}/api/events/{eventId}/click");
-                banner.Ad.Analytics.Impressions.Insert(0, $"{baseUri}/api/events/{eventId}/impression");
+                banner.Analytics.Clicks.Insert(0, $"{baseUri}/api/events/{eventId}/click");
+                banner.Analytics.Impressions.Insert(0, $"{baseUri}/api/events/{eventId}/impression");
             }
 
             return result.Success(banner);
@@ -109,7 +104,9 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetAdUnitById
             var ads = await Mediator.Send(new GetAdListQuery(0, 100, adUnitId, null));
             var adIds = ads.Data.Select(f => f.Id).ToList();
             var adId = adIds.OrderBy(x => new Random().Next()).Take(1).FirstOrDefault();
-            return adId > 0 ? adId : default;
+            var testValue = new long[] { 0, adId };
+            var index = new Random().Next(testValue.Length);
+            return index > 0 ? adId : (long?)null;
         }
 
         private async Task<HttpResult<long>> CreateRequestLogOnDb(GetBannerByAdUnitIdQuery request, long? adId = null)

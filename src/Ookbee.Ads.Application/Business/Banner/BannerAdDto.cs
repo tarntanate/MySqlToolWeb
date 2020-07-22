@@ -1,20 +1,10 @@
-
 using Newtonsoft.Json;
-using Ookbee.Ads.Application.Business.AdAsset;
-using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Infrastructure.Enums;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Banner
 {
-    public class BannerAdDto : DefaultDto
+    public class BannerAdDto
     {
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public AdStatus Status { get; set; }
-
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? CountdownSecond { get; set; }
 
@@ -24,13 +14,10 @@ namespace Ookbee.Ads.Application.Business.Banner
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string BackgroundColor { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string LinkUrl { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public BannerAnalyticsDto Analytics { get; set; }
-
-        public IEnumerable<Platform> Platforms { get; set; }
-
         public IEnumerable<BannerAssetDto> Assets { get; set; }
     }
 }

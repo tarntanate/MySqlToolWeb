@@ -7,10 +7,15 @@ using System;
 
 namespace Ookbee.Ads.Application.Business.Banner
 {
-    public class BannerAssetDto : DefaultDto
+    public class BannerAssetDto
     {
+        [JsonProperty("position")]
+        public Position Position { get; set; }
+
+        [JsonProperty("type")]
         public string AssetType { get; set; }
 
+        [JsonProperty("url")]
         public string AssetUrl
         {
             get
@@ -30,7 +35,6 @@ namespace Ookbee.Ads.Application.Business.Banner
                 return uri?.IsAbsoluteUri == true ? uri?.AbsoluteUri : uri?.ToString() ?? string.Empty;
             }
         }
-        public Position Position { get; set; }
 
         [JsonIgnore]
         public string AssetPath { get; set; }
