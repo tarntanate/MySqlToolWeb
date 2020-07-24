@@ -11,5 +11,6 @@ namespace Ookbee.Ads.Infrastructure.Enums
         Bottom,
         BottomLeft,
         BottomRight,
+        ActionImage
     }
 }
