@@ -92,8 +92,8 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetAdUnitById
             {
                 var baseUri = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var eventId = createRequestLogResult.Data;
-                banner.Analytics.Clicks.Insert(0, $"{baseUri}/api/events/{eventId}/click");
-                banner.Analytics.Impressions.Insert(0, $"{baseUri}/api/events/{eventId}/impression");
+                banner.Analytics.Clicks.Insert(0, $"{baseUri}/events/{eventId}/click");
+                banner.Analytics.Impressions.Insert(0, $"{baseUri}/events/{eventId}/impression");
             }
 
             return result.Success(banner);
