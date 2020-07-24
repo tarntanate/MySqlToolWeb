@@ -14,16 +14,15 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 
             builder.HasOne(e => e.Ad)
                    .WithMany(e => e.AdAssets)
-                   .HasForeignKey(e => e.AdId)
-                   .IsRequired();
-
-            builder.Property(e => e.Id)
-                   .ValueGeneratedOnAdd();
+                   .HasForeignKey(e => e.AdId);
 
             builder.Property(e => e.Position)
                    .HasConversion(
                         v => v.ToString(),
                         v => (Position)Enum.Parse(typeof(Position), v));
+
+            builder.Property(e => e.Id)
+                   .ValueGeneratedOnAdd();
         }
     }
 }

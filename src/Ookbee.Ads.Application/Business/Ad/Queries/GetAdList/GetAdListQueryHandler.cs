@@ -32,7 +32,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdList
             var predicate = PredicateBuilder.True<AdEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
 
-            if (request.AdUnitId.HasValue() && request.CampaignId > 0)
+            if (request.AdUnitId.HasValue() && request.AdUnitId > 0)
                 predicate = predicate.And(f => f.AdUnitId == request.AdUnitId);
 
             if (request.CampaignId.HasValue() && request.CampaignId > 0)

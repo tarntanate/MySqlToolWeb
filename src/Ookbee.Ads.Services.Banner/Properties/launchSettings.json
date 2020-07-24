@@ -21,7 +21,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/health",
-      "applicationUrl": "https://localhost:8141;http://localhost:8140",
+      "applicationUrl": "https://localhost:5041;http://localhost:5040",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Localhost"
       }
@@ -30,7 +30,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/health",
-      "applicationUrl": "https://localhost:8141;http://localhost:8140",
+      "applicationUrl": "https://localhost:5041;http://localhost:5040",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

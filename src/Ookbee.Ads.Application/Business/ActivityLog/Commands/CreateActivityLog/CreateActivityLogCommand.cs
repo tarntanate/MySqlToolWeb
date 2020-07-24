@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Application.Business.ActivityLog.Commands.CreateActivityLog
         {
             UserId = 6383511;
             ObjectId = id;
-            ObjectType = data.GetType().Name;
+            ObjectType = data?.GetType().Name;
             ObjectData = JsonHelper.Serialize(data);
             Activity = activity;
         }

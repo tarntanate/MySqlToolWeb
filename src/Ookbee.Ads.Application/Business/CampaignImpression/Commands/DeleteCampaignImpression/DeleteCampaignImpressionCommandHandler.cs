@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.DeleteCamp
             await CampaignImpressionDbRepo.DeleteAsync(request.Id);
             await CampaignImpressionDbRepo.SaveChangesAsync();
             
-            return result.Success(true);
+            return result.Success(true, request.Id, new CampaignEntity());
         }
     }
 }
