@@ -25,7 +25,8 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Commands.CreateAdGroupItem
 
             RuleFor(p => p.AdUnitKey)
                 .NotNull()
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(40);
 
             RuleFor(p => p.Name)
                 .MaximumLength(40)
