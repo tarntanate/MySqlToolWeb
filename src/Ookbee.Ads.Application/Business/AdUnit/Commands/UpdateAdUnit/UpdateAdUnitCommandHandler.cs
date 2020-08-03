@@ -35,19 +35,11 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.UpdateAdUnit
         {
             var result = new HttpResult<bool>();
 
-            try
-            {
-                var entity = Mapper.Map<AdUnitEntity>(request);
-                await AdUnitDbRepo.UpdateAsync(entity.Id, entity);
-                await AdUnitDbRepo.SaveChangesAsync();
+            var entity = Mapper.Map<AdUnitEntity>(request);
+            await AdUnitDbRepo.UpdateAsync(entity.Id, entity);
+            await AdUnitDbRepo.SaveChangesAsync();
 
-                return result.Success(true, entity.Id, entity);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return result.Fail(500, ex.Message);
-            }
+            return result.Success(true, entity.Id, entity);
         }
     }
 }
