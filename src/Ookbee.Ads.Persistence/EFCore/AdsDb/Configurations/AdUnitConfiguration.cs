@@ -24,11 +24,6 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
                    .HasForeignKey(e => e.PublisherId)
                    .IsRequired();
 
-            builder.Property(e => e.AdNetworks)
-                   .HasConversion(
-                            v => v.ConvertAll(x => x.ToString()),
-                            v => v.Select(x => (AdNetwork)Enum.Parse(typeof(AdNetwork), x)).ToList());
-
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();
         }

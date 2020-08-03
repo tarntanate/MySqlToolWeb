@@ -46,10 +46,6 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
-
-            RuleFor(p => p.AdNetworks)
-                .Must(value => !value.HasValue() || value.Count() <= 3)
-                .WithMessage("'{PropertyName}' must be 3 items or fewer");
         }
     }
 }

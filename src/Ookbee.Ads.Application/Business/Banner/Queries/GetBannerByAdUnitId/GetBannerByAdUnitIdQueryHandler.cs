@@ -80,7 +80,6 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetAdUnitById
                     Position = asset.Position,
                 })
             };
-            banner.AdNetworks = ad.HasValue() ? null : getAdUnitById.Data.AdNetworks;
             banner.Analytics = new BannerAnalyticsDto()
             {
                 Clicks = new List<string>(),

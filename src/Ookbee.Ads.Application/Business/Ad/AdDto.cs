@@ -24,8 +24,6 @@ namespace Ookbee.Ads.Application.Business.Ad
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public string LinkUrl { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<AdNetwork> AdNetworks { get; set; }
         public List<string> Analytics { get; set; }
         public List<Platform> Platforms { get; set; }
         public List<AdAssetDto> Assets { get; set; }
@@ -46,7 +44,6 @@ namespace Ookbee.Ads.Application.Business.Ad
                     ForegroundColor = entity.ForegroundColor,
                     BackgroundColor = entity.BackgroundColor,
                     LinkUrl = entity.WebLink,
-                    AdNetworks = entity.AdUnit.AdNetworks,
                     Analytics = entity.Analytics,
                     Platforms = entity.Platforms,
                     AdUnit = new AdUnitDto()

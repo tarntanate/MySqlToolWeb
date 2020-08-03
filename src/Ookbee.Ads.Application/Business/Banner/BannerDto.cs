@@ -10,9 +10,6 @@ namespace Ookbee.Ads.Application.Business.Banner
         public BannerAdDto Ad { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<AdNetwork> AdNetworks { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public BannerAnalyticsDto Analytics { get; set; }
 
         [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
