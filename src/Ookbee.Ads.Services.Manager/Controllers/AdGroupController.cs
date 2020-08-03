@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Services.Manager.Controllers
 
         [HttpPost]
         public async Task<HttpResult<long>> Create([FromBody] CreateAdGroupRequest request, CancellationToken cancellationToken)
-            => await Mediator.Send(new CreateAdGroupCommand(request), cancellationToken);
+                => await Mediator.Send(new CreateAdGroupCommand(request), cancellationToken);
 
         [HttpPut("{id}")]
         public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdateAdGroupRequest request, CancellationToken cancellationToken)

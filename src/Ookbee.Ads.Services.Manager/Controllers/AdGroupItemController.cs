@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Manager.Controllers
 {
     [ApiController]
-    [Route("api/ad-units")]
+    [Route("api/ad-group-items")]
     public class AdGroupItemController : ApiController
     {
         [HttpGet]
