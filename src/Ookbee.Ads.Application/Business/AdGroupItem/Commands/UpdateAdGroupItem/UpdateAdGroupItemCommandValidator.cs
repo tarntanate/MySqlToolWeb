@@ -47,6 +47,7 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Commands.UpdateAdGroupItem
                     var result = await Mediator.Send(new GetAdGroupItemByNameQuery(value), cancellationToken);
                     if (result.Ok &&
                         result.Data.Id != validate.Id &&
+                        result.Data.AdGroupId == validate.AdGroupId &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });

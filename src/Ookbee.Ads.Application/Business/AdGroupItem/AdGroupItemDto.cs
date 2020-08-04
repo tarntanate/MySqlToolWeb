@@ -7,6 +7,7 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem
 {
     public class AdGroupItemDto : DefaultDto
     {
+        public long AdGroupId { get; set; }
         public string AdUnitKey { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -19,6 +20,7 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem
                 return entity => new AdGroupItemDto()
                 {
                     Id = entity.Id,
+                    AdGroupId = entity.AdGroupId,
                     AdUnitKey = entity.AdUnitKey,
                     Name = entity.Name,
                     Description = entity.Description,
