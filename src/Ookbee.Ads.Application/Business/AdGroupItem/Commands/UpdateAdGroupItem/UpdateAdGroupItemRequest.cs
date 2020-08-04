@@ -2,7 +2,7 @@
 {
     public class UpdateAdGroupItemRequest
     {
-        public long AdUnitId { get; set; }
+        public long AdGroupId { get; set; }
         public string AdUnitKey { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
