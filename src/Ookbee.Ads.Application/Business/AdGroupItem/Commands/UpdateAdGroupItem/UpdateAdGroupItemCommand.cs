@@ -14,6 +14,7 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Commands.UpdateAdGroupItem
             AdUnitKey = request.AdUnitKey;
             Name = request.Name;
             Description = request.Description;
+            SortSeq = request.SortSeq;
         }
     }
 }
