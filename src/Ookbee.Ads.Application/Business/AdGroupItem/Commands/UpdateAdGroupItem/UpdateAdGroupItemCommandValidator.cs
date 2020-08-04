@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Commands.UpdateAdGroupItem
                         context.AddFailure(result.Message);
                 });
 
-            RuleFor(p => p.AdUnitId)
+            RuleFor(p => p.AdGroupId)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
