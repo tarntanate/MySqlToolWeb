@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Business.User.Queries.IsExistsUserById;
+using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.ActivityLog.Commands.CreateActivityLog
 {
@@ -26,12 +27,17 @@ namespace Ookbee.Ads.Application.Business.ActivityLog.Commands.CreateActivityLog
                 .GreaterThan(0);
 
             RuleFor(p => p.ObjectType)
-                .NotNull()
-                .NotEmpty();
-
-            // RuleFor(p => p.ObjectData)
-            //     .NotNull()
-            //     .NotEmpty();
+                .Custom((value, context) =>
+               {
+                   var validate = context.InstanceToValidate as CreateActivityLogCommand;
+                   if (validate.ObjectData.HasValue())
+                   {
+                       if (!value.HasValue())
+                       {
+                           context.AddFailure("'Object Type' must not be null or empty.");
+                       }
+                   }
+               });
         }
     }
 }
