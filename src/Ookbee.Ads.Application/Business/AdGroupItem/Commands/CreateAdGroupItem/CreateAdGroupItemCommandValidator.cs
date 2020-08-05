@@ -29,10 +29,13 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Commands.CreateAdGroupItem
                 .MaximumLength(40);
 
             RuleFor(p => p.Name)
-                .MaximumLength(40)
+                .NotNull()
+                .MaximumLength(40);
+
+            RuleFor(p => new { p.Name, p.AdGroupId })
                 .CustomAsync(async (value, context, CancellationToken) =>
                 {
-                    var result = await Mediator.Send(new IsExistsAdGroupItemByNameQuery(value), CancellationToken);
+                    var result = await Mediator.Send(new IsExistsAdGroupItemByNameQuery(name: value.Name, adGroupId: value.AdGroupId), CancellationToken);
                     if (result.Ok)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });

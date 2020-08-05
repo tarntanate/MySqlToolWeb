@@ -27,12 +27,13 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Queries.IsExistsAdGroupIte
 
             var isExists = await AdGroupItemDbRepo.AnyAsync(f =>
                 f.Name == request.Name &&
+                f.AdGroupId == request.AdGroupId &&
                 f.DeletedAt == null
             );
 
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"AdGroupItem '{request.Name}' doesn't exist.");
+                : result.Fail(404, $"AdGroupItem '{request.Name}' is exist in this group.");
         }
     }
 }

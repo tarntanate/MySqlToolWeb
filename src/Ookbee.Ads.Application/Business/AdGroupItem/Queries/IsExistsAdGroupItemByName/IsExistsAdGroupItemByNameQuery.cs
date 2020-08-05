@@ -6,10 +6,12 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Queries.IsExistsAdGroupIte
     public class IsExistsAdGroupItemByNameQuery : IRequest<HttpResult<bool>>
     {
         public string Name { get; set; }
+        public long AdGroupId { get; set; }
 
-        public IsExistsAdGroupItemByNameQuery(string name)
+        public IsExistsAdGroupItemByNameQuery(string name, long adGroupId)
         {
             Name = name;
+            AdGroupId = adGroupId;
         }
     }
 }
