@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Commands.CreateAdGroupItem
                 {
                     var result = await Mediator.Send(new IsExistsAdGroupItemByNameQuery(name: value.Name, adGroupId: value.AdGroupId), CancellationToken);
                     if (result.Ok)
-                        context.AddFailure($"'{context.PropertyName}' already exists.");
+                        context.AddFailure($"Item '{value.Name}' already exists.");
                 });
 
             RuleFor(p => p.Description)
