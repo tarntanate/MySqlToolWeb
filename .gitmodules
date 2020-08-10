@@ -1,0 +1,3 @@
+[submodule "submodules/ookbee-auth"]
+	path = submodules/ookbee-auth
+	url = https://gitlab.com/ookbee/ookbee-auth.git
