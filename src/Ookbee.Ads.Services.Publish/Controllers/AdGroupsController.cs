@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
 {
     [ApiController]
     [Route("api/ad-groups")]
-    public class AdGroupController : ApiController
+    public class AdGroupsController : ApiController
     {
         [HttpGet("{adGroupId}")]
         public async Task<HttpResult<GroupItemDto>> Get([FromRoute] long adGroupId)
