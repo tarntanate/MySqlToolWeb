@@ -1,6 +1,4 @@
 using Newtonsoft.Json;
-using Ookbee.Ads.Infrastructure.Enums;
-using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Banner
 {

@@ -4,8 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ookbee.Ads.Application.Extensions.Builder;
 using Ookbee.Ads.Application.Extensions.DependencyInjection;
+using Ookbee.Ads.Application.Infrastructure;
 
-namespace Ookbee.Ads.Services.Banner
+namespace Ookbee.Ads.Services.Publish
 {
     public class Startup
     {
@@ -19,6 +20,7 @@ namespace Ookbee.Ads.Services.Banner
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
+            services.AddHostedService<CacheService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

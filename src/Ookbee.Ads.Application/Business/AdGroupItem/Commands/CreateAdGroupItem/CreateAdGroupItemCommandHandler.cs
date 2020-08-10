@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGroupItemListByKey;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -37,6 +38,8 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Commands.CreateAdGroupItem
             var entity = Mapper.Map<AdGroupItemEntity>(request);
             await AdGroupItemDbRepo.InsertAsync(entity);
             await AdGroupItemDbRepo.SaveChangesAsync();
+
+            await Mediator.Send(new CreateGroupItemListByKeyCommand(request.AdGroupId));
 
             return result.Success(entity.Id, entity.Id, entity);
         }

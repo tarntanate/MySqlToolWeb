@@ -5,7 +5,7 @@ using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Services.Banner.Controllers
+namespace Ookbee.Ads.Services.Publish.Controllers
 {
     [ApiController]
     [Route("api/ad-units")]

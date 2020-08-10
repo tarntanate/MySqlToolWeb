@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Ookbee.Ads.Application.Business.AdGroup.Queries.IsExistsAdGroupById;
 
 namespace Ookbee.Ads.Application.Business.AdGroupItem.Queries.GetAdGroupItemList
 {
@@ -20,8 +21,16 @@ namespace Ookbee.Ads.Application.Business.AdGroupItem.Queries.GetAdGroupItemList
                 .LessThanOrEqualTo(100);
 
             RuleFor(p => p.AdGroupId)
-                .NotNull()
-                .NotEmpty();
+                .GreaterThan(0)
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    if (value != null)
+                    {
+                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdGroupByIdQuery(value.Value), cancellationToken);
+                        if (!isExistsAdUnitResult.Ok)
+                            context.AddFailure(isExistsAdUnitResult.Message);
+                    }
+                });
         }
     }
 }

@@ -37,38 +37,6 @@
             }
         },
         {
-            "name": "Serv.Banner-loc",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Banner/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Banner.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false,
-            "requireExactSource": false,
-            "stopAtEntry": false,
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Localhost",
-                "ASPNETCORE_URLS": "http://localhost:5040/"
-            }
-        },
-        {
-            "name": "Serv.Banner-dev",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Banner/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Banner.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false,
-            "requireExactSource": false,
-            "stopAtEntry": false,
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:5040/"
-            }
-        },
-        {
             "name": "Serv.Identity-loc",
             "type": "coreclr",
             "request": "launch",
@@ -130,6 +98,38 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_URLS": "http://localhost:5020/"
+            }
+        },
+        {
+            "name": "Serv.Publish-loc",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Publish/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Publish.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Localhost",
+                "ASPNETCORE_URLS": "http://localhost:5040/"
+            }
+        },
+        {
+            "name": "Serv.Publish-dev",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Publish/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Publish.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false,
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5040/"
             }
         }
     ]

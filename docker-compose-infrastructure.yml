@@ -7,7 +7,7 @@ services:
         container_name: mongo
         environment:
             - MONGO_INITDB_ROOT_USERNAME=admin
-            - MONGO_INITDB_ROOT_PASSWORD=pwd1234
+            - MONGO_INITDB_ROOT_PASSWORD=1234
             - MONGO_INITDB_DATABASE=ookbee-ads
         ports:
             - 27017:27017
@@ -21,7 +21,7 @@ services:
         container_name: postgres
         environment:
             - POSTGRES_USER=admin
-            - POSTGRES_PASSWORD=pwd1234
+            - POSTGRES_PASSWORD=1234
             - POSTGRES_DB=ookbee-ads
         ports:
             - 5432:5432
@@ -34,7 +34,7 @@ services:
     redis:
         image: redis
         container_name: redis
-        command: redis-server --requirepass pwd1234
+        command: redis-server --requirepass 1234
         ports:
             - 6379:6379
         networks:
