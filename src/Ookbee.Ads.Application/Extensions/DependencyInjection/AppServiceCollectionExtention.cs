@@ -52,10 +52,9 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             services.AddAllowedHosts(configuration);
 
             // Health
-            services.AddHealthChecks()
-                    .AddMongoDb(appsettings.ConnectionStrings.MongoDB.Ads)
-                    .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
-                    .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
+            // services.AddHealthChecks()
+            //         .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
+            //         .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
 
             // EFCore
             services.AddDbContext<AdsDbContext>();

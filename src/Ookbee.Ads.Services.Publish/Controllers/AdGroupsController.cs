@@ -12,7 +12,14 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     public class AdGroupsController : ApiController
     {
         [HttpGet("{adGroupId}")]
-        public async Task<HttpResult<GroupItemDto>> Get([FromRoute] long adGroupId)
-            => await Mediator.Send(new GetGroupItemListByKeyQuery(adGroupId));
+        public async Task<ContentResult> Get([FromRoute] long adGroupId)
+        {
+            var getGroupItemListByKey = await Mediator.Send(new GetGroupItemListByKeyQuery(adGroupId));
+            return Content(getGroupItemListByKey.Data, "application/json");
+        }
+
+        // [HttpGet("{adGroupId}")]
+        // public async Task<HttpResult<GroupItemDto>> Get([FromRoute] long adGroupId)
+        //     => await Mediator.Send(new GetGroupItemListByKeyQuery(adGroupId));
     }
 }

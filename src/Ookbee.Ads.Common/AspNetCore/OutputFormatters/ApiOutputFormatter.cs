@@ -36,8 +36,8 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
                     responseBody = new
                     {
                         Data = IsEnumnerable(objType)
-                             ? new { items = obj }
-                             : obj
+                            ? new { items = obj }
+                            : obj
                     };
                 }
                 else
@@ -47,8 +47,8 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
                     {
                         message = "One or more errors occurred while processing the request.",
                         errors = reasons.Count > 0
-                                ? obj.Reasons
-                                : new string[] { obj.Message }
+                            ? obj.Reasons
+                            : new string[] { obj.Message }
                     };
                 }
             }

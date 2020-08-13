@@ -3,7 +3,7 @@ using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroupItemListByKey
 {
-    public class GetGroupItemListByKeyQuery : IRequest<HttpResult<GroupItemDto>>
+    public class GetGroupItemListByKeyQuery : IRequest<HttpResult<string>>
     {
         public long AdGroupId { get; set; }
 
