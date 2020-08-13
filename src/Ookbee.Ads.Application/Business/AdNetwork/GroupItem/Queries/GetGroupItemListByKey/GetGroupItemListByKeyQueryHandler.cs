@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -25,30 +26,13 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroup
         {
             var result = new HttpResult<string>();
 
-            var redisKey = $"AD_GROUP_{request.AdGroupId}_ITEMS";
+            var redisKey = CacheKey.GroupItemList(request.AdGroupId);
             var redisValue = await AdsRedis.StringGetAsync(redisKey);
 
             if (redisValue.HasValue)
                 return result.Success(redisValue);
 
-            return result.Fail(404, "Data not found.");
+            return result.Fail(404, $"AdGroup '{request.AdGroupId}' doesn't exist.");
         }
-
-        // public async Task<HttpResult<GroupItemDto>> Handle(GetGroupItemListByKeyQuery request, CancellationToken cancellationToken)
-        // {
-        //     var result = new HttpResult<GroupItemDto>();
-
-        //     var redisKey = $"AD_GROUP_{request.AdGroupId}_ITEMS";
-        //     var redisValue = await AdsRedis.StringGetAsync(redisKey);
-
-        //     if (redisValue.HasValue)
-        //     {
-        //         var adNetworkGroup = new GroupItemDto();
-        //         adNetworkGroup.AdUnits = JsonHelper.Deserialize<IEnumerable<GroupItemUnitDto>>(redisValue);
-        //         return result.Success(adNetworkGroup);
-        //     }
-
-        //     return result.Fail(404, "Data not found.");
-        // }
     }
 }

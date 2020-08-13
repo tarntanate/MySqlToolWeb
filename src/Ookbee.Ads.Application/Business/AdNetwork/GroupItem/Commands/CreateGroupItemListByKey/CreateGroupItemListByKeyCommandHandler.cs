@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdGroupItem.Queries.GetAdGroupItemList;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
@@ -44,7 +45,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGro
             if (getAdGroupItemList.Data.HasValue())
             {
                 var data = Mapper.Map<List<GroupItemUnitDto>>(getAdGroupItemList.Data);
-                var redisKey = $"AD_GROUP_{request.AdGroupId}_ITEMS";
+                var redisKey = CacheKey.GroupItemList(request.AdGroupId);
                 var redisValue = JsonHelper.Serialize(data);
                 var isSuccess = AdsRedis.StringSet(redisKey, redisValue);
                 return result.Success(isSuccess);
