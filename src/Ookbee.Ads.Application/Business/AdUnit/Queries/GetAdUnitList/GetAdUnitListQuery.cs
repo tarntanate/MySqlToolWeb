@@ -6,17 +6,15 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
 {
     public class GetAdUnitListQuery : IRequest<HttpResult<IEnumerable<AdUnitDto>>>
     {
-        public long? AdUnitTypeId { get; set; }
-        public long? PublisherId { get; set; }
         public int Start { get; set; }
         public int Length { get; set; }
+        public long? AdGroupId { get; set; }
 
-        public GetAdUnitListQuery(int start, int length, long? adUnitTypeId, long? publisherId)
+        public GetAdUnitListQuery(int start, int length, long? adGroupId)
         {
             Start = start;
             Length = length;
-            AdUnitTypeId = adUnitTypeId;
-            PublisherId = publisherId;
+            AdGroupId = adGroupId;
         }
     }
 }

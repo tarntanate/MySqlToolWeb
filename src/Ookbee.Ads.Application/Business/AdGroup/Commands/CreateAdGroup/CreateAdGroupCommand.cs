@@ -7,6 +7,8 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Commands.CreateAdGroup
     {
         public CreateAdGroupCommand(CreateAdGroupRequest request)
         {
+            AdUnitTypeId = request.AdUnitTypeId;
+            PublisherId = request.PublisherId;
             Name = request.Name;
             Description = request.Description;
         }

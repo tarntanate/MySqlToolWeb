@@ -1,22 +1,17 @@
-using Newtonsoft.Json;
-using Ookbee.Ads.Application.Business.AdUnitType;
-using Ookbee.Ads.Application.Business.Publisher;
+using Ookbee.Ads.Application.Business.AdGroup;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Infrastructure.Enums;
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Business.AdUnit
 {
     public class AdUnitDto : DefaultDto
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public AdUnitTypeDto AdUnitType { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public PublisherDto Publisher { get; set; }
+        public AdGroupDto AdGroup { get; set; }
+        public string AdNetwork { get; set; }
+        public string AdNetworkUnitId { get; set; }
+        public int? SortSeq { get; set; }
 
         public static Expression<Func<AdUnitEntity, AdUnitDto>> Projection
         {
@@ -25,19 +20,14 @@ namespace Ookbee.Ads.Application.Business.AdUnit
                 return entity => new AdUnitDto()
                 {
                     Id = entity.Id,
-                    Name = entity.Name,
-                    Description = entity.Description,
-                    AdUnitType = new AdUnitTypeDto()
+                    AdNetwork = entity.AdNetwork,
+                    AdNetworkUnitId = entity.AdNetworkUnitId,
+                    SortSeq = entity.SortSeq,
+                    AdGroup = new AdGroupDto()
                     {
-                        Id = entity.AdUnitType.Id,
-                        Name = entity.AdUnitType.Name,
-                        Description = entity.AdUnitType.Description
-                    },
-                    Publisher = new PublisherDto()
-                    {
-                        Id = entity.Publisher.Id,
-                        Name = entity.Publisher.Name,
-                        Description = entity.Publisher.Description
+                        Id = entity.AdGroup.Id,
+                        Name = entity.AdGroup.Name,
+                        Description = entity.AdGroup.Description
                     }
                 };
             }

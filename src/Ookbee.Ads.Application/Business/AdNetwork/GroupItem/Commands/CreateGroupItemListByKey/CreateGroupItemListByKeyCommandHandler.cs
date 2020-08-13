@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdGroupItem.Queries.GetAdGroupItemList;
+using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
@@ -19,18 +19,18 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGro
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
-        private AdsDbRepository<AdGroupItemEntity> AdGroupItemDbRepo { get; }
+        private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
         private IDatabase AdsRedis { get; }
 
         public CreateGroupItemListByKeyCommandHandler(
             IMapper mapper,
             IMediator mediator,
-            AdsDbRepository<AdGroupItemEntity> adGroupItemDbRepo,
+            AdsDbRepository<AdUnitEntity> adUnitDbRepo,
             AdsRedisContext adsRedis)
         {
             Mapper = mapper;
             Mediator = mediator;
-            AdGroupItemDbRepo = adGroupItemDbRepo;
+            AdUnitDbRepo = adUnitDbRepo;
             AdsRedis = adsRedis.Database();
         }
 
@@ -38,13 +38,13 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGro
         {
             var result = new HttpResult<bool>();
 
-            var getAdGroupItemList = await Mediator.Send(new GetAdGroupItemListQuery(0, 100, request.AdGroupId));
-            if (!getAdGroupItemList.Ok)
-                return result.Fail(getAdGroupItemList.StatusCode, getAdGroupItemList.Message);
+            var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(0, 100, request.AdGroupId));
+            if (!getAdUnitList.Ok)
+                return result.Fail(getAdUnitList.StatusCode, getAdUnitList.Message);
 
-            if (getAdGroupItemList.Data.HasValue())
+            if (getAdUnitList.Data.HasValue())
             {
-                var data = Mapper.Map<List<GroupItemUnitDto>>(getAdGroupItemList.Data);
+                var data = Mapper.Map<List<GroupItemUnitDto>>(getAdUnitList.Data);
                 var redisKey = CacheKey.GroupItemList(request.AdGroupId);
                 var redisValue = JsonHelper.Serialize(data);
                 var isSuccess = AdsRedis.StringSet(redisKey, redisValue);

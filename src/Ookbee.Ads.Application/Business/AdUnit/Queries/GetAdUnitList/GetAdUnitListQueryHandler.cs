@@ -32,16 +32,13 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
             var predicate = PredicateBuilder.True<AdUnitEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
 
-            if (request.AdUnitTypeId.HasValue() && request.AdUnitTypeId > 0)
-                predicate = predicate.And(f => f.AdUnitTypeId == request.AdUnitTypeId);
-
-            if (request.PublisherId.HasValue() && request.PublisherId > 0)
-                predicate = predicate.And(f => f.PublisherId == request.PublisherId);
+            if (request.AdGroupId.HasValue())
+                predicate = predicate.And(f => f.AdGroupId == request.AdGroupId);
 
             var items = await AdUnitDbRepo.FindAsync(
                 selector: AdUnitDto.Projection,
                 filter: predicate,
-                orderBy: f => f.OrderBy(o => o.Name),
+                orderBy: f => f.OrderBy(o => o.SortSeq),
                 start: request.Start,
                 length: request.Length
             );

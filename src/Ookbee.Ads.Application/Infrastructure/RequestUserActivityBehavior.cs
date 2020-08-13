@@ -3,7 +3,6 @@ using Ookbee.Ads.Application.Business.ActivityLog.Commands.CreateActivityLog;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Infrastructure.Enums;
 using System;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 

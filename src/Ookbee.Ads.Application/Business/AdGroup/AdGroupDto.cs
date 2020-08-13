@@ -1,3 +1,5 @@
+using Ookbee.Ads.Application.Business.AdUnitType;
+using Ookbee.Ads.Application.Business.Publisher;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
@@ -9,6 +11,8 @@ namespace Ookbee.Ads.Application.Business.AdGroup
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public AdUnitTypeDto AdUnitType { get; set; }
+        public PublisherDto Publisher { get; set; }
 
         public static Expression<Func<AdGroupEntity, AdGroupDto>> Projection
         {
@@ -18,7 +22,19 @@ namespace Ookbee.Ads.Application.Business.AdGroup
                 {
                     Id = entity.Id,
                     Name = entity.Name,
-                    Description = entity.Description
+                    Description = entity.Description,
+                    AdUnitType = new AdUnitTypeDto()
+                    {
+                        Id = entity.AdUnitType.Id,
+                        Name = entity.AdUnitType.Name,
+                        Description = entity.AdUnitType.Description
+                    },
+                    Publisher = new PublisherDto()
+                    {
+                        Id = entity.Publisher.Id,
+                        Name = entity.Publisher.Name,
+                        Description = entity.Publisher.Description
+                    }
                 };
             }
         }

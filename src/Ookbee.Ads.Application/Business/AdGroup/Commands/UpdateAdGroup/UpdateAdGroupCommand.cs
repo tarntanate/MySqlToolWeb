@@ -10,6 +10,8 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Commands.UpdateAdGroup
         public UpdateAdGroupCommand(long id, UpdateAdGroupRequest request)
         {
             Id = id;
+            AdUnitTypeId = request.AdUnitTypeId;
+            PublisherId = request.PublisherId;
             Name = request.Name;
             Description = request.Description;
         }

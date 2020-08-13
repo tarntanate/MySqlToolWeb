@@ -2,33 +2,19 @@
 /* Add sequences                                                          */
 /* ---------------------------------------------------------------------- */
 
-CREATE SEQUENCE "public"."SEQ_ActivityLog" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_Advertiser" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_Ad" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_AdAsset" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_AdUnit" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_AdUnitType" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_Campaign" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_CampaignCost" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_CampaignImpression" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_Publisher" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_AdGroup" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_AdGroupItem" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_UserPermission" INCREMENT 1 MINVALUE 0 START 0;
-
-CREATE SEQUENCE "public"."SEQ_UserRole" INCREMENT 1 MINVALUE 0 START 0;
+CREATE SEQUENCE "public"."SEQ_ActivityLog" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_Advertiser" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_Ad" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_AdAsset" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_AdGroup" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_AdUnit" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_AdUnitType" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_Campaign" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_CampaignCost" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_CampaignImpression" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_Publisher" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_UserPermission" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_UserRole" INCREMENT 1 START 1;
 
 /* ---------------------------------------------------------------------- */
 /* Add tables                                                             */
@@ -40,6 +26,8 @@ CREATE SEQUENCE "public"."SEQ_UserRole" INCREMENT 1 MINVALUE 0 START 0;
 
 CREATE TABLE "public"."AdGroup" (
     "Id" INTEGER DEFAULT nextval('"SEQ_AdGroup"') NOT NULL,
+    "AdUnitTypeId" INTEGER NOT NULL,
+    "PublisherId" INTEGER NOT NULL,
     "Name" CHARACTER VARYING(40) NOT NULL,
     "Description" CHARACTER VARYING(500),
     "CreatedAt" TIMESTAMP,
@@ -49,25 +37,7 @@ CREATE TABLE "public"."AdGroup" (
 );
 
 CREATE INDEX "IDX_AdGroup_1" ON "public"."AdGroup" ("DeletedAt","Id");
-
-/* ---------------------------------------------------------------------- */
-/* Add table "public"."AdGroupItem"                                       */
-/* ---------------------------------------------------------------------- */
-
-CREATE TABLE "public"."AdGroupItem" (
-    "Id" INTEGER DEFAULT nextval('"SEQ_AdGroupItem"') NOT NULL,
-    "AdGroupId" INTEGER NOT NULL,
-    "AdUnitKey" CHARACTER VARYING(40) NOT NULL,
-    "Name" CHARACTER VARYING(40) NOT NULL,
-    "Description" CHARACTER VARYING(500) NOT NULL,
-    "SortSeq" INTEGER,
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
-    CONSTRAINT "PK_AdGroupItem" PRIMARY KEY ("Id")
-);
-
-CREATE INDEX "IDX_AdGroupItem_1" ON "public"."AdGroupItem" ("DeletedAt","AdGroupId","Id");
+CREATE INDEX "IDX_AdGroup_2" ON "public"."AdGroup" ("DeletedAt","AdUnitTypeId","PublisherId");
 
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."AdUnitType"                                        */
@@ -84,7 +54,6 @@ CREATE TABLE "public"."AdUnitType" (
 );
 
 CREATE INDEX "IDX_AdUnitType_1" ON "public"."AdUnitType" ("DeletedAt","Id");
-
 CREATE INDEX "IDX_AdUnitType_2" ON "public"."AdUnitType" ("DeletedAt","Name");
 
 /* ---------------------------------------------------------------------- */
@@ -106,7 +75,6 @@ CREATE TABLE "public"."Advertiser" (
 );
 
 CREATE INDEX "IDX_Advertiser_1" ON "public"."Advertiser" ("DeletedAt","Id");
-
 CREATE INDEX "IDX_Advertiser_2" ON "public"."Advertiser" ("DeletedAt","Name");
 
 /* ---------------------------------------------------------------------- */
@@ -173,8 +141,26 @@ CREATE TABLE "public"."Publisher" (
 );
 
 CREATE INDEX "IDX_Publisher_1" ON "public"."Publisher" ("DeletedAt","Id");
-
 CREATE INDEX "IDX_Publisher_2" ON "public"."Publisher" ("DeletedAt","Name");
+
+/* ---------------------------------------------------------------------- */
+/* Add table "public"."AdUnit"                                            */
+/* ---------------------------------------------------------------------- */
+
+CREATE TABLE "public"."AdUnit" (
+    "Id" INTEGER DEFAULT nextval('"SEQ_AdUnit"') NOT NULL,
+    "AdGroupId" INTEGER NOT NULL,
+    "AdNetwork" CHARACTER VARYING(10) NOT NULL,
+    "AdNetworkUnitId" CHARACTER VARYING(50) NULL,
+    "SortSeq" INTEGER,
+    "CreatedAt" TIMESTAMP,
+    "UpdatedAt" TIMESTAMP,
+    "DeletedAt" TIMESTAMP,
+    CONSTRAINT "PK_AdUnit" PRIMARY KEY ("Id")
+);
+
+CREATE INDEX "IDX_AdUnit_1" ON "public"."AdUnit" ("DeletedAt","Id");
+CREATE INDEX "IDX_AdUnit_2" ON "public"."AdUnit" ("DeletedAt","AdGroupId","AdNetwork");
 
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."User"                                              */
@@ -182,9 +168,9 @@ CREATE INDEX "IDX_Publisher_2" ON "public"."Publisher" ("DeletedAt","Name");
 
 CREATE TABLE "public"."User" (
     "Id" INTEGER NOT NULL,
-    "User" CHARACTER VARYING(40) NOT NULL,
-    "DisplayName" CHARACTER(40),
-    "AvatarUrl" CHARACTER(255),
+    "UserName" CHARACTER VARYING(40) NOT NULL,
+    "DisplayName" CHARACTER VARYING(40),
+    "AvatarUrl" CHARACTER VARYING(255),
     "CreatedAt" TIMESTAMP,
     "UpdatedAt" TIMESTAMP,
     "DeletedAt" TIMESTAMP,
@@ -208,7 +194,6 @@ CREATE TABLE "public"."UserRole" (
 );
 
 CREATE INDEX "IDX_UserRole_1" ON "public"."UserRole" ("DeletedAt","Id");
-
 CREATE INDEX "IDX_UserRole_2" ON "public"."UserRole" ("DeletedAt","Name");
 
 /* ---------------------------------------------------------------------- */
@@ -231,37 +216,14 @@ CREATE TABLE "public"."ActivityLog" (
     "Activity" CHARACTER VARYING(10) NOT NULL,
     "ObjectType" CHARACTER VARYING(40),
     "ObjectId" CHARACTER VARYING(40) NOT NULL,
-    "ObjectData" CHARACTER,
+    "ObjectData" JSONB NOT NULL,
     "CreatedAt" TIMESTAMP,
     CONSTRAINT "PK_ActivityLog" PRIMARY KEY ("Id"),
     CONSTRAINT "TCC_Activity_1" CHECK ("Activity" = ANY ((ARRAY['Create', 'Read', 'Update', 'Delete'])::CHARACTER VARYING[]))
 );
 
 CREATE INDEX "IDX_ActivityLog_1" ON "public"."ActivityLog" ("ObjectType","ObjectId");
-
 CREATE INDEX "IDX_ActivityLog_2" ON "public"."ActivityLog" ("ObjectType","UserId");
-
-/* ---------------------------------------------------------------------- */
-/* Add table "public"."AdUnit"                                            */
-/* ---------------------------------------------------------------------- */
-
-CREATE TABLE "public"."AdUnit" (
-    "Id" INTEGER DEFAULT nextval('"SEQ_AdUnit"') NOT NULL,
-    "AdUnitTypeId" INTEGER NOT NULL,
-    "PublisherId" INTEGER NOT NULL,
-    "Name" CHARACTER VARYING(40) NOT NULL,
-    "Description" CHARACTER VARYING(500) NOT NULL,
-    "AdNetworks" CHARACTER VARYING(10) ARRAY,
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
-    CONSTRAINT "PK_AdUnit" PRIMARY KEY ("Id"),
-    CONSTRAINT "TCC_AdUnit_1" CHECK ("AdNetworks" <@ ARRAY['AdMob', 'Appodeal']::CHARACTER VARYING[])
-);
-
-CREATE INDEX "IDX_AdUnit_1" ON "public"."AdUnit" ("DeletedAt","Id");
-
-CREATE INDEX "IDX_AdUnit_2" ON "public"."AdUnit" ("DeletedAt","AdUnitTypeId","PublisherId","Name");
 
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."UserPermission"                                    */
@@ -271,10 +233,10 @@ CREATE TABLE "public"."UserPermission" (
     "Id" INTEGER DEFAULT nextval('"SEQ_UserPermission"') NOT NULL,
     "RoleId" INTEGER NOT NULL,
     "ExtensionName" CHARACTER VARYING(40) NOT NULL,
-    "IsCreate" BOOLEAN DEFAULT false NOT NULL,
-    "IsRead" BOOLEAN DEFAULT false NOT NULL,
-    "IsUpdate" BOOLEAN DEFAULT false NOT NULL,
-    "IsDelete" BOOLEAN DEFAULT false NOT NULL,
+    "IsCreate" BOOLEAN DEFAULT FALSE NOT NULL,
+    "IsRead" BOOLEAN DEFAULT FALSE NOT NULL,
+    "IsUpdate" BOOLEAN DEFAULT FALSE NOT NULL,
+    "IsDelete" BOOLEAN DEFAULT FALSE NOT NULL,
     CONSTRAINT "PK_UserPermission" PRIMARY KEY ("Id")
 );
 
@@ -307,7 +269,6 @@ CREATE TABLE "public"."Ad" (
 );
 
 CREATE INDEX "IDX_Ad_1" ON "public"."Ad" ("DeletedAt","Id");
-
 CREATE INDEX "IDX_Ad_2" ON "public"."Ad" ("DeletedAt","AdUnitId","CampaignId","Status");
 
 /* ---------------------------------------------------------------------- */
@@ -337,34 +298,34 @@ CREATE INDEX "IDX_AdAsset_1" ON "public"."AdAsset" ("DeletedAt","AdId","Position
 ALTER TABLE "public"."ActivityLog" ADD CONSTRAINT "FK_ActivityLog_User"
     FOREIGN KEY ("UserId") REFERENCES "public"."User" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "public"."Ad" ADD CONSTRAINT "FK_Campaign_Ad"
+ALTER TABLE "public"."Ad" ADD CONSTRAINT "FK_Ad_Campaign"
     FOREIGN KEY ("CampaignId") REFERENCES "public"."Campaign" ("Id");
 
-ALTER TABLE "public"."Ad" ADD CONSTRAINT "FK_AdUnit_Ad" 
+ALTER TABLE "public"."Ad" ADD CONSTRAINT "FK_Ad_AdUnit" 
     FOREIGN KEY ("AdUnitId") REFERENCES "public"."AdUnit" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "public"."AdAsset" ADD CONSTRAINT "FK_Ad_AdAsset" 
+ALTER TABLE "public"."AdAsset" ADD CONSTRAINT "FK_AdAsset_Ad" 
     FOREIGN KEY ("AdId") REFERENCES "public"."Ad" ("Id");
 
-ALTER TABLE "public"."AdGroupItem" ADD CONSTRAINT "FK_AdGroupItem_AdGroup" 
-    FOREIGN KEY ("AdGroupId") REFERENCES "public"."AdGroup" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "public"."AdUnit" ADD CONSTRAINT "FK_Publisher_AdUnit" 
+ALTER TABLE "public"."AdGroup" ADD CONSTRAINT "FK_AdGroup_Publisher" 
     FOREIGN KEY ("PublisherId") REFERENCES "public"."Publisher" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "public"."AdUnit" ADD CONSTRAINT "FK_AdUnitType_AdUnit"
+ALTER TABLE "public"."AdGroup" ADD CONSTRAINT "FK_AdGroup_AdUnitType"
     FOREIGN KEY ("AdUnitTypeId") REFERENCES "public"."AdUnitType" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "public"."Campaign" ADD CONSTRAINT "FK_Advertiser_Campaign" 
+ALTER TABLE "public"."AdUnit" ADD CONSTRAINT "FK_AdUnit_AdGroup"
+    FOREIGN KEY ("AdGroupId") REFERENCES "public"."AdGroup" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "public"."Campaign" ADD CONSTRAINT "FK_Campaign_Advertiser" 
     FOREIGN KEY ("AdvertiserId") REFERENCES "public"."Advertiser" ("Id");
 
-ALTER TABLE "public"."CampaignCost" ADD CONSTRAINT "FK_Campaign_CampaignCost"
+ALTER TABLE "public"."CampaignCost" ADD CONSTRAINT "FK_CampaignCost_Campaign"
     FOREIGN KEY ("CampaignId") REFERENCES "public"."Campaign" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "public"."CampaignImpression" ADD CONSTRAINT "FK_Campaign_CampaignImpression" 
+ALTER TABLE "public"."CampaignImpression" ADD CONSTRAINT "FK_CampaignImpression_Campaign" 
     FOREIGN KEY ("CampaignId") REFERENCES "public"."Campaign" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "public"."UserPermission" ADD CONSTRAINT "FK_UserRole_UserPermission"
+ALTER TABLE "public"."UserPermission" ADD CONSTRAINT "FK_UserPermission_UserRole"
     FOREIGN KEY ("Id") REFERENCES "public"."UserRole" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "public"."UserRoleMapping" ADD CONSTRAINT "FK_UserRoleMapping_User" 
@@ -372,3 +333,11 @@ ALTER TABLE "public"."UserRoleMapping" ADD CONSTRAINT "FK_UserRoleMapping_User"
 
 ALTER TABLE "public"."UserRoleMapping" ADD CONSTRAINT "FK_UserRoleMapping_UserRole" 
     FOREIGN KEY ("RoleId") REFERENCES "public"."UserRole" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+/* ---------------------------------------------------------------------- */
+/* Add data                                           */
+/* ---------------------------------------------------------------------- */
+   
+INSERT INTO public."User" ("Id","UserName","DisplayName","AvatarUrl","CreatedAt","UpdatedAt","DeletedAt") VALUES 
+(6383511,'nat@ookbee.com','แมวเซง','https://albertpotjes.files.wordpress.com/2014/07/10492317_649860621770493_5460005525881717072_n.jpg                                                                                                                                                            ','2020-08-13 10:34:31.740',NULL,NULL)
+;

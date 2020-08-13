@@ -10,10 +10,10 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.UpdateAdUnit
         public UpdateAdUnitCommand(long id, UpdateAdUnitRequest request)
         {
             Id = id;
-            AdUnitTypeId = request.AdUnitTypeId;
-            PublisherId = request.PublisherId;
-            Name = request.Name;
-            Description = request.Description;
+            AdGroupId = request.AdGroupId;
+            AdNetwork = request.AdNetwork;
+            AdNetworkUnitId = request.AdNetworkUnitId;
+            SortSeq = request.SortSeq;
         }
     }
 }

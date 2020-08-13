@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Analyti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Identity", "src\Ookbee.Ads.Services.Identity\Ookbee.Ads.Services.Identity.csproj", "{3ED517F9-4CD5-4FD8-B997-6279271A5031}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Manager", "src\Ookbee.Ads.Services.Manager\Ookbee.Ads.Services.Manager.csproj", "{C0CC04C9-EFE3-4957-A863-9AAEDCB9EFD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Management", "src\Ookbee.Ads.Services.Management\Ookbee.Ads.Services.Management.csproj", "{C0CC04C9-EFE3-4957-A863-9AAEDCB9EFD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ookbee.Ads.Services.Publish", "src\Ookbee.Ads.Services.Publish\Ookbee.Ads.Services.Publish.csproj", "{E854BF65-32F8-453D-A447-D2BBF1158DE0}"
 EndProject

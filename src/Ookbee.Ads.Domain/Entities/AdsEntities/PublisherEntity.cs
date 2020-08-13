@@ -14,6 +14,6 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual List<AdUnitEntity> AdUnits { get; set; }
+        public virtual List<AdGroupEntity> AdGroups { get; set; }
     }
 }

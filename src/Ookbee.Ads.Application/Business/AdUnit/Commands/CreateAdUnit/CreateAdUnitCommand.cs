@@ -7,10 +7,10 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
     {
         public CreateAdUnitCommand(CreateAdUnitRequest request)
         {
-            AdUnitTypeId = request.AdUnitTypeId;
-            PublisherId = request.PublisherId;
-            Name = request.Name;
-            Description = request.Description;
+            AdGroupId = request.AdGroupId;
+            AdNetwork = request.AdNetwork;
+            AdNetworkUnitId = request.AdNetworkUnitId;
+            SortSeq = request.SortSeq;
         }
     }
 }

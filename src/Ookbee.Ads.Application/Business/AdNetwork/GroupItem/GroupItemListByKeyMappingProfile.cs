@@ -1,4 +1,5 @@
 using AutoMapper;
+using Ookbee.Ads.Application.Business.AdUnit;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroupItemListByKey
 {
@@ -6,9 +7,9 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroup
     {
         public GroupItemListByKeyMappingProfile()
         {
-            CreateMap<Business.AdGroupItem.AdGroupItemDto, GroupItemUnitDto>()
-                .ForMember(dest => dest.AdNetwork, m => m.MapFrom(src => src.Name))
-                .ForMember(dest => dest.AdUnitId, m => m.MapFrom(src => src.AdUnitKey));
+            CreateMap<AdUnitDto, GroupItemUnitDto>()
+                .ForMember(dest => dest.AdNetwork, m => m.MapFrom(src => src.AdNetwork))
+                .ForMember(dest => dest.AdNetworkUnitId, m => m.MapFrom(src => src.AdNetworkUnitId));
         }
     }
 }

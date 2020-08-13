@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Ookbee.Ads.Application.Business.AdAsset;
+using Ookbee.Ads.Application.Business.AdGroup;
 using Ookbee.Ads.Application.Business.AdUnit;
 using Ookbee.Ads.Application.Business.AdUnitType;
 using Ookbee.Ads.Application.Business.Advertiser;
@@ -19,7 +20,6 @@ namespace Ookbee.Ads.Application.Business.Ad
         public string Name { get; set; }
         public string Description { get; set; }
         public AdStatus Status { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? CountdownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
@@ -49,19 +49,14 @@ namespace Ookbee.Ads.Application.Business.Ad
                     AdUnit = new AdUnitDto()
                     {
                         Id = entity.AdUnit.Id,
-                        Name = entity.AdUnit.Name,
-                        Description = entity.AdUnit.Description,
-                        AdUnitType = new AdUnitTypeDto()
+                        AdNetwork = entity.AdUnit.AdNetwork,
+                        AdNetworkUnitId = entity.AdUnit.AdNetworkUnitId,
+                        SortSeq = entity.AdUnit.SortSeq,
+                        AdGroup = new AdGroupDto()
                         {
-                            Id = entity.AdUnit.AdUnitType.Id,
-                            Name = entity.AdUnit.AdUnitType.Name,
-                            Description = entity.AdUnit.AdUnitType.Description,
-                        },
-                        Publisher = new PublisherDto()
-                        {
-                            Id = entity.AdUnit.Publisher.Id,
-                            Name = entity.AdUnit.Publisher.Name,
-                            Description = entity.AdUnit.Publisher.Description,
+                            Id = entity.AdUnit.AdGroup.Id,
+                            Name = entity.AdUnit.AdGroup.Name,
+                            Description = entity.AdUnit.AdGroup.Description,
                         }
                     },
                     Campaign = new CampaignDto()

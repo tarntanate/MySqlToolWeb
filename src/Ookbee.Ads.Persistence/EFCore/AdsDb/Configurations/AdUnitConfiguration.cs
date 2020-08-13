@@ -14,16 +14,6 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
         {
             builder.HasKey(e => e.Id);
 
-            builder.HasOne(e => e.AdUnitType)
-                   .WithMany(e => e.AdUnits)
-                   .HasForeignKey(e => e.AdUnitTypeId)
-                   .IsRequired();
-
-            builder.HasOne(e => e.Publisher)
-                   .WithMany(e => e.AdUnits)
-                   .HasForeignKey(e => e.PublisherId)
-                   .IsRequired();
-
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();
         }

@@ -85,7 +85,7 @@ namespace Ookbee.Ads.Application.Business.Banner.Queries.GetAdUnitById
                 Clicks = new List<string>(),
                 Impressions = !ad.HasValue() ? new List<string>() : ad.Analytics.ToList<string>(),
             };
-            banner.AdUnitType = getAdUnitById.Data.AdUnitType.Name;
+            //banner.AdUnitType = getAdUnitById.Data.AdUnitType.Name;
 
             if (banner?.Analytics != null)
             {

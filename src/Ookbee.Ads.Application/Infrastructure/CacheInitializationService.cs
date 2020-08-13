@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupList;
 using Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGroupItemListByKey;
+using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList;
 using System;
 using System.Linq;
 using System.Threading;
@@ -33,16 +33,16 @@ namespace Ookbee.Ads.Application.Infrastructure
                         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
                         do
                         {
-                            var getAdGroupList = await mediator.Send(new GetAdGroupListQuery(start, length), cancellationToken);
-                            if (getAdGroupList.Ok)
+                            var getAdUnitList = await mediator.Send(new GetAdUnitListQuery(start, length, null), cancellationToken);
+                            if (getAdUnitList.Ok)
                             {
-                                foreach (var group in getAdGroupList.Data)
+                                foreach (var group in getAdUnitList.Data)
                                 {
                                     await mediator.Send(new CreateGroupItemListByKeyCommand(group.Id));
                                 }
                             }
                             start += length;
-                            isExits = getAdGroupList.Data.Count() == length ? true : false;
+                            isExits = getAdUnitList.Data.Count() == length ? true : false;
                         }
                         while (isExits);
                     }

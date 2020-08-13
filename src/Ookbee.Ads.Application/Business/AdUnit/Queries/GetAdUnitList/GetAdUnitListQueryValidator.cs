@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdUnitType.Queries.IsExistsAdUnitTypeById;
-using Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherById;
+using Ookbee.Ads.Application.Business.AdGroup.Queries.IsExistsAdGroupById;
 
 namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
 {
@@ -21,27 +20,15 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
                 .GreaterThan(0)
                 .LessThanOrEqualTo(100);
 
-            RuleFor(p => p.AdUnitTypeId)
+            RuleFor(p => p.AdGroupId)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     if (value != null)
                     {
-                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsAdUnitResult.Ok)
-                            context.AddFailure(isExistsAdUnitResult.Message);
-                    }
-                });
-
-            RuleFor(p => p.PublisherId)
-                .GreaterThan(0)
-                .CustomAsync(async (value, context, cancellationToken) =>
-                {
-                    if (value != null)
-                    {
-                        var isExistsPublisherResult = await Mediator.Send(new IsExistsPublisherByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsPublisherResult.Ok)
-                            context.AddFailure(isExistsPublisherResult.Message);
+                        var isExistsAdGroupResult = await Mediator.Send(new IsExistsAdGroupByIdQuery(value.Value), cancellationToken);
+                        if (!isExistsAdGroupResult.Ok)
+                            context.AddFailure(isExistsAdGroupResult.Message);
                     }
                 });
         }
