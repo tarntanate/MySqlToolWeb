@@ -2,9 +2,9 @@ using AutoMapper;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroupItemListByKey
 {
-    public class GetGroupItemListByKeyMappingProfile : Profile
+    public class GroupItemListByKeyMappingProfile : Profile
     {
-        public GetGroupItemListByKeyMappingProfile()
+        public GroupItemListByKeyMappingProfile()
         {
             CreateMap<Business.AdGroupItem.AdGroupItemDto, GroupItemUnitDto>()
                 .ForMember(dest => dest.AdNetwork, m => m.MapFrom(src => src.Name))
