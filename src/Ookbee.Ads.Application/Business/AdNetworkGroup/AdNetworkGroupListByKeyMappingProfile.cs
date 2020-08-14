@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Business.AdNetworkGroup.Queries.GetAdAdNetworkG
         public AdNetworkGroupListByKeyMappingProfile()
         {
             CreateMap<AdUnitDto, GroupUnitDto>()
-                .ForMember(dest => dest.AdUnitId, m => m.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, m => m.MapFrom(src => src.Id))
                 .ForMember(dest => dest.AdNetwork, m => m.MapFrom(src => src.AdNetwork))
                 .ForMember(dest => dest.AdNetworkUnitId, m => m.MapFrom(src => src.AdNetworkUnitId));
         }

@@ -21,13 +21,21 @@ namespace Ookbee.Ads.Application.Business.AdNetworkItem.Queries.GetAdNetworkItem
         {
             var result = new HttpResult<string>();
 
-            var redisKey = CacheKey.AssetByAd(request.AdUnitId);
+            var adId = await RadomAd(request.AdUnitId, request.Platform);
+            var redisKey = CacheKey.AssetByAd(adId);
             var redisValue = await AdsRedis.StringGetAsync(redisKey);
 
             if (redisValue.HasValue)
                 return result.Success(redisValue);
 
             return result.Fail(404, $"Data not found.");
+        }
+
+        private async Task<long> RadomAd(long adUnitId, string platform)
+        {
+            var redisKey = CacheKey.AdIdByUnit(adUnitId, platform);
+            var redisValue = await AdsRedis.SetRandomMemberAsync(redisKey);
+            return (long)redisValue;
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Publish.Controllers
 {
     [ApiController]
-    [Route("api/ad-items")]
+    [Route("api/units")]
     public class AdNetworkItemsController : ApiController
     {
-        [HttpGet]
-        public async Task<ContentResult> GetAdNetworkItemByUnitId([FromQuery] long unitId, [FromQuery] string platform)
+        [HttpGet("{unitId}/ad")]
+        public async Task<ContentResult> GetAdNetworkItemByUnitId([FromRoute] long unitId, [FromQuery] string platform)
         {
             var result = await Mediator.Send(new GetAdNetworkItemByUnitIdQuery(unitId, platform));
             return Content(result.Data, "application/json");
