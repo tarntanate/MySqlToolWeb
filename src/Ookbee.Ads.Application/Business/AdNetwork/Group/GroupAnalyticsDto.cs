@@ -1,6 +1,6 @@
-namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem
+namespace Ookbee.Ads.Application.Business.AdNetwork.Group
 {
-    public class GroupItemAnalyticsDto
+    public class GroupAnalyticsDto
     {
         public string AdNetwork { get; set; }
         public string AdUnitId { get; set; }

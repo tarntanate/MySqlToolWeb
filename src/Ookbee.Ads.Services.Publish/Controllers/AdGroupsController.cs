@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.AdNetwork.GroupItem;
-using Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroupItemListByKey;
+using Ookbee.Ads.Application.Business.AdNetwork.Group.Queries.GetAdGroupListByKey;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
-using Ookbee.Ads.Common.Result;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Services.Publish.Controllers
@@ -14,12 +12,8 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         [HttpGet("{adGroupId}")]
         public async Task<ContentResult> Get([FromRoute] long adGroupId)
         {
-            var getGroupItemListByKey = await Mediator.Send(new GetGroupItemListByKeyQuery(adGroupId));
-            return Content(getGroupItemListByKey.Data, "application/json");
+            var getGroupListByKey = await Mediator.Send(new GetGroupListByKeyQuery(adGroupId));
+            return Content(getGroupListByKey.Data, "application/json");
         }
-
-        // [HttpGet("{adGroupId}")]
-        // public async Task<HttpResult<GroupItemDto>> Get([FromRoute] long adGroupId)
-        //     => await Mediator.Send(new GetGroupItemListByKeyQuery(adGroupId));
     }
 }

@@ -13,16 +13,16 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGroupItemListByKey
+namespace Ookbee.Ads.Application.Business.AdNetwork.Group.Commands.CreateGroupListByKey
 {
-    public class CreateGroupItemListByKeyCommandHandler : IRequestHandler<CreateGroupItemListByKeyCommand, HttpResult<bool>>
+    public class CreateGroupListByKeyCommandHandler : IRequestHandler<CreateGroupListByKeyCommand, HttpResult<bool>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
         private IDatabase AdsRedis { get; }
 
-        public CreateGroupItemListByKeyCommandHandler(
+        public CreateGroupListByKeyCommandHandler(
             IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo,
@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGro
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<HttpResult<bool>> Handle(CreateGroupItemListByKeyCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(CreateGroupListByKeyCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
 
@@ -44,8 +44,8 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGro
 
             if (getAdUnitList.Data.HasValue())
             {
-                var data = Mapper.Map<List<GroupItemUnitDto>>(getAdUnitList.Data);
-                var redisKey = CacheKey.GroupItemList(request.AdGroupId);
+                var data = Mapper.Map<List<GroupUnitDto>>(getAdUnitList.Data);
+                var redisKey = CacheKey.GroupList(request.AdGroupId);
                 var redisValue = JsonHelper.Serialize(data);
                 var isSuccess = AdsRedis.StringSet(redisKey, redisValue);
                 return result.Success(isSuccess);

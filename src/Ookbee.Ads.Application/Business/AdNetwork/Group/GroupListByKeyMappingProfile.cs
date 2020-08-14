@@ -1,13 +1,13 @@
 using AutoMapper;
 using Ookbee.Ads.Application.Business.AdUnit;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroupItemListByKey
+namespace Ookbee.Ads.Application.Business.AdNetwork.Group.Queries.GetAdGroupListByKey
 {
-    public class GroupItemListByKeyMappingProfile : Profile
+    public class GroupListByKeyMappingProfile : Profile
     {
-        public GroupItemListByKeyMappingProfile()
+        public GroupListByKeyMappingProfile()
         {
-            CreateMap<AdUnitDto, GroupItemUnitDto>()
+            CreateMap<AdUnitDto, GroupUnitDto>()
                 .ForMember(dest => dest.AdNetwork, m => m.MapFrom(src => src.AdNetwork))
                 .ForMember(dest => dest.AdNetworkUnitId, m => m.MapFrom(src => src.AdNetworkUnitId));
         }

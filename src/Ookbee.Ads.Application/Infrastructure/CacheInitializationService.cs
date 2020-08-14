@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Commands.CreateGroupItemListByKey;
+using Ookbee.Ads.Application.Business.AdNetwork.Group.Commands.CreateGroupListByKey;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList;
 using System;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                             {
                                 foreach (var group in getAdUnitList.Data)
                                 {
-                                    await mediator.Send(new CreateGroupItemListByKeyCommand(group.Id));
+                                    await mediator.Send(new CreateGroupListByKeyCommand(group.Id));
                                 }
                             }
                             start += length;

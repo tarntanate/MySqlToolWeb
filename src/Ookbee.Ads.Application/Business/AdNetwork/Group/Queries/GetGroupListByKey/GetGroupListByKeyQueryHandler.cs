@@ -7,14 +7,14 @@ using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroupItemListByKey
+namespace Ookbee.Ads.Application.Business.AdNetwork.Group.Queries.GetAdGroupListByKey
 {
-    public class GetGroupItemListByKeyQueryHandler : IRequestHandler<GetGroupItemListByKeyQuery, HttpResult<string>>
+    public class GetGroupListByKeyQueryHandler : IRequestHandler<GetGroupListByKeyQuery, HttpResult<string>>
     {
         private IMapper Mapper { get; }
         private IDatabase AdsRedis { get; }
 
-        public GetGroupItemListByKeyQueryHandler(
+        public GetGroupListByKeyQueryHandler(
             IMapper mapper,
             AdsRedisContext adsRedis)
         {
@@ -22,11 +22,11 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.GroupItem.Queries.GetAdGroup
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<HttpResult<string>> Handle(GetGroupItemListByKeyQuery request, CancellationToken cancellationToken)
+        public async Task<HttpResult<string>> Handle(GetGroupListByKeyQuery request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<string>();
 
-            var redisKey = CacheKey.GroupItemList(request.AdGroupId);
+            var redisKey = CacheKey.GroupList(request.AdGroupId);
             var redisValue = await AdsRedis.StringGetAsync(redisKey);
 
             if (redisValue.HasValue)
