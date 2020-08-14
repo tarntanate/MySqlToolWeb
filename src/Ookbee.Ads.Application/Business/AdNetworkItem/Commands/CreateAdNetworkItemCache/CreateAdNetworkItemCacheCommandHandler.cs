@@ -3,6 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
@@ -101,11 +102,16 @@ namespace Ookbee.Ads.Application.Business.AdNetworkItem.Commands.CreateAdNetwork
                     Analytics = new AdNetworkItemAnalyticsDto()
                     {
                         Clicks = new List<string>() { $"{analyticsBaseUrl}/api/ads/{ad.Id}/stats?event=click" },
-                        Impressions = new List<string>() { $"{analyticsBaseUrl}/api/ads/{ad.Id}/stats?event=impression" }.Union(ad.Analytics).ToList(),
-
+                        Impressions = new List<string>() { $"{analyticsBaseUrl}/api/ads/{ad.Id}/stats?event=impression" },
                     }
                 }
             };
+
+            if (ad.Analytics.HasValue())
+            {
+                result.Data.Analytics.Impressions.Union(ad.Analytics).ToList();
+            }
+
             return result;
         }
     }
