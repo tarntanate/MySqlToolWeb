@@ -59,11 +59,11 @@ namespace Ookbee.Ads.Application.Business.AdNetworkItem.Commands.CreateAdNetwork
 
                         foreach (var platform in ad.Platforms)
                         {
-                            redisKey = CacheKey.AdIdByUnit(ad.AdUnit.Id);
+                            redisKey = CacheKey.AdIdByUnit(ad.AdUnit.AdNetworkUnitId);
                             redisValue = (RedisValue)ad.Id;
                             await AdsRedis.SetAddAsync(redisKey, redisValue);
 
-                            redisKey = CacheKey.AdIdByUnit(ad.AdUnit.Id, platform.ToString());
+                            redisKey = CacheKey.AdIdByUnit(ad.AdUnit.AdNetworkUnitId, platform.ToString());
                             redisValue = (RedisValue)ad.Id;
                             await AdsRedis.SetAddAsync(redisKey, redisValue);
                         }
