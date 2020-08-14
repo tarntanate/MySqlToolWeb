@@ -1,16 +1,15 @@
-using Newtonsoft.Json;
 using Ookbee.Ads.Application.Business.AdAsset;
 using Ookbee.Ads.Application.Business.AdGroup;
 using Ookbee.Ads.Application.Business.AdUnit;
 using Ookbee.Ads.Application.Business.AdUnitType;
 using Ookbee.Ads.Application.Business.Advertiser;
 using Ookbee.Ads.Application.Business.Campaign;
-using Ookbee.Ads.Application.Business.Publisher;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Business.Ad
@@ -46,6 +45,14 @@ namespace Ookbee.Ads.Application.Business.Ad
                     LinkUrl = entity.WebLink,
                     Analytics = entity.Analytics,
                     Platforms = entity.Platforms,
+                    Assets = entity.AdAssets
+                    .Where(asset => asset.DeletedAt == null)
+                    .Select(asset => new AdAssetDto()
+                    {
+                        Position = asset.Position,
+                        AssetType = asset.AssetType,
+                        AssetPath = asset.AssetPath,
+                    }).ToList(),
                     AdUnit = new AdUnitDto()
                     {
                         Id = entity.AdUnit.Id,
@@ -57,6 +64,12 @@ namespace Ookbee.Ads.Application.Business.Ad
                             Id = entity.AdUnit.AdGroup.Id,
                             Name = entity.AdUnit.AdGroup.Name,
                             Description = entity.AdUnit.AdGroup.Description,
+                            AdUnitType = new AdUnitTypeDto()
+                            {
+                                Id = entity.AdUnit.AdGroup.AdUnitType.Id,
+                                Name = entity.AdUnit.AdGroup.AdUnitType.Name,
+                                Description = entity.AdUnit.AdGroup.AdUnitType.Description,
+                            }
                         }
                     },
                     Campaign = new CampaignDto()
