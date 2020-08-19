@@ -16,16 +16,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkUnit.Commands.CreateAdNetworkUnitCache
+namespace Ookbee.Ads.Application.Business.AdNetworkUnit.Commands.CreateAdNetworkUnit
 {
-    public class CreateAdNetworkUnitCacheCommandHandler : IRequestHandler<CreateAdNetworkUnitCacheCommand, HttpResult<bool>>
+    public class CreateAdNetworkUnitCommandHandler : IRequestHandler<CreateAdNetworkUnitCommand, HttpResult<bool>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
         private IDatabase AdsRedis { get; }
 
-        public CreateAdNetworkUnitCacheCommandHandler(
+        public CreateAdNetworkUnitCommandHandler(
             IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo,
@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.AdNetworkUnit.Commands.CreateAdNetwork
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<HttpResult<bool>> Handle(CreateAdNetworkUnitCacheCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(CreateAdNetworkUnitCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
 
