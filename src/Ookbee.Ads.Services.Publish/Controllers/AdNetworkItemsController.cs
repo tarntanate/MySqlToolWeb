@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.AdNetworkUnit.Queries.GetAdNetworkUnitByUnitId;
+using Ookbee.Ads.Application.Business.AdNetwork.Queries.GetAdUnitById;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Services.Publish.Controllers
@@ -12,8 +13,10 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         [HttpGet("{unitId}/ad")]
         public async Task<ContentResult> GetAdNetworkUnitByUnitId([FromRoute] long unitId, [FromQuery] string platform)
         {
-            var result = await Mediator.Send(new GetAdNetworkUnitByUnitIdQuery(unitId, platform));
-            return Content(result.Data, "application/json");
+            var result = await Mediator.Send(new GetAdUnitByIdQuery(unitId, platform));
+            if (result.Ok)
+                return Content(result.Data, "application/json");
+            return new ContentResult() { StatusCode = (int)result.StatusCode };
         }
     }
 }

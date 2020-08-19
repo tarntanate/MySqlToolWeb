@@ -1,6 +1,7 @@
 ﻿using Ookbee.Ads.Common.Extensions;
 using StackExchange.Redis;
 using System;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Common.Redis.Context
 {
@@ -20,6 +21,19 @@ namespace Ookbee.Ads.Common.Redis.Context
         public IDatabase Database(int db = -1, object asyncState = null)
         {
             return Connection.GetDatabase(db, asyncState);
+        }
+
+        public async Task FlushDatabase(int db = -1, CommandFlags commandFlags = CommandFlags.None)
+        {
+            var endPoints = Connection.GetEndPoints();
+            foreach (var endPoint in endPoints)
+            {
+                var server = Connection.GetServer("localhost:6379");
+                if (db == -1)
+                    await server.FlushAllDatabasesAsync();
+                else
+                    await server.FlushDatabaseAsync(db, commandFlags);
+            }
         }
 
         abstract public string ConnectionString();

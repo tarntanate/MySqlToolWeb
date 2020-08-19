@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkUnit
+namespace Ookbee.Ads.Application.Business.AdNetwork
 {
     public class AdNetworkUnitAnalyticsDto
     {

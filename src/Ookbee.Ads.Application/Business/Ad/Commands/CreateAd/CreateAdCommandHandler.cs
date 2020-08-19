@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateAdUnitById;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -37,6 +38,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             var entity = Mapper.Map<AdEntity>(request);
             await AdDbRepo.InsertAsync(entity);
             await AdDbRepo.SaveChangesAsync(cancellationToken);
+
+            await Mediator.Send(new CreateAdUnitByIdCommand(entity.Id));
 
             return result.Success(entity.Id, entity.Id, entity);
         }

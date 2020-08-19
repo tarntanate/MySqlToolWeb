@@ -16,7 +16,7 @@
       "requireExactSource": false,
       "stopAtEntry": false,
       "env": {
-        "ASPNETCORE_ENVIRONMENT": "Localhost",
+        "ASPNETCORE_ENVIRONMENT": "Local",
         "ASPNETCORE_URLS": "http://localhost:5030/"
       }
     },
@@ -48,7 +48,7 @@
       "requireExactSource": false,
       "stopAtEntry": false,
       "env": {
-        "ASPNETCORE_ENVIRONMENT": "Localhost",
+        "ASPNETCORE_ENVIRONMENT": "Local",
         "ASPNETCORE_URLS": "http://localhost:5010/"
       }
     },
@@ -80,7 +80,7 @@
       "requireExactSource": false,
       "stopAtEntry": false,
       "env": {
-        "ASPNETCORE_ENVIRONMENT": "Localhost",
+        "ASPNETCORE_ENVIRONMENT": "Local",
         "ASPNETCORE_URLS": "http://localhost:5020/"
       }
     },
@@ -112,7 +112,7 @@
       "requireExactSource": false,
       "stopAtEntry": false,
       "env": {
-        "ASPNETCORE_ENVIRONMENT": "Localhost",
+        "ASPNETCORE_ENVIRONMENT": "Local",
         "ASPNETCORE_URLS": "http://localhost:5040/"
       }
     },

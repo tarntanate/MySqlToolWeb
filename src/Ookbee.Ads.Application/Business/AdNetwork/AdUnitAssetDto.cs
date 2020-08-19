@@ -4,7 +4,7 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Enums;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkUnit
+namespace Ookbee.Ads.Application.Business.AdNetwork
 {
     public class AdNetworkUnitAssetDto
     {
