@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkItem
+namespace Ookbee.Ads.Application.Business.AdNetworkUnit
 {
-    public class AdNetworkItemDataDto
+    public class AdNetworkUnitDataDto
     {
         public int? CountdownSecond { get; set; }
 
@@ -14,8 +14,8 @@ namespace Ookbee.Ads.Application.Business.AdNetworkItem
 
         public string UnitType { get; set; }
 
-        public IEnumerable<AdNetworkItemAssetDto> Assets { get; set; }
+        public IEnumerable<AdNetworkUnitAssetDto> Assets { get; set; }
 
-        public AdNetworkItemAnalyticsDto Analytics { get; set; }
+        public AdNetworkUnitAnalyticsDto Analytics { get; set; }
     }
 }

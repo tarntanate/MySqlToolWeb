@@ -16,16 +16,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkItem.Commands.CreateAdNetworkItemCache
+namespace Ookbee.Ads.Application.Business.AdNetworkUnit.Commands.CreateAdNetworkUnitCache
 {
-    public class CreateAdNetworkItemCacheCommandHandler : IRequestHandler<CreateAdNetworkItemCacheCommand, HttpResult<bool>>
+    public class CreateAdNetworkUnitCacheCommandHandler : IRequestHandler<CreateAdNetworkUnitCacheCommand, HttpResult<bool>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
         private IDatabase AdsRedis { get; }
 
-        public CreateAdNetworkItemCacheCommandHandler(
+        public CreateAdNetworkUnitCacheCommandHandler(
             IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo,
@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.AdNetworkItem.Commands.CreateAdNetwork
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<HttpResult<bool>> Handle(CreateAdNetworkItemCacheCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(CreateAdNetworkUnitCacheCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
 
@@ -55,7 +55,7 @@ namespace Ookbee.Ads.Application.Business.AdNetworkItem.Commands.CreateAdNetwork
                     {
                         string redisKey;
                         string redisValue;
-                        var data = PrepareAdNetworkItem(ad);
+                        var data = PrepareAdNetworkUnit(ad);
 
                         foreach (var platform in ad.Platforms)
                         {
@@ -81,25 +81,25 @@ namespace Ookbee.Ads.Application.Business.AdNetworkItem.Commands.CreateAdNetwork
             return result.Success(true);
         }
 
-        private AdNetworkItemDto PrepareAdNetworkItem(AdDto ad)
+        private AdNetworkUnitDto PrepareAdNetworkUnit(AdDto ad)
         {
             var analyticsBaseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
-            var result = new AdNetworkItemDto()
+            var result = new AdNetworkUnitDto()
             {
-                Data = new AdNetworkItemDataDto()
+                Data = new AdNetworkUnitDataDto()
                 {
                     CountdownSecond = ad.CountdownSecond,
                     ForegroundColor = ad.ForegroundColor,
                     BackgroundColor = ad.BackgroundColor,
                     LinkUrl = ad.LinkUrl,
                     UnitType = ad.AdUnit.AdGroup.AdUnitType.Name,
-                    Assets = ad.Assets.Select(asset => new AdNetworkItemAssetDto()
+                    Assets = ad.Assets.Select(asset => new AdNetworkUnitAssetDto()
                     {
                         Position = asset.Position,
                         AssetType = asset.AssetType,
                         AssetPath = asset.AssetPath,
                     }),
-                    Analytics = new AdNetworkItemAnalyticsDto()
+                    Analytics = new AdNetworkUnitAnalyticsDto()
                     {
                         Clicks = new List<string>() { $"{analyticsBaseUrl}/api/ads/{ad.Id}/stats?event=click" },
                         Impressions = new List<string>() { $"{analyticsBaseUrl}/api/ads/{ad.Id}/stats?event=impression" },

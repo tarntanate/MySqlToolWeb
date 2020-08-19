@@ -4,9 +4,9 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Enums;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkItem
+namespace Ookbee.Ads.Application.Business.AdNetworkUnit
 {
-    public class AdNetworkItemAssetDto
+    public class AdNetworkUnitAssetDto
     {
         [JsonProperty("position")]
         public Position Position { get; set; }

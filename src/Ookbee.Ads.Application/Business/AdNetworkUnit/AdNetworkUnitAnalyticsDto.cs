@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkItem
+namespace Ookbee.Ads.Application.Business.AdNetworkUnit
 {
-    public class AdNetworkItemAnalyticsDto
+    public class AdNetworkUnitAnalyticsDto
     {
         public List<string> Clicks { get; set; }
 
