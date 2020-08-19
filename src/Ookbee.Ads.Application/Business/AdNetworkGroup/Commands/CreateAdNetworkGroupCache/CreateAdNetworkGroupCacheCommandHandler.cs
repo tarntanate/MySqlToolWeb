@@ -2,9 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupList;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList;
-using Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
@@ -16,16 +14,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkGroup.Commands.CreateAdNetworkGroupListByKey
+namespace Ookbee.Ads.Application.Business.AdNetworkGroup.Commands.CreateAdNetworkGroupCache
 {
-    public class CreateAdNetworkGroupListByKeyCommandHandler : IRequestHandler<CreateAdNetworkGroupListByKeyCommand, HttpResult<bool>>
+    public class CreateAdNetworkGroupCacheCommandHandler : IRequestHandler<CreateAdNetworkGroupCacheCommand, HttpResult<bool>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
         private IDatabase AdsRedis { get; }
 
-        public CreateAdNetworkGroupListByKeyCommandHandler(
+        public CreateAdNetworkGroupCacheCommandHandler(
             IMapper mapper,
             IMediator mediator,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo,
@@ -37,16 +35,16 @@ namespace Ookbee.Ads.Application.Business.AdNetworkGroup.Commands.CreateAdNetwor
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<HttpResult<bool>> Handle(CreateAdNetworkGroupListByKeyCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(CreateAdNetworkGroupCacheCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
 
-            await GenByGroup();
+            await GenAdNetworkGroupCache();
 
             return result.Success(true);
         }
 
-        private async Task GenByGroup()
+        private async Task GenAdNetworkGroupCache()
         {
             var start = 0;
             var length = 100;
@@ -58,7 +56,7 @@ namespace Ookbee.Ads.Application.Business.AdNetworkGroup.Commands.CreateAdNetwor
                 {
                     foreach (var group in getAdGroupList.Data)
                     {
-                        await GenByUnit(group.Id);
+                        await GenAdNetworkUnitInGroupCache(group.Id);
                     }
                 }
                 next = getAdGroupList.Data.Count() == length ? true : false;
@@ -67,7 +65,7 @@ namespace Ookbee.Ads.Application.Business.AdNetworkGroup.Commands.CreateAdNetwor
             while (next);
         }
 
-        private async Task GenByUnit(long groupId)
+        private async Task GenAdNetworkUnitInGroupCache(long groupId)
         {
             var start = 0;
             var length = 100;
