@@ -5,18 +5,18 @@ using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Queries.GetAdUnitById
+namespace Ookbee.Ads.Application.Business.AdNetwork.Queries.GetAdByUnitId
 {
-    public class GetAdUnitByIdQueryHandler : IRequestHandler<GetAdUnitByIdQuery, HttpResult<string>>
+    public class GetAdByUnitIdQueryHandler : IRequestHandler<GetAdByUnitIdQuery, HttpResult<string>>
     {
         private AdsRedisContext AdsRedis { get; }
 
-        public GetAdUnitByIdQueryHandler(AdsRedisContext adsRedis)
+        public GetAdByUnitIdQueryHandler(AdsRedisContext adsRedis)
         {
             AdsRedis = adsRedis;
         }
 
-        public async Task<HttpResult<string>> Handle(GetAdUnitByIdQuery request, CancellationToken cancellationToken)
+        public async Task<HttpResult<string>> Handle(GetAdByUnitIdQuery request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<string>();
 
