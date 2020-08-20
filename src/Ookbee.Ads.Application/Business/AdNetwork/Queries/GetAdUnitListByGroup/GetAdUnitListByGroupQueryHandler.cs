@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetworkStats.Commands.CreateGroupStats;
+using Ookbee.Ads.Application.Business.AdNetworkStats.Commands.UpdateGroupStats;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Queries.GetAdUnitListByGroup
 
             if (redisValue.HasValue())
             {
-                await Mediator.Send(new CreateGroupStatsCommand(request.AdGroupId, AdStats.Request));
+                await Mediator.Send(new UpdateGroupStatsCommand(request.AdGroupId, AdStats.Request));
                 return result.Success(redisValue);
             }
             return result.Fail(404, $"AdGroup '{request.AdGroupId}' doesn't exist.");

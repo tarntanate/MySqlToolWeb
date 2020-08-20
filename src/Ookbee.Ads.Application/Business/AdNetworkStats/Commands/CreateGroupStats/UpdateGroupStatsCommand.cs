@@ -1,14 +1,14 @@
 ﻿using MediatR;
 using Ookbee.Ads.Infrastructure.Enums;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkStats.Commands.CreateGroupStats
+namespace Ookbee.Ads.Application.Business.AdNetworkStats.Commands.UpdateGroupStats
 {
-    public class CreateGroupStatsCommand : IRequest<Unit>
+    public class UpdateGroupStatsCommand : IRequest<Unit>
     {
         public long AdGroupId { get; set; }
         public AdStats Stats { get; set; }
 
-        public CreateGroupStatsCommand(long adGroupId, AdStats stats)
+        public UpdateGroupStatsCommand(long adGroupId, AdStats stats)
         {
             AdGroupId = adGroupId;
             Stats = stats;

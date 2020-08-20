@@ -6,18 +6,18 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetworkStats.Commands.CreateGroupStats
+namespace Ookbee.Ads.Application.Business.AdNetworkStats.Commands.UpdateGroupStats
 {
-    public class CreateCacheGroupStatsCommandHandler : IRequestHandler<CreateGroupStatsCommand, Unit>
+    public class UpdateGroupStatsCommandHandler : IRequestHandler<UpdateGroupStatsCommand, Unit>
     {
         private IDatabase AdsRedis { get; }
 
-        public CreateCacheGroupStatsCommandHandler(AdsRedisContext adsRedis)
+        public UpdateGroupStatsCommandHandler(AdsRedisContext adsRedis)
         {
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Unit> Handle(CreateGroupStatsCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateGroupStatsCommand request, CancellationToken cancellationToken)
         {
             var redisKey = CacheKey.UnitStatsByGroup(request.AdGroupId);
             var hashField = request.Stats.ToString();
