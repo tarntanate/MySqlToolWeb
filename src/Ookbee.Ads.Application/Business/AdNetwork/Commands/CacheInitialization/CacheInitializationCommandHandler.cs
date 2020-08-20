@@ -6,18 +6,18 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCache
+namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CacheInitialization
 {
-    public class CreateCacheCommandHandler : IRequestHandler<CreateCacheCommand, HttpResult<bool>>
+    public class CacheInitializationCommandHandler : IRequestHandler<CacheInitializationCommand, HttpResult<bool>>
     {
         private IMediator Mediator { get; }
 
-        public CreateCacheCommandHandler(IMediator mediator)
+        public CacheInitializationCommandHandler(IMediator mediator)
         {
             Mediator = mediator;
         }
 
-        public async Task<HttpResult<bool>> Handle(CreateCacheCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(CacheInitializationCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
 

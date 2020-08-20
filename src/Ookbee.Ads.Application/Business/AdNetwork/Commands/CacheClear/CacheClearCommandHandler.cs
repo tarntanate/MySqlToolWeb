@@ -5,18 +5,18 @@ using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.ClearCache
+namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CacheClear
 {
-    public class ClearCacheCommandHandler : IRequestHandler<ClearCacheCommand, HttpResult<bool>>
+    public class CacheClearCommandHandler : IRequestHandler<CacheClearCommand, HttpResult<bool>>
     {
         private AdsRedisContext AdsRedis { get; }
 
-        public ClearCacheCommandHandler(AdsRedisContext adsRedis)
+        public CacheClearCommandHandler(AdsRedisContext adsRedis)
         {
             AdsRedis = adsRedis;
         }
 
-        public async Task<HttpResult<bool>> Handle(ClearCacheCommand request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(CacheClearCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
             try
