@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Queries.GetAdByUnitId
             var result = new HttpResult<string>();
 
             var adId = await RadomAd(request.AdUnitId, request.Platform);
-            var redisKey = CacheKey.AssetByAd(adId);
+            var redisKey = CacheKey.Ad(adId);
             var redisValue = await AdsRedis.Database(1).StringGetAsync(redisKey);
 
             if (redisValue.HasValue)
@@ -32,7 +32,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Queries.GetAdByUnitId
 
         private async Task<long> RadomAd(long adUnitId, string platform)
         {
-            var redisKey = CacheKey.AdIdByUnit(adUnitId, platform);
+            var redisKey = CacheKey.AdIdsByUnit(adUnitId, platform);
             var redisValue = await AdsRedis.Database(2).SetRandomMemberAsync(redisKey);
             return (long)redisValue;
         }

@@ -2,16 +2,16 @@ namespace Ookbee.Ads.Application.Infrastructure
 {
     public static class CacheKey
     {
-        public static string AssetByAd(long adId)
-            => $"AD_{adId}_ASSET";
+        public static string Ad(long adId)
+            => $"ADS_{adId}";
 
-        public static string UnitByGroup(long adGroupId)
-            => $"GROUP_{adGroupId}_UNIT";
+        public static string UnitsByGroup(long adGroupId)
+            => $"UNITS_GROUPS_{adGroupId}";
 
-        public static string AdIdByUnit(long adUnitId)
-            => $"UNIT_{adUnitId}_AD";
+        public static string UnitStatsByGroup(long adGroupId)
+            => $"STATS_GROUPS_{adGroupId}";
 
-        public static string AdIdByUnit(long adUnitId, string platform)
-            => $"UNIT_{adUnitId}_AD_{platform.ToUpper()}";
+        public static string AdIdsByUnit(long adUnitId, string platform)
+            => $"ADS_{platform.Substring(0, 3).ToUpper()}_UNITS_{adUnitId}";
     }
 }
