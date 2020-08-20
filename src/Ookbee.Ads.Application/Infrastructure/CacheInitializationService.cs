@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ookbee.Ads.Application.Business.AdNetwork.Commands.ClearCache;
-using Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCache;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.Create;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     {
                         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
                         await mediator.Send(new ClearCacheCommand());
-                        await mediator.Send(new CreateCacheCommand());
+                        await mediator.Send(new CreateCommand());
                     }
                 }
                 catch (OperationCanceledException)

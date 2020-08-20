@@ -1,22 +1,21 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteCacheAdByUnitId;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteAdByUnitId;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Helpers;
-using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteCacheUnitListByGroupId
+namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteUnitListByGroupId
 {
-    public class DeleteCacheUnitListByGroupIdCommandHandler : IRequestHandler<DeleteCacheUnitListByGroupIdCommand, Unit>
+    public class DeleteUnitListByGroupIdCommandHandler : IRequestHandler<DeleteUnitListByGroupIdCommand, Unit>
     {
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
-        public DeleteCacheUnitListByGroupIdCommandHandler(
+        public DeleteUnitListByGroupIdCommandHandler(
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
@@ -24,7 +23,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteCacheUnitList
             AdsRedis = adsRedis.Database(0);
         }
 
-        public async Task<Unit> Handle(DeleteCacheUnitListByGroupIdCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteUnitListByGroupIdCommand request, CancellationToken cancellationToken)
         {
             var redisKey = CacheKey.UnitsByGroup(request.AdGroupId);
             var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
@@ -35,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteCacheUnitList
                 var units = JsonHelper.Deserialize<IEnumerable<AdNetworkGroupUnitDto>>(json);
                 foreach (var unit in units)
                 {
-                    await Mediator.Send(new DeleteCacheAdByUnitIdCommand(unit.Id));
+                    await Mediator.Send(new DeleteAdByUnitIdCommand(unit.Id));
                 }
             }
 

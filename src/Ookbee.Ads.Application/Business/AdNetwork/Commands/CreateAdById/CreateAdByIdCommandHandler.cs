@@ -12,14 +12,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheAdById
+namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateAdById
 {
-    public class CreateCacheAdByIdCommandHandler : IRequestHandler<CreateCacheAdByIdCommand, Unit>
+    public class CreateAdByIdCommandHandler : IRequestHandler<CreateAdByIdCommand, Unit>
     {
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
-        public CreateCacheAdByIdCommandHandler(
+        public CreateAdByIdCommandHandler(
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheAdById
             AdsRedis = adsRedis.Database(0);
         }
 
-        public async Task<Unit> Handle(CreateCacheAdByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateAdByIdCommand request, CancellationToken cancellationToken)
         {
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId));
             if (getAdById.Ok)

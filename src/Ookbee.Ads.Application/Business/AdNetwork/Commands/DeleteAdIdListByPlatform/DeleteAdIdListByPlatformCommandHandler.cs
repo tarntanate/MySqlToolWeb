@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteCacheAdById;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteAdById;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
@@ -8,14 +8,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteCacheAdIdListByPlatform
+namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteAdIdListByPlatform
 {
-    public class DeleteCacheAdIdListByPlatformCommandHandler : IRequestHandler<DeleteCacheAdIdListByPlatformCommand, Unit>
+    public class DeleteAdIdListByPlatformCommandHandler : IRequestHandler<DeleteAdIdListByPlatformCommand, Unit>
     {
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
-        public DeleteCacheAdIdListByPlatformCommandHandler(
+        public DeleteAdIdListByPlatformCommandHandler(
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteCacheAdIdList
             AdsRedis = adsRedis.Database(0);
         }
 
-        public async Task<Unit> Handle(DeleteCacheAdIdListByPlatformCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteAdIdListByPlatformCommand request, CancellationToken cancellationToken)
         {
             var platforms = Enum.GetValues(typeof(Platform));
             foreach (var platform in platforms)
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteCacheAdIdList
                     await AdsRedis.KeyDeleteAsync(redisKey);
                     foreach (var adId in adIds)
                     {
-                        await Mediator.Send(new DeleteCacheAdByIdCommand((long)adId));
+                        await Mediator.Send(new DeleteAdByIdCommand((long)adId));
                     }
                 }
             }

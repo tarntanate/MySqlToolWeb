@@ -5,14 +5,14 @@ using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheAdIdListByPlatform
+namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateAdIdListByPlatform
 {
-    public class CreateCacheAdIdListByPlatformCommandHandler : IRequestHandler<CreateCacheAdIdListByPlatformCommand, Unit>
+    public class CreateAdIdListByPlatformCommandHandler : IRequestHandler<CreateAdIdListByPlatformCommand, Unit>
     {
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
-        public CreateCacheAdIdListByPlatformCommandHandler(
+        public CreateAdIdListByPlatformCommandHandler(
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheAdIdList
             AdsRedis = adsRedis.Database(0);
         }
 
-        public async Task<Unit> Handle(CreateCacheAdIdListByPlatformCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateAdIdListByPlatformCommand request, CancellationToken cancellationToken)
         {
             foreach (var platform in request.Platforms)
             {

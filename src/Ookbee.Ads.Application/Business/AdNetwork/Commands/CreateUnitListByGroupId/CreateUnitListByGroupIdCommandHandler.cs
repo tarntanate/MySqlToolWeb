@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheAdByUnitId;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateAdByUnitId;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
@@ -12,15 +12,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheUnitListByGroupId
+namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateUnitListByGroupId
 {
-    public class CreateCacheUnitListByGroupIdCommandHandler : IRequestHandler<CreateCacheUnitListByGroupIdCommand, Unit>
+    public class CreateUnitListByGroupIdCommandHandler : IRequestHandler<CreateUnitListByGroupIdCommand, Unit>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
-        public CreateCacheUnitListByGroupIdCommandHandler(
+        public CreateUnitListByGroupIdCommandHandler(
             IMapper mapper,
             IMediator mediator,
             AdsRedisContext adsRedis)
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheUnitList
             AdsRedis = adsRedis.Database(0);
         }
 
-        public async Task<Unit> Handle(CreateCacheUnitListByGroupIdCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateUnitListByGroupIdCommand request, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -44,7 +44,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheUnitList
                     var units = getAdUnitList.Data;
                     foreach (var unit in units)
                     {
-                        await Mediator.Send(new CreateCacheAdByUnitIdCommand(unit.Id));
+                        await Mediator.Send(new CreateAdByUnitIdCommand(unit.Id));
                         var group = Mapper.Map<AdNetworkGroupUnitDto>(unit);
                         groups.Add(group);
                     }

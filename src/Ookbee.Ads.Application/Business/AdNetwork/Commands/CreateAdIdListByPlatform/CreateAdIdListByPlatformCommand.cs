@@ -2,15 +2,15 @@
 using Ookbee.Ads.Infrastructure.Enums;
 using System.Collections.Generic;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheAdIdListByPlatform
+namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateAdIdListByPlatform
 {
-    public class CreateCacheAdIdListByPlatformCommand : IRequest<Unit>
+    public class CreateAdIdListByPlatformCommand : IRequest<Unit>
     {
         public long AdId { get; set; }
         public long AdUnitId { get; set; }
         public IEnumerable<Platform> Platforms { get; set; }
 
-        public CreateCacheAdIdListByPlatformCommand(long adId, long adUnitId, IEnumerable<Platform> platforms)
+        public CreateAdIdListByPlatformCommand(long adId, long adUnitId, IEnumerable<Platform> platforms)
         {
             AdId = adId;
             AdUnitId = adUnitId;

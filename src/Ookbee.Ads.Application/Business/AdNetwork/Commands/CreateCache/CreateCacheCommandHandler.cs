@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupList;
-using Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCacheUnitListByGroupId;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateUnitListByGroupId;
 using Ookbee.Ads.Common.Result;
 using System.Linq;
 using System.Threading;
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCache
                 {
                     foreach (var adGroup in getAdGroupList.Data)
                     {
-                        await Mediator.Send(new CreateCacheUnitListByGroupIdCommand(adGroup.Id));
+                        await Mediator.Send(new CreateUnitListByGroupIdCommand(adGroup.Id));
                     }
                 }
                 next = getAdGroupList.Data.Count() == length ? true : false;
