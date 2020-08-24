@@ -52,9 +52,9 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             services.AddAllowedHosts(configuration);
 
             // Health
-            // services.AddHealthChecks()
-            //         .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
-            //         .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
+            services.AddHealthChecks()
+                    .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
+                    .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
 
             // EFCore
             services.AddDbContext<AdsDbContext>();
@@ -79,7 +79,6 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             // Mediator
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestUserActivityBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
         }
     }

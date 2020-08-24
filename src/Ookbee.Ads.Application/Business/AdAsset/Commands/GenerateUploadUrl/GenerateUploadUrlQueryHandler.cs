@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
         {
             var result = new HttpResult<string>();
 
-            var adAssetResult = await Mediator.Send(new GetAdAssetByIdQuery(request.Id));
+            var adAssetResult = await Mediator.Send(new GetAdAssetByIdQuery(request.Id), cancellationToken);
             if (!adAssetResult.Ok)
                 return result.Fail(adAssetResult.StatusCode, adAssetResult.Message);
 
@@ -48,7 +48,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
                 Bucket = bucket,
                 Key = sourceKey,
             };
-            var signURLResult = await Mediator.Send(generateSignURLCommand);
+            var signURLResult = await Mediator.Send(generateSignURLCommand, cancellationToken);
             if (!signURLResult.Ok)
                 return result.Fail(signURLResult.StatusCode, signURLResult.Message);
 
@@ -57,7 +57,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.GenerateUploadUrl
             adAsset.AssetType = assetMimeType.Split('/')[0].ToUpperFirstLetter();
             var updateAdAssetRequest = Mapper.Map<UpdateAdAssetRequest>(adAsset);
             var updateAdAssetCommand = new UpdateAdAssetCommand(adAsset.Id, updateAdAssetRequest);
-            var updateAdAssetResult = await Mediator.Send(updateAdAssetCommand);
+            var updateAdAssetResult = await Mediator.Send(updateAdAssetCommand, cancellationToken);
             if (!updateAdAssetResult.Ok)
                 return result.Fail(updateAdAssetResult.StatusCode, updateAdAssetResult.Message);
 

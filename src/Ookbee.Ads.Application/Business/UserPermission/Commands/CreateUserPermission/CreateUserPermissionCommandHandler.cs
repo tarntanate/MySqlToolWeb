@@ -26,18 +26,11 @@ namespace Ookbee.Ads.Application.Business.UserPermission.Commands.CreateUserPerm
 
         public async Task<HttpResult<long>> Handle(CreateUserPermissionCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<long>> CreateOnDb(CreateUserPermissionCommand request)
-        {
-            var result = new HttpResult<long>();
-
             var entity = Mapper.Map<UserPermissionEntity>(request);
             await UserPermissionDbRepo.InsertAsync(entity);
-            await UserPermissionDbRepo.SaveChangesAsync();
+            await UserPermissionDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<long>();
             return result.Success(entity.Id);
         }
     }

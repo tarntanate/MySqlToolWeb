@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.InitializeCosXmlServ
                 .SetDebugLog(cosConfig.DebugLog)                                        //Display logs
                 .Build();                                                               //Create a CosXmlConfig object
                 var secretId = cosConfig.SecretId;                                      //"Cloud API key SecretId"
-                var secretKey =  cosConfig.SecretKey;                                   //"Cloud API key SecretKey"
+                var secretKey = cosConfig.SecretKey;                                   //"Cloud API key SecretKey"
                 var durationSecond = cosConfig.DurationSecond;                          //Validity period of secretKey (in sec)
                 var cosCredentialProvider = new DefaultQCloudCredentialProvider(secretId, secretKey, durationSecond);
                 var cosXmlServer = new CosXmlServer(cosXmlConfig, cosCredentialProvider);

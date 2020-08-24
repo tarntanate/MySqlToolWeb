@@ -1,5 +1,4 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -18,11 +17,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdByName
         }
 
         public async Task<HttpResult<AdDto>> Handle(GetAdByNameQuery request, CancellationToken cancellationToken)
-        {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<AdDto>> GetOnDb(GetAdByNameQuery request)
         {
             var result = new HttpResult<AdDto>();
 

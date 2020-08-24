@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.IsExistsAdvertiserB
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdvertiserByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsAdvertiserByIdQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await AdvertiserDbRepo.AnyAsync(f =>
                 f.Id == request.Id &&
                 f.DeletedAt == null
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Advertiser '{request.Id}' doesn't exist.");

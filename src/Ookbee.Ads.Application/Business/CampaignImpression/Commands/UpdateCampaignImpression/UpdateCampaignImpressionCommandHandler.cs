@@ -28,24 +28,18 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCamp
 
         public async Task<HttpResult<bool>> Handle(UpdateCampaignImpressionCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> UpdateOnDb(UpdateCampaignImpressionCommand request)
-        {
             var result = new HttpResult<bool>();
 
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var updateCampaignResult = await UpdateCampaignOnDb(request);
+                var updateCampaignResult = await UpdateCampaignOnDb(request, cancellationToken);
                 if (!updateCampaignResult.Ok)
                 {
                     scope.Dispose();
                     return result.Fail(updateCampaignResult.StatusCode, updateCampaignResult.Message);
                 }
 
-                var updateCampaignImpressionResult = await UpdateCampaignImpressionOnDb(request);
+                var updateCampaignImpressionResult = await UpdateCampaignImpressionOnDb(request, cancellationToken);
                 if (!updateCampaignImpressionResult.Ok)
                 {
                     scope.Dispose();
@@ -58,21 +52,21 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCamp
             return result.Success(true);
         }
 
-        private async Task<HttpResult<bool>> UpdateCampaignOnDb(UpdateCampaignImpressionCommand request)
+        private async Task<HttpResult<bool>> UpdateCampaignOnDb(UpdateCampaignImpressionCommand request, CancellationToken cancellationToken)
         {
             var source = Mapper.Map<UpdateCampaignRequest>(request);
             var command = new UpdateCampaignCommand(request.Id, source);
-            return await Mediator.Send(command);
+            return await Mediator.Send(command, cancellationToken);
         }
 
-        private async Task<HttpResult<bool>> UpdateCampaignImpressionOnDb(UpdateCampaignImpressionCommand request)
+        private async Task<HttpResult<bool>> UpdateCampaignImpressionOnDb(UpdateCampaignImpressionCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
 
             var entity = Mapper.Map<CampaignImpressionEntity>(request);
             entity.CampaignId = request.Id;
             await CampaignImpressionDbRepo.UpdateAsync(entity.Id, entity);
-            await CampaignImpressionDbRepo.SaveChangesAsync();
+            await CampaignImpressionDbRepo.SaveChangesAsync(cancellationToken);
 
             return result.Success(true);
         }

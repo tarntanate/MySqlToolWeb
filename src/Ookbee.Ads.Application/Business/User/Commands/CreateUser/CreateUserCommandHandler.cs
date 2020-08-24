@@ -26,18 +26,11 @@ namespace Ookbee.Ads.Application.Business.User.Commands.CreateUser
 
         public async Task<HttpResult<long>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<long>> CreateOnDb(CreateUserCommand request)
-        {
-            var result = new HttpResult<long>();
-
             var entity = Mapper.Map<UserEntity>(request);
             await userDbRepo.InsertAsync(entity);
-            await userDbRepo.SaveChangesAsync();
+            await userDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<long>();
             return result.Success(entity.Id);
         }
     }

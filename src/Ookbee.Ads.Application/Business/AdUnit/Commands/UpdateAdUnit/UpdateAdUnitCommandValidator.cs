@@ -24,9 +24,9 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.UpdateAdUnit
                 });
 
             RuleFor(p => new { p.Id, p.AdNetwork })
-                .CustomAsync(async (value, context, CancellationToken) =>
+                .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var getAdUnitByAdNetwork = await Mediator.Send(new GetAdUnitByAdNetworkQuery(value.AdNetwork), CancellationToken);
+                    var getAdUnitByAdNetwork = await Mediator.Send(new GetAdUnitByAdNetworkQuery(value.AdNetwork), cancellationToken);
                     if (getAdUnitByAdNetwork.Ok &&
                         getAdUnitByAdNetwork.Data.Id != value.Id &&
                         getAdUnitByAdNetwork.Data.AdNetwork != value.AdNetwork)

@@ -29,19 +29,12 @@ namespace Ookbee.Ads.Application.Business.Publisher.Commands.UpdatePublisher
 
         public async Task<HttpResult<bool>> Handle(UpdatePublisherCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnDb(request, cancellationToken);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> UpdateOnDb(UpdatePublisherCommand request, CancellationToken cancellationToken)
-        {
-            var result = new HttpResult<bool>();
-
             var entity = Mapper.Map<PublisherEntity>(request);
             await PublisherDbRepo.UpdateAsync(entity.Id, entity);
-            await PublisherDbRepo.SaveChangesAsync();
+            await PublisherDbRepo.SaveChangesAsync(cancellationToken);
 
-            return result.Success(true, entity.Id, entity);
+            var result = new HttpResult<bool>();
+            return result.Success(true);
         }
     }
 }

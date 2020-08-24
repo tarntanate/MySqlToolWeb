@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEvent;
@@ -11,10 +12,10 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
     public class RequestLogStatsController : ApiController
     {
         [HttpGet]
-        public async Task Get([FromRoute] long eventId, [FromRoute] string eventType)
+        public async Task Get([FromRoute] long eventId, [FromRoute] string eventType, CancellationToken cancellationToken)
         {
             Console.WriteLine(eventType);
-            await Mediator.Send(new UpdateRequestLogEventCommand(eventId, eventType));
+            await Mediator.Send(new UpdateRequestLogEventCommand(eventId, eventType), cancellationToken);
         }
     }
 }

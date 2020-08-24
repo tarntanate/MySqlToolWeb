@@ -19,7 +19,6 @@ namespace Ookbee.Ads.Common.Result
         public string StatusMessage { get; set; }
         public Dictionary<string, string[]> Reasons { get; set; }
         public TValue Data { get; set; }
-        public DataLogger DataLogger { get; set; }
 
         public HttpResult<TValue> Success(TValue data)
         {
@@ -30,23 +29,6 @@ namespace Ookbee.Ads.Common.Result
                 StatusCode = HttpStatusCode.OK,
                 StatusMessage = HttpStatusCode.OK.ToString(),
                 Data = data,
-            };
-        }
-
-        public HttpResult<TValue> Success(TValue data, long loggerId, object loggerData)
-        {
-            return new HttpResult<TValue>()
-            {
-                Ok = true,
-                Message = "Successfully.",
-                StatusCode = HttpStatusCode.OK,
-                StatusMessage = HttpStatusCode.OK.ToString(),
-                Data = data,
-                DataLogger = new DataLogger
-                {
-                    ObjectId = loggerId,
-                    ObjectData = loggerData,
-                },
             };
         }
 

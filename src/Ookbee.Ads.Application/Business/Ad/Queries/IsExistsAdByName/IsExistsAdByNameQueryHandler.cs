@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.IsExistsAdByName
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsAdByNameQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await AdDbRepo.AnyAsync(f =>
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Ad '{request.Name}' doesn't exist.");

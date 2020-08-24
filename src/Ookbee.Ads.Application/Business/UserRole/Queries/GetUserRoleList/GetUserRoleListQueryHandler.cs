@@ -20,13 +20,6 @@ namespace Ookbee.Ads.Application.Business.UserRole.Queries.GetUserRoleList
 
         public async Task<HttpResult<IEnumerable<UserRoleDto>>> Handle(GetUserRoleListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<UserRoleDto>>> GetListOnDb(GetUserRoleListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<UserRoleDto>>();
-
             var items = await UserRoleDbRepo.FindAsync(
                 selector: UserRoleDto.Projection,
                 filter: f => f.DeletedAt == null,
@@ -35,6 +28,7 @@ namespace Ookbee.Ads.Application.Business.UserRole.Queries.GetUserRoleList
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<UserRoleDto>>();
             return result.Success(items);
         }
     }

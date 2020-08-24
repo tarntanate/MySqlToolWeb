@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.UserPermission.Queries.GetUserPermissi
 
         public async Task<HttpResult<UserPermissionDto>> Handle(GetUserPermissionByNameQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<UserPermissionDto>> GetOnDb(GetUserPermissionByNameQuery request)
-        {
-            var result = new HttpResult<UserPermissionDto>();
-
             var item = await UserPermissionDbRepo.FirstAsync(
                 selector: UserPermissionDto.Projection,
                 filter: f => f.ExtensionName == request.ExtensionName
             );
 
+            var result = new HttpResult<UserPermissionDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"UserPermission '{request.ExtensionName}' doesn't exist.");

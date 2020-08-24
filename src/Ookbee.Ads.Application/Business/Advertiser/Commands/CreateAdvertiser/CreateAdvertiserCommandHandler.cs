@@ -26,19 +26,12 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.CreateAdvertiser
 
         public async Task<HttpResult<long>> Handle(CreateAdvertiserCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<long>> CreateOnDb(CreateAdvertiserCommand request)
-        {
-            var result = new HttpResult<long>();
-
             var entity = Mapper.Map<AdvertiserEntity>(request);
             await AdvertiserDbRepo.InsertAsync(entity);
-            await AdvertiserDbRepo.SaveChangesAsync();
+            await AdvertiserDbRepo.SaveChangesAsync(cancellationToken);
 
-            return result.Success(entity.Id, entity.Id, entity);
+            var result = new HttpResult<long>();
+            return result.Success(entity.Id);
         }
     }
 }

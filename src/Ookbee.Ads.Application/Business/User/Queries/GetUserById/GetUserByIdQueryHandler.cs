@@ -18,19 +18,13 @@ namespace Ookbee.Ads.Application.Business.User.Queries.GetUserById
 
         public async Task<HttpResult<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<UserDto>> GetOnDb(GetUserByIdQuery request)
-        {
-            var result = new HttpResult<UserDto>();
-
             var item = await userDbRepo.FirstAsync(
                 selector: UserDto.Projection,
                 filter: f =>
                     f.Id == request.Id
             );
 
+            var result = new HttpResult<UserDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"User '{request.Id}' doesn't exist.");

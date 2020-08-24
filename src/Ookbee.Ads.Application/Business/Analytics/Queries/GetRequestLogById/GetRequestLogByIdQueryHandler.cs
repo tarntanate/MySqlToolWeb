@@ -19,17 +19,12 @@ namespace Ookbee.Ads.Application.Business.Analytics.Queries.GetRequestLogById
 
         public async Task<HttpResult<RequestLogDto>> Handle(GetRequestLogByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<RequestLogDto>> GetOnDb(GetRequestLogByIdQuery request)
-        {
             var result = new HttpResult<RequestLogDto>();
 
             var item = await RequestLogDbRepo.FirstAsync(filter: f => f.Id == request.Id);
             if (item == null)
                 return result.Fail(404, $"RequestLog '{request.Id}' doesn't exist.");
-                
+
             var data = Mapper
                 .Map(item)
                 .ToANew<RequestLogDto>();

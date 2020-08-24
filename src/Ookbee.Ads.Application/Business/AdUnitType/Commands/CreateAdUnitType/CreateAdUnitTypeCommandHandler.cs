@@ -26,19 +26,12 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType
 
         public async Task<HttpResult<long>> Handle(CreateAdUnitTypeCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<long>> CreateOnDb(CreateAdUnitTypeCommand request)
-        {
-            var result = new HttpResult<long>();
-
             var entity = Mapper.Map<AdUnitTypeEntity>(request);
             await AdUnitTypeDbRepo.InsertAsync(entity);
-            await AdUnitTypeDbRepo.SaveChangesAsync();
+            await AdUnitTypeDbRepo.SaveChangesAsync(cancellationToken);
 
-            return result.Success(entity.Id, entity.Id, entity);
+            var result = new HttpResult<long>();
+            return result.Success(entity.Id);
         }
     }
 }

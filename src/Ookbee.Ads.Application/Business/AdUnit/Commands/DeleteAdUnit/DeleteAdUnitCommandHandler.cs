@@ -1,5 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteAdByUnitId;
+using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitById;
+using Ookbee.Ads.Application.Business.AdUnitCache.Commands.DeleteAdUnitCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -23,20 +24,17 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.DeleteAdUnit
 
         public async Task<HttpResult<bool>> Handle(DeleteAdUnitCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> DeleteOnDb(DeleteAdUnitCommand request)
-        {
             var result = new HttpResult<bool>();
 
+            var getAdUnitById = await Mediator.Send(new GetAdUnitByIdQuery(request.Id), cancellationToken);
+            if (!getAdUnitById.Ok)
+                return result.Fail(getAdUnitById.StatusCode, getAdUnitById.Message);
+
             await AdUnitDbRepo.DeleteAsync(request.Id);
-            await AdUnitDbRepo.SaveChangesAsync();
+            await AdUnitDbRepo.SaveChangesAsync(cancellationToken);
+            await Mediator.Send(new DeleteAdUnitCacheCommand(getAdUnitById.Data.AdGroup.Id, getAdUnitById.Data.Id), cancellationToken);
 
-            await Mediator.Send(new DeleteAdByUnitIdCommand(request.Id));
-
-            return result.Success(true, request.Id, null);
+            return result.Success(true);
         }
     }
 }

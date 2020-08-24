@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.IsExistsCampaignByNam
 
         public async Task<HttpResult<bool>> Handle(IsExistsCampaignByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsCampaignByNameQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await CampaignDbRepo.AnyAsync(f =>
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Campaign '{request.Name}' doesn't exist.");

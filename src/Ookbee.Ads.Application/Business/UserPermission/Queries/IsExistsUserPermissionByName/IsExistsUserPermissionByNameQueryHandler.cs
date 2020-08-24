@@ -18,17 +18,11 @@ namespace Ookbee.Ads.Application.Business.UserPermission.Queries.IsExistsUserPer
 
         public async Task<HttpResult<bool>> Handle(IsExistsUserPermissionByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsUserPermissionByNameQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await UserPermissionDbRepo.AnyAsync(f =>
                 f.ExtensionName == request.ExtensionName
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"UserPermission '{request.ExtensionName}' doesn't exist.");

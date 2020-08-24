@@ -26,15 +26,9 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
 
         public async Task<HttpResult<bool>> Handle(UpdateRequestLogEventCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> CreateOnDb(UpdateRequestLogEventCommand request)
-        {
             var result = new HttpResult<bool>();
 
-            var requestLogResult = await Mediator.Send(new GetRequestLogByIdQuery(request.EventId));
+            var requestLogResult = await Mediator.Send(new GetRequestLogByIdQuery(request.EventId), cancellationToken);
             if (!requestLogResult.Ok)
                 return result.Fail(requestLogResult.StatusCode, requestLogResult.Message);
 
@@ -64,7 +58,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.UpdateRequestLogEve
                     .ToANew<RequestLogEntity>();
 
                 await RequestLogDbRepo.UpdateAsync(entity.Id, entity);
-                await RequestLogDbRepo.SaveChangesAsync();
+                await RequestLogDbRepo.SaveChangesAsync(cancellationToken);
             }
 
             return result.Success(true);

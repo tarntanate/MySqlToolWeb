@@ -26,18 +26,11 @@ namespace Ookbee.Ads.Application.Business.UserRole.Commands.CreateUserRole
 
         public async Task<HttpResult<long>> Handle(CreateUserRoleCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<long>> CreateOnDb(CreateUserRoleCommand request)
-        {
-            var result = new HttpResult<long>();
-
             var entity = Mapper.Map<UserRoleEntity>(request);
             await UserRoleDbRepo.InsertAsync(entity);
-            await UserRoleDbRepo.SaveChangesAsync();
+            await UserRoleDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<long>();
             return result.Success(entity.Id);
         }
     }

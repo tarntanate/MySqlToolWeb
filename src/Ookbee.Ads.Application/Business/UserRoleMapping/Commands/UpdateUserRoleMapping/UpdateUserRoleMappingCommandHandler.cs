@@ -26,18 +26,11 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Commands.UpdateUserRol
 
         public async Task<HttpResult<bool>> Handle(UpdateUserRoleMappingCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnDb(request, cancellationToken);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> UpdateOnDb(UpdateUserRoleMappingCommand request, CancellationToken cancellationToken)
-        {
-            var result = new HttpResult<bool>();
-
             var entity = Mapper.Map<UserRoleMappingEntity>(request);
             await UserRoleMappingDbRepo.UpdateAsync(new { request.UserId, request.RoleId }, entity);
-            await UserRoleMappingDbRepo.SaveChangesAsync();
+            await UserRoleMappingDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<bool>();
             return result.Success(true);
         }
     }

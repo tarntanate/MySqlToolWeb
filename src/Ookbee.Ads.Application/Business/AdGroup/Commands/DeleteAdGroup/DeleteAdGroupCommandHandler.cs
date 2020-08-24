@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteUnitListByGroupId;
+using Ookbee.Ads.Application.Business.AdGroupCache.Commands.DeleteAdGroupCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -23,20 +23,12 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Commands.DeleteAdGroup
 
         public async Task<HttpResult<bool>> Handle(DeleteAdGroupCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> DeleteOnDb(DeleteAdGroupCommand request)
-        {
-            var result = new HttpResult<bool>();
-
+            await Mediator.Send(new DeleteAdGroupCacheCommand(request.Id), cancellationToken);
             await AdGroupDbRepo.DeleteAsync(request.Id);
-            await AdGroupDbRepo.SaveChangesAsync();
+            await AdGroupDbRepo.SaveChangesAsync(cancellationToken);
 
-            await Mediator.Send(new DeleteUnitListByGroupIdCommand(request.Id));
-
-            return result.Success(true, request.Id, null);
+            var result = new HttpResult<bool>();
+            return result.Success(true);
         }
     }
 }

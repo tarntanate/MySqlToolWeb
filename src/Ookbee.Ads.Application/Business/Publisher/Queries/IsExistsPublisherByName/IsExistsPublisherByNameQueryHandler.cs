@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.IsExistsPublisherByN
 
         public async Task<HttpResult<bool>> Handle(IsExistsPublisherByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsPublisherByNameQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await PublisherDbRepo.AnyAsync(f =>
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Publisher '{request.Name}' doesn't exist.");

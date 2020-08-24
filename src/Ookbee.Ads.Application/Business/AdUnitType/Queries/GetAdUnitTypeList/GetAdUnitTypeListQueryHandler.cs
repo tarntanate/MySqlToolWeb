@@ -20,13 +20,6 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeList
 
         public async Task<HttpResult<IEnumerable<AdUnitTypeDto>>> Handle(GetAdUnitTypeListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<AdUnitTypeDto>>> GetListOnDb(GetAdUnitTypeListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<AdUnitTypeDto>>();
-
             var items = await AdUnitTypeDbRepo.FindAsync(
                 selector: AdUnitTypeDto.Projection,
                 filter: f => f.DeletedAt == null,
@@ -35,6 +28,7 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeList
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<AdUnitTypeDto>>();
             return result.Success(items);
         }
     }

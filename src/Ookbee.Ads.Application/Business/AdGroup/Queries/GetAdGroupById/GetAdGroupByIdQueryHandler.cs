@@ -18,13 +18,6 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupById
 
         public async Task<HttpResult<AdGroupDto>> Handle(GetAdGroupByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<AdGroupDto>> GetOnDb(GetAdGroupByIdQuery request)
-        {
-            var result = new HttpResult<AdGroupDto>();
-
             var item = await AdGroupDbRepo.FirstAsync(
                 selector: AdGroupDto.Projection,
                 filter: f =>
@@ -32,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupById
                     f.DeletedAt == null
             );
 
+            var result = new HttpResult<AdGroupDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"AdGroup '{request.Id}' doesn't exist.");

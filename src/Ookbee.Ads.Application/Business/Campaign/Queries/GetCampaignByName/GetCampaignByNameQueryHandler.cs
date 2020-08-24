@@ -18,13 +18,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName
 
         public async Task<HttpResult<CampaignDto>> Handle(GetCampaignByNameQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<CampaignDto>> GetOnDb(GetCampaignByNameQuery request)
-        {
-            var result = new HttpResult<CampaignDto>();
-
             var item = await CampaignDbRepo.FirstAsync(
                 selector: CampaignDto.Projection,
                 filter: f =>
@@ -32,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignByName
                     f.DeletedAt == null
             );
 
+            var result = new HttpResult<CampaignDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"Campaign '{request.Name}' doesn't exist.");

@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Queries.IsExistsUserRo
 
         public async Task<HttpResult<bool>> Handle(IsExistsUserRoleMappingByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsUserRoleMappingByIdQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await UserRoleMappingDbRepo.AnyAsync(f =>
                 f.UserId == request.UserId &&
                 f.RoleId == request.RoleId
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"UserRoleMapping 'UserId:{request.UserId} and RoleId:{request.UserId}' doesn't exist.");

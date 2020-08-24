@@ -18,13 +18,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById
 
         public async Task<HttpResult<PublisherDto>> Handle(GetPublisherByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<PublisherDto>> GetOnDb(GetPublisherByIdQuery request)
-        {
-            var result = new HttpResult<PublisherDto>();
-
             var item = await PublisherDbRepo.FirstAsync(
                 selector: PublisherDto.Projection,
                 filter: f =>
@@ -32,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherById
                     f.DeletedAt == null
             );
 
+            var result = new HttpResult<PublisherDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"Publisher '{request.Id}' doesn't exist.");

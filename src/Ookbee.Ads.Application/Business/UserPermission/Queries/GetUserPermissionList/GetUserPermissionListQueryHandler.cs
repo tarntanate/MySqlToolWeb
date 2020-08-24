@@ -20,13 +20,6 @@ namespace Ookbee.Ads.Application.Business.UserPermission.Queries.GetUserPermissi
 
         public async Task<HttpResult<IEnumerable<UserPermissionDto>>> Handle(GetUserPermissionListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<UserPermissionDto>>> GetListOnDb(GetUserPermissionListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<UserPermissionDto>>();
-
             var items = await UserPermissionDbRepo.FindAsync(
                 selector: UserPermissionDto.Projection,
                 orderBy: f => f.OrderBy(o => o.ExtensionName),
@@ -34,6 +27,7 @@ namespace Ookbee.Ads.Application.Business.UserPermission.Queries.GetUserPermissi
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<UserPermissionDto>>();
             return result.Success(items);
         }
     }

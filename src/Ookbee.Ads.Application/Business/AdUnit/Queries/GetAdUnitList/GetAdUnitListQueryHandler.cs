@@ -22,13 +22,6 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
 
         public async Task<HttpResult<IEnumerable<AdUnitDto>>> Handle(GetAdUnitListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<AdUnitDto>>> GetListOnDb(GetAdUnitListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<AdUnitDto>>();
-
             var predicate = PredicateBuilder.True<AdUnitEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
 
@@ -43,6 +36,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<AdUnitDto>>();
             return result.Success(items);
         }
     }

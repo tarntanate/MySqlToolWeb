@@ -18,13 +18,6 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName
 
         public async Task<HttpResult<AdvertiserDto>> Handle(GetAdvertiserByNameQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<AdvertiserDto>> GetOnDb(GetAdvertiserByNameQuery request)
-        {
-            var result = new HttpResult<AdvertiserDto>();
-
             var item = await AdvertiserDbRepo.FirstAsync(
                 selector: AdvertiserDto.Projection,
                 filter: f =>
@@ -32,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserByName
                     f.DeletedAt == null
             );
 
+            var result = new HttpResult<AdvertiserDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"Advertiser '{request.Name}' doesn't exist.");

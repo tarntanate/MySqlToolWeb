@@ -22,13 +22,6 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdIdList
 
         public async Task<HttpResult<IEnumerable<long>>> Handle(GetAdIdListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<long>>> GetListOnDb(GetAdIdListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<long>>();
-
             var predicate = PredicateBuilder.True<AdEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
 
@@ -46,6 +39,7 @@ namespace Ookbee.Ads.Application.Business.Ad.Queries.GetAdIdList
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<long>>();
             return result.Success(items.Select(f => f.Id));
         }
     }

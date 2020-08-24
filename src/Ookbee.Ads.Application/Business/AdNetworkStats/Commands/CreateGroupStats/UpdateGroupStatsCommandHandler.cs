@@ -21,7 +21,6 @@ namespace Ookbee.Ads.Application.Business.AdNetworkStats.Commands.UpdateGroupSta
         {
             var redisKey = CacheKey.UnitStatsByGroup(request.AdGroupId);
             var hashField = request.Stats.ToString();
-            Console.WriteLine(hashField);
             await AdsRedis.HashIncrementAsync(redisKey, hashField);
             return Unit.Value;
         }

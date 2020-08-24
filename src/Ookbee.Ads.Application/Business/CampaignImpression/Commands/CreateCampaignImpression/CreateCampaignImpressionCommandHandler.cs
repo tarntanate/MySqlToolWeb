@@ -28,24 +28,18 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
 
         public async Task<HttpResult<long>> Handle(CreateCampaignImpressionCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<long>> CreateOnDb(CreateCampaignImpressionCommand request)
-        {
             var result = new HttpResult<long>();
             var campaignId = 0L;
 
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var createCampaignResult = await CreateCampaignOnDb(request);
+                var createCampaignResult = await CreateCampaignOnDb(request, cancellationToken);
                 if (!createCampaignResult.Ok)
                     return result.Fail(createCampaignResult.StatusCode, createCampaignResult.Message);
 
                 campaignId = createCampaignResult.Data;
 
-                var createCampaignImpressionResult = await CreateCampaignImpressionOnDb(campaignId, request);
+                var createCampaignImpressionResult = await CreateCampaignImpressionOnDb(campaignId, request, cancellationToken);
                 if (!createCampaignImpressionResult.Ok)
                     return result.Fail(createCampaignImpressionResult.StatusCode, createCampaignImpressionResult.Message);
 
@@ -55,21 +49,21 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
             return result.Success(campaignId);
         }
 
-        private async Task<HttpResult<long>> CreateCampaignOnDb(CreateCampaignImpressionCommand request)
+        private async Task<HttpResult<long>> CreateCampaignOnDb(CreateCampaignImpressionCommand request, CancellationToken cancellationToken)
         {
             var source = Mapper.Map<CreateCampaignRequest>(request);
             var command = new CreateCampaignCommand(source);
-            return await Mediator.Send(command);
+            return await Mediator.Send(command, cancellationToken);
         }
 
-        private async Task<HttpResult<long>> CreateCampaignImpressionOnDb(long campaignId, CreateCampaignImpressionCommand request)
+        private async Task<HttpResult<long>> CreateCampaignImpressionOnDb(long campaignId, CreateCampaignImpressionCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<long>();
 
             var entity = Mapper.Map<CampaignImpressionEntity>(request);
             entity.CampaignId = campaignId;
             await CampaignImpressionDbRepo.InsertAsync(entity);
-            await CampaignImpressionDbRepo.SaveChangesAsync();
+            await CampaignImpressionDbRepo.SaveChangesAsync(cancellationToken);
 
             return result.Success(entity.Id);
         }

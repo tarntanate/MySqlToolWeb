@@ -20,13 +20,6 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserList
 
         public async Task<HttpResult<IEnumerable<AdvertiserDto>>> Handle(GetAdvertiserListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<AdvertiserDto>>> GetListOnDb(GetAdvertiserListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<AdvertiserDto>>();
-
             var items = await AdvertiserDbRepo.FindAsync(
                 selector: AdvertiserDto.Projection,
                 filter: f => f.DeletedAt == null,
@@ -35,6 +28,7 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Queries.GetAdvertiserList
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<AdvertiserDto>>();
             return result.Success(items);
         }
     }

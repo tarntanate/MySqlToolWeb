@@ -26,18 +26,11 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAdStatus
 
         public async Task<HttpResult<bool>> Handle(UpdateAdStatusCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateAdStatusOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> UpdateAdStatusOnDb(UpdateAdStatusCommand request)
-        {
-            var result = new HttpResult<bool>();
-
             var entity = Mapper.Map<AdEntity>(request);
             await AdDbRepo.UpdateAsync(entity.Id, entity, x => x.Status);
-            await AdDbRepo.SaveChangesAsync();
+            await AdDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<bool>();
             return result.Success(true);
         }
     }

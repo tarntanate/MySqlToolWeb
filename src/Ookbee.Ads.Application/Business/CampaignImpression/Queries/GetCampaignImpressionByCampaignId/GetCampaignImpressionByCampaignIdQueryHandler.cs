@@ -18,17 +18,11 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.GetCampaign
 
         public async Task<HttpResult<CampaignImpressionDto>> Handle(GetCampaignImpressionByCampaignIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<CampaignImpressionDto>> GetOnDb(GetCampaignImpressionByCampaignIdQuery request)
-        {
-            var result = new HttpResult<CampaignImpressionDto>();
-
             var item = await CampaignImpressionDbRepo.FirstAsync(
                 selector: CampaignImpressionDto.Projection,
                 filter: f => f.CampaignId == request.CampaignId);
 
+            var result = new HttpResult<CampaignImpressionDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"Impression doesn't exist.");

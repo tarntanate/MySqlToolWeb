@@ -18,13 +18,6 @@ namespace Ookbee.Ads.Application.Business.UserRole.Queries.GetUserRoleById
 
         public async Task<HttpResult<UserRoleDto>> Handle(GetUserRoleByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<UserRoleDto>> GetOnDb(GetUserRoleByIdQuery request)
-        {
-            var result = new HttpResult<UserRoleDto>();
-
             var item = await UserRoleDbRepo.FirstAsync(
                 selector: UserRoleDto.Projection,
                 filter: f =>
@@ -32,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.UserRole.Queries.GetUserRoleById
                     f.DeletedAt == null
             );
 
+            var result = new HttpResult<UserRoleDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"UserRole '{request.Id}' doesn't exist.");

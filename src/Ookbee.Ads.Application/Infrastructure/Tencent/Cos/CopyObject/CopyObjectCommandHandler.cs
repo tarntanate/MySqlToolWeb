@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject
             var result = new HttpResult<bool>();
             try
             {
-                var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand());
+                var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand(), cancellationToken);
                 var sourceAppid = request.SourceAppid;
                 var sourceRegion = request.SourceRegion;
                 var sourceBucket = request.SourceBucket;

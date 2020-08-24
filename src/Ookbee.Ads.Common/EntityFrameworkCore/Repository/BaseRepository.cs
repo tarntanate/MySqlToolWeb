@@ -21,7 +21,8 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             DbSet = DbContext.Set<TEntity>();
         }
 
-        public DbSet<TEntity> GetDbSet() {
+        public DbSet<TEntity> GetDbSet()
+        {
             return DbSet;
         }
 
@@ -406,7 +407,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             if (disableTracking)
                 query = query.AsNoTracking();
 
-           
+
             if (filter != null)
                 query = query.Where(filter);
 
@@ -619,7 +620,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 }
             }
 
-            return await DbContext.SaveChangesAsync();
+            return await DbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

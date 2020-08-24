@@ -18,19 +18,13 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeByName
 
         public async Task<HttpResult<AdUnitTypeDto>> Handle(GetAdUnitTypeByNameQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<AdUnitTypeDto>> GetOnDb(GetAdUnitTypeByNameQuery request)
-        {
-            var result = new HttpResult<AdUnitTypeDto>();
-
             var item = await AdUnitTypeDbRepo.FirstAsync(
                 selector: AdUnitTypeDto.Projection,
                 filter: f =>
                     f.Name == request.Name &&
                     f.DeletedAt == null);
 
+            var result = new HttpResult<AdUnitTypeDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"AdUnitType '{request.Name}' doesn't exist.");

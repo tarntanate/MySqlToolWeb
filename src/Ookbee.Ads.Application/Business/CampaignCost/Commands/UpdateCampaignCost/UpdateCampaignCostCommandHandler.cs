@@ -28,24 +28,18 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.UpdateCampaignCo
 
         public async Task<HttpResult<bool>> Handle(UpdateCampaignCostCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> UpdateOnDb(UpdateCampaignCostCommand request)
-        {
             var result = new HttpResult<bool>();
 
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var updateCampaignResult = await UpdateCampaignOnDb(request);
+                var updateCampaignResult = await UpdateCampaignOnDb(request, cancellationToken);
                 if (!updateCampaignResult.Ok)
                 {
                     scope.Dispose();
                     return result.Fail(updateCampaignResult.StatusCode, updateCampaignResult.Message);
                 }
 
-                var updateCampaignCostResult = await UpdateCampaignCostOnDb(request);
+                var updateCampaignCostResult = await UpdateCampaignCostOnDb(request, cancellationToken);
                 if (!updateCampaignCostResult.Ok)
                 {
                     scope.Dispose();
@@ -58,21 +52,20 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.UpdateCampaignCo
             return result.Success(true);
         }
 
-        private async Task<HttpResult<bool>> UpdateCampaignOnDb(UpdateCampaignCostCommand request)
+        private async Task<HttpResult<bool>> UpdateCampaignOnDb(UpdateCampaignCostCommand request, CancellationToken cancellationToken)
         {
             var source = Mapper.Map<UpdateCampaignRequest>(request);
-            var command = new UpdateCampaignCommand(request.Id, source);
-            return await Mediator.Send(command);
+            return await Mediator.Send(new UpdateCampaignCommand(request.Id, source), cancellationToken);
         }
 
-        private async Task<HttpResult<bool>> UpdateCampaignCostOnDb(UpdateCampaignCostCommand request)
+        private async Task<HttpResult<bool>> UpdateCampaignCostOnDb(UpdateCampaignCostCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
 
             var entity = Mapper.Map<CampaignCostEntity>(request);
             entity.CampaignId = request.Id;
             await CampaignCostDbRepo.UpdateAsync(entity.Id, entity);
-            await CampaignCostDbRepo.SaveChangesAsync();
+            await CampaignCostDbRepo.SaveChangesAsync(cancellationToken);
 
             return result.Success(true);
         }

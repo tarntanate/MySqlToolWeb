@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Queries.IsExistsAdGroupByName
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdGroupByNameQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsAdGroupByNameQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await AdGroupDbRepo.AnyAsync(f =>
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );
 
+            var result = new HttpResult<bool>();
             if (!isExists)
                 return result.Fail(404, $"AdGroup '{request.Name}' doesn't exist.");
             return result.Success(true);

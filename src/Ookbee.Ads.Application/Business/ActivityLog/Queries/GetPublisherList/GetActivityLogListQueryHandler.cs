@@ -22,11 +22,6 @@ namespace Ookbee.Ads.Application.Business.ActivityLog.Queries.GetActivityLogList
 
         public async Task<HttpResult<IEnumerable<ActivityLogDto>>> Handle(GetActivityLogListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<ActivityLogDto>>> GetListOnDb(GetActivityLogListQuery request)
-        {
             var result = new HttpResult<IEnumerable<ActivityLogDto>>();
 
             var predicate = PredicateBuilder.True<ActivityLogEntity>();

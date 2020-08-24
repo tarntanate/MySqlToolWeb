@@ -22,18 +22,11 @@ namespace Ookbee.Ads.Application.Business.Advertiser.Commands.DeleteAdvertiser
 
         public async Task<HttpResult<bool>> Handle(DeleteAdvertiserCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> DeleteOnDb(DeleteAdvertiserCommand request)
-        {
-            var result = new HttpResult<bool>();
-
             await AdvertiserDbRepo.DeleteAsync(request.Id);
-            await AdvertiserDbRepo.SaveChangesAsync();
+            await AdvertiserDbRepo.SaveChangesAsync(cancellationToken);
 
-            return result.Success(true, request.Id, null);
+            var result = new HttpResult<bool>();
+            return result.Success(true);
         }
     }
 }

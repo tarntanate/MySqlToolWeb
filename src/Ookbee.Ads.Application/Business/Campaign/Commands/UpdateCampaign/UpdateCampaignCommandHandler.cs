@@ -26,19 +26,12 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 
         public async Task<HttpResult<bool>> Handle(UpdateCampaignCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> UpdateOnDb(UpdateCampaignCommand request)
-        {
-            var result = new HttpResult<bool>();
-
             var entity = Mapper.Map<CampaignEntity>(request);
             await CampaignDbRepo.UpdateAsync(entity.Id, entity);
-            await CampaignDbRepo.SaveChangesAsync();
+            await CampaignDbRepo.SaveChangesAsync(cancellationToken);
 
-            return result.Success(true, entity.Id, entity);
+            var result = new HttpResult<bool>();
+            return result.Success(true);
         }
     }
 }

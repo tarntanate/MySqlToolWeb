@@ -18,15 +18,9 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Queries.IsExistsCampaignC
 
         public async Task<HttpResult<bool>> Handle(IsExistsCampaignCostByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsCampaignCostByIdQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await CampaignCostDbRepo.AnyAsync(f => f.Id == request.Id);
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Cost doesn't exist.");

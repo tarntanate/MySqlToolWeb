@@ -22,17 +22,10 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Commands.DeleteUserRol
 
         public async Task<HttpResult<bool>> Handle(DeleteUserRoleMappingCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> DeleteOnDb(DeleteUserRoleMappingCommand request)
-        {
-            var result = new HttpResult<bool>();
-
             await UserRoleMappingDbRepo.DeleteAsync(new { request.UserId, request.RoleId });
-            await UserRoleMappingDbRepo.SaveChangesAsync();
+            await UserRoleMappingDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<bool>();
             return result.Success(true);
         }
     }

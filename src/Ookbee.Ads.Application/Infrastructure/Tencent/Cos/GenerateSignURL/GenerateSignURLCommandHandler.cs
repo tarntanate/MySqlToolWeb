@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
         {
             var result = new HttpResult<string>();
             var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
-            var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand());
+            var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand(), cancellationToken);
             var preSignatureStruct = new PreSignatureStruct();
             preSignatureStruct.appid = cosConfig.AppId;                             //Tencent Cloud account's APPID
             preSignatureStruct.region = cosConfig.Region;                           //Region of the bucket

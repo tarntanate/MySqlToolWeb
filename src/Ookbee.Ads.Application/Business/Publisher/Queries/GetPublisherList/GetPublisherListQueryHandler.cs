@@ -20,13 +20,6 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList
 
         public async Task<HttpResult<IEnumerable<PublisherDto>>> Handle(GetPublisherListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<PublisherDto>>> GetListOnDb(GetPublisherListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<PublisherDto>>();
-
             var items = await PublisherDbRepo.FindAsync(
                 selector: PublisherDto.Projection,
                 filter: f => f.DeletedAt == null,
@@ -35,6 +28,7 @@ namespace Ookbee.Ads.Application.Business.Publisher.Queries.GetPublisherList
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<PublisherDto>>();
             return result.Success(items);
         }
     }

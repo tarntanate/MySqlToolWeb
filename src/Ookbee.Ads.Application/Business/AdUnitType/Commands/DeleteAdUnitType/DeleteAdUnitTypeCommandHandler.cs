@@ -22,18 +22,11 @@ namespace Ookbee.Ads.Application.Business.AdUnitType.Commands.DeleteAdUnitType
 
         public async Task<HttpResult<bool>> Handle(DeleteAdUnitTypeCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> DeleteOnDb(DeleteAdUnitTypeCommand request)
-        {
-            var result = new HttpResult<bool>();
-
             await AdUnitTypeDbRepo.DeleteAsync(request.Id);
-            await AdUnitTypeDbRepo.SaveChangesAsync();
+            await AdUnitTypeDbRepo.SaveChangesAsync(cancellationToken);
 
-            return result.Success(true, request.Id, null);
+            var result = new HttpResult<bool>();
+            return result.Success(true);
         }
     }
 }

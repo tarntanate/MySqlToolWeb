@@ -22,7 +22,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.DeleteObject
             var result = new HttpResult<bool>();
             try
             {
-                var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand());
+                var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand(), cancellationToken);
                 var deleteObjectRequest = new DeleteObjectRequest(request.Bucket, request.Key);
                 var deleteObjectResult = cosXml.DeleteObject(deleteObjectRequest);
                 if (deleteObjectResult.httpCode == 200)

@@ -23,22 +23,16 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.DeleteCamp
 
         public async Task<HttpResult<bool>> Handle(DeleteCampaignImpressionCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> DeleteOnDb(DeleteCampaignImpressionCommand request)
-        {
             var result = new HttpResult<bool>();
 
-            var isExistsResult = await Mediator.Send(new IsExistsCampaignImpressionByIdQuery(request.Id));
+            var isExistsResult = await Mediator.Send(new IsExistsCampaignImpressionByIdQuery(request.Id), cancellationToken);
             if (!isExistsResult.Ok)
                 return isExistsResult;
 
             await CampaignImpressionDbRepo.DeleteAsync(request.Id);
-            await CampaignImpressionDbRepo.SaveChangesAsync();
-            
-            return result.Success(true, request.Id, new CampaignEntity());
+            await CampaignImpressionDbRepo.SaveChangesAsync(cancellationToken);
+
+            return result.Success(true);
         }
     }
 }

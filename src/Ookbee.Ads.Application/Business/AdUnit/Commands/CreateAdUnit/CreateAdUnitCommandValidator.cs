@@ -17,9 +17,9 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
                 // .NotNull()
                 // .NotEmpty()
                 // .MaximumLength(10)
-                .CustomAsync(async (value, context, CancellationToken) =>
+                .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var IsExistsAdNetworkNameByAdGroup = await Mediator.Send(new IsExistsAdNetworkNameByAdGroupQuery(adNetworkName: value.AdNetwork, adGroupId: value.AdGroupId), CancellationToken);
+                    var IsExistsAdNetworkNameByAdGroup = await Mediator.Send(new IsExistsAdNetworkNameByAdGroupQuery(adNetworkName: value.AdNetwork, adGroupId: value.AdGroupId), cancellationToken);
                     if (IsExistsAdNetworkNameByAdGroup.Ok)
                         context.AddFailure($"'{value.AdNetwork}' already exists in groupId {value.AdGroupId}.");
                 });

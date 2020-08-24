@@ -22,13 +22,6 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Queries.GetUserRoleMap
 
         public async Task<HttpResult<IEnumerable<UserRoleMappingDto>>> Handle(GetUserRoleMappingListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<UserRoleMappingDto>>> GetListOnDb(GetUserRoleMappingListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<UserRoleMappingDto>>();
-
             var predicate = PredicateBuilder.True<UserRoleMappingEntity>();
 
             if (request.UserId.HasValue())
@@ -45,6 +38,7 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Queries.GetUserRoleMap
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<UserRoleMappingDto>>();
             return result.Success(items);
         }
     }

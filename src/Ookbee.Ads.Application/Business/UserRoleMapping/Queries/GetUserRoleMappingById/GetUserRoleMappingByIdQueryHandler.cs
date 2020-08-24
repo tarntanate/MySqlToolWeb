@@ -18,13 +18,6 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Queries.GetUserRoleMap
 
         public async Task<HttpResult<UserRoleMappingDto>> Handle(GetUserRoleMappingByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<UserRoleMappingDto>> GetOnDb(GetUserRoleMappingByIdQuery request)
-        {
-            var result = new HttpResult<UserRoleMappingDto>();
-
             var item = await UserRoleMappingDbRepo.FirstAsync(
                 selector: UserRoleMappingDto.Projection,
                 filter: f =>
@@ -32,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.UserRoleMapping.Queries.GetUserRoleMap
                     f.RoleId == request.RoleId
             );
 
+            var result = new HttpResult<UserRoleMappingDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"UserRoleMapping 'UserId:{request.UserId} and RoleId:{request.UserId}' doesn't exist.");

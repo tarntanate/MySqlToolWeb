@@ -18,15 +18,9 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Queries.IsExistsCam
 
         public async Task<HttpResult<bool>> Handle(IsExistsCampaignImpressionByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsCampaignImpressionByIdQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await CampaignImpressionDbRepo.AnyAsync(f => f.Id == request.Id);
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Impression doesn't exist.");

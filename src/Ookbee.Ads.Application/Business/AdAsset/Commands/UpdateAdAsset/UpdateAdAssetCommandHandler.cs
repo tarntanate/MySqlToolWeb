@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.AdAssetCache.Commands.UpdateAdAssetCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -26,19 +27,13 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.UpdateAdAsset
 
         public async Task<HttpResult<bool>> Handle(UpdateAdAssetCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> UpdateOnDb(UpdateAdAssetCommand request)
-        {
-            var result = new HttpResult<bool>();
-
             var entity = Mapper.Map<AdAssetEntity>(request);
             await AdAssetDbRepo.UpdateAsync(entity.Id, entity);
-            await AdAssetDbRepo.SaveChangesAsync();
+            await AdAssetDbRepo.SaveChangesAsync(cancellationToken);
+            await Mediator.Send(new UpdateAdAssetCacheCommand(entity.AdId), cancellationToken);
 
-            return result.Success(true, entity.Id, entity);
+            var result = new HttpResult<bool>();
+            return result.Success(true);
         }
     }
 }

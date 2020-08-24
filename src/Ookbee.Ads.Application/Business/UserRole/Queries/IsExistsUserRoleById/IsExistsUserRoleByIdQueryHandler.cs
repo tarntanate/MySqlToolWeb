@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.UserRole.Queries.IsExistsUserRoleById
 
         public async Task<HttpResult<bool>> Handle(IsExistsUserRoleByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsUserRoleByIdQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await UserRoleDbRepo.AnyAsync(f =>
                 f.Id == request.Id &&
                 f.DeletedAt == null
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"UserRole '{request.Id}' doesn't exist.");

@@ -22,17 +22,10 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.DeleteCampaignCo
 
         public async Task<HttpResult<bool>> Handle(DeleteCampaignCostCommand request, CancellationToken cancellationToken)
         {
-            var result = await DeleteOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> DeleteOnDb(DeleteCampaignCostCommand request)
-        {
-            var result = new HttpResult<bool>();
-
             await CampaignCostDbRepo.DeleteAsync(request.Id);
-            await CampaignCostDbRepo.SaveChangesAsync();
+            await CampaignCostDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<bool>();
             return result.Success(true);
         }
     }

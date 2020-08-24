@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.AdAssetCache.Commands.CreateAdAssetCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -26,19 +27,13 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Commands.CreateAdAsset
 
         public async Task<HttpResult<long>> Handle(CreateAdAssetCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<long>> CreateOnDb(CreateAdAssetCommand request)
-        {
-            var result = new HttpResult<long>();
-
             var entity = Mapper.Map<AdAssetEntity>(request);
             await AdAssetDbRepo.InsertAsync(entity);
-            await AdAssetDbRepo.SaveChangesAsync();
+            await AdAssetDbRepo.SaveChangesAsync(cancellationToken);
+            await Mediator.Send(new CreateAdAssetCacheCommand(entity.AdId), cancellationToken);
 
-            return result.Success(entity.Id, entity.Id, entity);
+            var result = new HttpResult<long>();
+            return result.Success(entity.Id);
         }
     }
 }

@@ -18,18 +18,12 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdUnitByAdNetwo
 
         public async Task<HttpResult<bool>> Handle(IsExistsAdUnitByAdNetworkQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsAdUnitByAdNetworkQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await AdUnitDbRepo.AnyAsync(f =>
                 f.AdNetwork == request.AdNetwork &&
                 f.DeletedAt == null
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"AdUnit By AdNetwork '{request.AdNetwork}' doesn't exist.");

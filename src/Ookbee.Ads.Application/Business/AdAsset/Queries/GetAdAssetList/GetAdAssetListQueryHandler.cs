@@ -22,13 +22,6 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
 
         public async Task<HttpResult<IEnumerable<AdAssetDto>>> Handle(GetAdAssetListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request, cancellationToken);
-        }
-
-        private async Task<HttpResult<IEnumerable<AdAssetDto>>> GetListOnDb(GetAdAssetListQuery request, CancellationToken cancellationToken)
-        {
-            var result = new HttpResult<IEnumerable<AdAssetDto>>();
-
             var predicate = PredicateBuilder.True<AdAssetEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
 
@@ -43,6 +36,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetList
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<AdAssetDto>>();
             return result.Success(items);
         }
     }

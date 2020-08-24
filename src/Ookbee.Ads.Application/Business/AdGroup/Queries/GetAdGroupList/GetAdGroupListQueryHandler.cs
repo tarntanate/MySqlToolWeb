@@ -20,13 +20,6 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupList
 
         public async Task<HttpResult<IEnumerable<AdGroupDto>>> Handle(GetAdGroupListQuery request, CancellationToken cancellationToken)
         {
-            return await GetListOnDb(request);
-        }
-
-        private async Task<HttpResult<IEnumerable<AdGroupDto>>> GetListOnDb(GetAdGroupListQuery request)
-        {
-            var result = new HttpResult<IEnumerable<AdGroupDto>>();
-
             var items = await AdGroupDbRepo.FindAsync(
                 selector: AdGroupDto.Projection,
                 filter: f => f.DeletedAt == null,
@@ -35,6 +28,7 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupList
                 length: request.Length
             );
 
+            var result = new HttpResult<IEnumerable<AdGroupDto>>();
             return result.Success(items);
         }
     }

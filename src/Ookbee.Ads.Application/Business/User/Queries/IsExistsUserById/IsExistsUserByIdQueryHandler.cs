@@ -18,17 +18,11 @@ namespace Ookbee.Ads.Application.Business.User.Queries.IsExistsUserById
 
         public async Task<HttpResult<bool>> Handle(IsExistsUserByIdQuery request, CancellationToken cancellationToken)
         {
-            return await IsExistsOnDb(request);
-        }
-
-        private async Task<HttpResult<bool>> IsExistsOnDb(IsExistsUserByIdQuery request)
-        {
-            var result = new HttpResult<bool>();
-
             var isExists = await userDbRepo.AnyAsync(f =>
                 f.Id == request.Id
             );
 
+            var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"User '{request.Id}' doesn't exist.");

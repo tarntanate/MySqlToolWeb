@@ -18,13 +18,6 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetById
 
         public async Task<HttpResult<AdAssetDto>> Handle(GetAdAssetByIdQuery request, CancellationToken cancellationToken)
         {
-            return await GetOnDb(request);
-        }
-
-        private async Task<HttpResult<AdAssetDto>> GetOnDb(GetAdAssetByIdQuery request)
-        {
-            var result = new HttpResult<AdAssetDto>();
-
             var item = await AdAssetDbRepo.FirstAsync(
                 selector: AdAssetDto.Projection,
                 filter: f =>
@@ -32,6 +25,7 @@ namespace Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetById
                     f.DeletedAt == null
             );
 
+            var result = new HttpResult<AdAssetDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"AdAsset '{request.Id}' doesn't exist.");

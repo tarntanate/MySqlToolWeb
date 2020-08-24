@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList
                 {
                     if (value != null)
                     {
-                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value.Value));
+                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value.Value), cancellationToken);
                         if (!isExistsAdUnitResult.Ok)
                             context.AddFailure(isExistsAdUnitResult.Message);
                     }

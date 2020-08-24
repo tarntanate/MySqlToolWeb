@@ -26,19 +26,11 @@ namespace Ookbee.Ads.Application.Business.Analytics.Commands.CreateRequestLog
 
         public async Task<HttpResult<long>> Handle(CreateRequestLogCommand request, CancellationToken cancellationToken)
         {
-            var result = await CreateOnDb(request);
-            return result;
-        }
-
-        private async Task<HttpResult<long>> CreateOnDb(CreateRequestLogCommand request)
-        {
-            var result = new HttpResult<long>();
-
             var entity = Mapper.Map<RequestLogEntity>(request);
-
             await RequestLogDbRepo.InsertAsync(entity);
-            await RequestLogDbRepo.SaveChangesAsync();
+            await RequestLogDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<long>();
             return result.Success(entity.Id);
         }
     }

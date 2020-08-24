@@ -26,18 +26,11 @@ namespace Ookbee.Ads.Application.Business.User.Commands.UpdateUser
 
         public async Task<HttpResult<bool>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var result = await UpdateOnDb(request, cancellationToken);
-            return result;
-        }
-
-        private async Task<HttpResult<bool>> UpdateOnDb(UpdateUserCommand request, CancellationToken cancellationToken)
-        {
-            var result = new HttpResult<bool>();
-
             var entity = Mapper.Map<UserEntity>(request);
             await userDbRepo.UpdateAsync(entity.Id, entity);
-            await userDbRepo.SaveChangesAsync();
+            await userDbRepo.SaveChangesAsync(cancellationToken);
 
+            var result = new HttpResult<bool>();
             return result.Success(true);
         }
     }
