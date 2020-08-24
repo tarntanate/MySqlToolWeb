@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.DeleteUnitListByGroupId;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -32,6 +33,8 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Commands.DeleteAdGroup
 
             await AdGroupDbRepo.DeleteAsync(request.Id);
             await AdGroupDbRepo.SaveChangesAsync();
+
+            await Mediator.Send(new DeleteUnitListByGroupIdCommand(request.Id));
 
             return result.Success(true, request.Id, null);
         }

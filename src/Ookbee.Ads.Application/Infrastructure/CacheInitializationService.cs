@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ookbee.Ads.Application.Business.AdNetworkGroup.Commands.CreateAdNetworkGroupListByKey;
-using Ookbee.Ads.Application.Business.AdNetworkItem.Commands.CreateAdNetworkItemCache;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.ClearCache;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateCache;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,11 +27,14 @@ namespace Ookbee.Ads.Application.Infrastructure
                     using (var scope = ServiceProvider.CreateScope())
                     {
                         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                        await mediator.Send(new CreateAdNetworkGroupListByKeyCommand());
-                        await mediator.Send(new CreateAdNetworkItemCacheCommand());
+                        await mediator.Send(new ClearCacheCommand());
+                        await mediator.Send(new CreateCacheCommand());
                     }
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+
+                }
             });
         }
     }

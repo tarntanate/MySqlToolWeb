@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.AdNetwork.Commands.CreateUnitListByGroupId;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -37,6 +38,8 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Commands.UpdateAdGroup
             var entity = Mapper.Map<AdGroupEntity>(request);
             await AdGroupDbRepo.UpdateAsync(entity.Id, entity);
             await AdGroupDbRepo.SaveChangesAsync();
+
+            await Mediator.Send(new CreateUnitListByGroupIdCommand(entity.Id));
 
             return result.Success(true, entity.Id, entity);
         }

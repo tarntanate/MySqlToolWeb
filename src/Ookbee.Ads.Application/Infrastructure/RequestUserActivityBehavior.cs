@@ -26,22 +26,25 @@ namespace Ookbee.Ads.Application.Infrastructure
             {
                 if (requestName.Contains(activity.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
-                    if (typeof(HttpResult<>).IsAssignableFrom(response.GetType().GetGenericTypeDefinition()))
-                    {
-                        var data = response as dynamic;
-                        var dataLogger = data.DataLogger as DataLogger;
-                        if (dataLogger != null)
-                        {
-                            var objectId = dataLogger.ObjectId;
-                            var objectData = dataLogger.ObjectData;
-                            var createActivityLogCommand = new CreateActivityLogCommand(objectId, objectData, (LogEvent)activity);
-                            await Mediator.Send(createActivityLogCommand);
-                        }
-                    }
-                    break;
+                    // if (typeof(HttpResult<>).IsAssignableFrom(response.GetType().GetGenericTypeDefinition()))
+                    // {
+                    //     var data = response as dynamic;
+                    //     if (data != null)
+                    //     {
+                    //         var dataLogger = data.DataLogger as DataLogger;
+                    //         if (dataLogger != null)
+                    //         {
+                    //             var objectId = dataLogger.ObjectId;
+                    //             var objectData = dataLogger.ObjectData;
+                    //             var createActivityLogCommand = new CreateActivityLogCommand(objectId, objectData, (LogEvent)activity);
+                    //             await Mediator.Send(createActivityLogCommand);
+                    //         }
+
+                    //     }
+                    //     break;
+                    // }
                 }
             }
-
             return response;
         }
     }
