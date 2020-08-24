@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdUnit.Queries.IsExistsAdNetworkNameByAdGroup;
+using System.Threading;
 
 namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
 {
@@ -8,26 +9,31 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
     {
         private IMediator Mediator { get; }
 
-        public CreateAdUnitCommandValidator(IMediator mediator)
+        public CreateAdUnitCommandValidator(IMediator mediator, CancellationToken cancellationToken)
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
+            RuleFor(p => p.AdGroupId)
+                .NotNull();
+
+            RuleFor(p => p.AdNetwork)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(10);
+
+            RuleFor(p => p.AdNetworkUnitId)
+               .NotNull()
+               .NotEmpty()
+               .MaximumLength(50);
+
             RuleFor(p => new { AdNetwork = p.AdNetwork, AdGroupId = p.AdGroupId })
-                // .NotNull()
-                // .NotEmpty()
-                // .MaximumLength(10)
-                .CustomAsync(async (value, context, cancellationToken) =>
+                .CustomAsync(async (value, context, CancellationToken) =>
                 {
                     var IsExistsAdNetworkNameByAdGroup = await Mediator.Send(new IsExistsAdNetworkNameByAdGroupQuery(adNetworkName: value.AdNetwork, adGroupId: value.AdGroupId), cancellationToken);
                     if (IsExistsAdNetworkNameByAdGroup.Ok)
                         context.AddFailure($"'{value.AdNetwork}' already exists in groupId {value.AdGroupId}.");
                 });
-
-            RuleFor(p => p.AdNetworkUnitId)
-                .NotNull()
-                .NotEmpty()
-                .MaximumLength(50);
         }
     }
 }
