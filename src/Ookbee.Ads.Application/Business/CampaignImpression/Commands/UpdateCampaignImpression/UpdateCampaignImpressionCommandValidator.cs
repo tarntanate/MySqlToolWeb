@@ -12,8 +12,8 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCamp
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            RuleFor(p => p.Quota)
-                .GreaterThan(0);
+            // RuleFor(p => p.Quota)
+            //     .GreaterThan(0);
         }
     }
 }
