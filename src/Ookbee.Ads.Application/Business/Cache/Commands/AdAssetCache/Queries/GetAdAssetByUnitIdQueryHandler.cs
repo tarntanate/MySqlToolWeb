@@ -1,8 +1,9 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
+using Ookbee.Ads.Application.Business.Cache.Commands.AdUnitStatsCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System;
@@ -14,31 +15,38 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.GetAdAsset
 {
     public class GetAdAssetByUnitIdQueryHandler : IRequestHandler<GetAdAssetByUnitIdQuery, HttpResult<string>>
     {
-        private IMapper Mapper { get; }
+        private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
         public GetAdAssetByUnitIdQueryHandler(
-            IMapper mapper,
+            IMediator mediator,
             AdsRedisContext adsRedis)
         {
-            Mapper = mapper;
-            AdsRedis = adsRedis.Database(0);
+            Mediator = mediator;
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<HttpResult<string>> Handle(GetAdAssetByUnitIdQuery request, CancellationToken cancellationToken)
         {
-            var redisKey = CacheKey.AdIdsByUnit(request.AdUnitId, request.Platform);
+            await Mediator.Send(new UpdateAdUnitStatsCacheCommand(request.AdUnitId, AdStats.Request), cancellationToken);
+
+            var redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
             var redisValue = string.Empty;
             var redisValues = await AdsRedis.SetMembersAsync(redisKey);
             if (redisValues.HasValue())
             {
-                var adIds = redisValues.Select(x => (long)x);
-                var adId = adIds.OrderBy(id => Guid.NewGuid()).First();
+                var adIds = redisValues.Select(adId => (long)adId);
+                var adId = adIds.OrderBy(adId => Guid.NewGuid()).First();
                 redisKey = CacheKey.Ad(adId);
                 redisValue = await AdsRedis.StringGetAsync(redisKey);
             }
 
             var result = new HttpResult<string>();
+
+            if (!redisValue.HasValue())
+                return result.Fail(404, "Data not found.");
+
+            await Mediator.Send(new UpdateAdUnitStatsCacheCommand(request.AdUnitId, AdStats.Fill));
             return result.Success(redisValue);
         }
     }

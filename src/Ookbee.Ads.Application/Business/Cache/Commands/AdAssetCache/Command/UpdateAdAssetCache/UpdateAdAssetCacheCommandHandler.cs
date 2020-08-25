@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.DotNet.PlatformAbstractions;
 using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure;
+using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System;
@@ -30,7 +29,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
         {
             Mapper = mapper;
             Mediator = mediator;
-            AdsRedis = adsRedis.Database(0);
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(UpdateAdAssetCacheCommand request, CancellationToken cancellationToken)
@@ -41,13 +40,13 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
                 var ad = getAdById.Data;
                 var redisKey = CacheKey.Ad(ad.Id);
                 var redisValue = (RedisValue)ad.Id;
-                var platforms = Enum.GetNames(typeof(Platform));
                 await AdsRedis.StringSetAsync(redisKey, redisValue);
-                foreach (var platform in platforms)
+                foreach (Platform platform in Enum.GetValues(typeof(Platform)))
                 {
-                    redisKey = CacheKey.AdIdsByUnit(ad.AdUnit.Id, platform);
+                    redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
                     redisValue = (RedisValue)request.AdId;
-                    if (ad.Platforms.Any(x => x.ToString() == platform))
+                    var isExits = ad.Platforms.Any(x => x == platform);
+                    if (isExits && (ad.Status == AdStatus.Publish || ad.Status == AdStatus.Preview))
                         await AdsRedis.SetAddAsync(redisKey, redisValue);
                     else
                         await AdsRedis.SetRemoveAsync(redisKey, redisValue);
@@ -75,8 +74,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
                 }),
                 Analytics = new AdAnalyticsCacheDto()
                 {
-                    Clicks = new List<string>() { $"{analyticsBaseUrl}/api/stats/units/{ad.AdUnit.Id}/ads/{ad.Id}?event=click" },
-                    Impressions = new List<string>() { $"{analyticsBaseUrl}/api/stats/units/{ad.AdUnit.Id}/ads/{ad.Id}?event=impression" },
+                    Clicks = new List<string>() { $"{analyticsBaseUrl}/api/units/{ad.AdUnit.Id}/ads/{ad.Id}/stats?event=click" },
+                    Impressions = new List<string>() { $"{analyticsBaseUrl}/api/units/{ad.AdUnit.Id}/ads/{ad.Id}/stats?event=impression" },
                 }
             };
 

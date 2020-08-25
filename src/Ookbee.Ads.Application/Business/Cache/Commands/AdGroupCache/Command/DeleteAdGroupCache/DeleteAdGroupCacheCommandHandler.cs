@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.DeleteAdGr
             AdsRedisContext adsRedis)
         {
             Mediator = mediator;
-            AdsRedis = adsRedis.Database(0);
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(DeleteAdGroupCacheCommand request, CancellationToken cancellationToken)

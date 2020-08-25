@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.CreateAdGr
         {
             Mapper = mapper;
             Mediator = mediator;
-            AdsRedis = adsRedis.Database(0);
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(CreateAdGroupCacheCommand request, CancellationToken cancellationToken)

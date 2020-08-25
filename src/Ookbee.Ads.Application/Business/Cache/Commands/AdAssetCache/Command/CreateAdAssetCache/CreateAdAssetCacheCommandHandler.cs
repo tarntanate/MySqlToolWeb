@@ -6,6 +6,7 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure;
+using Ookbee.Ads.Infrastructure.Enums;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.CreateAdAs
         {
             Mapper = mapper;
             Mediator = mediator;
-            AdsRedis = adsRedis.Database(0);
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(CreateAdAssetCacheCommand request, CancellationToken cancellationToken)
@@ -38,16 +39,20 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.CreateAdAs
             if (getAdById.Ok)
             {
                 var ad = getAdById.Data;
-                var adAsset = PrepareAdAssetCache(ad);
-                var redisKey = CacheKey.Ad(ad.Id);
-                var redisValue = (RedisValue)JsonHelper.Serialize(adAsset);
-                var platforms = getAdById.Data.Platforms.Select(x => x.ToString());
-                await AdsRedis.StringSetAsync(redisKey, redisValue);
-                foreach (var platform in platforms)
+                if (ad.Status == AdStatus.Publish ||
+                    ad.Status == AdStatus.Preview)
                 {
-                    redisKey = CacheKey.AdIdsByUnit(ad.AdUnit.Id, platform);
-                    redisValue = (RedisValue)request.AdId;
-                    await AdsRedis.SetAddAsync(redisKey, redisValue);
+                    var adAsset = PrepareAdAssetCache(ad);
+                    var redisKey = CacheKey.Ad(ad.Id);
+                    var redisValue = (RedisValue)JsonHelper.Serialize(adAsset);
+                    var platforms = getAdById.Data.Platforms;
+                    await AdsRedis.StringSetAsync(redisKey, redisValue);
+                    foreach (var platform in platforms)
+                    {
+                        redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
+                        redisValue = (RedisValue)request.AdId;
+                        await AdsRedis.SetAddAsync(redisKey, redisValue);
+                    }
                 }
             }
 
@@ -72,14 +77,14 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.CreateAdAs
                 }),
                 Analytics = new AdAnalyticsCacheDto()
                 {
-                    Clicks = new List<string>() { $"{analyticsBaseUrl}/api/stats/units/{ad.AdUnit.Id}/ads/{ad.Id}?event=click" },
-                    Impressions = new List<string>() { $"{analyticsBaseUrl}/api/stats/units/{ad.AdUnit.Id}/ads/{ad.Id}?event=impression" },
+                    Clicks = new List<string>() { $"{analyticsBaseUrl}/api/units/{ad.AdUnit.Id}/ads/{ad.Id}/stats?event=click" },
+                    Impressions = new List<string>() { $"{analyticsBaseUrl}/api/units/{ad.AdUnit.Id}/ads/{ad.Id}/stats?event=impression" },
                 }
             };
 
             if (ad.Analytics.HasValue())
             {
-                result.Analytics.Impressions.Union(ad.Analytics).ToList();
+                result.Analytics.Impressions.AddRange(ad.Analytics);
             }
 
             return result;

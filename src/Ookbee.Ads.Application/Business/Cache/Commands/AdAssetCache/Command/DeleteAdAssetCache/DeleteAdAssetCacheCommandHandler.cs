@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAs
             AdsRedisContext adsRedis)
         {
             Mediator = mediator;
-            AdsRedis = adsRedis.Database(0);
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(DeleteAdAssetCacheCommand request, CancellationToken cancellationToken)
@@ -31,11 +31,10 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAs
             {
                 var redisKey = CacheKey.Ad(request.AdId);
                 var redisValue = request.AdId;
-                var platforms = Enum.GetNames(typeof(Platform));
                 await AdsRedis.KeyDeleteAsync(redisKey);
-                foreach (var platform in platforms)
+                foreach (Platform platform in Enum.GetValues(typeof(Platform)))
                 {
-                    redisKey = CacheKey.AdIdsByUnit(getAdById.Data.AdUnit.Id, platform);
+                    redisKey = CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
                     await AdsRedis.SetRemoveAsync(redisKey, redisValue);
                 }
             }

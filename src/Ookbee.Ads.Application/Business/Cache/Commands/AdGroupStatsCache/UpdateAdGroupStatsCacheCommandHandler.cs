@@ -13,12 +13,12 @@ namespace Ookbee.Ads.Application.Business.Cache.Commands.AdGroupStatsCache
 
         public UpdateAdGroupStatsCacheCommandHandler(AdsRedisContext adsRedis)
         {
-            AdsRedis = adsRedis.Database(0);
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(UpdateAdGroupStatsCacheCommand request, CancellationToken cancellationToken)
         {
-            var redisKey = CacheKey.UnitStatsByGroup(request.AdGroupId);
+            var redisKey = CacheKey.GroupStats(request.AdGroupId);
             var hashField = request.Stats.ToString();
             await AdsRedis.HashIncrementAsync(redisKey, hashField);
             return Unit.Value;

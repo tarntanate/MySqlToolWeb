@@ -23,12 +23,12 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
             AdsRedisContext adsRedis)
         {
             Mediator = mediator;
-            AdsRedis = adsRedis.Database(0);
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(DeleteAdUnitCacheCommand request, CancellationToken cancellationToken)
         {
-            var redisKey = CacheKey.UnitsByGroup(request.AdGroupId);
+            var redisKey = CacheKey.Units(request.AdGroupId);
             var redisValue = await AdsRedis.StringGetAsync(redisKey);
             if (redisValue.HasValue())
             {

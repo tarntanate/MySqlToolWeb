@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
         {
             Mapper = mapper;
             Mediator = mediator;
-            AdsRedis = adsRedis.Database(0);
+            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(CreateAdUnitCacheCommand request, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
             var groups = new List<AdUnitCacheDto>();
             do
             {
-                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId));
+                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
                 if (getAdUnitList.Ok)
                 {
                     var units = getAdUnitList.Data;
@@ -57,7 +57,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
 
             if (groups.HasValue())
             {
-                var redisKey = CacheKey.UnitsByGroup(request.AdGroupId);
+                var redisKey = CacheKey.Units(request.AdGroupId);
                 var redisValue = JsonHelper.Serialize(groups);
                 await AdsRedis.StringSetAsync(redisKey, redisValue);
             }
