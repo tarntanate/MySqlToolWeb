@@ -4,11 +4,11 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.UpdateAdUni
 {
     public class UpdateAdUnitCacheCommand : IRequest<Unit>
     {
-        public long AdUnitId { get; set; }
+        public long AdGroupId { get; set; }
 
         public UpdateAdUnitCacheCommand(long adGroupId)
         {
-            AdUnitId = adGroupId;
+            AdGroupId = adGroupId;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitById;
-using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUnitCache;
+using Ookbee.Ads.Application.Business.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
@@ -32,24 +31,31 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.UpdateAdUni
 
         public async Task<Unit> Handle(UpdateAdUnitCacheCommand request, CancellationToken cancellationToken)
         {
-            var getAdUnitById = await Mediator.Send(new GetAdUnitByIdQuery(request.AdUnitId), cancellationToken);
-            if (getAdUnitById.Ok)
+            var start = 0;
+            var length = 100;
+            var next = true;
+            var groups = new List<AdUnitCacheDto>();
+            do
             {
-                var adUnit = Mapper.Map<AdUnitCacheDto>(getAdUnitById.Data);
-                var redisKey = CacheKey.UnitsByGroup(getAdUnitById.Data.AdGroup.Id);
-                var redisValue = await AdsRedis.StringGetAsync(redisKey);
-                if (redisValue.HasValue())
+                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId));
+                if (getAdUnitList.Ok)
                 {
-                    var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(redisValue);
-                    var index = adUnits.FindIndex(x => x.Id == request.AdUnitId);
-                    if (index > -1)
+                    var units = getAdUnitList.Data;
+                    foreach (var unit in units)
                     {
-                        adUnits[index] = adUnit;
+                        var group = Mapper.Map<AdUnitCacheDto>(unit);
+                        groups.Add(group);
                     }
-                    var json = JsonHelper.Serialize(adUnits);
-                    await AdsRedis.StringSetAsync(redisKey, json);
                 }
+                next = getAdUnitList.Data.Count() == length ? true : false;
+                start += length;
             }
+            while (next);
+
+            var redisKey = CacheKey.UnitsByGroup(request.AdGroupId);
+            var redisValue = groups.HasValue() ? JsonHelper.Serialize(groups) : string.Empty;
+            await AdsRedis.StringSetAsync(redisKey, redisValue);
+
 
             return Unit.Value;
         }

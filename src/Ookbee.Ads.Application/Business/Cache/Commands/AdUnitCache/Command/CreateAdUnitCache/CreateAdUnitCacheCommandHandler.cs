@@ -55,12 +55,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
             }
             while (next);
 
-            if (groups.HasValue())
-            {
-                var redisKey = CacheKey.UnitsByGroup(request.AdGroupId);
-                var redisValue = JsonHelper.Serialize(groups);
-                await AdsRedis.StringSetAsync(redisKey, redisValue);
-            }
+            var redisKey = CacheKey.UnitsByGroup(request.AdGroupId);
+            var redisValue = groups.HasValue() ? JsonHelper.Serialize(groups) : string.Empty;
+            await AdsRedis.StringSetAsync(redisKey, redisValue);
 
             return Unit.Value;
         }
