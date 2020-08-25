@@ -3,9 +3,8 @@
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Serv.Analytics-loc",
+  "configurations": [{
+      "name": "Analytics-Loc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -21,7 +20,7 @@
       }
     },
     {
-      "name": "Serv.Analytics-dev",
+      "name": "Analytics-Dev",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -37,7 +36,7 @@
       }
     },
     {
-      "name": "Serv.Identity-loc",
+      "name": "Identity-Loc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -53,7 +52,7 @@
       }
     },
     {
-      "name": "Serv.Identity-dev",
+      "name": "Identity-Dev",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -69,7 +68,7 @@
       }
     },
     {
-      "name": "Serv.Management-loc",
+      "name": "Management-Loc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -85,7 +84,7 @@
       }
     },
     {
-      "name": "Serv.Management-dev",
+      "name": "Management-Dev",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -101,7 +100,7 @@
       }
     },
     {
-      "name": "Serv.Publish-loc",
+      "name": "Publish-Loc",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -117,7 +116,7 @@
       }
     },
     {
-      "name": "Serv.Publish-dev",
+      "name": "Publish-Dev",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
