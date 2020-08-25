@@ -45,7 +45,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.DeleteAdGr
                 {
                     foreach (var adUnit in getAdUnitList.Data)
                     {
-                        await Mediator.Send(new DeleteAdUnitCacheCommand(adUnit.AdGroup.Id, adUnit.Id), cancellationToken);
+                        await Mediator.Send(new DeleteAdUnitCacheCommand(adUnit.AdGroup.Id, adUnit.AdNetwork), cancellationToken);
                     }
                     start += length;
                 }

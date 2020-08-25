@@ -2,8 +2,7 @@
 {
     public class AdUnitCacheDto
     {
-        public long Id { get; set; }
-        public string AdNetwork { get; set; }
-        public string AdNetworkUnitId { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 }

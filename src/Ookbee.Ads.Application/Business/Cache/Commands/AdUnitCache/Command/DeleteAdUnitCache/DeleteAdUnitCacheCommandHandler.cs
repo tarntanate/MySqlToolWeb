@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
             if (redisValue.HasValue())
             {
                 var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(redisValue);
-                var index = adUnits.FindIndex(x => x.Id == request.AdUnitId);
+                var index = adUnits.FindIndex(x => x.Name == request.Unit);
                 if (index > -1)
                 {
                     adUnits.RemoveAt(index);

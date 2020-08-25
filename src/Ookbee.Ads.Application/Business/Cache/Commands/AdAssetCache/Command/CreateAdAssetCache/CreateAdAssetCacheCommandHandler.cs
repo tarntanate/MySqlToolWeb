@@ -37,16 +37,24 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.CreateAdAs
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
             if (getAdById.Ok)
             {
-                var data = PrepareAdNetworkUnit(getAdById.Data);
-                var redisKey = CacheKey.Ad(request.AdId);
-                var redisValue = JsonHelper.Serialize(data);
+                var ad = getAdById.Data;
+                var adAsset = PrepareAdAssetCache(ad);
+                var redisKey = CacheKey.Ad(ad.Id);
+                var redisValue = (RedisValue)JsonHelper.Serialize(adAsset);
+                var platforms = getAdById.Data.Platforms.Select(x => x.ToString());
                 await AdsRedis.StringSetAsync(redisKey, redisValue);
+                foreach (var platform in platforms)
+                {
+                    redisKey = CacheKey.AdIdsByUnit(ad.AdUnit.Id, platform);
+                    redisValue = (RedisValue)request.AdId;
+                    await AdsRedis.SetAddAsync(redisKey, redisValue);
+                }
             }
 
             return Unit.Value;
         }
 
-        private AdCacheDto PrepareAdNetworkUnit(AdDto ad)
+        private AdCacheDto PrepareAdAssetCache(AdDto ad)
         {
             var analyticsBaseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
             var result = new AdCacheDto()

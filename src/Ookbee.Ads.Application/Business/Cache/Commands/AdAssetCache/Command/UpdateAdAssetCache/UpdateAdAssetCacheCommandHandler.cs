@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.DotNet.PlatformAbstractions;
 using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Infrastructure;
@@ -8,6 +9,7 @@ using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -36,10 +38,20 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
             if (getAdById.Ok)
             {
-                var data = PrepareAdNetworkUnit(getAdById.Data);
-                var redisKey = CacheKey.Ad(request.AdId);
-                var redisValue = JsonHelper.Serialize(data);
+                var ad = getAdById.Data;
+                var redisKey = CacheKey.Ad(ad.Id);
+                var redisValue = (RedisValue)ad.Id;
+                var platforms = Enum.GetValues(typeof(Platform)).Cast<string>();
                 await AdsRedis.StringSetAsync(redisKey, redisValue);
+                foreach (var platform in platforms)
+                {
+                    redisKey = CacheKey.AdIdsByUnit(ad.AdUnit.Id, platform);
+                    redisValue = (RedisValue)request.AdId;
+                    if (ad.Platforms.Any(x => x.ToString() == platform))
+                        await AdsRedis.SetAddAsync(redisKey, redisValue);
+                    else
+                        await AdsRedis.SetRemoveAsync(redisKey, redisValue);
+                }
             }
 
             return Unit.Value;

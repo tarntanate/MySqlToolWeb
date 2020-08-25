@@ -63,7 +63,6 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.UpdateAdUni
                 await AdsRedis.KeyDeleteAsync(redisKey);
             }
 
-
             return Unit.Value;
         }
     }

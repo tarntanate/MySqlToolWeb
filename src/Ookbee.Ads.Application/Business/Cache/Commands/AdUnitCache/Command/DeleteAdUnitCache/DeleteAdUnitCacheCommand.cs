@@ -5,12 +5,12 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
     public class DeleteAdUnitCacheCommand : IRequest<Unit>
     {
         public long AdGroupId { get; set; }
-        public long AdUnitId { get; set; }
+        public string Unit { get; set; }
 
-        public DeleteAdUnitCacheCommand(long adGroupId, long adUnitId)
+        public DeleteAdUnitCacheCommand(long adGroupId, string unit)
         {
             AdGroupId = adGroupId;
-            AdUnitId = adUnitId;
+            Unit = unit;
         }
     }
 }

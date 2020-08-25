@@ -15,6 +15,6 @@ namespace Ookbee.Ads.Application.Infrastructure
             => $"groups/{adGroupId}/stats";
 
         public static string AdIdsByUnit(long adUnitId, string platform)
-            => $"units/{adUnitId}/ads-ids/{platform.ToLower()}";
+            => $"units/{adUnitId}/ads-ids/{platform.Substring(0, 3).ToLower()}";
     }
 }
