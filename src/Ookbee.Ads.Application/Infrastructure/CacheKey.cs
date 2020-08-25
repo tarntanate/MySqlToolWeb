@@ -3,18 +3,18 @@ namespace Ookbee.Ads.Application.Infrastructure
     public static class CacheKey
     {
         public static string Ad(long adId)
-            => $"ads/{adId}";
+            => $"ads/{adId}".ToLower();
 
         public static string Groups()
-            => $"groups";
+            => $"groups".ToLower();
 
         public static string UnitsByGroup(long adGroupId)
-            => $"groups/{adGroupId}/units";
+            => $"groups/{adGroupId}/units".ToLower();
 
         public static string UnitStatsByGroup(long adGroupId)
-            => $"groups/{adGroupId}/stats";
+            => $"groups/{adGroupId}/stats".ToLower();
 
         public static string AdIdsByUnit(long adUnitId, string platform)
-            => $"units/{adUnitId}/ads-ids/{platform.Substring(0, 3).ToLower()}";
+            => $"units/{adUnitId}/ads-ids/{platform}".ToLower();
     }
 }

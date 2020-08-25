@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAs
             {
                 var redisKey = CacheKey.Ad(request.AdId);
                 var redisValue = request.AdId;
-                var platforms = Enum.GetValues(typeof(Platform)).Cast<string>();
+                var platforms = Enum.GetNames(typeof(Platform));
                 await AdsRedis.KeyDeleteAsync(redisKey);
                 foreach (var platform in platforms)
                 {

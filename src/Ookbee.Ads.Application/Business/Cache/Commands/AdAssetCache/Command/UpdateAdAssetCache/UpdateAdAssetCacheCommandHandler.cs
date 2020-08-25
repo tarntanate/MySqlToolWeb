@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
                 var ad = getAdById.Data;
                 var redisKey = CacheKey.Ad(ad.Id);
                 var redisValue = (RedisValue)ad.Id;
-                var platforms = Enum.GetValues(typeof(Platform)).Cast<string>();
+                var platforms = Enum.GetNames(typeof(Platform));
                 await AdsRedis.StringSetAsync(redisKey, redisValue);
                 foreach (var platform in platforms)
                 {
