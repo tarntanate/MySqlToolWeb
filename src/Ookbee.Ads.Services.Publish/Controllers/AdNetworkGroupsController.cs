@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.AdUnitCache.Commands.GetAdUnitCacheByGroupId;
+using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCacheByGroupId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using System.Threading;
 using System.Threading.Tasks;

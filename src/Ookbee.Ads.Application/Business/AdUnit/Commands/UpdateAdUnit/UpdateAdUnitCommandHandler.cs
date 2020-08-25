@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdUnitCache.Commands.UpdateAdUnitCache;
+using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.UpdateAdUnitCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;

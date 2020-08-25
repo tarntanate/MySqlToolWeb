@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdGroupCache.Commands.DeleteAdGroupCache;
+using Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.DeleteAdGroupCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
