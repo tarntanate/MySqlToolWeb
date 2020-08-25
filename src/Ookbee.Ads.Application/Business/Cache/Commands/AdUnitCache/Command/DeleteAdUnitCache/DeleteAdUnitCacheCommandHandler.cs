@@ -38,8 +38,16 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
                 {
                     adUnits.RemoveAt(index);
                 }
-                redisValue = JsonHelper.Serialize(adUnits);
-                await AdsRedis.StringSetAsync(redisKey, redisValue);
+
+                if (adUnits.HasValue())
+                {
+                    redisValue = JsonHelper.Serialize(adUnits);
+                    await AdsRedis.StringSetAsync(redisKey, redisValue);
+                }
+                else
+                {
+                    await AdsRedis.KeyDeleteAsync(redisKey);
+                }
             }
 
             return Unit.Value;
