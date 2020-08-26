@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Application.Business.Cache.Commands.AdGroupStatsCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Result;
