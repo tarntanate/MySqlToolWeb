@@ -13,12 +13,12 @@ CREATE TABLE "public"."AdStat" (
     "Platform" CHARACTER VARYING(10) NOT NULL,
     "Impression" INTEGER DEFAULT 0 NOT NULL,
     "Click" INTEGER DEFAULT 0 NOT NULL,
-    "CaculateAt" TIMESTAMP,
+    "CaculatedAt" TIMESTAMP,
     "CreatedAt" TIMESTAMP,
     "UpdatedAt" TIMESTAMP,
     CONSTRAINT "PK_AdStat" PRIMARY KEY ("Id")
 );
-CREATE INDEX "IDX_AdStat_1" ON "public"."AdStat" ("AdId", "Platform", "CaculateAt");
+CREATE INDEX "IDX_AdStat_1" ON "public"."AdStat" ("AdId", "Platform", "CaculatedAt");
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."AdGroupStat"                                        */
 /* ---------------------------------------------------------------------- */
@@ -27,12 +27,12 @@ CREATE TABLE "public"."AdGroupStat" (
     "AdGroupId" INTEGER NOT NULL,
     "Platform" CHARACTER VARYING(10) NOT NULL,
     "Request" INTEGER DEFAULT 0 NOT NULL,
-    "CaculateAt" TIMESTAMP,
+    "CaculatedAt" TIMESTAMP,
     "CreatedAt" TIMESTAMP,
     "UpdatedAt" TIMESTAMP,
     CONSTRAINT "PK_AdGroupStat" PRIMARY KEY ("Id")
 );
-CREATE INDEX "IDX_AdGroupStat_1" ON "public"."AdGroupStat" ("AdGroupId", "Platform", "CaculateAt");
+CREATE INDEX "IDX_AdGroupStat_1" ON "public"."AdGroupStat" ("AdGroupId", "Platform", "CaculatedAt");
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."AdUnitStat"                                        */
 /* ---------------------------------------------------------------------- */
@@ -42,9 +42,9 @@ CREATE TABLE "public"."AdUnitStat" (
     "Platform" CHARACTER VARYING(10) NOT NULL,
     "Request" INTEGER DEFAULT 0 NOT NULL,
     "Fill" INTEGER DEFAULT 0 NOT NULL,
-    "CaculateAt" TIMESTAMP,
+    "CaculatedAt" TIMESTAMP,
     "CreatedAt" TIMESTAMP,
     "UpdatedAt" TIMESTAMP,
     CONSTRAINT "PK_AdUnitStat" PRIMARY KEY ("Id")
 );
-CREATE INDEX "IDX_AdUnitStat_1" ON "public"."AdUnitStat" ("AdUnitId", "Platform", "CaculateAt");
+CREATE INDEX "IDX_AdUnitStat_1" ON "public"."AdUnitStat" ("AdUnitId", "Platform", "CaculatedAt");
