@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCacheByGroupId
 {

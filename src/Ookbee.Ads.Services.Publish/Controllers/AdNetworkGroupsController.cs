@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     public class AdNetworkGroupsController : ApiController
     {
         [HttpGet("{groupId}/units")]
-        public async Task<ContentResult> GetAdNetworkGroupListByKey([FromRoute] long groupId, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdNetworkGroupListByKey([FromRoute] long groupId, [FromQuery] long platform, CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(new GetAdUnitCacheByGroupIdQuery(groupId), cancellationToken);
             return Content(result.Data, "application/json");
