@@ -20,7 +20,7 @@ CREATE TABLE "public"."AdStat" (
 );
 CREATE INDEX "IDX_AdStat_1" ON "public"."AdStat" ("AdId", "Platform", "CaculatedAt");
 /* ---------------------------------------------------------------------- */
-/* Add table "public"."AdGroupStat"                                        */
+/* Add table "public"."AdGroupStat"                                       */
 /* ---------------------------------------------------------------------- */
 CREATE TABLE "public"."AdGroupStat" (
     "Id" INTEGER DEFAULT nextval('"SEQ_AdGroupStat"') NOT NULL,
