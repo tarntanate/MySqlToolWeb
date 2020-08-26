@@ -13,8 +13,8 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static string Groups()
             => $"groups".ToUpper();
 
-        public static string GroupStats(long adGroupId)
-            => $"groups/{adGroupId}/stats".ToUpper();
+        public static string GroupStats(long adGroupId, Platform platform)
+            => $"groups/{adGroupId}/stats/{platform}".ToUpper();
 
         public static string Units(long adGroupId)
             => $"groups/{adGroupId}/units".ToUpper();
