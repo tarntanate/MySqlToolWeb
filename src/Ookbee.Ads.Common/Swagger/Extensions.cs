@@ -13,8 +13,7 @@ namespace Ookbee.Ads.Common.Swagger
             using (var serviceProvider = services.BuildServiceProvider())
             {
                 var configuration = serviceProvider.GetService<IConfiguration>();
-                services.Configure<SwaggerOptions>(configuration.GetSection("swagger"));
-                configuration.GetSection("swagger").Bind(options);
+                configuration.GetSection("AppSettings:Swagger").Bind(options);
             }
 
             if (!options.Enabled)
