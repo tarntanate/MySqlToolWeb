@@ -10,10 +10,10 @@ namespace Ookbee.Ads.Services.Publish.Controllers
 {
     [ApiController]
     [Route("api/units")]
-    public class AdNetworkUnitsController : ApiController
+    public class UnitsController : ApiController
     {
         [HttpGet("{unitId}/ad")]
-        public async Task<ContentResult> GetAdByUnitId([FromRoute] long unitId, [FromQuery] string platform, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdAssetByUnitId([FromRoute] long unitId, [FromQuery] string platform, CancellationToken cancellationToken)
         {
             if (Enum.TryParse(platform, true, out Platform platformx))
             {

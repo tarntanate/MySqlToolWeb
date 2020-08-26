@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
 {
     [ApiController]
     [Route("api/units/{unitId}/ads/{adId}/stats")]
-    public class RequestLogStatsController : ApiController
+    public class StatsController : ApiController
     {
         [HttpGet]
         public async Task Get(

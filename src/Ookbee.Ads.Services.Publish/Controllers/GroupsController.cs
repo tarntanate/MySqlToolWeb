@@ -10,10 +10,10 @@ namespace Ookbee.Ads.Services.Publish.Controllers
 {
     [ApiController]
     [Route("api/groups")]
-    public class AdNetworkGroupsController : ApiController
+    public class GroupsController : ApiController
     {
         [HttpGet("{groupId}/units")]
-        public async Task<ContentResult> GetAdNetworkGroupListByKey([FromRoute] long groupId, [FromQuery] string platform, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdUnitCacheByGroupId([FromRoute] long groupId, [FromQuery] string platform, CancellationToken cancellationToken)
         {
             if (Enum.TryParse(platform, true, out Platform platformx))
             {
