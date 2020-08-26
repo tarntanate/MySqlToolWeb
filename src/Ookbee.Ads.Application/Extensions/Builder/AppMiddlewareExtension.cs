@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Extensions.Builder
             app.UseEndpoints(config =>
             {
                 config.MapControllers();
-                //config.MapHealthChecks("/api/health");
+                config.MapHealthChecks("/api/health");
             });
             app.UseSwaggerDocs();
 

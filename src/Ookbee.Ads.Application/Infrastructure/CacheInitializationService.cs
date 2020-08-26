@@ -31,9 +31,9 @@ namespace Ookbee.Ads.Application.Infrastructure
                         await mediator.Send(new CacheInitializationCommand(), cancellationToken);
                     }
                 }
-                catch (OperationCanceledException)
+                catch (Exception ex)
                 {
-
+                    throw ex;
                 }
             });
         }
