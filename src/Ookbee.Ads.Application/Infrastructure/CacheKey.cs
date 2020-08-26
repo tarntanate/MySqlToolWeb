@@ -5,24 +5,24 @@ namespace Ookbee.Ads.Application.Infrastructure
     public static class CacheKey
     {
         public static string Ad(long adId)
-            => $"ads/{adId}".ToLower();
+            => $"ads/{adId}".ToUpper();
 
         public static string AdStats(long adId)
-            => $"ads/{adId}/stats".ToLower();
+            => $"ads/{adId}/stats".ToUpper();
 
         public static string Groups()
-            => $"groups".ToLower();
+            => $"groups".ToUpper();
 
         public static string GroupStats(long adGroupId)
-            => $"groups/{adGroupId}/stats".ToLower();
+            => $"groups/{adGroupId}/stats".ToUpper();
 
         public static string Units(long adGroupId)
-            => $"groups/{adGroupId}/units".ToLower();
+            => $"groups/{adGroupId}/units".ToUpper();
 
         public static string UnitsAdIds(long adUnitId, Platform platform)
-            => $"units/{adUnitId}/ads/{platform}".ToLower();
+            => $"units/{adUnitId}/ads/{platform}".ToUpper();
 
         public static string UnitsStats(long adUnitId)
-            => $"units/{adUnitId}/stats".ToLower();
+            => $"units/{adUnitId}/stats".ToUpper();
     }
 }
