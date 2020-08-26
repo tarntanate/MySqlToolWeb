@@ -18,7 +18,7 @@ CREATE TABLE "public"."AdStat" (
     "UpdatedAt" TIMESTAMP,
     CONSTRAINT "PK_AdStat" PRIMARY KEY ("Id")
 );
-CREATE INDEX "IDX_AdStat_1" ON "public"."AdGroup" ("AdId", "Platform", "CaculateAt");
+CREATE INDEX "IDX_AdStat_1" ON "public"."AdStat" ("AdId", "Platform", "CaculateAt");
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."AdGroupStat"                                        */
 /* ---------------------------------------------------------------------- */
@@ -30,10 +30,9 @@ CREATE TABLE "public"."AdGroupStat" (
     "CaculateAt" TIMESTAMP,
     "CreatedAt" TIMESTAMP,
     "UpdatedAt" TIMESTAMP,
-    CONSTRAINT "PK_AdUnitStat" PRIMARY KEY ("Id")
+    CONSTRAINT "PK_AdGroupStat" PRIMARY KEY ("Id")
 );
-CREATE INDEX "IDX_AdGroupStat_1" ON "public"."AdGroup" ("AdUnitId", "Platform", "CaculateAt");
-CREATE SEQUENCE "public"."SEQ_AdGroupStat" INCREMENT 1 START 1;
+CREATE INDEX "IDX_AdGroupStat_1" ON "public"."AdGroupStat" ("AdGroupId", "Platform", "CaculateAt");
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."AdUnitStat"                                        */
 /* ---------------------------------------------------------------------- */
@@ -48,5 +47,4 @@ CREATE TABLE "public"."AdUnitStat" (
     "UpdatedAt" TIMESTAMP,
     CONSTRAINT "PK_AdUnitStat" PRIMARY KEY ("Id")
 );
-CREATE INDEX "IDX_AdUnitStat_1" ON "public"."AdGroup" ("AdUnitId", "Platform", "CaculateAt");
-CREATE SEQUENCE "public"."SEQ_AdUnitStat" INCREMENT 1 START 1;
+CREATE INDEX "IDX_AdUnitStat_1" ON "public"."AdUnitStat" ("AdUnitId", "Platform", "CaculateAt");
