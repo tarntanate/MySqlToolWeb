@@ -3,7 +3,6 @@ using Ookbee.Ads.Application.Business.UserRoleMapping;
 using Ookbee.Ads.Application.Business.UserRoleMapping.Commands.CreateUserRoleMapping;
 using Ookbee.Ads.Application.Business.UserRoleMapping.Commands.DeleteUserRoleMapping;
 using Ookbee.Ads.Application.Business.UserRoleMapping.Commands.UpdateUserRoleMapping;
-using Ookbee.Ads.Application.Business.UserRoleMapping.Queries.GetUserRoleMappingById;
 using Ookbee.Ads.Application.Business.UserRoleMapping.Queries.GetUserRoleMappingList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
@@ -15,7 +14,7 @@ namespace Ookbee.Ads.Services.Management.Controllers
 {
     [ApiController]
     [Route("api/user-role-mappings")]
-    public class UserRoleMappingMappingsController : ApiController
+    public class UserRoleMappinsController : ApiController
     {
         [HttpGet]
         public async Task<HttpResult<IEnumerable<UserRoleMappingDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? userId, [FromQuery] long? roleId, CancellationToken cancellationToken)
