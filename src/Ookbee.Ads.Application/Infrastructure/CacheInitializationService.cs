@@ -20,20 +20,26 @@ namespace Ookbee.Ads.Application.Infrastructure
 
         protected override Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("1");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             return Task.Factory.StartNew(async () =>
             {
                 try
                 {
                     using (var scope = ServiceProvider.CreateScope())
                     {
+                        Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                        Console.WriteLine("2");
+                        Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
                         await mediator.Send(new CacheClearCommand(), cancellationToken);
                         await mediator.Send(new CacheInitializationCommand(), cancellationToken);
                     }
                 }
-                catch (OperationCanceledException)
+                catch (Exception ex)
                 {
-
+                    throw ex;
                 }
             });
         }

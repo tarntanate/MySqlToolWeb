@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Common.Redis.Context
             var endPoints = Connection.GetEndPoints();
             foreach (var endPoint in endPoints)
             {
-                var server = Connection.GetServer("localhost:6379");
+                var server = Connection.GetServer(endPoint);
                 if (db == -1)
                     await server.FlushAllDatabasesAsync();
                 else
