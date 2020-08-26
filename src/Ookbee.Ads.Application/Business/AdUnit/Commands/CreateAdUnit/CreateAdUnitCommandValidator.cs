@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
     {
         private IMediator Mediator { get; }
 
-        public CreateAdUnitCommandValidator(IMediator mediator, CancellationToken cancellationToken)
+        public CreateAdUnitCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.AdUnit.Commands.CreateAdUnit
                .MaximumLength(50);
 
             RuleFor(p => new { AdNetwork = p.AdNetwork, AdGroupId = p.AdGroupId })
-                .CustomAsync(async (value, context, CancellationToken) =>
+                .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var IsExistsAdNetworkNameByAdGroup = await Mediator.Send(new IsExistsAdNetworkNameByAdGroupQuery(adNetworkName: value.AdNetwork, adGroupId: value.AdGroupId), cancellationToken);
                     if (IsExistsAdNetworkNameByAdGroup.Ok)
