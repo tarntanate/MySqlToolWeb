@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.Ad.Queries.GetAdById;
+using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAssetCache;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Infrastructure;
+using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,53 +36,32 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
             if (getAdById.Ok)
             {
                 var ad = getAdById.Data;
-                var redisKey = CacheKey.Ad(ad.Id);
-                var redisValue = (RedisValue)ad.Id;
-                await AdsRedis.StringSetAsync(redisKey, redisValue);
-                foreach (Platform platform in Enum.GetValues(typeof(Platform)))
+                if (ad.Status == AdStatus.Publish ||
+                    ad.Status == AdStatus.Preview)
                 {
-                    redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
-                    redisValue = (RedisValue)request.AdId;
-                    var isExits = ad.Platforms.Any(x => x == platform);
-                    if (isExits && (ad.Status == AdStatus.Publish || ad.Status == AdStatus.Preview))
-                        await AdsRedis.SetAddAsync(redisKey, redisValue);
-                    else
-                        await AdsRedis.SetRemoveAsync(redisKey, redisValue);
+                    var adCache = Mapper.Map<AdCacheDto>(ad);
+                    var redisKey = CacheKey.Ad(ad.Id);
+                    var redisValue = (RedisValue)JsonHelper.Serialize(adCache);
+                    var platforms = getAdById.Data.Platforms;
+                    await AdsRedis.StringSetAsync(redisKey, redisValue);
+                    foreach (Platform platform in Enum.GetValues(typeof(Platform)))
+                    {
+                        redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
+                        redisValue = (RedisValue)ad.Id;
+                        var isExits = platforms.Any(x => x == platform);
+                        if (isExits)
+                            await AdsRedis.SetAddAsync(redisKey, redisValue);
+                        else
+                            await AdsRedis.SetRemoveAsync(redisKey, redisValue);
+                    }
+                }
+                else
+                {
+                    await Mediator.Send(new DeleteAdAssetCacheCommand(request.AdId), cancellationToken);
                 }
             }
 
             return Unit.Value;
-        }
-
-        private AdCacheDto PrepareAdNetworkUnit(AdDto ad)
-        {
-            var analyticsBaseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
-            var result = new AdCacheDto()
-            {
-                CountdownSecond = ad.CountdownSecond,
-                ForegroundColor = ad.ForegroundColor,
-                BackgroundColor = ad.BackgroundColor,
-                LinkUrl = ad.LinkUrl,
-                UnitType = ad.AdUnit.AdGroup.AdUnitType.Name,
-                Assets = ad.Assets.Select(asset => new AdAssetCacheDto()
-                {
-                    Position = asset.Position,
-                    AssetType = asset.AssetType,
-                    AssetPath = asset.AssetPath,
-                }),
-                Analytics = new AdAnalyticsCacheDto()
-                {
-                    Clicks = new List<string>() { $"{analyticsBaseUrl}/api/units/{ad.AdUnit.Id}/ads/{ad.Id}/stats?event=click" },
-                    Impressions = new List<string>() { $"{analyticsBaseUrl}/api/units/{ad.AdUnit.Id}/ads/{ad.Id}/stats?event=impression" },
-                }
-            };
-
-            if (ad.Analytics.HasValue())
-            {
-                result.Analytics.Impressions.Union(ad.Analytics).ToList();
-            }
-
-            return result;
         }
     }
 }

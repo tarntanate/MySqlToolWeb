@@ -5,7 +5,6 @@ using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
