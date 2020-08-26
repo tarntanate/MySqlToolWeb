@@ -6,7 +6,7 @@ using Ookbee.Ads.Application.Business.Advertiser;
 using Ookbee.Ads.Application.Business.Campaign;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

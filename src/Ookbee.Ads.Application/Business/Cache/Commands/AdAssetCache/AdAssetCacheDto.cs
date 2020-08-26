@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
-using Ookbee.Ads.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Models;
 using System;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache

@@ -1,4 +1,4 @@
-namespace Ookbee.Ads.Infrastructure.Enums
+namespace Ookbee.Ads.Infrastructure.Models
 {
     public enum AdStats
     {

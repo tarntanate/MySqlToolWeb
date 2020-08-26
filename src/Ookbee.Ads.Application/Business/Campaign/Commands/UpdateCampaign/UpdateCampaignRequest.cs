@@ -1,5 +1,5 @@
 ﻿using System;
-using Ookbee.Ads.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
 {

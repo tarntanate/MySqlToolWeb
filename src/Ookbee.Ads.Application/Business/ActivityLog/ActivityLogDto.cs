@@ -1,7 +1,7 @@
 using Ookbee.Ads.Application.Business.User;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Linq.Expressions;
 

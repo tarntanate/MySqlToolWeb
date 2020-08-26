@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.GetAdAssetByUnitId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
-using Ookbee.Ads.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

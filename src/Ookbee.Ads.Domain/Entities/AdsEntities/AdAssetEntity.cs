@@ -1,6 +1,6 @@
 using System;
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
-using Ookbee.Ads.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {

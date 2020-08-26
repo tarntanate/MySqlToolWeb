@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using Ookbee.Ads.Application.Business.Advertiser;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

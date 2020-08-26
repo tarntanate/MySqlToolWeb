@@ -3,7 +3,7 @@ using MediatR;
 using Ookbee.Ads.Application.Business.Cache.Commands.AdGroupStatsCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Infrastructure.Enums;
+using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Threading;
