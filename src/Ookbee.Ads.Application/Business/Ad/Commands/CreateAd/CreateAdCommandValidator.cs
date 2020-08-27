@@ -16,6 +16,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
+            RuleFor(p => p.Quota)
+                .GreaterThan(0);
+                
             RuleFor(p => p.AdUnitId)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>

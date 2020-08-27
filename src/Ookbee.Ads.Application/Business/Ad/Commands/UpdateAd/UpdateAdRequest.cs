@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
@@ -11,6 +12,9 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
         public string Description { get; set; }
         public AdStatus Status { get; set; }
         public int? CooldownSecond { get; set; }
+        public int? Quota { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public List<string> Analytics { get; set; }
