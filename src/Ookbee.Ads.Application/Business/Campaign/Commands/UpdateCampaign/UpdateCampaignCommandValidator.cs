@@ -49,18 +49,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
 
-            RuleFor(p => p.PricingModel)
-                .CustomAsync(async (value, context, cancellationToken) =>
-                {
-                    var validate = context.InstanceToValidate as UpdateCampaignCommand;
-                    var result = await Mediator.Send(new GetCampaignByIdQuery(validate.Id), cancellationToken);
-                    if (!result.Ok)
-                        context.AddFailure(result.Message);
-
-                    if (result.Ok && result.Data.PricingModel != validate.PricingModel)
-                        context.AddFailure($"You don't have permission to change the Pricing Model.");
-                });
-
             RuleFor(p => p.Description)
                 .MaximumLength(500);
 

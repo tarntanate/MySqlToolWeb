@@ -11,7 +11,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.UpdateCampaign
         {
             Id = id;
             AdvertiserId = request.AdvertiserId;
-            PricingModel = request.PricingModel;
             Name = request.Name;
             Description = request.Description;
             StartDate = request.StartDate;
