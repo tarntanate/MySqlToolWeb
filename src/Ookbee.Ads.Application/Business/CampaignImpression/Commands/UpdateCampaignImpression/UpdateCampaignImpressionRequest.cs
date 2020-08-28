@@ -9,7 +9,6 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCamp
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string PricingModel { get; set; }
         public int Quota { get; set; }
 
     }

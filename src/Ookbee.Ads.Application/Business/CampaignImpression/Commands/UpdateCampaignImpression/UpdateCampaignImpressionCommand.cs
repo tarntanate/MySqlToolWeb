@@ -15,7 +15,6 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCamp
             Description = request.Description;
             StartDate = request.StartDate;
             EndDate = request.EndDate;
-            PricingModel = request.PricingModel;
             Quota = request.Quota;
         }
     }
