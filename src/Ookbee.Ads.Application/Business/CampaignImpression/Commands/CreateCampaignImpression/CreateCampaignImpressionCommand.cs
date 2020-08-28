@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCampaignImpression
 {
@@ -12,7 +13,7 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
             Description = request.Description;
             StartDate = request.StartDate;
             EndDate = request.EndDate;
-            PricingModel = request.PricingModel;
+            PricingModel = PricingModel.IMP;
             Quota = request.Quota;
         }
     }

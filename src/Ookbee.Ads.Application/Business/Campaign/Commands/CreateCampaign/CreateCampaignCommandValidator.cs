@@ -24,6 +24,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
                         context.AddFailure(result.Message);
                 });
 
+            RuleFor(p => p.PricingModel)
+                .NotEmpty();
+
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()

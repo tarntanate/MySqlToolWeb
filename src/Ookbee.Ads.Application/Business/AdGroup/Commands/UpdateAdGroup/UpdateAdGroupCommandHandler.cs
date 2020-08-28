@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Commands.UpdateAdGroup
         public async Task<HttpResult<bool>> Handle(UpdateAdGroupCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<AdGroupEntity>(request);
-            await Mediator.Send(new UpdateAdGroupCacheCommand(entity.Id), cancellationToken);
+            await Mediator.Send(new UpdateAdGroupCacheCommand(adGroupId: entity.Id), cancellationToken);
             await AdGroupDbRepo.UpdateAsync(entity.Id, entity);
             await AdGroupDbRepo.SaveChangesAsync(cancellationToken);
 
