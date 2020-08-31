@@ -8,9 +8,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
         public CreateAdUnitCacheMappingProfile()
         {
             CreateMap<AdUnitDto, AdUnitCacheDto>()
-                .ForMember(dest => dest.Id, m => m.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Name, m => m.MapFrom(src => src.AdNetwork))
-                .ForMember(dest => dest.UnitId, m => m.MapFrom(src => src.AdNetworkUnitId));
+                .ForMember(dest => dest.Id, m => m.MapFrom(src => src.AdNetwork.ToLower() == "ookbee" ? src.Id.ToString() : src.AdNetworkUnitId))
+                .ForMember(dest => dest.Name, m => m.MapFrom(src => src.AdNetwork));
         }
     }
 }
