@@ -34,10 +34,19 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache
         private AdAnalyticsCacheDto AnalyticsConverter(IEnumerable<string> analytics, long adUnitId, long adId)
         {
             var analyticsBaseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
+
+            var impressions = new List<string>() { $"{analyticsBaseUrl}/api/units/{adUnitId}/ads/{adId}/stats?event=impression" };
+            var clicks = new List<string>() { $"{analyticsBaseUrl}/api/units/{adUnitId}/ads/{adId}/stats?event=click" };
+
+            foreach (var item in analytics)
+            {
+                impressions.Add(item);
+            }
+            
             var analyticsCache = new AdAnalyticsCacheDto()
             {
-                Clicks = new List<string>() { $"{analyticsBaseUrl}/api/units/{adUnitId}/ads/{adId}/stats?event=click" },
-                Impressions = new List<string>() { $"{analyticsBaseUrl}/api/units/{adUnitId}/ads/{adId}/stats?event=impression" },
+                Clicks = clicks,
+                Impressions = impressions,
             };
             return analyticsCache;
         }
