@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.User
                     Id = entity.Id,
                     UserName = entity.UserName,
                     DisplayName = entity.DisplayName,
-                    AvatarUrl = entity.AvatarUrl
+                    AvatarUrl = entity.AvatarUrl,
                 };
             }
         }
