@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.User.Queries.GetUserList
 {
-    public class GetUserRoleListQueryHandler : IRequestHandler<GetUserListQuery, HttpResult<IEnumerable<UserDto>>>
+    public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, HttpResult<IEnumerable<UserDto>>>
     {
         private AdsDbRepository<UserEntity> UserDbRepo { get; }
 
-        public GetUserRoleListQueryHandler(AdsDbRepository<UserEntity> userDbRepo)
+        public GetUserListQueryHandler(AdsDbRepository<UserEntity> userDbRepo)
         {
             UserDbRepo = userDbRepo;
         }

@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Ookbee.Ads.Application.Business.UserRole.Queries.GetUserRoleList
+namespace Ookbee.Ads.Application.Business.User.Queries.GetUserList
 {
-    public class GetUserRoleListQueryValidator : AbstractValidator<GetUserRoleListQuery>
+    public class GetUserListQueryValidator : AbstractValidator<GetUserListQuery>
     {
-        public GetUserRoleListQueryValidator()
+        public GetUserListQueryValidator()
         {
             RuleFor(p => p.Start)
                 .GreaterThanOrEqualTo(0);
