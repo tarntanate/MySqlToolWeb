@@ -1,11 +1,11 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.AdUnitType;
-using Ookbee.Ads.Application.Business.AdUnitType.Commands.CreateAdUnitType;
-using Ookbee.Ads.Application.Business.AdUnitType.Commands.DeleteAdUnitType;
-using Ookbee.Ads.Application.Business.AdUnitType.Commands.UpdateAdUnitType;
-using Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeById;
-using Ookbee.Ads.Application.Business.AdUnitType.Queries.GetAdUnitTypeList;
+using Ookbee.Ads.Application.Business.AdNetwork.AdUnitType;
+using Ookbee.Ads.Application.Business.AdNetwork.AdUnitType.Commands.CreateAdUnitType;
+using Ookbee.Ads.Application.Business.AdNetwork.AdUnitType.Commands.DeleteAdUnitType;
+using Ookbee.Ads.Application.Business.AdNetwork.AdUnitType.Commands.UpdateAdUnitType;
+using Ookbee.Ads.Application.Business.AdNetwork.AdUnitType.Queries.GetAdUnitTypeById;
+using Ookbee.Ads.Application.Business.AdNetwork.AdUnitType.Queries.GetAdUnitTypeList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;

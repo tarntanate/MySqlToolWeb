@@ -1,13 +1,13 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Campaign;
-using Ookbee.Ads.Application.Business.Campaign.Commands.DeleteCampaign;
-using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignById;
-using Ookbee.Ads.Application.Business.Campaign.Queries.GetCampaignList;
-using Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCost;
-using Ookbee.Ads.Application.Business.CampaignCost.Commands.UpdateCampaignCost;
-using Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCampaignImpression;
-using Ookbee.Ads.Application.Business.CampaignImpression.Commands.UpdateCampaignImpression;
+using Ookbee.Ads.Application.Business.AdNetwork.Campaign;
+using Ookbee.Ads.Application.Business.AdNetwork.Campaign.Commands.DeleteCampaign;
+using Ookbee.Ads.Application.Business.AdNetwork.Campaign.Queries.GetCampaignById;
+using Ookbee.Ads.Application.Business.AdNetwork.Campaign.Queries.GetCampaignList;
+using Ookbee.Ads.Application.Business.AdNetwork.CampaignCost.Commands.CreateCampaignCost;
+using Ookbee.Ads.Application.Business.AdNetwork.CampaignCost.Commands.UpdateCampaignCost;
+using Ookbee.Ads.Application.Business.AdNetwork.CampaignImpression.Commands.CreateCampaignImpression;
+using Ookbee.Ads.Application.Business.AdNetwork.CampaignImpression.Commands.UpdateCampaignImpression;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;

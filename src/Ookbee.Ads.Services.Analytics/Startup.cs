@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ookbee.Ads.Application.Extensions.Builder;
 using Ookbee.Ads.Application.Extensions.DependencyInjection;
+using Ookbee.Ads.Application.Infrastructure;
 
 namespace Ookbee.Ads.Services.Analytics
 {
@@ -19,6 +20,7 @@ namespace Ookbee.Ads.Services.Analytics
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
+            services.AddHostedService<InitialAnalyticsCacheService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

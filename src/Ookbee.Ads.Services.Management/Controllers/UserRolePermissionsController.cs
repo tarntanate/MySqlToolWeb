@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.UserPermission;
-using Ookbee.Ads.Application.Business.UserPermission.Commands.CreateUserPermission;
-using Ookbee.Ads.Application.Business.UserPermission.Commands.DeleteUserPermission;
-using Ookbee.Ads.Application.Business.UserPermission.Commands.UpdateUserPermission;
-using Ookbee.Ads.Application.Business.UserPermission.Queries.GetUserPermissionById;
-using Ookbee.Ads.Application.Business.UserPermission.Queries.GetUserPermissionList;
+using Ookbee.Ads.Application.Business.AdNetwork.UserPermission;
+using Ookbee.Ads.Application.Business.AdNetwork.UserPermission.Commands.CreateUserPermission;
+using Ookbee.Ads.Application.Business.AdNetwork.UserPermission.Commands.DeleteUserPermission;
+using Ookbee.Ads.Application.Business.AdNetwork.UserPermission.Commands.UpdateUserPermission;
+using Ookbee.Ads.Application.Business.AdNetwork.UserPermission.Queries.GetUserPermissionById;
+using Ookbee.Ads.Application.Business.AdNetwork.UserPermission.Queries.GetUserPermissionList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;

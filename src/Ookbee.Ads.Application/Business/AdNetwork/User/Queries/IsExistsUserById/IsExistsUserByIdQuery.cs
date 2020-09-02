@@ -1,0 +1,15 @@
+﻿using MediatR;
+using Ookbee.Ads.Common.Result;
+
+namespace Ookbee.Ads.Application.Business.AdNetwork.User.Queries.IsExistsUserById
+{
+    public class IsExistsUserByIdQuery : IRequest<HttpResult<bool>>
+    {
+        public long Id { get; set; }
+
+        public IsExistsUserByIdQuery(long id)
+        {
+            Id = id;
+        }
+    }
+}

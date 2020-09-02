@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ookbee.Ads.Application.Extensions.Builder;
 using Ookbee.Ads.Application.Extensions.DependencyInjection;
+using Ookbee.Ads.Application.Infrastructure;
 
 namespace Ookbee.Ads.Services.Management
 {
@@ -19,6 +20,7 @@ namespace Ookbee.Ads.Services.Management
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
+            services.AddHostedService<InitialAdCacheService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

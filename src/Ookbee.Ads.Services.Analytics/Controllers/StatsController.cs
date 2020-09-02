@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Cache.Commands.AdAssetsStatsCache;
+using Ookbee.Ads.Application.Business.Cache.AdAssetsStatsCache.Commands.IncrementAdAssetsStatsCache;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
@@ -14,14 +14,13 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
     {
         [HttpGet]
         public async Task Get(
-            [FromRoute] long unitId,
             [FromRoute] long adId,
             [FromQuery(Name = "event")] string eventType,
             CancellationToken cancellationToken)
         {
             if (Enum.TryParse(eventType, true, out AdStats stats))
             {
-                await Mediator.Send(new UpdateAdAssetsStatsCacheCommand(unitId, adId, stats), cancellationToken);
+                await Mediator.Send(new IncrementAdAssetsStatsCacheCommand(adId, stats), cancellationToken);
             }
         }
     }

@@ -1,11 +1,11 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.AdGroup;
-using Ookbee.Ads.Application.Business.AdGroup.Commands.CreateAdGroup;
-using Ookbee.Ads.Application.Business.AdGroup.Commands.DeleteAdGroup;
-using Ookbee.Ads.Application.Business.AdGroup.Commands.UpdateAdGroup;
-using Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupById;
-using Ookbee.Ads.Application.Business.AdGroup.Queries.GetAdGroupList;
+using Ookbee.Ads.Application.Business.AdNetwork.AdGroup;
+using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Commands.CreateAdGroup;
+using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Commands.DeleteAdGroup;
+using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Commands.UpdateAdGroup;
+using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupById;
+using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;
