@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdAsset.Queries.GetAdAssetById;
+using Ookbee.Ads.Application.Business.AdNetwork.AdAsset.Queries.GetAdAssetById;
 using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAssetCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
