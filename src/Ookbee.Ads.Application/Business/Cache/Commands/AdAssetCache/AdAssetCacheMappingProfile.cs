@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ookbee.Ads.Application.Business.Ad;
 using Ookbee.Ads.Application.Business.AdAsset;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,24 +32,19 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache
             });
         }
 
-        private AdAnalyticsCacheDto AnalyticsConverter(IEnumerable<string> analytics, long adUnitId, long adId)
+        private AdAnalyticsCacheDto AnalyticsConverter(IEnumerable<string> impressions, long adUnitId, long adId)
         {
-            var analyticsBaseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
-
-            var impressions = new List<string>() { $"{analyticsBaseUrl}/api/units/{adUnitId}/ads/{adId}/stats?event=impression" };
-            var clicks = new List<string>() { $"{analyticsBaseUrl}/api/units/{adUnitId}/ads/{adId}/stats?event=click" };
-
-            foreach (var item in analytics)
+            var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
+            var analytics = new AdAnalyticsCacheDto()
             {
-                impressions.Add(item);
-            }
-            
-            var analyticsCache = new AdAnalyticsCacheDto()
-            {
-                Clicks = clicks,
-                Impressions = impressions,
+                Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnitId}/ads/{adId}/stats?event=click" },
+                Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnitId}/ads/{adId}/stats?event=impression" }
             };
-            return analyticsCache;
+
+            if (impressions.HasValue())
+                analytics.Impressions.AddRange(impressions);
+
+            return analytics;
         }
     }
 }

@@ -34,6 +34,10 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
 
             // MVC
+            services.AddRouting((options) =>
+            {
+                options.LowercaseUrls = true;
+            });
             services.AddControllers((options) =>
             {
                 options.Filters.Add(typeof(CustomExceptionFilterAttribute));

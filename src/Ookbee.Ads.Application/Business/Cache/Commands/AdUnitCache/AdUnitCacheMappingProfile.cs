@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Ookbee.Ads.Application.Business.AdUnit;
-using Ookbee.Ads.Application.Business.Cache.AdAssetCache;
 using Ookbee.Ads.Infrastructure;
+using System;
+using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
 {
@@ -11,24 +11,33 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
         public CreateAdUnitCacheMappingProfile()
         {
             CreateMap<AdUnitDto, AdUnitCacheDto>()
-                .ForMember(dest => dest.Id, m => m.MapFrom(src => src.AdNetwork.ToLower() == "ookbee" ? src.Id.ToString() : src.AdNetworkUnitId))
+                .ForMember(dest => dest.Id, m => m.MapFrom(src => AdNetworkUnitIdConverter(src)))
                 .ForMember(dest => dest.Name, m => m.MapFrom(src => src.AdNetwork))
-                .ForMember(dest => dest.Analytics, m => m.MapFrom(src => src.AdNetwork.ToLower() == "ookbee" ? null : AnalyticsConverter(src.Id)));
+                .ForMember(dest => dest.Analytics, m => m.MapFrom(src => AnalyticsConverter(src)));
         }
 
-        private AdAnalyticsCacheDto AnalyticsConverter(long adUnitId)
+        private string AdNetworkUnitIdConverter(AdUnitDto adUnit)
         {
-            var analyticsBaseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
-
-            var impressions = new List<string>() { $"{analyticsBaseUrl}/api/units/{adUnitId}/stats?event=impression" };
-            var clicks = new List<string>() { $"{analyticsBaseUrl}/api/units/{adUnitId}/stats?event=click" };
-        
-            var analyticsCache = new AdAnalyticsCacheDto()
+            if (string.Equals("OOKBEE", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
             {
-                Clicks = clicks,
-                Impressions = impressions,
-            };
-            return analyticsCache;
+                return adUnit.Id.ToString();
+            }
+            return adUnit.AdNetworkUnitId;
+        }
+
+        private AdAnalyticsCacheDto AnalyticsConverter(AdUnitDto adUnit)
+        {
+            if (string.Equals("OOKBEE", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            {
+                var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
+                var analytics = new AdAnalyticsCacheDto()
+                {
+                    Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?event=impression" },
+                    Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?event=click" },
+                };
+                return analytics;
+            }
+            return null;
         }
     }
 }

@@ -21,12 +21,15 @@ namespace Ookbee.Ads.Services.Management.Controllers
            => await Mediator.Send(new GetUserListQuery(start, length), cancellationToken);
 
         [HttpGet("{id}")]
-        public async Task<HttpResult<UserDto>> GetById([FromRoute] long id, CancellationToken cancellationToken) => await Mediator.Send(new GetUserByIdQuery(id), cancellationToken);
+        public async Task<HttpResult<UserDto>> GetById([FromRoute] long id, CancellationToken cancellationToken)
+            => await Mediator.Send(new GetUserByIdQuery(id), cancellationToken);
 
         [HttpPost]
-        public async Task<HttpResult<long>> Create([FromBody] CreateUserRequest request, CancellationToken cancellationToken) => await Mediator.Send(new CreateUserCommand(request), cancellationToken);
+        public async Task<HttpResult<long>> Create([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
+            => await Mediator.Send(new CreateUserCommand(request), cancellationToken);
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdateUserRequest request, CancellationToken cancellationToken) => await Mediator.Send(new UpdateUserCommand(id, request), cancellationToken);
+        public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdateUserRequest request, CancellationToken cancellationToken)
+            => await Mediator.Send(new UpdateUserCommand(id, request), cancellationToken);
     }
 }

@@ -24,9 +24,6 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
                         context.AddFailure(result.Message);
                 });
 
-            RuleFor(p => p.PricingModel)
-                .NotEmpty();
-
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()
@@ -42,6 +39,9 @@ namespace Ookbee.Ads.Application.Business.Campaign.Commands.CreateCampaign
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
+
+            RuleFor(p => p.PricingModel)
+                .NotEmpty();
 
             RuleFor(p => p.StartDate)
                 .GreaterThanOrEqualTo(MechineDateTime.Now.Date);

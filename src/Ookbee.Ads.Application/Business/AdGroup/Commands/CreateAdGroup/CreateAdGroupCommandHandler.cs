@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.AdGroup.Commands.CreateAdGroup
             var entity = Mapper.Map<AdGroupEntity>(request);
             await AdGroupDbRepo.InsertAsync(entity);
             await AdGroupDbRepo.SaveChangesAsync(cancellationToken);
-            await Mediator.Send(new CreateAdGroupCacheCommand(adGroupId: entity.Id), cancellationToken);
+            await Mediator.Send(new CreateAdGroupCacheCommand(entity.Id), cancellationToken);
 
             var result = new HttpResult<long>();
             return result.Success(entity.Id);

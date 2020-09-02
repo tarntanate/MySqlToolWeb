@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Business.CampaignCost.Commands.CreateCampaignCo
             AdvertiserId = request.AdvertiserId;
             Name = request.Name;
             Description = request.Description;
-            StartDate = request.StartDate;
-            EndDate = request.EndDate;
             PricingModel = PricingModel.CPM;
             Budget = request.Budget;
             CostPerUnit = request.CostPerUnit;
+            StartDate = request.StartDate;
+            EndDate = request.EndDate;
         }
     }
 }

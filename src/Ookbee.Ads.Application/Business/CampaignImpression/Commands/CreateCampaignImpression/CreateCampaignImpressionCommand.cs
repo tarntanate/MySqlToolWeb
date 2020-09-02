@@ -11,10 +11,10 @@ namespace Ookbee.Ads.Application.Business.CampaignImpression.Commands.CreateCamp
             AdvertiserId = request.AdvertiserId;
             Name = request.Name;
             Description = request.Description;
-            StartDate = request.StartDate;
-            EndDate = request.EndDate;
             PricingModel = PricingModel.IMP;
             Quota = request.Quota;
+            StartDate = request.StartDate;
+            EndDate = request.EndDate;
         }
     }
 }

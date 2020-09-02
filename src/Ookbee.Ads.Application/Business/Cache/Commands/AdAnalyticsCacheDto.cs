@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache
+namespace Ookbee.Ads.Application.Business.Cache
 {
     public class AdAnalyticsCacheDto
     {
