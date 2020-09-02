@@ -13,8 +13,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.CreateAd
             Description = request.Description;
             Status = request.Status;
             Quota = request.Quota;
-            StartDate = request.StartDate;
-            EndDate = request.EndDate;
+            StartAt = request.StartAt;
+            EndAt = request.EndAt;
             ForegroundColor = request.ForegroundColor;
             BackgroundColor = request.BackgroundColor;
             Analytics = request.Analytics;
