@@ -25,12 +25,12 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdAsset.Commands.DeleteAdAss
         public async Task<HttpResult<bool>> Handle(DeleteAdAssetCommand request, CancellationToken cancellationToken)
         {
             var result = new HttpResult<bool>();
-            var adAssetResult = await Mediator.Send(new GetAdAssetByIdQuery(request.Id), cancellationToken);
 
-            if (!adAssetResult.Ok)
-                return result.Fail(adAssetResult.StatusCode, adAssetResult.Message);
+            var getAdAssetById = await Mediator.Send(new GetAdAssetByIdQuery(request.Id), cancellationToken);
+            if (!getAdAssetById.Ok)
+                return result.Fail(getAdAssetById.StatusCode, getAdAssetById.Message);
 
-            await Mediator.Send(new DeleteAdAssetCacheCommand(adAssetResult.Data.AdId), cancellationToken);
+            await Mediator.Send(new DeleteAdAssetCacheCommand(getAdAssetById.Data.AdId), cancellationToken);
             await AdAssetDbRepo.DeleteAsync(request.Id);
             await AdAssetDbRepo.SaveChangesAsync(cancellationToken);
 
