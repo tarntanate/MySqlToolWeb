@@ -19,10 +19,10 @@ namespace Ookbee.Ads.Application.Business.Ad
         public string Name { get; set; }
         public string Description { get; set; }
         public AdStatus Status { get; set; }
-        public int? CountdownSecond { get; set; }
         public int? Quota { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime? PeriodStartAt { get; set; }
+        public DateTime? PeriodEndAt { get; set; }
+        public int? CountdownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public string LinkUrl { get; set; }
@@ -44,8 +44,8 @@ namespace Ookbee.Ads.Application.Business.Ad
                     Status = entity.Status,
                     CountdownSecond = entity.CountdownSecond,
                     Quota = entity.Quota,
-                    StartDate = entity.StartDate,
-                    EndDate = entity.EndDate,
+                    PeriodStartAt = entity.PeriodStartAt,
+                    PeriodEndAt = entity.PeriodEndAt,
                     ForegroundColor = entity.ForegroundColor,
                     BackgroundColor = entity.BackgroundColor,
                     LinkUrl = entity.WebLink,

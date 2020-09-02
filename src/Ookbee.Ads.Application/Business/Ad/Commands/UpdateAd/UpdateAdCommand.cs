@@ -17,8 +17,8 @@ namespace Ookbee.Ads.Application.Business.Ad.Commands.UpdateAd
             ForegroundColor = request.ForegroundColor;
             BackgroundColor = request.BackgroundColor;
             Quota = request.Quota;
-            StartDate = request.StartDate;
-            EndDate = request.EndDate;
+            PeriodStartAt = request.PeriodStartAt;
+            PeriodEndAt = request.PeriodEndAt;
             Analytics = request.Analytics;
             Platforms = request.Platforms;
             Status = request.Status;

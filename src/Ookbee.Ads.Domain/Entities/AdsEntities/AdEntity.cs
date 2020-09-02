@@ -15,8 +15,8 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public AdStatus Status { get; set; }
         public int? CountdownSecond { get; set; }
         public int? Quota { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime? PeriodStartAt { get; set; }
+        public DateTime? PeriodEndAt { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public List<string> Analytics { get; set; }
