@@ -9,6 +9,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.UserPermission
     {
         public string ExtensionName { get; set; }
         public long RoleId { get; set; }
+        public string RoleName { get; set; }
         public bool IsCreate { get; set; }
         public bool IsRead { get; set; }
         public bool IsUpdate { get; set; }
@@ -22,6 +23,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.UserPermission
                 {
                     Id = entity.Id,
                     RoleId = entity.RoleId,
+                    RoleName = entity.Role.Name,
                     ExtensionName = entity.ExtensionName,
                     IsCreate = entity.IsCreate,
                     IsRead = entity.IsRead,

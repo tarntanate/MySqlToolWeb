@@ -9,11 +9,13 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.UserPermission.Queries.GetUs
         public int Start { get; set; }
 
         public int Length { get; set; }
+        public long? RoleId { get; set; }
 
-        public GetUserPermissionListQuery(int start, int length)
+        public GetUserPermissionListQuery(int start, int length, long? roleId)
         {
             Start = start;
             Length = length;
+            RoleId = roleId;
         }
     }
 }
