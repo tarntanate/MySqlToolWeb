@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
 
         private AnalyticsCacheDto AnalyticsConverter(AdUnitDto adUnit)
         {
-            if (string.Equals("OOKBEE", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals("OOKBEE", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
             {
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var analytics = new AnalyticsCacheDto()
