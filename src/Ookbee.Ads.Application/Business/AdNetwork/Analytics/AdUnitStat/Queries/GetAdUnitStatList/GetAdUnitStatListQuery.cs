@@ -4,7 +4,7 @@ using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdUnitStatsList.Queries.GetAdUnitStatsList
+namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdUnitStats.Queries.GetAdUnitStatsList
 {
     public class GetAdUnitStatsListQuery : IRequest<HttpResult<IEnumerable<AdUnitStatsDto>>>
     {

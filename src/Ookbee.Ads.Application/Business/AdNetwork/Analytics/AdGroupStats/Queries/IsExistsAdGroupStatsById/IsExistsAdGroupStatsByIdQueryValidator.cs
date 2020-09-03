@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdGroupStatsList.Queries.IsExistsAdGroupStatsById
+namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdGroupStats.Queries.IsExistsAdGroupStatsById
 {
     public class IsExistsAdGroupStatsByIdQueryValidator : AbstractValidator<IsExistsAdGroupStatsByIdQuery>
     {

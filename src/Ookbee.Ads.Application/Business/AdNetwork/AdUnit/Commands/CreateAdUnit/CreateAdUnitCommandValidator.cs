@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.IsExistsAdNetworkNameByAdGroup;
+using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.IsExistsAdUnitByAdGroup;
 using System.Threading;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Commands.CreateAdUnit
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Commands.CreateAdUnit
             RuleFor(p => new { AdNetwork = p.AdNetwork, AdGroupId = p.AdGroupId })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var IsExistsAdNetworkNameByAdGroup = await Mediator.Send(new IsExistsAdNetworkNameByAdGroupQuery(adNetworkName: value.AdNetwork, adGroupId: value.AdGroupId), cancellationToken);
+                    var IsExistsAdNetworkNameByAdGroup = await Mediator.Send(new IsExistsAdUnitByAdGroupQuery(adNetworkName: value.AdNetwork, adGroupId: value.AdGroupId), cancellationToken);
                     if (IsExistsAdNetworkNameByAdGroup.Ok)
                         context.AddFailure($"'{value.AdNetwork}' already exists in groupId {value.AdGroupId}.");
                 });

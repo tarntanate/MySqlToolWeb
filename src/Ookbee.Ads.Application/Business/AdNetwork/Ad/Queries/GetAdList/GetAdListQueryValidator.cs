@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Application.Business.AdNetwork.Campaign.Queries.IsExistsCampaignById;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList
 {

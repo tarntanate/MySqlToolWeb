@@ -3,9 +3,9 @@ using Ookbee.Ads.Common.Result;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.UserRoleMapping.Commands.CreateUserRoleMapping
 {
-    public class CreateUserRoleMappingCommand : CreateUserRoleMappingRequest, IRequest<HttpResult<bool>>
+    public class CreateUserRoleMappingCommand : CreateUserRoleRequest, IRequest<HttpResult<bool>>
     {
-        public CreateUserRoleMappingCommand(CreateUserRoleMappingRequest request)
+        public CreateUserRoleMappingCommand(CreateUserRoleRequest request)
         {
             UserId = request.UserId;
             RoleId = request.RoleId;

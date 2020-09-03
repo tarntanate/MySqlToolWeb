@@ -1,5 +1,4 @@
 ﻿using System;
-using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.Campaign.Commands.UpdateCampaign
 {

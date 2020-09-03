@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdGroupStatsList.Queries.IsExistsAdStatsById
+namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdGroupStats.Queries.IsExistsAdStatsById
 {
     public class IsExistsAdStatsByIdQuery : IRequest<HttpResult<bool>>
     {

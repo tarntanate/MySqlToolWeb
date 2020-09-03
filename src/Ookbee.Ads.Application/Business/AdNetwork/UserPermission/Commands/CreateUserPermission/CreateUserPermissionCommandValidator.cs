@@ -2,7 +2,6 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.UserPermission.Queries.GetUserPermissionByName;
 using Ookbee.Ads.Application.Business.AdNetwork.UserRole.Queries.GetUserRoleById;
-using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.UserPermission.Commands.CreateUserPermission
 {

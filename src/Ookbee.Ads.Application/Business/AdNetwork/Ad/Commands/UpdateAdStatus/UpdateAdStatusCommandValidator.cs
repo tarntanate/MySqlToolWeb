@@ -1,10 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.IsExistsAdById;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.IsExistsAdUnitById;
-using Ookbee.Ads.Application.Business.AdNetwork.Campaign.Queries.IsExistsCampaignById;
-using Ookbee.Ads.Common.Extensions;
-using System.Linq;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.Ad.Commands.UpdateAdStatus
 {

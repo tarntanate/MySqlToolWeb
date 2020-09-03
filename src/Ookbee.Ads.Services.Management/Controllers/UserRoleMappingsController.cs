@@ -25,11 +25,11 @@ namespace Ookbee.Ads.Services.Management.Controllers
         //     => await Mediator.Send(new GetUserRoleMappingByIdQuery(userId, roleId), cancellationToken);
 
         [HttpPost]
-        public async Task<HttpResult<bool>> Create([FromBody] CreateUserRoleMappingRequest request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Create([FromBody] CreateUserRoleRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new CreateUserRoleMappingCommand(request), cancellationToken);
 
         [HttpPut]
-        public async Task<HttpResult<bool>> Update([FromBody] UpdateUserRoleMappingRequest request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Update([FromBody] UpdateUserRoleRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdateUserRoleMappingCommand(request), cancellationToken);
 
         [HttpDelete]

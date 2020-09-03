@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.User.Queries.IsExistsUserById;
 using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.User.Commands.CreateUser

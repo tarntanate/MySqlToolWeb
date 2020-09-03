@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdGroupStatsList.Queries.GetAdGroupStatsList
+namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdGroupStats.Queries.GetAdGroupStatsList
 {
     public class GetAdGroupStatsListQueryHandler : IRequestHandler<GetAdGroupStatsListQuery, HttpResult<IEnumerable<AdGroupStatsDto>>>
     {

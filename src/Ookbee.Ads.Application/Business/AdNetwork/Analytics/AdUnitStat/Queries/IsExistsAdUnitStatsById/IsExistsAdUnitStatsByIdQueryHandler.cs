@@ -5,7 +5,7 @@ using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdGroupStatsList.Queries.IsExistsAdUnitStatsById
+namespace Ookbee.Ads.Application.Business.AdNetwork.Analytics.AdGroupStats.Queries.IsExistsAdUnitStatsById
 {
     public class IsExistsAdUnitStatsByIdQueryHandler : IRequestHandler<IsExistsAdUnitStatsByIdQuery, HttpResult<bool>>
     {

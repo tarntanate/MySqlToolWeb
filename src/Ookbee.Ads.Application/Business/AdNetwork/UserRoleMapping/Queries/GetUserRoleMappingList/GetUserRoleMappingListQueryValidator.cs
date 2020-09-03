@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.User.Queries.GetUserById;
-using Ookbee.Ads.Application.Business.AdNetwork.UserRole.Queries.GetUserRoleById;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.UserRoleMapping.Queries.GetUserRoleMappingList
 {

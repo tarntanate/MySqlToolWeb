@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Ookbee.Ads.Infrastructure.Models;
+﻿using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.Ad.Commands.UpdateAdStatus
 {
