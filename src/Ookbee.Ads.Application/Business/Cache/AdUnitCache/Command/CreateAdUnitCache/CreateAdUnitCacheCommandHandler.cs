@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
-using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.CreateAdAssetCache;
+using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.CreateAdCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUnitCache
 {
-    public class CreateAdUnitCacheCommandHandler : IRequestHandler<CreateAdUnitCacheCommand, Unit>
+    public class CreateAdUnitCacheCommandHandler : IRequestHandler<CreateAdUnitCacheCommand>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
@@ -106,7 +106,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                 {
                     foreach (var ad in getAdList.Data)
                     {
-                        await Mediator.Send(new CreateAdAssetCacheCommand(ad.Id), cancellationToken);
+                        await Mediator.Send(new CreateAdCacheCommand(ad.Id), cancellationToken);
                     }
                     start += length;
                 }

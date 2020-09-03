@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.CreateAdGroupCache
 {
-    public class CreateAdGroupCacheCommandHandler : IRequestHandler<CreateAdGroupCacheCommand, Unit>
+    public class CreateAdGroupCacheCommandHandler : IRequestHandler<CreateAdGroupCacheCommand>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }

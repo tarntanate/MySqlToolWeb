@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialAdCache
 {
-    public class InitialAdCacheCommandHandler : IRequestHandler<InitialAdCacheCommand, Unit>
+    public class InitialAdCacheCommandHandler : IRequestHandler<InitialAdCacheCommand>
     {
         private IMediator Mediator { get; }
 

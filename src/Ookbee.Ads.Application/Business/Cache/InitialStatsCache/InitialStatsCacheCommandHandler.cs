@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
 {
-    public class InitialStatsCacheCommandHandler : IRequestHandler<InitialStatsCacheCommand, Unit>
+    public class InitialStatsCacheCommandHandler : IRequestHandler<InitialStatsCacheCommand>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }

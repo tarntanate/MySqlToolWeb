@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.DeleteAdGroupCache
 {
-    public class DeleteAdGroupCacheCommandHandler : IRequestHandler<DeleteAdGroupCacheCommand, Unit>
+    public class DeleteAdGroupCacheCommandHandler : IRequestHandler<DeleteAdGroupCacheCommand>
     {
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }

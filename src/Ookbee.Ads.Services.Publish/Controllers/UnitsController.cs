@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.GetAdAssetByUnitId;
+using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.GetAdAssetByUnitId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Infrastructure.Models;
 using System;

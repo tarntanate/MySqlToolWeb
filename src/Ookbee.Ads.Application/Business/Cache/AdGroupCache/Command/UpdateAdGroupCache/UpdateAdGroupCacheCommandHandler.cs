@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.UpdateAdGroupCache
 {
-    public class UpdateAdGroupCacheCommandHandler : IRequestHandler<UpdateAdGroupCacheCommand, Unit>
+    public class UpdateAdGroupCacheCommandHandler : IRequestHandler<UpdateAdGroupCacheCommand>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }

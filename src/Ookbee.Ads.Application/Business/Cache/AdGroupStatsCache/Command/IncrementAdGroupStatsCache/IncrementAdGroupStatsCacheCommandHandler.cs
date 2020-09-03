@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.IncrementAdGroupStatCache
 {
-    public class IncrementAdGroupStatsCacheCommandHandler : IRequestHandler<IncrementAdGroupStatsCacheCommand, Unit>
+    public class IncrementAdGroupStatsCacheCommandHandler : IRequestHandler<IncrementAdGroupStatsCacheCommand>
     {
         private IDatabase AdsRedis { get; }
 

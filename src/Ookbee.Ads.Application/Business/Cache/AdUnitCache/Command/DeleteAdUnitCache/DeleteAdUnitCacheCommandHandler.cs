@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitById;
-using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAssetCache;
+using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUnitCache
 {
-    public class DeleteAdUnitCacheCommandHandler : IRequestHandler<DeleteAdUnitCacheCommand, Unit>
+    public class DeleteAdUnitCacheCommandHandler : IRequestHandler<DeleteAdUnitCacheCommand>
     {
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
@@ -60,13 +60,13 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
                         }
                     }
                 }
-                await DeleteAdAssetCache(adUnit.Id, cancellationToken);
+                await DeleteAdCache(adUnit.Id, cancellationToken);
             }
 
             return Unit.Value;
         }
 
-        public async Task DeleteAdAssetCache(long adUnitId, CancellationToken cancellationToken)
+        public async Task DeleteAdCache(long adUnitId, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -78,7 +78,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
                 {
                     foreach (var ad in getAdList.Data)
                     {
-                        await Mediator.Send(new DeleteAdAssetCacheCommand(ad.Id), cancellationToken);
+                        await Mediator.Send(new DeleteAdCacheCommand(ad.Id), cancellationToken);
                     }
                     start += length;
                 }

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.UpdateAdUnitCache
 {
-    public class UpdateAdUnitCacheCommandHandler : IRequestHandler<UpdateAdUnitCacheCommand, Unit>
+    public class UpdateAdUnitCacheCommandHandler : IRequestHandler<UpdateAdUnitCacheCommand>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
