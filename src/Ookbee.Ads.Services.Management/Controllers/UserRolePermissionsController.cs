@@ -18,9 +18,9 @@ namespace Ookbee.Ads.Services.Management.Controllers
     public class UserRolePermissionsController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<UserPermissionDto>>> GetList([FromQuery] int start, [FromQuery] int length, CancellationToken cancellationToken)
-            => await Mediator.Send(new GetUserPermissionListQuery(start, length), cancellationToken);
-
+        public async Task<HttpResult<IEnumerable<UserPermissionDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? roleId, CancellationToken cancellationToken)
+            => await Mediator.Send(new GetUserPermissionListQuery(start, length, roleId), cancellationToken);
+        
         [HttpGet("{id}")]
         public async Task<HttpResult<UserPermissionDto>> GetById([FromRoute] long id, CancellationToken cancellationToken)
             => await Mediator.Send(new GetUserPermissionByIdQuery(id), cancellationToken);
