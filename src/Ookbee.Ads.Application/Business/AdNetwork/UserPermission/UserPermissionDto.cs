@@ -8,6 +8,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.UserPermission
     public class UserPermissionDto : DefaultDto
     {
         public string ExtensionName { get; set; }
+        public long RoleId { get; set; }
         public bool IsCreate { get; set; }
         public bool IsRead { get; set; }
         public bool IsUpdate { get; set; }
@@ -20,6 +21,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.UserPermission
                 return entity => new UserPermissionDto()
                 {
                     Id = entity.Id,
+                    RoleId = entity.RoleId,
                     ExtensionName = entity.ExtensionName,
                     IsCreate = entity.IsCreate,
                     IsRead = entity.IsRead,
