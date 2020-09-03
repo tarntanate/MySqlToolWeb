@@ -52,13 +52,13 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Ad
                     Analytics = entity.Analytics,
                     Platforms = entity.Platforms,
                     Assets = entity.AdAssets
-                    .Where(asset => asset.DeletedAt == null)
-                    .Select(asset => new AdAssetDto()
-                    {
-                        Position = asset.Position,
-                        AssetType = asset.AssetType,
-                        AssetPath = asset.AssetPath,
-                    }).ToList(),
+                        .Where(asset => asset.DeletedAt == null)
+                        .Select(asset => new AdAssetDto()
+                        {
+                            Position = asset.Position,
+                            AssetType = asset.AssetType,
+                            AssetPath = asset.AssetPath,
+                        }).ToList(),
                     AdUnit = new AdUnitDto()
                     {
                         Id = entity.AdUnit.Id,
