@@ -10,14 +10,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialAnalyticsCache
+namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
 {
-    public class InitialAnalyticsCacheCommandHandler : IRequestHandler<InitialAnalyticsCacheCommand, Unit>
+    public class InitialStatsCacheCommandHandler : IRequestHandler<InitialStatsCacheCommand, Unit>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
 
-        public InitialAnalyticsCacheCommandHandler(
+        public InitialStatsCacheCommandHandler(
             IMapper mapper,
             IMediator mediator)
         {
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialAnalyticsCache
             Mediator = mediator;
         }
 
-        public async Task<Unit> Handle(InitialAnalyticsCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(InitialStatsCacheCommand request, CancellationToken cancellationToken)
         {
             try
             {

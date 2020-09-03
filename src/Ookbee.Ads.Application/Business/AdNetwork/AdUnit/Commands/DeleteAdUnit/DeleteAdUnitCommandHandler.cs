@@ -30,9 +30,9 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Commands.DeleteAdUnit
             if (!getAdUnitById.Ok)
                 return result.Fail(getAdUnitById.StatusCode, getAdUnitById.Message);
 
+            await Mediator.Send(new DeleteAdUnitCacheCommand(getAdUnitById.Data.Id), cancellationToken);
             await AdUnitDbRepo.DeleteAsync(request.Id);
             await AdUnitDbRepo.SaveChangesAsync(cancellationToken);
-            await Mediator.Send(new DeleteAdUnitCacheCommand(getAdUnitById.Data.AdGroup.Id, getAdUnitById.Data.AdNetwork), cancellationToken);
 
             return result.Success(true);
         }

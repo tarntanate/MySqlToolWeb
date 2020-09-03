@@ -9,7 +9,6 @@ using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
 
-
 namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.CreateAdGroupCache
 {
     public class CreateAdGroupCacheCommandHandler : IRequestHandler<CreateAdGroupCacheCommand, Unit>
@@ -33,11 +32,6 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.CreateAdGr
             var getAdGroupById = await Mediator.Send(new GetAdGroupByIdQuery(request.AdGroupId), cancellationToken);
             if (getAdGroupById.Ok)
             {
-                var adUnit = getAdGroupById.Data;
-                var redisKey = CacheKey.Groups();
-                var hashField = adUnit.Id;
-                var hashValue = JsonHelper.Serialize(adUnit);
-                await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
                 await Mediator.Send(new CreateAdUnitCacheCommand(request.AdGroupId), cancellationToken);
             }
 

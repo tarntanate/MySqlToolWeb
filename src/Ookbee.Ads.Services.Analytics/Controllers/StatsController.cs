@@ -9,16 +9,19 @@ using System.Threading.Tasks;
 namespace Ookbee.Ads.Services.Analytics.Controllers
 {
     [ApiController]
-    [Route("api/units/{unitId}/ads/{adId}/stats")]
+    [Route("api/stats")]
     public class StatsController : ApiController
     {
         [HttpGet]
         public async Task Get(
-            [FromRoute] long adId,
-            [FromQuery(Name = "event")] string eventType,
+            [FromQuery(Name = "adId")] long adId,
+            [FromQuery(Name = "unitId")] long unitId,
+            [FromQuery(Name = "groupId")] long groupId,
+            [FromQuery(Name = "event")] string statsName,
+            [FromQuery(Name = "platform")] string platformName,
             CancellationToken cancellationToken)
         {
-            if (Enum.TryParse(eventType, true, out AdStats stats))
+            if (Enum.TryParse(statsName, true, out AdStats stats))
             {
                 await Mediator.Send(new IncrementAdAssetsStatsCacheCommand(adId, stats), cancellationToken);
             }

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
 {
-    public class MappingProfile : Profile
+    public class AdUnitCacheMappingProfile : Profile
     {
-        public MappingProfile()
+        public AdUnitCacheMappingProfile()
         {
             CreateMap<AdUnitDto, AdUnitCacheDto>()
                 .ForMember(dest => dest.Id, m => m.MapFrom(src => AdNetworkUnitIdConverter(src)))
@@ -27,13 +27,13 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
 
         private AnalyticsCacheDto AnalyticsConverter(AdUnitDto adUnit)
         {
-            if (string.Equals("OOKBEE", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals("OOKBEE", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
             {
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var analytics = new AnalyticsCacheDto()
                 {
-                    Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?event=impression" },
-                    Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?event=click" },
+                    Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?event=click" },
+                    Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?event=impression" },
                 };
                 return analytics;
             }

@@ -2,10 +2,14 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
+using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,12 +42,32 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.CreateAdAs
                     ad.Status == AdStatus.Preview)
                 {
                     var adCache = Mapper.Map<AdCacheDto>(ad);
-                    var redisKey = CacheKey.Ad(ad.Id);
-                    var redisValue = (RedisValue)JsonHelper.Serialize(adCache);
                     var platforms = getAdById.Data.Platforms;
-                    await AdsRedis.StringSetAsync(redisKey, redisValue);
                     foreach (var platform in platforms)
                     {
+                        var queryName = "platform";
+                        var queryValue = platform.ToString().ToLower();
+                        var baseUri = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
+                        if (adCache.Analytics.Clicks.HasValue())
+                            adCache.Analytics.Clicks = adCache.Analytics.Clicks.Select(url =>
+                            {
+                                if (url.Contains(baseUri))
+                                    url = new Uri(url).AddQueryString(queryName, queryValue).AbsoluteUri;
+                                return url;
+                            }).ToList();
+
+                        if (adCache.Analytics.Impressions.HasValue())
+                            adCache.Analytics.Impressions = adCache.Analytics.Impressions.Select(url =>
+                            {
+                                if (url.Contains(baseUri))
+                                    url = new Uri(url).AddQueryString(queryName, queryValue).AbsoluteUri;
+                                return url;
+                            }).ToList();
+
+                        var redisKey = CacheKey.Ad(ad.Id, platform);
+                        var redisValue = (RedisValue)JsonHelper.Serialize(adCache);
+                        await AdsRedis.StringSetAsync(redisKey, redisValue);
+
                         redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
                         redisValue = (RedisValue)ad.Id;
                         await AdsRedis.SetAddAsync(redisKey, redisValue);

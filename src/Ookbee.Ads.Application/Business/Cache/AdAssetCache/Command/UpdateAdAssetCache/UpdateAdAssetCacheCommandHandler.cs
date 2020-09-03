@@ -40,16 +40,15 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
                     ad.Status == AdStatus.Preview)
                 {
                     var adCache = Mapper.Map<AdCacheDto>(ad);
-                    var redisKey = CacheKey.Ad(ad.Id);
-                    var redisValue = (RedisValue)JsonHelper.Serialize(adCache);
-                    var platforms = getAdById.Data.Platforms;
-                    await AdsRedis.StringSetAsync(redisKey, redisValue);
                     foreach (Platform platform in Enum.GetValues(typeof(Platform)))
                     {
+                        var redisKey = CacheKey.Ad(ad.Id, platform);
+                        var redisValue = (RedisValue)JsonHelper.Serialize(adCache);
+                        await AdsRedis.StringSetAsync(redisKey, redisValue);
+
                         redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
                         redisValue = (RedisValue)ad.Id;
-                        var isExits = platforms.Any(x => x == platform);
-                        if (isExits)
+                        if (getAdById.Data.Platforms.Any(x => x == platform))
                             await AdsRedis.SetAddAsync(redisKey, redisValue);
                         else
                             await AdsRedis.SetRemoveAsync(redisKey, redisValue);

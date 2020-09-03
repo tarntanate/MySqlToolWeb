@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Commands.UpdateAdUnit
             var entity = Mapper.Map<AdUnitEntity>(request);
             await AdUnitDbRepo.UpdateAsync(entity.Id, entity);
             await AdUnitDbRepo.SaveChangesAsync(cancellationToken);
-            await Mediator.Send(new UpdateAdUnitCacheCommand(adGroupId: entity.AdGroupId), cancellationToken);
+            await Mediator.Send(new UpdateAdUnitCacheCommand(entity.AdGroupId), cancellationToken);
 
             var result = new HttpResult<bool>();
             return result.Success(true);

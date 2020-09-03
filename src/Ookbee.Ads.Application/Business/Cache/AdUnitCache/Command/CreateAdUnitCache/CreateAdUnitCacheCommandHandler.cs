@@ -6,8 +6,10 @@ using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.CreateAdAssetC
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -36,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
             var start = 0;
             var length = 100;
             var next = true;
-            var groups = new List<AdUnitCacheDto>();
+            var adUnits = new List<AdUnitCacheDto>();
             do
             {
                 var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
@@ -46,8 +48,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                     foreach (var unit in units)
                     {
                         await CreateAdAssetCache(unit.Id, cancellationToken);
-                        var group = Mapper.Map<AdUnitCacheDto>(unit);
-                        groups.Add(group);
+                        var adUnit = Mapper.Map<AdUnitCacheDto>(unit);
+                        adUnits.Add(adUnit);
                     }
                 }
                 next = getAdUnitList.Data.Count() == length ? true : false;
@@ -55,11 +57,38 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
             }
             while (next);
 
-            if (groups.HasValue())
+            if (adUnits.HasValue())
             {
-                var redisKey = CacheKey.Units(request.AdGroupId);
-                var redisValue = JsonHelper.Serialize(groups);
-                await AdsRedis.StringSetAsync(redisKey, redisValue);
+                foreach (Platform platform in Enum.GetValues(typeof(Platform)))
+                {
+                    var platformName = platform.ToString();
+                    foreach (var adUnit in adUnits)
+                    {
+                        if (adUnit.Analytics.HasValue())
+                        {
+                            var queryName = "platform";
+                            var queryValue = platformName.ToLower();
+
+                            if (adUnit.Analytics.Clicks.HasValue())
+                                adUnit.Analytics.Clicks = adUnit.Analytics.Clicks.Select(url =>
+                                {
+                                    url = new Uri(url).AddQueryString(queryName, queryValue).AbsoluteUri;
+                                    return url;
+                                }).ToList();
+
+                            if (adUnit.Analytics.Impressions.HasValue())
+                                adUnit.Analytics.Impressions = adUnit.Analytics.Impressions.Select(url =>
+                                {
+                                    url = new Uri(url).AddQueryString(queryName, queryValue).AbsoluteUri;
+                                    return url;
+                                }).ToList();
+                        }
+                    }
+
+                    var redisKey = CacheKey.Units(request.AdGroupId, platform);
+                    var redisValue = JsonHelper.Serialize(adUnits);
+                    await AdsRedis.StringSetAsync(redisKey, redisValue);
+                }
             }
 
             return Unit.Value;

@@ -15,13 +15,13 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
 
-            RuleFor(p => p.AdUnitId)
+            RuleFor(p => new { p.AdUnitId, p.Platform })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var redisKey = CacheKey.UnitsStats(value);
+                    var redisKey = CacheKey.UnitsStats(value.AdUnitId, value.Platform);
                     var redisValue = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!redisValue.HasValue())
-                        context.AddFailure($"UnitsStats '{redisKey}' doesn't exist.");
+                        context.AddFailure($"Key '{redisKey}' doesn't exist.");
                 });
         }
     }

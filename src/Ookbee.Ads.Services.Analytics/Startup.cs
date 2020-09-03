@@ -20,7 +20,6 @@ namespace Ookbee.Ads.Services.Analytics
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
-            services.AddHostedService<InitialAnalyticsCacheService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

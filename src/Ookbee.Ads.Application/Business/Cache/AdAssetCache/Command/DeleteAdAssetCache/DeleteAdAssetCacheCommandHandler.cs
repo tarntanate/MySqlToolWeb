@@ -28,12 +28,14 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAs
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
             if (getAdById.Ok)
             {
-                var redisKey = CacheKey.Ad(request.AdId);
-                var redisValue = request.AdId;
-                await AdsRedis.KeyDeleteAsync(redisKey);
+                var ad = getAdById.Data;
                 foreach (Platform platform in Enum.GetValues(typeof(Platform)))
                 {
-                    redisKey = CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
+                    var redisKey = CacheKey.Ad(request.AdId, platform);
+                    await AdsRedis.KeyDeleteAsync(redisKey);
+
+                    redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
+                    var redisValue = request.AdId;
                     await AdsRedis.SetRemoveAsync(redisKey, redisValue);
                 }
             }

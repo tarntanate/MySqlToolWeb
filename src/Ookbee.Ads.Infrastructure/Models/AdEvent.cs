@@ -1,9 +1,10 @@
 namespace Ookbee.Ads.Infrastructure.Models
 {
-    public enum AdEvent
+    public enum AdStats
     {
-        Click,
-        Display,
+        Request,
+        Fill,
         Impression,
+        Click,
     }
 }

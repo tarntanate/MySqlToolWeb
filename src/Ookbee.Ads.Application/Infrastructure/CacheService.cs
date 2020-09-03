@@ -2,17 +2,18 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ookbee.Ads.Application.Business.Cache.Commands.InitialAdCache;
+using Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
-    public class InitialAdCacheService : BackgroundService
+    public class CacheService : BackgroundService
     {
         private IServiceProvider ServiceProvider { get; }
 
-        public InitialAdCacheService(IServiceProvider serviceProvider)
+        public CacheService(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
         }
@@ -27,6 +28,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     {
                         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
                         await mediator.Send(new InitialAdCacheCommand(), cancellationToken);
+                        await mediator.Send(new InitialStatsCacheCommand(), cancellationToken);
                     }
                 }
                 catch (Exception ex)
