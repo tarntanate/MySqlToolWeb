@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     using (var scope = ServiceProvider.CreateScope())
                     {
                         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                        await mediator.Send(new InitialAdCacheCommand(), cancellationToken);
+                        //await mediator.Send(new InitialAdCacheCommand(), cancellationToken);
                         await mediator.Send(new InitialStatsCacheCommand(), cancellationToken);
                     }
                 }

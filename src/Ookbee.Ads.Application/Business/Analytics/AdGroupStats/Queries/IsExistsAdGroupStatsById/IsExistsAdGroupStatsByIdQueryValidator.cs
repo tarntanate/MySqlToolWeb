@@ -2,9 +2,9 @@
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.IsExistsAdGroupStatById
 {
-    public class IsExistsAdGroupStatByIdQueryValidator : AbstractValidator<IsExistsAdGroupStatByIdQuery>
+    public class IsExistsAdGroupStatsByIdQueryValidator : AbstractValidator<IsExistsAdGroupStatsByIdQuery>
     {
-        public IsExistsAdGroupStatByIdQueryValidator()
+        public IsExistsAdGroupStatsByIdQueryValidator()
         {
             RuleFor(p => p.AdGroupId)
                 .GreaterThan(0)

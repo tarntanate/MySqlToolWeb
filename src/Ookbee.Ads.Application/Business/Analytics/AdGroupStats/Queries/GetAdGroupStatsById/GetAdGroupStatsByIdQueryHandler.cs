@@ -5,18 +5,18 @@ using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGroupStatById
+namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGroupStatsById
 {
-    public class GetAdGroupStatByIdQueryHandler : IRequestHandler<GetAdGroupStatByIdQuery, HttpResult<AdGroupStatsDto>>
+    public class GetAdGroupStatsByIdQueryHandler : IRequestHandler<GetAdGroupStatsByIdQuery, HttpResult<AdGroupStatsDto>>
     {
         private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
 
-        public GetAdGroupStatByIdQueryHandler(AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
+        public GetAdGroupStatsByIdQueryHandler(AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 
-        public async Task<HttpResult<AdGroupStatsDto>> Handle(GetAdGroupStatByIdQuery request, CancellationToken cancellationToken)
+        public async Task<HttpResult<AdGroupStatsDto>> Handle(GetAdGroupStatsByIdQuery request, CancellationToken cancellationToken)
         {
             var item = await AdGroupStatsDbRepo.FirstAsync(
                 selector: AdGroupStatsDto.Projection,

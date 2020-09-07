@@ -20,7 +20,6 @@ namespace Ookbee.Ads.Services.Publish
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
-            services.AddHostedService<CacheService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

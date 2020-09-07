@@ -3,9 +3,9 @@ using MediatR;
 using Microsoft.DotNet.PlatformAbstractions;
 using Ookbee.Ads.Common.Result;
 
-namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.UpdateAdGroupStat
+namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.UpdateAdGroupStats
 {
-    public class UpdateAdGroupStatCommand : IRequest<HttpResult<bool>>
+    public class UpdateAdGroupStatsCommand : IRequest<HttpResult<bool>>
     {
         public long Id { get; set; }
         public long AdGroupId { get; set; }
@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.UpdateA
         public long Request { get; set; }
         public DateTime CaculatedAt { get; set; }
 
-        public UpdateAdGroupStatCommand(long id, long adGroupId, Platform platform, long request, DateTime caculatedAt)
+        public UpdateAdGroupStatsCommand(long id, long adGroupId, Platform platform, long request, DateTime caculatedAt)
         {
             Id = id;
             AdGroupId = adGroupId;

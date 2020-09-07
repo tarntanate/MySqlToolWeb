@@ -1,30 +1,31 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupList;
 using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGroupStatsById;
 using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.CreateAdGroupStatCache;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Infrastructure.Models;
+using Ookbee.Ads.Persistence.Redis.AdsRedis;
+using StackExchange.Redis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
+namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.InitialAdGroupStatsCache
 {
-    public class InitialStatsCacheCommandHandler : IRequestHandler<InitialStatsCacheCommand>
+    public class InitialAdGroupStatsCacheCommandHandler : IRequestHandler<InitialAdGroupStatsCacheCommand>
     {
-        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
+        private IDatabase AdsRedis { get; }
 
-        public InitialStatsCacheCommandHandler(
-            IMapper mapper,
-            IMediator mediator)
+        public InitialAdGroupStatsCacheCommandHandler(
+            IMediator mediator,
+            AdsRedisContext adsRedis)
         {
-            Mapper = mapper;
             Mediator = mediator;
+            AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Unit> Handle(InitialStatsCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(InitialAdGroupStatsCacheCommand request, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;

@@ -2,13 +2,13 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.IsExistsAdGroupById;
 
-namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.CreateAdGroupStat
+namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.UpdateAdGroupStats
 {
-    public class CreateAdGroupStatCommandValidator : AbstractValidator<CreateAdGroupStatCommand>
+    public class UpdateAdGroupStatsCommandValidator : AbstractValidator<UpdateAdGroupStatsCommand>
     {
         public IMediator Mediator { get; set; }
 
-        public CreateAdGroupStatCommandValidator(IMediator mediator)
+        public UpdateAdGroupStatsCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;

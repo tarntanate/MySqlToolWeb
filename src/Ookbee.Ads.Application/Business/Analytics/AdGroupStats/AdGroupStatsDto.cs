@@ -1,4 +1,3 @@
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using System;

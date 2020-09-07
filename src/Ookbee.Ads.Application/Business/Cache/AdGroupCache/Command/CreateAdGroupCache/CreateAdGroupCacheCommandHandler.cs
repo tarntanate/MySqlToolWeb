@@ -2,8 +2,6 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupById;
 using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUnitCache;
-using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Threading;

@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.IsExistsAdGroupStatById
 {
-    public class IsExistsAdGroupStatByIdQueryHandler : IRequestHandler<IsExistsAdGroupStatByIdQuery, HttpResult<bool>>
+    public class IsExistsAdGroupStatsByIdQueryHandler : IRequestHandler<IsExistsAdGroupStatsByIdQuery, HttpResult<bool>>
     {
         private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
 
-        public IsExistsAdGroupStatByIdQueryHandler(AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
+        public IsExistsAdGroupStatsByIdQueryHandler(AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(IsExistsAdGroupStatByIdQuery request, CancellationToken cancellationToken)
+        public async Task<HttpResult<bool>> Handle(IsExistsAdGroupStatsByIdQuery request, CancellationToken cancellationToken)
         {
             var isExists = await AdGroupStatsDbRepo.AnyAsync(f =>
                 f.AdGroupId == request.AdGroupId &&
