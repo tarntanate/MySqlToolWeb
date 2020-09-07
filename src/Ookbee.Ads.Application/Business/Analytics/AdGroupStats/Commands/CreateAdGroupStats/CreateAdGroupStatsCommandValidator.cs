@@ -21,9 +21,6 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.CreateA
                     if (!isExistsAdGroupById.Ok)
                         context.AddFailure(isExistsAdGroupById.Message);
                 });
-
-            RuleFor(p => p.Request)
-                .GreaterThan(0);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
                     var redisKey = CacheKey.UnitsStats(value.AdUnitId, value.Platform);
                     var redisValue = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!redisValue.HasValue())
-                        context.AddFailure($"Key '{redisKey}' doesn't exist.");
+                        context.AddFailure($"AdUnitStats '{redisKey}' doesn't exist.");
                 });
         }
     }

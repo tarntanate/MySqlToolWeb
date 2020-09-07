@@ -1,6 +1,6 @@
 namespace Ookbee.Ads.Infrastructure.Models
 {
-    public enum AdStats
+    public enum AdStatsType
     {
         Request,
         Fill,

@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.GetAdAssetByUni
 
         public async Task<HttpResult<string>> Handle(GetAdAssetByUnitIdQuery request, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(request.AdUnitId, request.Platform, AdStats.Request), cancellationToken);
+            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(request.AdUnitId, request.Platform, AdStatsType.Request), cancellationToken);
 
             var redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
             var redisValue = string.Empty;
@@ -46,7 +46,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.GetAdAssetByUni
             if (!redisValue.HasValue())
                 return result.Fail(404, "Data not found.");
 
-            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(request.AdUnitId, request.Platform, AdStats.Fill));
+            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(request.AdUnitId, request.Platform, AdStatsType.Fill));
 
             return result.Success(redisValue);
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Cache.AdAssetsStatsCache.Commands.IncrementAdAssetsStatsCache;
+using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementAdStatsCache;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
@@ -21,9 +21,12 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
             [FromQuery(Name = "platform")] string platformName,
             CancellationToken cancellationToken)
         {
-            if (Enum.TryParse(statsName, true, out AdStats stats))
+            if (Enum.TryParse(statsName, true, out AdStatsType stats))
             {
-                await Mediator.Send(new IncrementAdAssetsStatsCacheCommand(adId, stats), cancellationToken);
+                if (Enum.TryParse(platformName, true, out Platform platform))
+                {
+                    await Mediator.Send(new IncrementAdStatsCacheCommand(adId, platform, stats), cancellationToken);
+                }
             }
         }
     }

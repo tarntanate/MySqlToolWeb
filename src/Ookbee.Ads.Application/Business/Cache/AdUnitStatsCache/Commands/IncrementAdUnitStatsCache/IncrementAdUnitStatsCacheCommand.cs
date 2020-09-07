@@ -7,9 +7,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
     {
         public long AdUnitId { get; set; }
         public Platform Platform { get; set; }
-        public AdStats Stats { get; set; }
+        public AdStatsType Stats { get; set; }
 
-        public IncrementAdUnitStatsCacheCommand(long adUnitId, Platform platform, AdStats stats)
+        public IncrementAdUnitStatsCacheCommand(long adUnitId, Platform platform, AdStatsType stats)
         {
             AdUnitId = adUnitId;
             Platform = platform;

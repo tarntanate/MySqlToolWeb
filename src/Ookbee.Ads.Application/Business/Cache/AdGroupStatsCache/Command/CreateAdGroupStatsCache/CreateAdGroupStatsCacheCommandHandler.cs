@@ -5,7 +5,7 @@ using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.CreateAdGroupStatCache
+namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.CreateAdGroupStatsCache
 {
     public class CreateAdGroupStatsCacheCommandHandler : IRequestHandler<CreateAdGroupStatsCacheCommand>
     {

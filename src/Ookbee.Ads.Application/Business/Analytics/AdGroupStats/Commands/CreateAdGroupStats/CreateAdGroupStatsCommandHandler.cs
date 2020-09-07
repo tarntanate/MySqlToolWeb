@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.CreateAdGroupStatsCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
+using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Threading;
 using System.Threading.Tasks;
