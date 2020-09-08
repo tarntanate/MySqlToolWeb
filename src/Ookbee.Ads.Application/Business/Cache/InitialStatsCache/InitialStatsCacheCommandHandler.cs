@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Common;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupList;
 using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.InitialAdGroupStats;
@@ -12,6 +8,10 @@ using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.InitialAdUnitStats;
 using Ookbee.Ads.Application.Business.Analytics.AdAssetStats.Commands.InitialAssetAdStats;
 using Ookbee.Ads.Infrastructure.Models;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
 {
