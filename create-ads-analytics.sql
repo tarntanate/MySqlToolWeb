@@ -36,7 +36,7 @@ CREATE INDEX "IDX_AdUnitStats_1" ON "public"."AdUnitStats" ("AdUnitId", "Platfor
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."AdStats"                                        */
 /* ---------------------------------------------------------------------- */
-CREATE TABLE "public"."AdAssetStats" (
+CREATE TABLE "public"."AdStats" (
     "Id" INTEGER DEFAULT nextval('"SEQ_AdStats"') NOT NULL,
     "AdId" INTEGER NOT NULL,
     "Platform" CHARACTER VARYING(10) NOT NULL,
