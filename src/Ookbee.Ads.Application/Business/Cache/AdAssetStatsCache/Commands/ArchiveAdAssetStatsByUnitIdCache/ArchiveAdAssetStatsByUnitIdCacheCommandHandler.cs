@@ -1,24 +1,24 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
-using Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.ArchiveAdStatsByIdCache;
+using Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.ArchiveAdAssetStatsByIdCache;
 using Ookbee.Ads.Infrastructure.Models;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.ArchiveAdStatsByUnitIdCache
+namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.ArchiveAdAssetStatsByUnitIdCache
 {
-    public class ArchiveAdStatsByUnitIdCacheCommandHandler : IRequestHandler<ArchiveAdStatsByUnitIdCacheCommand>
+    public class ArchiveAdAssetStatsByUnitIdCacheCommandHandler : IRequestHandler<ArchiveAdAssetStatsByUnitIdCacheCommand>
     {
         private IMediator Mediator { get; }
 
-        public ArchiveAdStatsByUnitIdCacheCommandHandler(
+        public ArchiveAdAssetStatsByUnitIdCacheCommandHandler(
             IMediator mediator)
         {
             Mediator = mediator;
         }
 
-        public async Task<Unit> Handle(ArchiveAdStatsByUnitIdCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ArchiveAdAssetStatsByUnitIdCacheCommand request, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.Archi
                     foreach (var ad in getAdList.Data)
                     {
                         if (ad.Status == AdStatus.Publish || ad.Status == AdStatus.Preview)
-                            await Mediator.Send(new ArchiveAdStatsByIdCacheCommand(request.CaculatedAt, ad.Id), cancellationToken);
+                            await Mediator.Send(new ArchiveAdAssetStatsByIdCacheCommand(request.CaculatedAt, ad.Id), cancellationToken);
                     }
                     start += length;
                 }

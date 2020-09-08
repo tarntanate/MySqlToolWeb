@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.Analytics.AdAssetStats.Commands.CreateAdAssetStats;
 using Ookbee.Ads.Application.Business.Analytics.AdAssetStats.Queries.GetAdAssetStatsByKey;
-using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.CreateAdStatsCache;
+using Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.CreateAdAssetStatsCache;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Linq;
@@ -32,10 +32,10 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdAssetStats.Commands.Initia
                 }
 
                 var clickStats = getAdStatsByKey?.Data?.Click ?? default(long);
-                await Mediator.Send(new CreateAdStatsCacheCommand(request.AdId, platform, request.CaculatedAt, AdStatsType.Click, clickStats), cancellationToken);
+                await Mediator.Send(new CreateAdAssetStatsCacheCommand(request.AdId, platform, request.CaculatedAt, AdStatsType.Click, clickStats), cancellationToken);
 
                 var impressionStats = getAdStatsByKey?.Data?.Impression ?? default(long);
-                await Mediator.Send(new CreateAdStatsCacheCommand(request.AdId, platform, request.CaculatedAt, AdStatsType.Impression, impressionStats), cancellationToken);
+                await Mediator.Send(new CreateAdAssetStatsCacheCommand(request.AdId, platform, request.CaculatedAt, AdStatsType.Impression, impressionStats), cancellationToken);
             }
 
             return Unit.Value;

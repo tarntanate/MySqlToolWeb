@@ -1,14 +1,14 @@
 ﻿using MediatR;
 using System;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.ArchiveAdStatsByUnitIdCache
+namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.ArchiveAdAssetStatsByUnitIdCache
 {
-    public class ArchiveAdStatsByUnitIdCacheCommand : IRequest<Unit>
+    public class ArchiveAdAssetStatsByUnitIdCacheCommand : IRequest<Unit>
     {
         public DateTime CaculatedAt { get; set; }
         public long AdUnitId { get; set; }
 
-        public ArchiveAdStatsByUnitIdCacheCommand(DateTime caculatedAt, long adUnitId)
+        public ArchiveAdAssetStatsByUnitIdCacheCommand(DateTime caculatedAt, long adUnitId)
         {
             CaculatedAt = caculatedAt;
             AdUnitId = adUnitId;

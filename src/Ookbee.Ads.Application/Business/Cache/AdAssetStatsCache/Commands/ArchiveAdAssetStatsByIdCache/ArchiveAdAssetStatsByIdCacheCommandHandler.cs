@@ -11,26 +11,26 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.ArchiveAdStatsByIdCache
+namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.ArchiveAdAssetStatsByIdCache
 {
-    public class ArchiveAdStatsByIdCacheCommandHandler : IRequestHandler<ArchiveAdStatsByIdCacheCommand>
+    public class ArchiveAdAssetStatsByIdCacheCommandHandler : IRequestHandler<ArchiveAdAssetStatsByIdCacheCommand>
     {
         private IDatabase AdsRedis { get; }
-        private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
+        private AnalyticsDbRepository<AdStatsEntity> AdAssetStatsDbRepo { get; }
 
-        public ArchiveAdStatsByIdCacheCommandHandler(
+        public ArchiveAdAssetStatsByIdCacheCommandHandler(
             AdsRedisContext adsRedis,
             AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
             AdsRedis = adsRedis.Database();
-            AdStatsDbRepo = adStatsDbRepo;
+            AdAssetStatsDbRepo = adStatsDbRepo;
         }
 
-        public async Task<Unit> Handle(ArchiveAdStatsByIdCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ArchiveAdAssetStatsByIdCacheCommand request, CancellationToken cancellationToken)
         {
             foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
             {
-                var adGroupStats = await AdStatsDbRepo.FirstAsync(
+                var adGroupStats = await AdAssetStatsDbRepo.FirstAsync(
                     filter: f =>
                         f.AdId == request.AdId &&
                         f.Platform == platform &&
@@ -43,9 +43,15 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.Archi
                     var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
                     if (hashEntries.HasValue())
                     {
-                        adGroupStats.Click = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Click.ToString()).Value;
-                        adGroupStats.Impression = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Impression.ToString()).Value;
-                        await AdStatsDbRepo.SaveChangesAsync();
+                        var clickCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Click.ToString()).Value;
+                        if (clickCount > adGroupStats.Click)
+                            adGroupStats.Click = clickCount;
+
+                        var impressionCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Impression.ToString()).Value;
+                        if (impressionCount > adGroupStats.Impression)
+                            adGroupStats.Click = impressionCount;
+
+                        await AdAssetStatsDbRepo.SaveChangesAsync();
                     }
                 }
             }

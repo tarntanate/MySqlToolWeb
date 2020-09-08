@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.CreateAdStatsCache
+namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.CreateAdAssetStatsCache
 {
-    public class CreateAdStatsCacheCommandValidator : AbstractValidator<CreateAdStatsCacheCommand>
+    public class CreateAdAssetStatsCacheCommandValidator : AbstractValidator<CreateAdAssetStatsCacheCommand>
     {
-        public CreateAdStatsCacheCommandValidator()
+        public CreateAdAssetStatsCacheCommandValidator()
         {
 
         }

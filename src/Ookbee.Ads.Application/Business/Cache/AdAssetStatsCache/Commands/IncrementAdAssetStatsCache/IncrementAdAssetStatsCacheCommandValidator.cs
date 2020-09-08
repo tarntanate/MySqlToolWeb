@@ -1,16 +1,15 @@
 ﻿using FluentValidation;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementAdStatsCache
+namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.IncrementAdAssetStatsCache
 {
-    public class IncrementAdStatsCacheCommandValidator : AbstractValidator<IncrementAdStatsCacheCommand>
+    public class IncrementAdAssetStatsCacheCommandValidator : AbstractValidator<IncrementAdAssetStatsCacheCommand>
     {
         private IDatabase AdsRedis { get; }
 
-        public IncrementAdStatsCacheCommandValidator(AdsRedisContext adsRedis)
+        public IncrementAdAssetStatsCacheCommandValidator(AdsRedisContext adsRedis)
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
@@ -19,9 +18,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var redisKey = CacheKey.AdStats(value.AdId, value.Platform);
-                    var redisValue = await AdsRedis.KeyExistsAsync(redisKey);
-                    if (!redisValue.HasValue())
-                        context.AddFailure($"AdStats '{redisKey}' doesn't exist.");
+                    var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
+                    if (!keyExists)
+                        context.AddFailure($"AdAssetStats '{redisKey}' doesn't exist.");
                 });
         }
     }

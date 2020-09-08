@@ -6,18 +6,18 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.InitialAdStatsCache
+namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.InitialAdAssetStatsCache
 {
-    public class InitialAdStatsCacheCommandHandler : IRequestHandler<InitialAdStatsCacheCommand>
+    public class InitialAdAssetStatsCacheCommandHandler : IRequestHandler<InitialAdAssetStatsCacheCommand>
     {
         private IMediator Mediator { get; }
 
-        public InitialAdStatsCacheCommandHandler(IMediator mediator)
+        public InitialAdAssetStatsCacheCommandHandler(IMediator mediator)
         {
             Mediator = mediator;
         }
 
-        public async Task<Unit> Handle(InitialAdStatsCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(InitialAdAssetStatsCacheCommand request, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;

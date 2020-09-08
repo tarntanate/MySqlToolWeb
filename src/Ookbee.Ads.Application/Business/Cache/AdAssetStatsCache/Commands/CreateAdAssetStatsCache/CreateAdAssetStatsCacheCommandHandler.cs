@@ -5,18 +5,18 @@ using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.CreateAdStatsCache
+namespace Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.CreateAdAssetStatsCache
 {
-    public class CreateAdStatsCacheCommandHandler : IRequestHandler<CreateAdStatsCacheCommand>
+    public class CreateAdAssetStatsCacheCommandHandler : IRequestHandler<CreateAdAssetStatsCacheCommand>
     {
         private IDatabase AdsRedis { get; }
 
-        public CreateAdStatsCacheCommandHandler(AdsRedisContext adsRedis)
+        public CreateAdAssetStatsCacheCommandHandler(AdsRedisContext adsRedis)
         {
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Unit> Handle(CreateAdStatsCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateAdAssetStatsCacheCommand request, CancellationToken cancellationToken)
         {
             var redisKey = CacheKey.AdStats(request.AdId, request.Platform);
             var hashField = request.Stats.ToString();

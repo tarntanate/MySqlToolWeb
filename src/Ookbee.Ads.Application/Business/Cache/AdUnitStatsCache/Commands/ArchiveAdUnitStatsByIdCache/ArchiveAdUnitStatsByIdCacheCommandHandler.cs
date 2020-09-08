@@ -47,8 +47,14 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Archiv
                     var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
                     if (hashEntries.HasValue())
                     {
-                        adGroupStats.Request = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Request.ToString()).Value;
-                        adGroupStats.Fill = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Fill.ToString()).Value;
+                        var requestCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Request.ToString()).Value;
+                        if (requestCount > adGroupStats.Request)
+                            adGroupStats.Request = requestCount;
+
+                        var fillCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Fill.ToString()).Value;
+                        if (fillCount > adGroupStats.Fill)
+                            adGroupStats.Fill = fillCount;
+
                         await AdUnitStatsDbRepo.SaveChangesAsync();
                     }
                 }

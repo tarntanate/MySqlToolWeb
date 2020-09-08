@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 
@@ -19,8 +18,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var redisKey = CacheKey.UnitsStats(value.AdUnitId, value.Platform);
-                    var redisValue = await AdsRedis.KeyExistsAsync(redisKey);
-                    if (!redisValue.HasValue())
+                    var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
+                    if (!keyExists)
                         context.AddFailure($"AdUnitStats '{redisKey}' doesn't exist.");
                 });
         }
