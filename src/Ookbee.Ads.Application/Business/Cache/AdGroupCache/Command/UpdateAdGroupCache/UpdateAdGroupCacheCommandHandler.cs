@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupById;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
-using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.UpdateAdUnitCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
@@ -14,16 +12,13 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.UpdateAdGr
 {
     public class UpdateAdGroupCacheCommandHandler : IRequestHandler<UpdateAdGroupCacheCommand>
     {
-        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
         public UpdateAdGroupCacheCommandHandler(
-            IMapper mapper,
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
-            Mapper = mapper;
             Mediator = mediator;
             AdsRedis = adsRedis.Database();
         }

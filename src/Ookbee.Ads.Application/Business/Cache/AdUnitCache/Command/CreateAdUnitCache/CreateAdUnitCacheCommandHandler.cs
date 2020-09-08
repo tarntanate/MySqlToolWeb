@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
-using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.CreateAdCache;
+using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.CreateAdAssetCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
@@ -106,7 +106,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                 {
                     foreach (var ad in getAdList.Data)
                     {
-                        await Mediator.Send(new CreateAdCacheCommand(ad.Id), cancellationToken);
+                        await Mediator.Send(new CreateAdAssetCacheCommand(ad.Id), cancellationToken);
                     }
                     start += length;
                 }

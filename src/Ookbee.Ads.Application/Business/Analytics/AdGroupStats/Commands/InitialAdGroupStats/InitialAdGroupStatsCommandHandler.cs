@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.CreateAdGroupStats;
 using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGroupStatsByKey;
 using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.CreateAdGroupStatsCache;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Infrastructure.Models;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System;
 using System.Linq;
 using System.Threading;
@@ -15,18 +12,12 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.Initial
 {
     public class InitialAdGroupStatsCommandHandler : IRequestHandler<InitialAdGroupStatsCommand>
     {
-        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
-        private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
 
         public InitialAdGroupStatsCommandHandler(
-            IMapper mapper,
-            IMediator mediator,
-            AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
+            IMediator mediator)
         {
-            Mapper = mapper;
             Mediator = mediator;
-            AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 
         public async Task<Unit> Handle(InitialAdGroupStatsCommand request, CancellationToken cancellationToken)

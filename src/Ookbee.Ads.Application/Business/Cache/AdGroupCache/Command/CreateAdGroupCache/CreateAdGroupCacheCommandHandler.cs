@@ -11,18 +11,12 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.CreateAdGr
 {
     public class CreateAdGroupCacheCommandHandler : IRequestHandler<CreateAdGroupCacheCommand>
     {
-        private IMapper Mapper { get; }
         private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
 
         public CreateAdGroupCacheCommandHandler(
-            IMapper mapper,
-            IMediator mediator,
-            AdsRedisContext adsRedis)
+            IMediator mediator)
         {
-            Mapper = mapper;
             Mediator = mediator;
-            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(CreateAdGroupCacheCommand request, CancellationToken cancellationToken)

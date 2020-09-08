@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.UpdateA
     public class UpdateAdGroupStatsCommandHandler : IRequestHandler<UpdateAdGroupStatsCommand, HttpResult<bool>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
         private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
 
         public UpdateAdGroupStatsCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 
