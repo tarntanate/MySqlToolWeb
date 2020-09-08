@@ -1,46 +1,44 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Common;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupList;
-using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.InitialAdGroupStats;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
-using Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.InitialAdUnitStats;
-using Ookbee.Ads.Application.Business.Analytics.AdAssetStats.Commands.InitialAssetAdStats;
+using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.ArchiveAdStatsCache;
+using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.ArchiveAdGroupStatsCache;
+using Ookbee.Ads.Common;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.ArchiveAdUnitStatsCache;
 
-namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
+namespace Ookbee.Ads.Application.Business.Cache.ArchiveStatsCache
 {
-    public class InitialStatsCacheCommandHandler : IRequestHandler<InitialStatsCacheCommand>
+    public class ArchiveAdGroupStatsCommandHandler : IRequestHandler<ArchiveStatsCacheCommand>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
-        private DateTime CaculatedAt { get; }
 
-        public InitialStatsCacheCommandHandler(
+        public ArchiveAdGroupStatsCommandHandler(
             IMapper mapper,
             IMediator mediator)
         {
             Mapper = mapper;
             Mediator = mediator;
-            CaculatedAt = MechineDateTime.Now.Date;
         }
 
-        public async Task<Unit> Handle(InitialStatsCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ArchiveStatsCacheCommand request, CancellationToken cancellationToken)
         {
             var next = true;
 
             do
             {
                 var caculatedAt = MechineDateTime.Now.Date;
-                await InitialAdGroupStats(request, cancellationToken);
+                await ArchiveAdGroupStats(caculatedAt, cancellationToken);
                 var nowDateTime = MechineDateTime.Now;
-                var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromDays(1));
+                var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
                 var timeout = nextDateTime - nowDateTime;
                 Thread.Sleep(timeout);
             }
@@ -49,7 +47,7 @@ namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
             return Unit.Value;
         }
 
-        private async Task InitialAdGroupStats(InitialStatsCacheCommand request, CancellationToken cancellationToken)
+        public async Task ArchiveAdGroupStats(DateTime caculatedAt, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -61,8 +59,8 @@ namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
                 {
                     foreach (var adGroup in getAdGroupList.Data)
                     {
-                        await Mediator.Send(new InitialAdGroupStatsCommand(adGroup.Id, CaculatedAt), cancellationToken);
-                        await InitialAdUnitStats(adGroup.Id, cancellationToken);
+                        await Mediator.Send(new ArchiveAdGroupStatsCacheCommand(adGroup.Id, caculatedAt), cancellationToken);
+                        await ArchiveAdUnitStats(caculatedAt, adGroup.Id, cancellationToken);
                     }
                     start += length;
                 }
@@ -71,7 +69,7 @@ namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
             while (next);
         }
 
-        private async Task InitialAdUnitStats(long adGroupId, CancellationToken cancellationToken)
+        public async Task ArchiveAdUnitStats(DateTime caculatedAt, long adGroupId, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -83,8 +81,8 @@ namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
                 {
                     foreach (var adUnit in getAdUnitList.Data)
                     {
-                        await Mediator.Send(new InitialAdUnitStatsCommand(adUnit.Id, CaculatedAt), cancellationToken);
-                        await InitialAdStats(adUnit.Id, cancellationToken);
+                        await Mediator.Send(new ArchiveAdUnitStatsCacheCommand(adUnit.Id, caculatedAt), cancellationToken);
+                        await ArchiveAdStats(caculatedAt, adUnit.Id, cancellationToken);
                     }
                     start += length;
                 }
@@ -93,7 +91,7 @@ namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
             while (next);
         }
 
-        private async Task InitialAdStats(long adUnitId, CancellationToken cancellationToken)
+        public async Task ArchiveAdStats(DateTime caculatedAt, long adUnitId, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -106,7 +104,7 @@ namespace Ookbee.Ads.Application.Business.Cache.Commands.InitialStatsCache
                     foreach (var ad in getAdList.Data)
                     {
                         if (ad.Status == AdStatus.Publish || ad.Status == AdStatus.Preview)
-                            await Mediator.Send(new InitialAdAssetStatsCommand(ad.Id, CaculatedAt), cancellationToken);
+                            await Mediator.Send(new ArchiveAdStatsCacheCommand(ad.Id, caculatedAt), cancellationToken);
                     }
                     start += length;
                 }

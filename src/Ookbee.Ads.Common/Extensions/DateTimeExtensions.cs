@@ -1,39 +1,20 @@
 using System;
-using System.Linq;
 
 namespace Ookbee.Ads.Common.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static long ToUnixTimestamp(this DateTime d)
+        public static DateTime RoundUp(this DateTime dt, TimeSpan d)
         {
-            var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var duration = d.ToUniversalTime() - epochStart;
-            return (long)duration.TotalSeconds;
+            var modTicks = dt.Ticks % d.Ticks;
+            var delta = modTicks != 0 ? d.Ticks - modTicks : 0;
+            return new DateTime(dt.Ticks + delta, dt.Kind);
         }
 
-        public static DateTime NextDateTime(this DateTime dateTime, DayOfWeek[] days, TimeSpan[] times)
+        public static DateTime RoundDown(this DateTime dt, TimeSpan d)
         {
-            times = times.OrderBy(x => x.Hours).ToArray();
-
-            var nextTimes = times.Where(x => x.Hours > dateTime.TimeOfDay.Hours).ToArray();
-
-            return nextTimes.Length > 0 ? dateTime.Date + nextTimes[0] : dateTime.NextDateTime(days).Date + times[0];
-        }
-
-        public static DateTime NextDateTime(this DateTime dateTime, params DayOfWeek[] days)
-        {
-            return Enumerable.Range(1, 7).Cast<double>().Select(dateTime.AddDays).First(y => days.Contains(y.DayOfWeek));
-        }
-
-        public static DateTime SetTime(this DateTime dateTime, int hours, int minutes, int seconds)
-        {
-            if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59)
-            {
-                return dateTime;
-            }
-
-            return dateTime.Date + new TimeSpan(hours, minutes, seconds);
+            var delta = dt.Ticks % d.Ticks;
+            return new DateTime(dt.Ticks - delta, dt.Kind);
         }
     }
 }
