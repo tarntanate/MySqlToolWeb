@@ -83,12 +83,6 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Ad
                         Id = entity.Campaign.Id,
                         Name = entity.Campaign.Name,
                         Description = entity.Campaign.Description,
-                        StartDate = entity.Campaign.StartDate,
-                        EndDate = entity.Campaign.EndDate,
-                        PricingModel = entity.Campaign.PricingModel,
-                        Budget = entity.Campaign.CampaignCost.Budget,
-                        CostPerUnit = entity.Campaign.CampaignCost.CostPerUnit,
-                        Quota = entity.Campaign.CampaignImpression.Quota,
                         Advertiser = new AdvertiserDto()
                         {
                             Id = entity.Campaign.Advertiser.Id,

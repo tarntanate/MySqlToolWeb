@@ -2,7 +2,6 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Advertiser.Queries.IsExistsAdvertiserById;
 using Ookbee.Ads.Application.Business.AdNetwork.Campaign.Queries.GetCampaignByName;
-using Ookbee.Ads.Common;
 
 namespace Ookbee.Ads.Application.Business.AdNetwork.Campaign.Commands.CreateCampaign
 {
@@ -39,15 +38,6 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Campaign.Commands.CreateCamp
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
-
-            RuleFor(p => p.PricingModel)
-                .NotEmpty();
-
-            RuleFor(p => p.StartDate)
-                .GreaterThanOrEqualTo(MechineDateTime.Now.Date);
-
-            RuleFor(p => p.EndDate)
-                .GreaterThanOrEqualTo(MechineDateTime.Now.Date);
         }
     }
 }

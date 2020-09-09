@@ -13,8 +13,6 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Campaign.Commands.UpdateCamp
             AdvertiserId = request.AdvertiserId;
             Name = request.Name;
             Description = request.Description;
-            StartDate = request.StartDate;
-            EndDate = request.EndDate;
         }
     }
 }

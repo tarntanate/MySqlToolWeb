@@ -8,11 +8,8 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Campaign.Commands.CreateCamp
         public CreateCampaignCommand(CreateCampaignRequest request)
         {
             AdvertiserId = request.AdvertiserId;
-            PricingModel = request.PricingModel;
             Name = request.Name;
             Description = request.Description;
-            StartDate = request.StartDate;
-            EndDate = request.EndDate;
         }
     }
 }

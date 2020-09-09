@@ -39,12 +39,6 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Campaign
                     Name = entity.Name,
                     Description = entity.Description,
                     TotalAds = entity.Ads.Where(ad => ad.DeletedAt == null).Count(),
-                    StartDate = entity.StartDate,
-                    EndDate = entity.EndDate,
-                    PricingModel = entity.PricingModel,
-                    Budget = entity.CampaignCost.Budget,
-                    CostPerUnit = entity.CampaignCost.CostPerUnit,
-                    Quota = entity.CampaignImpression.Quota,
                     Advertiser = new AdvertiserDto()
                     {
                         Id = entity.Advertiser.Id,
