@@ -9,8 +9,6 @@ CREATE SEQUENCE "public"."SEQ_AdGroup" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdUnit" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdUnitType" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_Campaign" INCREMENT 1 START 1;
-CREATE SEQUENCE "public"."SEQ_CampaignCost" INCREMENT 1 START 1;
-CREATE SEQUENCE "public"."SEQ_CampaignImpression" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_Publisher" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_UserPermission" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_UserRole" INCREMENT 1 START 1;
@@ -70,9 +68,6 @@ CREATE TABLE "public"."Campaign" (
     "AdvertiserId" INTEGER NOT NULL,
     "Name" CHARACTER VARYING(40),
     "Description" CHARACTER VARYING(500),
-    "PricingModel" CHARACTER VARYING(40),
-    "StartDate" TIMESTAMP NOT NULL,
-    "EndDate" TIMESTAMP NOT NULL,
     "CreatedAt" TIMESTAMP,
     "UpdatedAt" TIMESTAMP,
     "DeletedAt" TIMESTAMP,
@@ -84,27 +79,6 @@ CREATE TABLE "public"."Campaign" (
     )
 );
 CREATE INDEX "IDX_Campaign_1" ON "public"."Campaign" ("DeletedAt", "AdvertiserId");
-/* ---------------------------------------------------------------------- */
-/* Add table "public"."CampaignCost"                                      */
-/* ---------------------------------------------------------------------- */
-CREATE TABLE "public"."CampaignCost" (
-    "Id" INTEGER DEFAULT nextval('"SEQ_CampaignCost"') NOT NULL,
-    "CampaignId" INTEGER NOT NULL,
-    "Budget" MONEY,
-    "CostPerUnit" MONEY,
-    CONSTRAINT "PK_CampaignCost" PRIMARY KEY ("Id")
-);
-CREATE INDEX "IDX_CampaignCost_1" ON "public"."CampaignCost" ("CampaignId", "Id");
-/* ---------------------------------------------------------------------- */
-/* Add table "public"."CampaignImpression"                                */
-/* ---------------------------------------------------------------------- */
-CREATE TABLE "public"."CampaignImpression" (
-    "Id" INTEGER DEFAULT nextval('"SEQ_CampaignImpression"') NOT NULL,
-    "CampaignId" INTEGER NOT NULL,
-    "Quota" INTEGER,
-    CONSTRAINT "PK_CampaignImpression" PRIMARY KEY ("Id")
-);
-CREATE INDEX "IDX_CampaignImpression_1" ON "public"."CampaignImpression" ("CampaignId", "Id");
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."Publisher"                                         */
 /* ---------------------------------------------------------------------- */
@@ -288,10 +262,6 @@ ALTER TABLE "public"."AdUnit"
 ADD CONSTRAINT "FK_AdUnit_AdGroup" FOREIGN KEY ("AdGroupId") REFERENCES "public"."AdGroup" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."Campaign"
 ADD CONSTRAINT "FK_Campaign_Advertiser" FOREIGN KEY ("AdvertiserId") REFERENCES "public"."Advertiser" ("Id");
-ALTER TABLE "public"."CampaignCost"
-ADD CONSTRAINT "FK_CampaignCost_Campaign" FOREIGN KEY ("CampaignId") REFERENCES "public"."Campaign" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."CampaignImpression"
-ADD CONSTRAINT "FK_CampaignImpression_Campaign" FOREIGN KEY ("CampaignId") REFERENCES "public"."Campaign" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."UserPermission"
 ADD CONSTRAINT "FK_UserPermission_UserRole" FOREIGN KEY ("Id") REFERENCES "public"."UserRole" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."UserRoleMapping"
