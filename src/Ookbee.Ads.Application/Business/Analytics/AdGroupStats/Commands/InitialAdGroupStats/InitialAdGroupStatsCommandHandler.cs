@@ -24,14 +24,17 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.Initial
         {
             foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
             {
-                var getAdGroupStatByKey = await Mediator.Send(new GetAdGroupStatsByKeyQuery(request.AdGroupId, platform, request.CaculatedAt), cancellationToken);
-                if (!getAdGroupStatByKey.Ok)
+                if (platform != Platform.Unknown)
                 {
-                    var data = getAdGroupStatByKey.Data;
-                    await Mediator.Send(new CreateAdGroupStatsCommand(request.AdGroupId, platform, request.CaculatedAt, 0), cancellationToken);
+                    var getAdGroupStatByKey = await Mediator.Send(new GetAdGroupStatsByKeyQuery(request.AdGroupId, platform, request.CaculatedAt), cancellationToken);
+                    if (!getAdGroupStatByKey.Ok)
+                    {
+                        var data = getAdGroupStatByKey.Data;
+                        await Mediator.Send(new CreateAdGroupStatsCommand(request.AdGroupId, platform, request.CaculatedAt, 0), cancellationToken);
+                    }
+                    var requestStats = getAdGroupStatByKey?.Data?.Request ?? default(long);
+                    await Mediator.Send(new CreateAdGroupStatsCacheCommand(request.AdGroupId, platform, request.CaculatedAt, StatsType.Request, requestStats), cancellationToken);
                 }
-                var requestStats = getAdGroupStatByKey?.Data?.Request ?? default(long);
-                await Mediator.Send(new CreateAdGroupStatsCacheCommand(request.AdGroupId, platform, request.CaculatedAt, AdStatsType.Request, requestStats), cancellationToken);
             }
 
             return Unit.Value;

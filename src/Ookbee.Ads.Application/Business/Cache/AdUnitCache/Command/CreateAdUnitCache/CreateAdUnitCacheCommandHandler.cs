@@ -59,35 +59,38 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
 
             if (adUnits.HasValue())
             {
-                foreach (Platform platform in Enum.GetValues(typeof(Platform)))
+                foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
                 {
-                    var platformName = platform.ToString();
-                    foreach (var adUnit in adUnits)
+                    if (platform != Platform.Unknown)
                     {
-                        if (adUnit.Analytics.HasValue())
+                        var platformName = platform.ToString();
+                        foreach (var adUnit in adUnits)
                         {
-                            var queryName = "platform";
-                            var queryValue = platformName.ToLower();
+                            if (adUnit.Analytics.HasValue())
+                            {
+                                var queryName = "platform";
+                                var queryValue = platformName.ToLower();
 
-                            if (adUnit.Analytics.Clicks.HasValue())
-                                adUnit.Analytics.Clicks = adUnit.Analytics.Clicks.Select(url =>
-                                {
-                                    url = new Uri(url).AddQueryString(queryName, queryValue).AbsoluteUri;
-                                    return url;
-                                }).ToList();
+                                if (adUnit.Analytics.Clicks.HasValue())
+                                    adUnit.Analytics.Clicks = adUnit.Analytics.Clicks.Select(url =>
+                                    {
+                                        url = new Uri(url).AddQueryString(queryName, queryValue).AbsoluteUri;
+                                        return url;
+                                    }).ToList();
 
-                            if (adUnit.Analytics.Impressions.HasValue())
-                                adUnit.Analytics.Impressions = adUnit.Analytics.Impressions.Select(url =>
-                                {
-                                    url = new Uri(url).AddQueryString(queryName, queryValue).AbsoluteUri;
-                                    return url;
-                                }).ToList();
+                                if (adUnit.Analytics.Impressions.HasValue())
+                                    adUnit.Analytics.Impressions = adUnit.Analytics.Impressions.Select(url =>
+                                    {
+                                        url = new Uri(url).AddQueryString(queryName, queryValue).AbsoluteUri;
+                                        return url;
+                                    }).ToList();
+                            }
                         }
-                    }
 
-                    var redisKey = CacheKey.Units(request.AdGroupId, platform);
-                    var redisValue = JsonHelper.Serialize(adUnits);
-                    await AdsRedis.StringSetAsync(redisKey, redisValue);
+                        var redisKey = CacheKey.Units(request.AdGroupId, platform);
+                        var redisValue = JsonHelper.Serialize(adUnits);
+                        await AdsRedis.StringSetAsync(redisKey, redisValue);
+                    }
                 }
             }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,6 +10,20 @@ namespace Ookbee.Ads.Common.Extensions
         public static string ToCamelCase(this string value)
         {
             return char.ToLowerInvariant(value[0]) + value.Substring(1);
+        }
+
+        public static T ToEnum<T>(this string value, bool ignoreCase = true, T defaultValue = default(T)) where T : struct
+        {
+            try
+            {
+                if (!typeof(T).IsEnum || String.IsNullOrEmpty(value))
+                    return defaultValue;
+                return (T)Enum.Parse(typeof(T), value, ignoreCase);
+            }
+            catch
+            {
+                return defaultValue;
+            }
         }
 
         public static string ToUpperFirstLetter(this string value)

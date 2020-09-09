@@ -24,18 +24,21 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.Initial
         {
             foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
             {
-                var getAdUnitStatsByKey = await Mediator.Send(new GetAdUnitStatsByKeyQuery(request.AdUnitId, platform, request.CaculatedAt), cancellationToken);
-                if (!getAdUnitStatsByKey.Ok)
+                if (platform != Platform.Unknown)
                 {
-                    var data = getAdUnitStatsByKey.Data;
-                    await Mediator.Send(new CreateAdUnitStatsCommand(request.AdUnitId, platform, request.CaculatedAt, 0, 0), cancellationToken);
+                    var getAdUnitStatsByKey = await Mediator.Send(new GetAdUnitStatsByKeyQuery(request.AdUnitId, platform, request.CaculatedAt), cancellationToken);
+                    if (!getAdUnitStatsByKey.Ok)
+                    {
+                        var data = getAdUnitStatsByKey.Data;
+                        await Mediator.Send(new CreateAdUnitStatsCommand(request.AdUnitId, platform, request.CaculatedAt, 0, 0), cancellationToken);
+                    }
+
+                    var requestStats = getAdUnitStatsByKey?.Data?.Request ?? default(long);
+                    await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.AdUnitId, platform, request.CaculatedAt, StatsType.Request, requestStats), cancellationToken);
+
+                    var fillStats = getAdUnitStatsByKey?.Data?.Fill ?? default(long);
+                    await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.AdUnitId, platform, request.CaculatedAt, StatsType.Fill, fillStats), cancellationToken);
                 }
-
-                var requestStats = getAdUnitStatsByKey?.Data?.Request ?? default(long);
-                await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.AdUnitId, platform, request.CaculatedAt, AdStatsType.Request, requestStats), cancellationToken);
-
-                var fillStats = getAdUnitStatsByKey?.Data?.Fill ?? default(long);
-                await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.AdUnitId, platform, request.CaculatedAt, AdStatsType.Fill, fillStats), cancellationToken);
             }
 
             return Unit.Value;

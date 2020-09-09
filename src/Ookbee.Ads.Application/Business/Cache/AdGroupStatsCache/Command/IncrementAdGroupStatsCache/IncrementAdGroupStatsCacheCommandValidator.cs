@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 
@@ -14,7 +15,18 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Incre
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
 
-            RuleFor(p => new { p.AdGroupId, p.Platform })
+            RuleFor(p => new { p.AdGroupId, p.Platform, p.StatsType })
+                .Custom((value, context) =>
+                {
+                    if (value.AdGroupId < 1)
+                    {
+                        context.AddFailure("'Id' is not a valid");
+                    }
+                    if (value.StatsType != StatsType.Request)
+                    {
+                        context.AddFailure($"Unsupported Stats Type.");
+                    }
+                })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var redisKey = CacheKey.UnitsAdIds(value.AdGroupId, value.Platform);

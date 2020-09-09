@@ -9,15 +9,15 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Creat
         public long AdGroupId { get; set; }
         public Platform Platform { get; set; }
         public DateTime CaculatedAt { get; set; }
-        public AdStatsType Stats { get; set; }
+        public StatsType StatsType { get; set; }
         public long Value { get; set; }
 
-        public CreateAdGroupStatsCacheCommand(long adGroupId, Platform platform, DateTime caculatedAt, AdStatsType stats, long value)
+        public CreateAdGroupStatsCacheCommand(long adGroupId, Platform platform, DateTime caculatedAt, StatsType statsType, long value)
         {
             AdGroupId = adGroupId;
             Platform = platform;
             CaculatedAt = caculatedAt;
-            Stats = stats;
+            this.StatsType = statsType;
             Value = value;
         }
     }

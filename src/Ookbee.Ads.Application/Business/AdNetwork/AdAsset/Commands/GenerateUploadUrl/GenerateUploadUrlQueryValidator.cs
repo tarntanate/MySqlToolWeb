@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdAsset.Commands.GenerateUpl
 
             RuleFor(p => p.Extension)
                 .Must(value => value.HasValue() && (value.IsValidJpeg() || value.IsValidPng()))
-                .WithMessage("Only .jpg .jpeg and .png file is supported.");
+                .WithMessage("The image field only accept files with the following extensions: .jpg .jpeg and .png");
         }
     }
 }

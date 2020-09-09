@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Incre
         public async Task<Unit> Handle(IncrementAdGroupStatsCacheCommand request, CancellationToken cancellationToken)
         {
             var redisKey = CacheKey.GroupStats(request.AdGroupId, request.Platform);
-            var hashField = request.Stats.ToString();
+            var hashField = request.StatsType.ToString();
             await AdsRedis.HashIncrementAsync(redisKey, hashField);
             return Unit.Value;
         }

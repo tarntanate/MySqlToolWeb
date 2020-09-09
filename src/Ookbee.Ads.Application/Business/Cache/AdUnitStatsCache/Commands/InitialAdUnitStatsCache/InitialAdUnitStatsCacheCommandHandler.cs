@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.InitialAdUnitStats;
-using Ookbee.Ads.Application.Business.Cache.AdAssetStatsCache.Commands.InitialAdAssetStatsCache;
+using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.InitialAdStatsCache;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Initia
                     foreach (var adUnit in getAdUnitList.Data)
                     {
                         await Mediator.Send(new InitialAdUnitStatsCommand(adUnit.Id, request.CaculatedAt), cancellationToken);
-                        await Mediator.Send(new InitialAdAssetStatsCacheCommand(adUnit.Id, request.CaculatedAt), cancellationToken);
+                        await Mediator.Send(new InitialAdStatsCacheCommand(adUnit.Id, request.CaculatedAt), cancellationToken);
                     }
                     start += length;
                 }

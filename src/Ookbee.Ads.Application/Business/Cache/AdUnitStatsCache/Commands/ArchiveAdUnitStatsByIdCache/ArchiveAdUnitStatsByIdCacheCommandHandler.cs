@@ -34,28 +34,31 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Archiv
         {
             foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
             {
-                var adGroupStats = await AdUnitStatsDbRepo.FirstAsync(
-                    filter: f =>
-                        f.AdUnitId == request.AdUnitId &&
-                        f.Platform == platform &&
-                        f.CaculatedAt == request.CaculatedAt,
-                    disableTracking: false
-                );
-                if (adGroupStats.HasValue())
+                if (platform != Platform.Unknown)
                 {
-                    var redisKey = CacheKey.UnitsStats(request.AdUnitId, platform);
-                    var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
-                    if (hashEntries.HasValue())
+                    var adGroupStats = await AdUnitStatsDbRepo.FirstAsync(
+                        filter: f =>
+                            f.AdUnitId == request.AdUnitId &&
+                            f.Platform == platform &&
+                            f.CaculatedAt == request.CaculatedAt,
+                        disableTracking: false
+                    );
+                    if (adGroupStats.HasValue())
                     {
-                        var requestCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Request.ToString()).Value;
-                        if (requestCount > adGroupStats.Request)
-                            adGroupStats.Request = requestCount;
+                        var redisKey = CacheKey.UnitsStats(request.AdUnitId, platform);
+                        var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
+                        if (hashEntries.HasValue())
+                        {
+                            var requestCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == StatsType.Request.ToString()).Value;
+                            if (requestCount > adGroupStats.Request)
+                                adGroupStats.Request = requestCount;
 
-                        var fillCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == AdStatsType.Fill.ToString()).Value;
-                        if (fillCount > adGroupStats.Fill)
-                            adGroupStats.Fill = fillCount;
+                            var fillCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == StatsType.Fill.ToString()).Value;
+                            if (fillCount > adGroupStats.Fill)
+                                adGroupStats.Fill = fillCount;
 
-                        await AdUnitStatsDbRepo.SaveChangesAsync();
+                            await AdUnitStatsDbRepo.SaveChangesAsync();
+                        }
                     }
                 }
             }

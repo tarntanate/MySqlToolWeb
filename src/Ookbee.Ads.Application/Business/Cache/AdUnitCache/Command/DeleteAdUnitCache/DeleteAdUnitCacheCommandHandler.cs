@@ -35,28 +35,31 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
             if (getAdUnitById.Ok)
             {
                 var adUnit = getAdUnitById.Data;
-                foreach (Platform platform in Enum.GetValues(typeof(Platform)))
+                foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
                 {
-                    var platformName = platform.ToString();
-                    var redisKey = CacheKey.Units(adUnit.AdGroup.Id, platform);
-                    var redisValue = await AdsRedis.StringGetAsync(redisKey);
-                    if (redisValue.HasValue())
+                    if (platform != Platform.Unknown)
                     {
-                        var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(redisValue);
-                        var index = adUnits.FindIndex(x => x.Name == adUnit.AdNetwork);
-                        if (index > -1)
+                        var platformName = platform.ToString();
+                        var redisKey = CacheKey.Units(adUnit.AdGroup.Id, platform);
+                        var redisValue = await AdsRedis.StringGetAsync(redisKey);
+                        if (redisValue.HasValue())
                         {
-                            adUnits.RemoveAt(index);
-                        }
+                            var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(redisValue);
+                            var index = adUnits.FindIndex(x => x.Name == adUnit.AdNetwork);
+                            if (index > -1)
+                            {
+                                adUnits.RemoveAt(index);
+                            }
 
-                        if (adUnits.HasValue())
-                        {
-                            redisValue = JsonHelper.Serialize(adUnits);
-                            await AdsRedis.StringSetAsync(redisKey, redisValue);
-                        }
-                        else
-                        {
-                            await AdsRedis.KeyDeleteAsync(redisKey);
+                            if (adUnits.HasValue())
+                            {
+                                redisValue = JsonHelper.Serialize(adUnits);
+                                await AdsRedis.StringSetAsync(redisKey, redisValue);
+                            }
+                            else
+                            {
+                                await AdsRedis.KeyDeleteAsync(redisKey);
+                            }
                         }
                     }
                 }
