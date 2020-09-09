@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
         {
             var redisKey = CacheKey.AdStats(request.AdId, request.Platform);
             var hashField = request.StatsType.ToString();
-            await AdsRedis.HashIncrementAsync(redisKey, hashField);
+            await AdsRedis.HashIncrementAsync(redisKey, hashField, 1, CommandFlags.FireAndForget);
 
             return Unit.Value;
         }
