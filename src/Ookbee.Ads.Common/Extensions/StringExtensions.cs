@@ -14,16 +14,10 @@ namespace Ookbee.Ads.Common.Extensions
 
         public static T ToEnum<T>(this string value, bool ignoreCase = true, T defaultValue = default(T)) where T : struct
         {
-            try
-            {
-                if (!typeof(T).IsEnum || String.IsNullOrEmpty(value))
-                    return defaultValue;
-                return (T)Enum.Parse(typeof(T), value, ignoreCase);
-            }
-            catch
-            {
+            if (!typeof(T).IsEnum || String.IsNullOrEmpty(value))
                 return defaultValue;
-            }
+            Enum.TryParse(typeof(T), value, ignoreCase, out var result);
+            return (T)result;
         }
 
         public static string ToUpperFirstLetter(this string value)

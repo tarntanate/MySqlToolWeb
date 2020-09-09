@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit;
 using Ookbee.Ads.Infrastructure;
+using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 
@@ -32,8 +33,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var analytics = new AnalyticsCacheDto()
                 {
-                    Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?event=click" },
-                    Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?event=impression" },
+                    Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Click}".ToLower() },
+                    Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Impression}".ToLower() },
                 };
                 return analytics;
             }
