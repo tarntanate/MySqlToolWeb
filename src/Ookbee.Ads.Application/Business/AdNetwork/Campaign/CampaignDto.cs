@@ -13,17 +13,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Campaign
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
         public int TotalAds { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public PricingModel PricingModel { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? Budget { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? CostPerUnit { get; set; }
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int? Quota { get; set; }
         public AdvertiserDto Advertiser { get; set; }
 
         public static Expression<Func<CampaignEntity, CampaignDto>> Projection
