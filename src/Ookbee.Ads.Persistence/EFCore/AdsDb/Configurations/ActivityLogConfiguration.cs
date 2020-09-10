@@ -6,7 +6,7 @@ using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 {
-    public class ActivityLogConfiguratio : IEntityTypeConfiguration<ActivityLogEntity>
+    public class ActivityLogConfiguration : IEntityTypeConfiguration<ActivityLogEntity>
     {
         public void Configure(EntityTypeBuilder<ActivityLogEntity> builder)
         {
