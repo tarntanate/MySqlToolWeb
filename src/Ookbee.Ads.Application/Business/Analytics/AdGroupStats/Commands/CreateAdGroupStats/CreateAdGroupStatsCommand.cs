@@ -7,16 +7,16 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.CreateA
 {
     public class CreateAdGroupStatsCommand : IRequest<HttpResult<long>>
     {
-        public long AdGroupId { get; set; }
-        public Platform Platform { get; set; }
         public DateTime CaculatedAt { get; set; }
+        public Platform Platform { get; set; }
+        public long AdGroupId { get; set; }
         public long Request { get; set; }
 
-        public CreateAdGroupStatsCommand(long adGroupId, Platform platform, DateTime caculatedAt, long request)
+        public CreateAdGroupStatsCommand(DateTime caculatedAt, Platform platform, long adGroupId, long request)
         {
-            AdGroupId = adGroupId;
-            Platform = platform;
             CaculatedAt = caculatedAt;
+            Platform = platform;
+            AdGroupId = adGroupId;
             Request = request;
         }
     }

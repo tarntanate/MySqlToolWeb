@@ -5,15 +5,15 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
 {
     public class IncrementAdStatsCacheCommand : IRequest<Unit>
     {
-        public long AdId { get; set; }
         public Platform Platform { get; set; }
         public StatsType StatsType { get; set; }
+        public long AdId { get; set; }
 
-        public IncrementAdStatsCacheCommand(long adId, Platform platform, StatsType statsType)
+        public IncrementAdStatsCacheCommand(Platform platform, StatsType statsType, long adId)
         {
-            AdId = adId;
             Platform = platform;
             StatsType = statsType;
+            AdId = adId;
         }
     }
 }

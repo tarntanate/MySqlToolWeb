@@ -30,10 +30,10 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.Initial
                     if (!getAdGroupStatByKey.Ok)
                     {
                         var data = getAdGroupStatByKey.Data;
-                        await Mediator.Send(new CreateAdGroupStatsCommand(request.AdGroupId, platform, request.CaculatedAt, 0), cancellationToken);
+                        await Mediator.Send(new CreateAdGroupStatsCommand(request.CaculatedAt, platform, request.AdGroupId, 0), cancellationToken);
                     }
                     var requestStats = getAdGroupStatByKey?.Data?.Request ?? default(long);
-                    await Mediator.Send(new CreateAdGroupStatsCacheCommand(request.AdGroupId, platform, request.CaculatedAt, StatsType.Request, requestStats), cancellationToken);
+                    await Mediator.Send(new CreateAdGroupStatsCacheCommand(request.CaculatedAt, platform, StatsType.Request, request.AdGroupId, requestStats), cancellationToken);
                 }
             }
 

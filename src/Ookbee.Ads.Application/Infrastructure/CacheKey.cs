@@ -7,6 +7,9 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static string Ad(long adId, Platform platform)
             => $"ads/{adId}/{platform}".ToUpper();
 
+        public static string AdStats(long adId)
+            => $"ads/{adId}/stats".ToUpper();
+
         public static string AdStats(long adId, Platform platform)
             => $"ads/{adId}/stats/{platform}".ToUpper();
 

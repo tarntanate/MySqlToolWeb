@@ -6,18 +6,18 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Create
 {
     public class CreateAdUnitStatsCacheCommand : IRequest<Unit>
     {
-        public long AdUnitId { get; set; }
-        public Platform Platform { get; set; }
         public DateTime CaculatedAt { get; set; }
+        public Platform Platform { get; set; }
         public StatsType StatsType { get; set; }
+        public long AdUnitId { get; set; }
         public long Value { get; set; }
 
-        public CreateAdUnitStatsCacheCommand(long adUnitId, Platform platform, DateTime caculatedAt, StatsType statsType, long value)
+        public CreateAdUnitStatsCacheCommand(DateTime caculatedAt, Platform platform, StatsType statsType, long adUnitId, long value)
         {
-            AdUnitId = adUnitId;
-            Platform = platform;
             CaculatedAt = caculatedAt;
+            Platform = platform;
             StatsType = statsType;
+            AdUnitId = adUnitId;
             Value = value;
         }
     }

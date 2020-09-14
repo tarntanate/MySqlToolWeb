@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.CreateAdStats;
+using Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaById;
 using Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdStatsByKey;
+using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.CreateAdStatsByPlatformCache;
 using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.CreateAdStatsCache;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
@@ -22,6 +24,10 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAsse
 
         public async Task<Unit> Handle(InitialAdStatsByIdCommand request, CancellationToken cancellationToken)
         {
+            var getAdQuotaById = await Mediator.Send(new GetAdQuotaByIdQuery(request.AdId, request.CaculatedAt), cancellationToken);
+            var quotaStats = getAdQuotaById?.Data ?? default(long);
+            await Mediator.Send(new CreateAdStatsCacheCommand(request.CaculatedAt, StatsType.Quota, request.AdId, quotaStats), cancellationToken);
+
             foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
             {
                 if (platform != Platform.Unknown)
@@ -30,14 +36,14 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAsse
                     if (!getAdStatsByKey.Ok)
                     {
                         var data = getAdStatsByKey.Data;
-                        await Mediator.Send(new CreateAdStatsCommand(request.AdId, platform, request.CaculatedAt, 0, 0), cancellationToken);
+                        await Mediator.Send(new CreateAdStatsCommand(request.AdId, platform, request.CaculatedAt, getAdQuotaById.Data, 0, 0), cancellationToken);
                     }
 
                     var clickStats = getAdStatsByKey?.Data?.Click ?? default(long);
-                    await Mediator.Send(new CreateAdStatsCacheCommand(request.AdId, platform, request.CaculatedAt, StatsType.Click, clickStats), cancellationToken);
+                    await Mediator.Send(new CreateAdStatsByPlatformCacheCommand(request.CaculatedAt, platform, StatsType.Click, request.AdId, clickStats), cancellationToken);
 
                     var impressionStats = getAdStatsByKey?.Data?.Impression ?? default(long);
-                    await Mediator.Send(new CreateAdStatsCacheCommand(request.AdId, platform, request.CaculatedAt, StatsType.Impression, impressionStats), cancellationToken);
+                    await Mediator.Send(new CreateAdStatsByPlatformCacheCommand(request.CaculatedAt, platform, StatsType.Impression, request.AdId, impressionStats), cancellationToken);
                 }
             }
 
