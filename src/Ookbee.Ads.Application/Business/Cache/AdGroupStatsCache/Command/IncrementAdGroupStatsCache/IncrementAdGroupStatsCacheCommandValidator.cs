@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Incre
                 {
                     if (value.AdGroupId < 1)
                     {
-                        context.AddFailure("'Id' is not a valid");
+                        context.AddFailure("'AdGroupId' is not valid");
                     }
                     if (value.StatsType != StatsType.Request)
                     {
@@ -29,10 +29,10 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Incre
                 })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var redisKey = CacheKey.UnitsAdIds(value.AdGroupId, value.Platform);
+                    var redisKey = CacheKey.GroupStats(value.AdGroupId, value.Platform);
                     var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!keyExists)
-                        context.AddFailure($"AdGroupStats '{redisKey}' doesn't exist.");
+                        context.AddFailure($"AdGroupStats '{redisKey}' doesn't exist in Redis.");
                 });
         }
     }
