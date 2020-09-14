@@ -191,8 +191,6 @@ CREATE TABLE "public"."Ad" (
     "Description" CHARACTER VARYING(500) NULL,
     "Status" CHARACTER VARYING(10),
     "Quota" INTEGER DEFAULT 0 NOT NULL,
-    "QuotaUsed" INTEGER DEFAULT 0 NOT NULL,
-    "QuotaAvailable" DEFAULT 0 INTEGER NOT NULL,
     "StartAt" TIMESTAMP NOT NULL,
     "EndAt" TIMESTAMP NOT NULL,
     "CountdownSecond" SMALLINT,

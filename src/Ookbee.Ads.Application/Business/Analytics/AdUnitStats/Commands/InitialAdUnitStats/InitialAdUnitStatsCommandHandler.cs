@@ -1,45 +1,42 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.CreateAdUnitStats;
-using Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUnitStatsByKey;
-using Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.CreateAdUnitStatsCache;
-using Ookbee.Ads.Infrastructure.Models;
-using System;
+using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
+using Ookbee.Ads.Application.Business.Analytics.AdStatsCache.Commands.InitialAdStats;
+using Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.InitialAdUnitStatsById;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.InitialAdUnitStats
+namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStatsCache.Commands.InitialAdUnitStats
 {
     public class InitialAdUnitStatsCommandHandler : IRequestHandler<InitialAdUnitStatsCommand>
     {
         private IMediator Mediator { get; }
 
-        public InitialAdUnitStatsCommandHandler(
-            IMediator mediator)
+        public InitialAdUnitStatsCommandHandler(IMediator mediator)
         {
             Mediator = mediator;
         }
 
         public async Task<Unit> Handle(InitialAdUnitStatsCommand request, CancellationToken cancellationToken)
         {
-            foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
+            var start = 0;
+            var length = 100;
+            var next = true;
+            do
             {
-                if (platform != Platform.Unknown)
+                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
+                if (getAdUnitList.Ok)
                 {
-                    var getAdUnitStatsByKey = await Mediator.Send(new GetAdUnitStatsByKeyQuery(request.AdUnitId, platform, request.CaculatedAt), cancellationToken);
-                    if (!getAdUnitStatsByKey.Ok)
+                    foreach (var adUnit in getAdUnitList.Data)
                     {
-                        var data = getAdUnitStatsByKey.Data;
-                        await Mediator.Send(new CreateAdUnitStatsCommand(request.AdUnitId, platform, request.CaculatedAt, 0, 0), cancellationToken);
+                        await Mediator.Send(new InitialAdStatsCommand(adUnit.Id, request.CaculatedAt), cancellationToken);
+                        await Mediator.Send(new InitialAdUnitStatsByIdCommand(adUnit.Id, request.CaculatedAt), cancellationToken);
                     }
-
-                    var requestStats = getAdUnitStatsByKey?.Data?.Request ?? default(long);
-                    await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.AdUnitId, platform, request.CaculatedAt, StatsType.Request, requestStats), cancellationToken);
-
-                    var fillStats = getAdUnitStatsByKey?.Data?.Fill ?? default(long);
-                    await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.AdUnitId, platform, request.CaculatedAt, StatsType.Fill, fillStats), cancellationToken);
+                    start += length;
                 }
+                next = getAdUnitList.Data.Count() < length ? false : true;
             }
+            while (next);
 
             return Unit.Value;
         }

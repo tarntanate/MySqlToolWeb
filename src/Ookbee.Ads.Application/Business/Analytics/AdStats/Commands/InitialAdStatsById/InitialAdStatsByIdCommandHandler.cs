@@ -8,19 +8,19 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAssetAdStats
+namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAssetAdStatsById
 {
-    public class InitialAdStatsCommandHandler : IRequestHandler<InitialAdStatsCommand>
+    public class InitialAdStatsByIdCommandHandler : IRequestHandler<InitialAdStatsByIdCommand>
     {
         private IMediator Mediator { get; }
 
-        public InitialAdStatsCommandHandler(
+        public InitialAdStatsByIdCommandHandler(
             IMediator mediator)
         {
             Mediator = mediator;
         }
 
-        public async Task<Unit> Handle(InitialAdStatsCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(InitialAdStatsByIdCommand request, CancellationToken cancellationToken)
         {
             foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
             {

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
-    public class ArchiveAnalyticsCacheService : BackgroundService
+    public class ArchiveAnalyticsService : BackgroundService
     {
         private IServiceProvider ServiceProvider { get; }
 
-        public ArchiveAnalyticsCacheService(IServiceProvider serviceProvider)
+        public ArchiveAnalyticsService(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
         }

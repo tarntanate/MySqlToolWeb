@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
-    public class InitialAdNetworkCacheService : BackgroundService
+    public class InitialAdNetworkService : BackgroundService
     {
         private IServiceProvider ServiceProvider { get; }
 
-        public InitialAdNetworkCacheService(IServiceProvider serviceProvider)
+        public InitialAdNetworkService(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
         }

@@ -9,6 +9,7 @@ namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
         public long Id { get; set; }
         public long AdId { get; set; }
         public Platform Platform { get; set; }
+        public long Quota { get; set; }
         public long Impression { get; set; }
         public long Click { get; set; }
         public DateTime CaculatedAt { get; set; }

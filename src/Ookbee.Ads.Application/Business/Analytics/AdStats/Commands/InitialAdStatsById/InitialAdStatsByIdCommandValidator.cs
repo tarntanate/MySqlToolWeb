@@ -3,13 +3,13 @@ using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdById;
 using Ookbee.Ads.Infrastructure.Models;
 
-namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAssetAdStats
+namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAssetAdStatsById
 {
-    public class InitialAdStatsCommandValidator : AbstractValidator<InitialAdStatsCommand>
+    public class InitialAdStatsByIdCommandValidator : AbstractValidator<InitialAdStatsByIdCommand>
     {
         private IMediator Mediator { get; }
 
-        public InitialAdStatsCommandValidator(IMediator mediator)
+        public InitialAdStatsByIdCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
