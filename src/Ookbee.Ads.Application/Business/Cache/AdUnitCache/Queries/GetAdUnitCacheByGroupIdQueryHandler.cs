@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.IncrementAdGroupStatCache;
+using Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateRequestLog;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Infrastructure.Models;
@@ -25,6 +26,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCa
 
         public async Task<HttpResult<string>> Handle(GetAdUnitCacheByGroupIdQuery request, CancellationToken cancellationToken)
         {
+            await Mediator.Send(new CreateRequestLogCommand(1, (short) request.Platform, (short) request.AdGroupId, null, null, null));
             await Mediator.Send(new IncrementAdGroupStatsCacheCommand(request.AdGroupId, request.Platform, StatsType.Request), cancellationToken);
             var redisKey = CacheKey.Units(request.AdGroupId, request.Platform);
             var redisValue = await AdsRedis.StringGetAsync(redisKey);
