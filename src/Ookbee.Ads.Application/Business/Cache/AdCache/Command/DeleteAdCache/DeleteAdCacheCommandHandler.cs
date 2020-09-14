@@ -9,14 +9,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAssetCache
+namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache
 {
-    public class DeleteAdAssetCacheCommandHandler : IRequestHandler<DeleteAdAssetCacheCommand>
+    public class DeleteAdCacheCommandHandler : IRequestHandler<DeleteAdCacheCommand>
     {
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
-        public DeleteAdAssetCacheCommandHandler(
+        public DeleteAdCacheCommandHandler(
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAs
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Unit> Handle(DeleteAdAssetCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteAdCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
             if (getAdById.Ok)

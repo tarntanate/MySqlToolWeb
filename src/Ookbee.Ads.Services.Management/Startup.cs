@@ -20,9 +20,9 @@ namespace Ookbee.Ads.Services.Management
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
-            services.AddHostedService<CacheArchiveStatsService>();
-            services.AddHostedService<CacheInitialAdNetworkService>();
-            services.AddHostedService<CacheInitialAnalyticsService>();
+            services.AddHostedService<ArchiveAnalyticsCacheService>();
+            services.AddHostedService<InitialAdNetworkCacheService>();
+            services.AddHostedService<InitialAnalyticsCacheService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

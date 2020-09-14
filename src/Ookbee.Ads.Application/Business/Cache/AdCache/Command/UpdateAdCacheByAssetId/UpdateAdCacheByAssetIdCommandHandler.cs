@@ -1,27 +1,27 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdAsset.Queries.GetAdAssetById;
-using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAssetCache;
+using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.UpdateAdCache;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAssetCacheByAssetId
+namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.UpdateAdCacheByAssetId
 {
-    public class UpdateAdAssetCacheByAssetIdCommandHandler : IRequestHandler<UpdateAdAssetCacheByAssetIdCommand>
+    public class UpdateAdCacheByAssetIdCommandHandler : IRequestHandler<UpdateAdCacheByAssetIdCommand>
     {
         private IMediator Mediator { get; }
 
-        public UpdateAdAssetCacheByAssetIdCommandHandler(
+        public UpdateAdCacheByAssetIdCommandHandler(
             IMediator mediator)
         {
             Mediator = mediator;
         }
 
-        public async Task<Unit> Handle(UpdateAdAssetCacheByAssetIdCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateAdCacheByAssetIdCommand request, CancellationToken cancellationToken)
         {
-            var getAdById = await Mediator.Send(new GetAdAssetByIdQuery(request.AdId), cancellationToken);
-            if (getAdById.Ok)
+            var getAdAssetById = await Mediator.Send(new GetAdAssetByIdQuery(request.AdAssetId), cancellationToken);
+            if (getAdAssetById.Ok)
             {
-                await Mediator.Send(new UpdateAdAssetCacheCommand(getAdById.Data.AdId));
+                await Mediator.Send(new UpdateAdCacheCommand(getAdAssetById.Data.AdId));
             }
 
             return Unit.Value;

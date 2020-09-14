@@ -1,24 +1,24 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupList;
-using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.ArchiveAdGroupStatsByIdCache;
+using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.ArchiveAdGroupStatsCacheById;
 using Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.ArchiveAdUnitStatsByGroupIdCache;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.ArchiveAdGroupStatsAllCache
+namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.ArchiveAdGroupStatsCache
 {
-    public class ArchiveAdGroupStatsAllCacheCommandHandler : IRequestHandler<ArchiveAdGroupStatsAllCacheCommand>
+    public class ArchiveAdGroupStatsCacheCommandHandler : IRequestHandler<ArchiveAdGroupStatsCacheCommand>
     {
         private IMediator Mediator { get; }
 
-        public ArchiveAdGroupStatsAllCacheCommandHandler(
+        public ArchiveAdGroupStatsCacheCommandHandler(
             IMediator mediator)
         {
             Mediator = mediator;
         }
 
-        public async Task<Unit> Handle(ArchiveAdGroupStatsAllCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ArchiveAdGroupStatsCacheCommand request, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Archi
                 {
                     foreach (var adGroup in getAdGroupList.Data)
                     {
-                        await Mediator.Send(new ArchiveAdGroupStatsByIdCacheCommand(request.CaculatedAt, adGroup.Id), cancellationToken);
+                        await Mediator.Send(new ArchiveAdGroupStatsCacheByIdCommand(request.CaculatedAt, adGroup.Id), cancellationToken);
                         await Mediator.Send(new ArchiveAdUnitStatsByGroupIdCacheCommand(request.CaculatedAt, adGroup.Id), cancellationToken);
                     }
                     start += length;

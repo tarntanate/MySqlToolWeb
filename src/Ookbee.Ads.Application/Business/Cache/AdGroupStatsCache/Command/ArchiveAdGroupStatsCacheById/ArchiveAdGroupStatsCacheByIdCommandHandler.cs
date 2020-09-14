@@ -11,14 +11,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.ArchiveAdGroupStatsByIdCache
+namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.ArchiveAdGroupStatsCacheById
 {
-    public class ArchiveAdGroupStatsByIdCacheCommandHandler : IRequestHandler<ArchiveAdGroupStatsByIdCacheCommand>
+    public class ArchiveAdGroupStatsCacheByIdCommandHandler : IRequestHandler<ArchiveAdGroupStatsCacheByIdCommand>
     {
         private IDatabase AdsRedis { get; }
         private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
 
-        public ArchiveAdGroupStatsByIdCacheCommandHandler(
+        public ArchiveAdGroupStatsCacheByIdCommandHandler(
             AdsRedisContext adsRedis,
             AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Archi
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 
-        public async Task<Unit> Handle(ArchiveAdGroupStatsByIdCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ArchiveAdGroupStatsCacheByIdCommand request, CancellationToken cancellationToken)
         {
             foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
             {

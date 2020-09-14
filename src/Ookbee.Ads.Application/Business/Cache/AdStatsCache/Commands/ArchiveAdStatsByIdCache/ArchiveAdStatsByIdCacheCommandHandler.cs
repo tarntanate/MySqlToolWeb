@@ -15,13 +15,16 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.ArchiveAdS
 {
     public class ArchiveAdStatsByIdCacheCommandHandler : IRequestHandler<ArchiveAdStatsByIdCacheCommand>
     {
+        private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
         private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
 
         public ArchiveAdStatsByIdCacheCommandHandler(
+            IMediator mediator,
             AdsRedisContext adsRedis,
             AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
+            Mediator = mediator;
             AdsRedis = adsRedis.Database();
             AdStatsDbRepo = adStatsDbRepo;
         }
@@ -58,6 +61,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.ArchiveAdS
                     }
                 }
             }
+
             return Unit.Value;
         }
     }

@@ -25,6 +25,14 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
         int Count(Expression<Func<TEntity, bool>> filter = null);
 
         /// <summary>
+        /// sum item in table
+        /// </summary>
+        /// <param name="field">expression selector</param>
+        /// <param name="filter">expression filter</param>
+        /// <returns>number of rows</returns>
+        decimal Sum(Expression<Func<TEntity, long>> selector, Expression<Func<TEntity, bool>> filter = null);
+
+        /// <summary>
         /// get first item in table
         /// </summary>
         /// <param name="filter">expression filter</param>
@@ -127,6 +135,15 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
         /// <param name="filter">expression filter</param>
         /// <returns>number of rows</returns>
         Task<int> CountAsync(Expression<Func<TEntity, bool>> filter = null);
+
+
+        /// <summary>
+        /// sum item in table
+        /// </summary>
+        /// <param name="field">expression selector</param>
+        /// <param name="filter">expression filter</param>
+        /// <returns>number of rows</returns>
+        Task<decimal> SumAsync(Expression<Func<TEntity, long>> selector, Expression<Func<TEntity, bool>> filter = null);
 
         /// <summary>
         /// get first item in table

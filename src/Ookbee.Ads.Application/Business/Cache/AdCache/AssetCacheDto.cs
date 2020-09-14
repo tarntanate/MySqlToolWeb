@@ -4,7 +4,7 @@ using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache
+namespace Ookbee.Ads.Application.Business.Cache.AdCache
 {
     public class AssetCacheDto
     {

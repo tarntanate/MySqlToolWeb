@@ -1,12 +1,12 @@
 ﻿using MediatR;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAssetCache
+namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache
 {
-    public class DeleteAdAssetCacheCommand : IRequest<Unit>
+    public class DeleteAdCacheCommand : IRequest<Unit>
     {
         public long AdId { get; set; }
 
-        public DeleteAdAssetCacheCommand(long adId)
+        public DeleteAdCacheCommand(long adId)
         {
             AdId = adId;
         }

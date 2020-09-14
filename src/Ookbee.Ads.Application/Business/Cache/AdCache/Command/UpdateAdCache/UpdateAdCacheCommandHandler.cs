@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdById;
-using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAssetCache;
+using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
@@ -12,15 +12,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAssetCache
+namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.UpdateAdCache
 {
-    public class UpdateAdAssetCacheCommandHandler : IRequestHandler<UpdateAdAssetCacheCommand>
+    public class UpdateAdCacheCommandHandler : IRequestHandler<UpdateAdCacheCommand>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
-        public UpdateAdAssetCacheCommandHandler(
+        public UpdateAdCacheCommandHandler(
             IMapper mapper,
             IMediator mediator,
             AdsRedisContext adsRedis)
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Unit> Handle(UpdateAdAssetCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateAdCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
             if (getAdById.Ok)
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
                 if (ad.Status == AdStatus.Publish ||
                     ad.Status == AdStatus.Preview)
                 {
-                    var adCache = Mapper.Map<AdAssetCacheDto>(ad);
+                    var adCache = Mapper.Map<AdCacheDto>(ad);
                     foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
                     {
                         if (platform != Platform.Unknown)
@@ -59,7 +59,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAs
                 }
                 else
                 {
-                    await Mediator.Send(new DeleteAdAssetCacheCommand(request.AdId), cancellationToken);
+                    await Mediator.Send(new DeleteAdCacheCommand(request.AdId), cancellationToken);
                 }
             }
 

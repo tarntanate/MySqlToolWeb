@@ -11,14 +11,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.GetAdAssetByUnitId
+namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.GetAdByUnitId
 {
-    public class GetAdAssetByUnitIdQueryHandler : IRequestHandler<GetAdAssetByUnitIdQuery, HttpResult<string>>
+    public class GetAdByUnitIdQueryHandler : IRequestHandler<GetAdByUnitIdQuery, HttpResult<string>>
     {
         private IMediator Mediator { get; }
         private IDatabase AdsRedis { get; }
 
-        public GetAdAssetByUnitIdQueryHandler(
+        public GetAdByUnitIdQueryHandler(
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.GetAdAsset
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<HttpResult<string>> Handle(GetAdAssetByUnitIdQuery request, CancellationToken cancellationToken)
+        public async Task<HttpResult<string>> Handle(GetAdByUnitIdQuery request, CancellationToken cancellationToken)
         {
             await Mediator.Send(new IncrementAdUnitStatsCacheCommand(request.AdUnitId, request.Platform, StatsType.Request), cancellationToken);
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.GetAdAssetByUnitId;
+using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.GetAdByUnitId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
@@ -17,7 +17,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         {
             if (Enum.TryParse(platform, true, out Platform platformx))
             {
-                var result = await Mediator.Send(new GetAdAssetByUnitIdQuery(unitId, platformx), cancellationToken);
+                var result = await Mediator.Send(new GetAdByUnitIdQuery(unitId, platformx), cancellationToken);
                 if (result.Ok)
                     return Content(result.Data, "application/json");
                 return new ContentResult() { StatusCode = (int)result.StatusCode };
