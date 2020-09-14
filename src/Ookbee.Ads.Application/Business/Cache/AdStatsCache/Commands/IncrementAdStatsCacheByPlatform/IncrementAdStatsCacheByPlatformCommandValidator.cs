@@ -4,13 +4,13 @@ using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementAdStatsCache
+namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementAdStatsCacheByPlatform
 {
-    public class IncrementAdStatsCacheCommandValidator : AbstractValidator<IncrementAdStatsCacheCommand>
+    public class IncrementAdStatsCacheByPlatformCommandValidator : AbstractValidator<IncrementAdStatsCacheByPlatformCommand>
     {
         private IDatabase AdsRedis { get; }
 
-        public IncrementAdStatsCacheCommandValidator(AdsRedisContext adsRedis)
+        public IncrementAdStatsCacheByPlatformCommandValidator(AdsRedisContext adsRedis)
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
                 })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var redisKey = CacheKey.AdStats(value.AdId);
+                    var redisKey = CacheKey.AdStats(value.AdId, value.Platform);
                     var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!keyExists)
                         context.AddFailure($"CacheKey '{redisKey}' doesn't exist.");

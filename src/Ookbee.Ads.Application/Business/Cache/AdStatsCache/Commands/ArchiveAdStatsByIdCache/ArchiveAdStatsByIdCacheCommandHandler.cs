@@ -54,7 +54,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.ArchiveAdS
 
                             var impressionCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == StatsType.Impression.ToString()).Value;
                             if (impressionCount > adGroupStats.Impression)
-                                adGroupStats.Click = impressionCount;
+                                adGroupStats.Impression = impressionCount;
 
                             await AdStatsDbRepo.SaveChangesAsync();
                         }

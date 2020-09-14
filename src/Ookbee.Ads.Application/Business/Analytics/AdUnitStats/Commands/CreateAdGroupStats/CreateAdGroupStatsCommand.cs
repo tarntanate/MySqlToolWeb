@@ -7,17 +7,17 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.CreateA
 {
     public class CreateAdUnitStatsCommand : IRequest<HttpResult<long>>
     {
-        public long AdUnitId { get; set; }
-        public Platform Platform { get; set; }
         public DateTime CaculatedAt { get; set; }
+        public Platform Platform { get; set; }
+        public long AdUnitId { get; set; }
         public long Request { get; set; }
         public long Fill { get; set; }
 
-        public CreateAdUnitStatsCommand(long adUnitId, Platform platform, DateTime caculatedAt, long request, long fill)
+        public CreateAdUnitStatsCommand(DateTime caculatedAt, Platform platform, long adUnitId, long request, long fill)
         {
-            AdUnitId = adUnitId;
-            Platform = platform;
             CaculatedAt = caculatedAt;
+            Platform = platform;
+            AdUnitId = adUnitId;
             Request = request;
             Fill = fill;
         }

@@ -29,8 +29,8 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStatsCache.Commands.I
                 {
                     foreach (var adGroup in getAdGroupList.Data)
                     {
-                        await Mediator.Send(new InitialAdUnitStatsCommand(adGroup.Id, request.CaculatedAt), cancellationToken);
-                        await Mediator.Send(new InitialAdGroupStatsByIdCommand(adGroup.Id, request.CaculatedAt), cancellationToken);
+                        await Mediator.Send(new InitialAdUnitStatsCommand(request.CaculatedAt, adGroup.Id), cancellationToken);
+                        await Mediator.Send(new InitialAdGroupStatsByIdCommand(request.CaculatedAt, adGroup.Id), cancellationToken);
                     }
                     start += length;
                 }

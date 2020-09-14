@@ -18,9 +18,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
             RuleFor(p => new { p.AdUnitId, p.Platform, p.StatsType })
                 .Custom((value, context) =>
                 {
-                    if (value.AdUnitId < 1)
+                    if (value.Platform == Platform.Unknown)
                     {
-                        context.AddFailure("'Id' is not a valid");
+                        context.AddFailure($"Unsupported Platform Type.");
                     }
                     if (value.StatsType != StatsType.Request &&
                         value.StatsType != StatsType.Fill)
@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
                     var redisKey = CacheKey.UnitsStats(value.AdUnitId, value.Platform);
                     var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!keyExists)
-                        context.AddFailure($"AdUnitStats '{redisKey}' doesn't exist.");
+                        context.AddFailure($"CacheKey '{redisKey}' doesn't exist.");
                 });
         }
     }

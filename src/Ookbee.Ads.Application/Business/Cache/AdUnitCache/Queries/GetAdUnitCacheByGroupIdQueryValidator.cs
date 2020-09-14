@@ -4,33 +4,28 @@ using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementAdStatsCache
+namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCacheByGroupId
 {
-    public class IncrementAdStatsCacheCommandValidator : AbstractValidator<IncrementAdStatsCacheCommand>
+    public class GetAdUnitCacheByGroupIdQueryValidator : AbstractValidator<GetAdUnitCacheByGroupIdQuery>
     {
         private IDatabase AdsRedis { get; }
 
-        public IncrementAdStatsCacheCommandValidator(AdsRedisContext adsRedis)
+        public GetAdUnitCacheByGroupIdQueryValidator(AdsRedisContext adsRedis)
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
 
-            RuleFor(p => new { p.AdId, p.Platform, p.StatsType })
+            RuleFor(p => new { p.AdGroupId, p.Platform })
                 .Custom((value, context) =>
                 {
                     if (value.Platform == Platform.Unknown)
-                    {
-                        context.AddFailure($"Unsupported Platform Type.");
-                    }
-                    if (value.StatsType != StatsType.Click &&
-                        value.StatsType != StatsType.Impression)
                     {
                         context.AddFailure($"Unsupported Stats Type.");
                     }
                 })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var redisKey = CacheKey.AdStats(value.AdId);
+                    var redisKey = CacheKey.Units(value.AdGroupId, value.Platform);
                     var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!keyExists)
                         context.AddFailure($"CacheKey '{redisKey}' doesn't exist.");

@@ -30,14 +30,14 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.Initial
                     if (!getAdUnitStatsByKey.Ok)
                     {
                         var data = getAdUnitStatsByKey.Data;
-                        await Mediator.Send(new CreateAdUnitStatsCommand(request.AdUnitId, platform, request.CaculatedAt, 0, 0), cancellationToken);
+                        await Mediator.Send(new CreateAdUnitStatsCommand(request.CaculatedAt, platform, request.AdUnitId, 0, 0), cancellationToken);
                     }
 
                     var requestStats = getAdUnitStatsByKey?.Data?.Request ?? default(long);
-                    await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.CaculatedAt, platform, StatsType.Request, requestStats, request.AdUnitId), cancellationToken);
+                    await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.CaculatedAt, platform, request.AdUnitId, StatsType.Request, requestStats), cancellationToken);
 
                     var fillStats = getAdUnitStatsByKey?.Data?.Fill ?? default(long);
-                    await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.CaculatedAt, platform, StatsType.Fill, fillStats, request.AdUnitId), cancellationToken);
+                    await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.CaculatedAt, platform, request.AdUnitId, StatsType.Fill, fillStats), cancellationToken);
                 }
             }
 
