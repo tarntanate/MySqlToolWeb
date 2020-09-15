@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
             var adUnits = await GetAdUnitList(request.AdGroupId, cancellationToken);
             if (adUnits.HasValue())
             {
-                foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
+                foreach (var platform in EnumHelper.GetValues<Platform>())
                 {
                     if (platform != Platform.Unknown)
                     {

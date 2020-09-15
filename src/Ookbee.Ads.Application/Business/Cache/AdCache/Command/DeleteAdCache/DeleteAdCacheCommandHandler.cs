@@ -1,11 +1,10 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,7 +29,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache
             if (getAdById.Ok)
             {
                 var ad = getAdById.Data;
-                foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
+                foreach (var platform in EnumHelper.GetValues<Platform>())
                 {
                     if (platform != Platform.Unknown)
                     {

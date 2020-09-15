@@ -2,9 +2,8 @@
 using Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.CreateAdUnitStats;
 using Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUnitStatsByKey;
 using Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.CreateAdUnitStatsCache;
+using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.Initial
 
         public async Task<Unit> Handle(InitialAdUnitStatsByIdCommand request, CancellationToken cancellationToken)
         {
-            foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
+            foreach (var platform in EnumHelper.GetValues<Platform>())
             {
                 if (platform != Platform.Unknown)
                 {

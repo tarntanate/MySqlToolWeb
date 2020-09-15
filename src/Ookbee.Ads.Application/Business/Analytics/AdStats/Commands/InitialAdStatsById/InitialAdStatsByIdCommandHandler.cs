@@ -4,6 +4,7 @@ using Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaById;
 using Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdStatsByKey;
 using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.CreateAdStatsByPlatformCache;
 using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.CreateAdStatsCache;
+using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAsse
             var quotaStats = getAdQuotaById?.Data ?? default(long);
             await Mediator.Send(new CreateAdStatsCacheCommand(request.CaculatedAt, StatsType.Quota, request.AdId, quotaStats), cancellationToken);
 
-            foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
+            foreach (var platform in EnumHelper.GetValues<Platform>())
             {
                 if (platform != Platform.Unknown)
                 {

@@ -56,7 +56,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.UpdateAdUni
 
             if (adUnits.HasValue())
             {
-                foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
+                foreach (var platform in EnumHelper.GetValues<Platform>())
                 {
                     if (platform != Platform.Unknown)
                     {

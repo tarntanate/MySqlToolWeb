@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Common.Helpers
 {
-    public class HttpClientHelper
+    public static class HttpClientHelper
     {
         public static StringContent PrepareContent(object content)
         {

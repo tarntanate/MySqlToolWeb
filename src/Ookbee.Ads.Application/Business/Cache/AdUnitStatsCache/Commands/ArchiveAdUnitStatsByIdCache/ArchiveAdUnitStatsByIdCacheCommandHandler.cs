@@ -2,12 +2,12 @@
 using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +32,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Archiv
 
         public async Task<Unit> Handle(ArchiveAdUnitStatsByIdCacheCommand request, CancellationToken cancellationToken)
         {
-            foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
+            foreach (var platform in EnumHelper.GetValues<Platform>())
             {
                 if (platform != Platform.Unknown)
                 {
