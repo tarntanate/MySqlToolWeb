@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
             var redisKey = CacheKey.AdStats(request.AdId);
             var hashField = request.StatsType.ToString();
             await AdsRedis.HashIncrementAsync(redisKey, hashField, 1, CommandFlags.FireAndForget);
-            await Mediator.Send(new IncrementAdStatsCacheByPlatformCommand(request.Platform, request.StatsType, request.AdId), cancellationToken);
+            await Mediator.Send(new IncrementAdStatsCacheByPlatformCommand(request.StatsType, request.AdId), cancellationToken);
 
             return Unit.Value;
         }

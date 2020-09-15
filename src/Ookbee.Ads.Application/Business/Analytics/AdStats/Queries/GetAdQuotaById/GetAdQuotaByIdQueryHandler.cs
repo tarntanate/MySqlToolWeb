@@ -34,8 +34,11 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaBy
             if (ad.HasValue())
             {
                 var impressions = await AdStatsDbRepo.SumAsync(
-                   filter: f => f.Id == request.AdId,
-                   selector: f => f.Impression
+                    filter: f =>
+                        f.Id == request.AdId &&
+                        f.CaculatedAt < request.CaculatedAt,
+                    selector: f =>
+                        f.Impression
                 );
                 var avalible = ad.Quota - (int)impressions;
                 avalible = avalible < 0 ? 0 : avalible;

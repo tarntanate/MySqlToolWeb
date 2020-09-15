@@ -14,6 +14,6 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
     {
         [HttpGet]
         public async Task UpdateUnitStats([FromRoute] long adUnitId, [FromQuery] string platform, [FromQuery] string type, CancellationToken cancellationToken)
-            => await Mediator.Send(new IncrementAdUnitStatsCacheCommand(platform.ToEnum<Platform>(), type.ToEnum<StatsType>(), adUnitId), cancellationToken);
+            => await Mediator.Send(new IncrementAdUnitStatsCacheCommand(type.ToEnum<StatsType>(), adUnitId), cancellationToken);
     }
 }

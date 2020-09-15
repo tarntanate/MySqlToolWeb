@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 using Ookbee.Ads.Infrastructure.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {

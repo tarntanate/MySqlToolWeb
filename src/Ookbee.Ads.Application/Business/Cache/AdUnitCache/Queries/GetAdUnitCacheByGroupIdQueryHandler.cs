@@ -25,9 +25,10 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCa
 
         public async Task<HttpResult<string>> Handle(GetAdUnitCacheByGroupIdQuery request, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new IncrementAdGroupStatsCacheCommand(request.Platform, StatsType.Request, request.AdGroupId), cancellationToken);
-            var redisKey = CacheKey.Units(request.AdGroupId, request.Platform);
-            var redisValue = await AdsRedis.StringGetAsync(redisKey);
+            await Mediator.Send(new IncrementAdGroupStatsCacheCommand(StatsType.Request, request.AdGroupId), cancellationToken);
+            var redisKey = CacheKey.Units(request.AdGroupId);
+            var hashField = request.Platform.ToString();
+            var redisValue = await AdsRedis.HashGetAsync(redisKey, hashField);
 
             var result = new HttpResult<string>();
             return result.Success(redisValue);

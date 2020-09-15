@@ -20,13 +20,14 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCa
                 {
                     if (value.Platform == Platform.Unknown)
                     {
-                        context.AddFailure($"Unsupported Stats Type.");
+                        context.AddFailure($"Unsupported Platform Type.");
                     }
                 })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var redisKey = CacheKey.Units(value.AdGroupId, value.Platform);
-                    var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
+                    var redisKey = CacheKey.Units(value.AdGroupId);
+                    var hashField = value.Platform.ToString();
+                    var keyExists = await AdsRedis.HashExistsAsync(redisKey, hashField);
                     if (!keyExists)
                         context.AddFailure($"CacheKey '{redisKey}' doesn't exist.");
                 });

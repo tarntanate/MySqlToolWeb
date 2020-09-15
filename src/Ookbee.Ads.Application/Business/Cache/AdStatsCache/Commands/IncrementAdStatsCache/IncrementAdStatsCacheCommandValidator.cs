@@ -15,13 +15,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
 
-            RuleFor(p => new { p.AdId, p.Platform, p.StatsType })
+            RuleFor(p => new { p.AdId, p.StatsType })
                 .Custom((value, context) =>
                 {
-                    if (value.Platform == Platform.Unknown)
-                    {
-                        context.AddFailure($"Unsupported Platform Type.");
-                    }
                     if (value.StatsType != StatsType.Click &&
                         value.StatsType != StatsType.Impression)
                     {

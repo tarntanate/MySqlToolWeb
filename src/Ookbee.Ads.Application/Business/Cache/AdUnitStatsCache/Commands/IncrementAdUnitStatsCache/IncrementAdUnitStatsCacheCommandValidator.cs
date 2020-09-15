@@ -15,13 +15,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
 
-            RuleFor(p => new { p.AdUnitId, p.Platform, p.StatsType })
+            RuleFor(p => new { p.AdUnitId, p.StatsType })
                 .Custom((value, context) =>
                 {
-                    if (value.Platform == Platform.Unknown)
-                    {
-                        context.AddFailure($"Unsupported Platform Type.");
-                    }
                     if (value.StatsType != StatsType.Request &&
                         value.StatsType != StatsType.Fill)
                     {
@@ -30,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
                 })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var redisKey = CacheKey.UnitsStats(value.AdUnitId, value.Platform);
+                    var redisKey = CacheKey.UnitsStats(value.AdUnitId);
                     var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!keyExists)
                         context.AddFailure($"CacheKey '{redisKey}' doesn't exist.");

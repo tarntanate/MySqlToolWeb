@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
@@ -31,34 +30,27 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.ArchiveAdS
 
         public async Task<Unit> Handle(ArchiveAdStatsByIdCacheCommand request, CancellationToken cancellationToken)
         {
-            foreach (var platform in EnumHelper.GetValues<Platform>())
+            var adStats = await AdStatsDbRepo.FirstAsync(
+                filter: f =>
+                    f.AdId == request.AdId &&
+                    f.CaculatedAt == request.CaculatedAt,
+                disableTracking: false
+            );
+            if (adStats.HasValue())
             {
-                if (platform != Platform.Unknown)
+                var redisKey = CacheKey.AdStats(request.AdId);
+                var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
+                if (hashEntries.HasValue())
                 {
-                    var adStats = await AdStatsDbRepo.FirstAsync(
-                        filter: f =>
-                            f.AdId == request.AdId &&
-                            f.Platform == platform &&
-                            f.CaculatedAt == request.CaculatedAt,
-                        disableTracking: false
-                    );
-                    if (adStats.HasValue())
-                    {
-                        var redisKey = CacheKey.AdStats(request.AdId, platform);
-                        var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
-                        if (hashEntries.HasValue())
-                        {
-                            var clickCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == StatsType.Click.ToString()).Value;
-                            if (clickCount > adStats.Click)
-                                adStats.Click = clickCount;
+                    var clickCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == StatsType.Click.ToString()).Value;
+                    if (clickCount > adStats.Click)
+                        adStats.Click = clickCount;
 
-                            var impressionCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == StatsType.Impression.ToString()).Value;
-                            if (impressionCount > adStats.Impression)
-                                adStats.Impression = impressionCount;
+                    var impressionCount = (long)hashEntries.FirstOrDefault(hashEntry => hashEntry.Name == StatsType.Impression.ToString()).Value;
+                    if (impressionCount > adStats.Impression)
+                        adStats.Impression = impressionCount;
 
-                            await AdStatsDbRepo.SaveChangesAsync();
-                        }
-                    }
+                    await AdStatsDbRepo.SaveChangesAsync();
                 }
             }
 

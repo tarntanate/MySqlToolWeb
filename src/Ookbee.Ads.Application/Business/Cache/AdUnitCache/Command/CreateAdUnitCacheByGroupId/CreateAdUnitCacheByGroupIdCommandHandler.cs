@@ -42,9 +42,10 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                     if (platform != Platform.Unknown)
                     {
                         var obj = PrepareAnalytics(adUnits, platform);
-                        var redisKey = CacheKey.Units(request.AdGroupId, platform);
-                        var redisValue = JsonHelper.Serialize(obj);
-                        await AdsRedis.StringSetAsync(redisKey, redisValue);
+                        var redisKey = CacheKey.Units(request.AdGroupId);
+                        var hashField = platform.ToString();
+                        var hashValue = JsonHelper.Serialize(obj);
+                        await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
                     }
                 }
             }

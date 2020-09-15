@@ -33,8 +33,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache
                 {
                     if (platform != Platform.Unknown)
                     {
-                        var redisKey = CacheKey.Ad(request.AdId, platform);
-                        await AdsRedis.KeyDeleteAsync(redisKey);
+                        var redisKey = CacheKey.Ad(request.AdId);
+                        var hashField = platform.ToString();
+                        await AdsRedis.HashDeleteAsync(redisKey, hashField);
 
                         redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
                         var redisValue = request.AdId;

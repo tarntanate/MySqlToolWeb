@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Infrastructure.Models;
-using System;
-using System.Linq;
 
 namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 {

@@ -9,7 +9,6 @@ using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,13 +45,14 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.CreateAdCache
                     {
                         var obj = PrepareAnalytics(ad, platform);
 
-                        var redisKey = CacheKey.Ad(getAdById.Data.Id, platform);
-                        var redisValue = (RedisValue)JsonHelper.Serialize(obj);
-                        await AdsRedis.StringSetAsync(redisKey, redisValue);
+                        var redisKey = CacheKey.Ad(getAdById.Data.Id);
+                        var hashField = platform.ToString();
+                        var hashValue = (RedisValue)JsonHelper.Serialize(obj);
+                        await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
 
                         redisKey = CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
-                        redisValue = (RedisValue)getAdById.Data.Id;
-                        await AdsRedis.SetAddAsync(redisKey, redisValue);
+                        hashValue = (RedisValue)getAdById.Data.Id;
+                        await AdsRedis.SetAddAsync(redisKey, hashValue);
                     }
                 }
             }

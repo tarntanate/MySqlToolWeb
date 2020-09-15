@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Creat
 
         public async Task<Unit> Handle(CreateAdGroupStatsCacheCommand request, CancellationToken cancellationToken)
         {
-            var redisKey = CacheKey.GroupStats(request.AdGroupId, request.Platform);
+            var redisKey = CacheKey.GroupStats(request.AdGroupId);
             var hashField = request.StatsType.ToString();
             var hashValue = request.Value;
             await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);

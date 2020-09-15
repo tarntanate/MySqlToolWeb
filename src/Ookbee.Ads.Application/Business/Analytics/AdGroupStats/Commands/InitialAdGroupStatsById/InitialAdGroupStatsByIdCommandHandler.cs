@@ -2,7 +2,6 @@
 using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.CreateAdGroupStats;
 using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGroupStatsByKey;
 using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.CreateAdGroupStatsCache;
-using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,20 +20,14 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.Initial
 
         public async Task<Unit> Handle(InitialAdGroupStatsByIdCommand request, CancellationToken cancellationToken)
         {
-            foreach (var platform in EnumHelper.GetValues<Platform>())
+            var getAdGroupStatByKey = await Mediator.Send(new GetAdGroupStatsByKeyQuery(request.AdGroupId, request.CaculatedAt), cancellationToken);
+            if (!getAdGroupStatByKey.Ok)
             {
-                if (platform != Platform.Unknown)
-                {
-                    var getAdGroupStatByKey = await Mediator.Send(new GetAdGroupStatsByKeyQuery(request.AdGroupId, platform, request.CaculatedAt), cancellationToken);
-                    if (!getAdGroupStatByKey.Ok)
-                    {
-                        var data = getAdGroupStatByKey.Data;
-                        await Mediator.Send(new CreateAdGroupStatsCommand(request.CaculatedAt, platform, request.AdGroupId, 0), cancellationToken);
-                    }
-                    var requestStats = getAdGroupStatByKey?.Data?.Request ?? default(long);
-                    await Mediator.Send(new CreateAdGroupStatsCacheCommand(request.CaculatedAt, platform, StatsType.Request, request.AdGroupId, requestStats), cancellationToken);
-                }
+                var data = getAdGroupStatByKey.Data;
+                await Mediator.Send(new CreateAdGroupStatsCommand(request.CaculatedAt, request.AdGroupId, 0), cancellationToken);
             }
+            var requestStats = getAdGroupStatByKey?.Data?.Request ?? default(long);
+            await Mediator.Send(new CreateAdGroupStatsCacheCommand(request.CaculatedAt, StatsType.Request, request.AdGroupId, requestStats), cancellationToken);
 
             return Unit.Value;
         }

@@ -8,7 +8,6 @@ using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -40,11 +39,12 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
                     if (platform != Platform.Unknown)
                     {
                         var platformName = platform.ToString();
-                        var redisKey = CacheKey.Units(adUnit.AdGroup.Id, platform);
-                        var redisValue = await AdsRedis.StringGetAsync(redisKey);
-                        if (redisValue.HasValue())
+                        var redisKey = CacheKey.Units(adUnit.AdGroup.Id);
+                        var hashField = platform.ToString();
+                        var hashValue = await AdsRedis.HashGetAsync(redisKey, hashField);
+                        if (hashValue.HasValue())
                         {
-                            var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(redisValue);
+                            var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(hashValue);
                             var index = adUnits.FindIndex(x => x.Name == adUnit.AdNetwork);
                             if (index > -1)
                             {
@@ -53,12 +53,12 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
 
                             if (adUnits.HasValue())
                             {
-                                redisValue = JsonHelper.Serialize(adUnits);
-                                await AdsRedis.StringSetAsync(redisKey, redisValue);
+                                hashValue = JsonHelper.Serialize(adUnits);
+                                await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
                             }
                             else
                             {
-                                await AdsRedis.KeyDeleteAsync(redisKey);
+                                await AdsRedis.HashDeleteAsync(redisKey, hashField);
                             }
                         }
                     }

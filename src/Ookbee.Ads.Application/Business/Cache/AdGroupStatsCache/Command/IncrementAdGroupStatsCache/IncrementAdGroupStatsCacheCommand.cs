@@ -5,13 +5,11 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Incre
 {
     public class IncrementAdGroupStatsCacheCommand : IRequest<Unit>
     {
-        public Platform Platform { get; set; }
         public StatsType StatsType { get; set; }
         public long AdGroupId { get; set; }
 
-        public IncrementAdGroupStatsCacheCommand(Platform platform, StatsType statsType, long adGroupId)
+        public IncrementAdGroupStatsCacheCommand(StatsType statsType, long adGroupId)
         {
-            Platform = platform;
             StatsType = statsType;
             AdGroupId = adGroupId;
         }

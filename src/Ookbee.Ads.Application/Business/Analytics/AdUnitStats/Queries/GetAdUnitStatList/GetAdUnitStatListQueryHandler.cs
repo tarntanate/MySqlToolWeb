@@ -27,9 +27,6 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUni
             if (request.AdUnitId.HasValue())
                 predicate = predicate.And(f => f.AdUnitId == request.AdUnitId);
 
-            if (request.Platform.HasValue())
-                predicate = predicate.And(f => f.Platform == request.Platform);
-
             if (request.CaculatedAt.HasValue())
                 predicate = predicate.And(f => f.CaculatedAt == request.CaculatedAt);
 

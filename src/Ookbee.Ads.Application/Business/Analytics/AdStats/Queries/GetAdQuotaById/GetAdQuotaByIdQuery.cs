@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Infrastructure.Models;
 using System;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaById
