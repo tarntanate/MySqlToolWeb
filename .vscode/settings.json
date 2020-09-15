@@ -6,11 +6,9 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         ".vscode": true,
-        "submodules": true
+        "submodules": false
     },
-    "explorerExclude.backup": null,
-    "sqltools.connections": [
-        {
+    "sqltools.connections": [{
             "database": "ookbee-ads",
             "driver": "PostgreSQL",
             "group": "loc",
