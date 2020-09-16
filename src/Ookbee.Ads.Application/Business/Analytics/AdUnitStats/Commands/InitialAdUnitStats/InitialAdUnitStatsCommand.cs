@@ -5,10 +5,10 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStatsCache.Commands.In
 {
     public class InitialAdUnitStatsCommand : IRequest<Unit>
     {
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
         public long AdGroupId { get; set; }
 
-        public InitialAdUnitStatsCommand(DateTime caculatedAt, long adGroupId)
+        public InitialAdUnitStatsCommand(DateTimeOffset caculatedAt, long adGroupId)
         {
             CaculatedAt = caculatedAt;
             AdGroupId = adGroupId;

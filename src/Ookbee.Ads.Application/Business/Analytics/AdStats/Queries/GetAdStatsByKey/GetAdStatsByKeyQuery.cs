@@ -7,9 +7,9 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdStatsBy
     public class GetAdStatsByKeyQuery : IRequest<HttpResult<AdStatsDto>>
     {
         public long AdId { get; set; }
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
 
-        public GetAdStatsByKeyQuery(long adId, DateTime caculatedAt)
+        public GetAdStatsByKeyQuery(long adId, DateTimeOffset caculatedAt)
         {
             AdId = adId;
             CaculatedAt = caculatedAt;

@@ -12,8 +12,8 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Ad.Commands.UpdateAd
         public string Description { get; set; }
         public AdStatus Status { get; set; }
         public int? Quota { get; set; }
-        public DateTime? StartAt { get; set; }
-        public DateTime? EndAt { get; set; }
+        public DateTimeOffset? StartAt { get; set; }
+        public DateTimeOffset? EndAt { get; set; }
         public int? CooldownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }

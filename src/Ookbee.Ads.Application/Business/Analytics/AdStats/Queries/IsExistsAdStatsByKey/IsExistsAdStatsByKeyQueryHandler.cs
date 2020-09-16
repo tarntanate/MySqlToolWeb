@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.IsExistsASta
             var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"AdStats by AdId='{request.AdId}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

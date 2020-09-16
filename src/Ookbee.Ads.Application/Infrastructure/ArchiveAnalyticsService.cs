@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.ArchiveAdGroupStatsCache;
+using Ookbee.Ads.Application.Business.Cache.AdGroupStats.Commands.ArchiveAdGroupStats;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using System;
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     do
                     {
                         var caculatedAt = MechineDateTime.Now.Date;
-                        await mediator.Send(new ArchiveAdGroupStatsCacheCommand(caculatedAt), cancellationToken);
+                        await mediator.Send(new ArchiveAdGroupStatsCommand(caculatedAt), cancellationToken);
                         var nowDateTime = MechineDateTime.Now;
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(3));
                         var timeout = nextDateTime - nowDateTime;

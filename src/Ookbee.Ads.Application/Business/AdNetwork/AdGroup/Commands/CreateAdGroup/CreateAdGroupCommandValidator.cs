@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Commands.CreateAdGro
                 {
                     var result = await Mediator.Send(new IsExistsAdGroupByNameQuery(value), cancellationToken);
                     if (result.Ok)
-                        context.AddFailure($"'{context.PropertyName}' already exists.");
+                        context.AddFailure("'{PropertyName}' already exists.");
                 });
 
             RuleFor(p => p.Description)

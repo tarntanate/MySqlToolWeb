@@ -1,8 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementAdStatsCacheByPlatform;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,9 +26,17 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
         public async Task<Unit> Handle(IncrementAdStatsCacheCommand request, CancellationToken cancellationToken)
         {
             var redisKey = CacheKey.AdStats(request.AdId);
-            var hashField = request.StatsType.ToString();
-            await AdsRedis.HashIncrementAsync(redisKey, hashField, 1, CommandFlags.FireAndForget);
-            await Mediator.Send(new IncrementAdStatsCacheByPlatformCommand(request.StatsType, request.AdId), cancellationToken);
+            var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
+            if (hashEntries.HasValue())
+            {
+                var quota = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == StatsType.Quota.ToString()).Value;
+                var impression = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == StatsType.Impression.ToString()).Value;
+                if (impression < quota)
+                {
+                    var hashField = request.StatsType.ToString();
+                    await AdsRedis.HashIncrementAsync(redisKey, hashField, 1, CommandFlags.FireAndForget);
+                }
+            }
 
             return Unit.Value;
         }

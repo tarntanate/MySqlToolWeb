@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         [Column(TypeName = "jsonb")]
         public string ObjectData { get; set; }
         public LogEvent Activity { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
 
         public virtual UserEntity User { get; set; }
     }

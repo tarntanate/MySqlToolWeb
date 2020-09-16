@@ -5,11 +5,13 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAsse
 {
     public class InitialAdStatsByIdCommand : IRequest<Unit>
     {
+        public long AdUnitId { get; set; }
         public long AdId { get; set; }
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
 
-        public InitialAdStatsByIdCommand(long adId, DateTime caculatedAt)
+        public InitialAdStatsByIdCommand(long adUnitId, long adId, DateTimeOffset caculatedAt)
         {
+            AdUnitId = adUnitId;
             AdId = adId;
             CaculatedAt = caculatedAt;
         }

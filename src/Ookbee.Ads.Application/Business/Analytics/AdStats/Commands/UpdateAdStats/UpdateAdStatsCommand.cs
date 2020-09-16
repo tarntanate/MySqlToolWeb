@@ -8,12 +8,12 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.UpdateAdSta
     {
         public long Id { get; set; }
         public long AdGroupId { get; set; }
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
         public Platform Platform { get; set; }
         public long Impression { get; set; }
         public long Click { get; set; }
 
-        public UpdateAdStatsCommand(long id, long adGroupId, DateTime caculatedAt, Platform platform, long impression, long click)
+        public UpdateAdStatsCommand(long id, long adGroupId, DateTimeOffset caculatedAt, Platform platform, long impression, long click)
         {
             Id = id;
             AdGroupId = adGroupId;

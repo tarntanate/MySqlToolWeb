@@ -8,9 +8,9 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.IsExists
     public class IsExistsAdGroupStatsByKeyQuery : IRequest<HttpResult<bool>>
     {
         public long AdGroupId { get; set; }
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
 
-        public IsExistsAdGroupStatsByKeyQuery(long adGroupId, DateTime caculatedAt)
+        public IsExistsAdGroupStatsByKeyQuery(long adGroupId, DateTimeOffset caculatedAt)
         {
             AdGroupId = adGroupId;
             CaculatedAt = caculatedAt;

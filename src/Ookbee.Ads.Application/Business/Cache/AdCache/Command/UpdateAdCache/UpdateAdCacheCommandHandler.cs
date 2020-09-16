@@ -2,6 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache;
+using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.DeleteAdStatsCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
@@ -60,6 +61,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.UpdateAdCache
                 else
                 {
                     await Mediator.Send(new DeleteAdCacheCommand(request.AdId), cancellationToken);
+                    await Mediator.Send(new DeleteAdStatsCacheCommand(request.AdId), cancellationToken);
                 }
             }
 

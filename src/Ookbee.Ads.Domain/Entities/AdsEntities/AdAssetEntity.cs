@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public string AssetType { get; set; }
         public string AssetPath { get; set; }
         public Position Position { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
 
         public virtual AdEntity Ad { get; set; }
     }

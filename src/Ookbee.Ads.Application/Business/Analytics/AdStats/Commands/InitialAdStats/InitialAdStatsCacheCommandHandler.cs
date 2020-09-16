@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStatsCache.Commands.Initia
                     foreach (var ad in getAdList.Data)
                     {
                         if (ad.Status == AdStatus.Publish || ad.Status == AdStatus.Preview)
-                            await Mediator.Send(new InitialAdStatsByIdCommand(ad.Id, request.CaculatedAt), cancellationToken);
+                            await Mediator.Send(new InitialAdStatsByIdCommand(request.AdUnitId, ad.Id, request.CaculatedAt), cancellationToken);
                     }
                     start += length;
                 }

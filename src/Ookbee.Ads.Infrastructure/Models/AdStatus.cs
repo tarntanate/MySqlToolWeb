@@ -8,5 +8,6 @@ namespace Ookbee.Ads.Infrastructure.Models
         Preview,
         Publish,
         Unpublish,
+        Ended,
     }
 }

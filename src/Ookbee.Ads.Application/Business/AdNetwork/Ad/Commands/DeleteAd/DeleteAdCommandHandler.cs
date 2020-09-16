@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.CreateAdCache;
+using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Ad.Commands.DeleteAd
             await AdDbRepo.DeleteAsync(request.Id);
             await AdDbRepo.SaveChangesAsync(cancellationToken);
 
-            await Mediator.Send(new CreateAdCacheCommand(request.Id), cancellationToken);
+            await Mediator.Send(new DeleteAdCacheCommand(request.Id), cancellationToken);
 
             return result.Success(true);
         }

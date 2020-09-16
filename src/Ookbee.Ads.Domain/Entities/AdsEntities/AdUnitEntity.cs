@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public string AdNetwork { get; set; }
         public string AdNetworkUnitId { get; set; }
         public int? SortSeq { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
 
         public virtual AdGroupEntity AdGroup { get; set; }
 
