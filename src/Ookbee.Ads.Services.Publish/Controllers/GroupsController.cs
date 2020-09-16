@@ -18,12 +18,14 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         {
             if (Enum.TryParse(platform, true, out Platform platformx))
             {
+                // For Testing TimeScaleDb
                 var timescaleResult = await Mediator.Send(
                     new CreateGroupRequestLogCommand(
                         platformId: (short) platformx,
                         adGroupId: (short) groupId,
-                        uuid: "6383166"),
+                        uuid: new Random().Next(0,20).ToString()),
                         cancellationToken);
+
                 var result = await Mediator.Send(new GetAdUnitCacheByGroupIdQuery(groupId, platformx), cancellationToken);
                 return Content(result.Data, "application/json");
             }
