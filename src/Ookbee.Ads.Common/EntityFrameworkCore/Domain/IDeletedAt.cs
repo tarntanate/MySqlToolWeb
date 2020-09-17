@@ -4,6 +4,6 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Domain
 {
     public interface IDeletedAt
     {
-        DateTime? DeletedAt { get; set; }
+        DateTimeOffset? DeletedAt { get; set; }
     }
 }

@@ -23,7 +23,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
             {
                 return adUnit.Id.ToString();
             }
-            return adUnit.AdNetworkUnitId;
+
+            return adUnit._requestPlatform.HasValue && adUnit._requestPlatform.Value == Platform.Android ? adUnit.AdNetworkUnitId_Android : adUnit.AdNetworkUnitId;
         }
 
         private AnalyticsCacheDto AnalyticsConverter(AdUnitDto adUnit)
@@ -33,6 +34,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var analytics = new AnalyticsCacheDto()
                 {
+                    AdUnit = adUnit.Id,
                     Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Click}".ToLower() },
                     Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Impression}".ToLower() },
                 };

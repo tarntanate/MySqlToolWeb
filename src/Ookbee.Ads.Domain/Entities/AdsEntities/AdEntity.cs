@@ -15,17 +15,17 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public AdStatus Status { get; set; }
         public int? CountdownSecond { get; set; }
         public int Quota { get; set; }
-        public DateTime StartAt { get; set; }
-        public DateTime EndAt { get; set; }
+        public DateTimeOffset StartAt { get; set; }
+        public DateTimeOffset EndAt { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public List<string> Analytics { get; set; }
         public List<Platform> Platforms { get; set; }
         public string AppLink { get; set; }
         public string WebLink { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
 
         public virtual AdUnitEntity AdUnit { get; set; }
         public virtual CampaignEntity Campaign { get; set; }

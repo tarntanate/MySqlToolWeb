@@ -31,7 +31,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
         public async Task<Unit> Handle(DeleteAdUnitCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdUnitById = await Mediator.Send(new GetAdUnitByIdQuery(request.AdUnitId), cancellationToken);
-            if (getAdUnitById.Ok)
+            if (getAdUnitById.Ok &&
+                getAdUnitById.Data.HasValue())
             {
                 var adUnit = getAdUnitById.Data;
                 foreach (var platform in EnumHelper.GetValues<Platform>())
@@ -76,16 +77,19 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
             var next = true;
             do
             {
+                next = false;
                 var getAdList = await Mediator.Send(new GetAdListQuery(start, length, adUnitId, null), cancellationToken);
-                if (getAdList.Ok)
+                if (getAdList.Ok &&
+                    getAdList.Data.HasValue())
                 {
-                    foreach (var ad in getAdList.Data)
+                    var items = getAdList.Data;
+                    foreach (var item in items)
                     {
-                        await Mediator.Send(new DeleteAdCacheCommand(ad.Id), cancellationToken);
+                        await Mediator.Send(new DeleteAdCacheCommand(item.Id), cancellationToken);
                     }
                     start += length;
+                    next = items.Count() < length ? false : true;
                 }
-                next = getAdList.Data.Count() < length ? false : true;
             }
             while (next);
         }

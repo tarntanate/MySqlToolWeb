@@ -7,9 +7,9 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.IsExistsASta
     public class IsExistsAdStatsByKeyQuery : IRequest<HttpResult<bool>>
     {
         public long AdId { get; set; }
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
 
-        public IsExistsAdStatsByKeyQuery(long adId, DateTime caculatedAt)
+        public IsExistsAdStatsByKeyQuery(long adId, DateTimeOffset caculatedAt)
         {
             AdId = adId;
             CaculatedAt = caculatedAt;

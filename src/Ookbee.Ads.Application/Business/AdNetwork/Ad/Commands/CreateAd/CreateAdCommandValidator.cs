@@ -2,6 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.IsExistsAdUnitById;
 using Ookbee.Ads.Application.Business.AdNetwork.Campaign.Queries.IsExistsCampaignById;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using System.Linq;
 
@@ -16,9 +17,6 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Ad.Commands.CreateAd
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            RuleFor(p => p.Quota)
-                .GreaterThan(0);
-                
             RuleFor(p => p.AdUnitId)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
@@ -44,6 +42,21 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Ad.Commands.CreateAd
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
+
+            RuleFor(p => p.Quota)
+                .GreaterThan(0);
+
+            RuleFor(p => p.StartAt)
+                .Must(value =>
+                    value >= MechineDateTime.Date &&
+                    value <= MechineDateTime.Now)
+                .WithMessage("'{PropertyName}' is not valid");
+
+            RuleFor(p => new { p.StartAt, p.EndAt })
+                .Must(value =>
+                    value.EndAt >= MechineDateTime.Date &&
+                    value.EndAt >= value.StartAt.Date)
+                .WithMessage("'{PropertyName}' is not valid");
 
             RuleFor(p => p.Status)
                 .NotNull();

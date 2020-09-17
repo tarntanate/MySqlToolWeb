@@ -15,7 +15,7 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models
         public bool IsDisplay { get; set; }
         public bool IsClick { get; set; }
         public bool IsImpression { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
         public string UUID { get; set; }
     }
 }

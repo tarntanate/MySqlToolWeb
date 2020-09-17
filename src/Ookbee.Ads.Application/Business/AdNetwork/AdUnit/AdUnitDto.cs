@@ -3,6 +3,7 @@ using Ookbee.Ads.Application.Business.AdNetwork.AdUnitType;
 using Ookbee.Ads.Application.Business.AdNetwork.Publisher;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Linq.Expressions;
 
@@ -13,7 +14,9 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit
         public AdGroupDto AdGroup { get; set; }
         public string AdNetwork { get; set; }
         public string AdNetworkUnitId { get; set; }
+        public string AdNetworkUnitId_Android { get; set; }
         public int? SortSeq { get; set; }
+        public Platform? _requestPlatform { get; set; }
 
         public static Expression<Func<AdUnitEntity, AdUnitDto>> Projection
         {
@@ -24,6 +27,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit
                     Id = entity.Id,
                     AdNetwork = entity.AdNetwork,
                     AdNetworkUnitId = entity.AdNetworkUnitId,
+                    AdNetworkUnitId_Android = entity.AdNetworkUnitId_Android,
                     SortSeq = entity.SortSeq,
                     AdGroup = new AdGroupDto()
                     {

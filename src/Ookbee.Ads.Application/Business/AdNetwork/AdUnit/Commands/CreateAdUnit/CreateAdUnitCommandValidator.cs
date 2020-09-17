@@ -23,8 +23,9 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Commands.CreateAdUnit
                 .MaximumLength(10);
 
             RuleFor(p => p.AdNetworkUnitId)
-               .NotNull()
-               .NotEmpty()
+               .MaximumLength(50);
+
+            RuleFor(p => p.AdNetworkUnitId_Android)
                .MaximumLength(50);
 
             RuleFor(p => new { AdNetwork = p.AdNetwork, AdGroupId = p.AdGroupId })

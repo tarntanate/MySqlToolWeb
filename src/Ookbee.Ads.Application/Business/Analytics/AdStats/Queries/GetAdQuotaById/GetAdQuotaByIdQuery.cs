@@ -7,9 +7,9 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaBy
     public class GetAdQuotaByIdQuery : IRequest<HttpResult<int>>
     {
         public long AdId { get; set; }
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
 
-        public GetAdQuotaByIdQuery(long adId, DateTime caculatedAt)
+        public GetAdQuotaByIdQuery(long adId, DateTimeOffset caculatedAt)
         {
             AdId = adId;
             CaculatedAt = caculatedAt;

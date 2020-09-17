@@ -12,12 +12,12 @@ namespace Anna.Common.MongoDB.Domain
         public string Id { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime? CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime? DeletedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
     }
 }

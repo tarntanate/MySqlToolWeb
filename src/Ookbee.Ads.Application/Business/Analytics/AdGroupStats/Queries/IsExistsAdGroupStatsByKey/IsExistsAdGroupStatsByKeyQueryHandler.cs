@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.IsExists
             var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"AdGroupStats by GroupId='{request.AdGroupId}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

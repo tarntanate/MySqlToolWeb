@@ -2,6 +2,7 @@
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUnitCache;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Linq;
@@ -40,16 +41,19 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.DeleteAdGr
             var next = true;
             do
             {
+                next = false;
                 var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, adGroupId), cancellationToken);
-                if (getAdUnitList.Ok)
+                if (getAdUnitList.Ok &&
+                    getAdUnitList.Data.HasValue())
                 {
-                    foreach (var adUnit in getAdUnitList.Data)
+                    var items = getAdUnitList.Data;
+                    foreach (var item in items)
                     {
-                        await Mediator.Send(new DeleteAdUnitCacheCommand(adUnit.Id), cancellationToken);
+                        await Mediator.Send(new DeleteAdUnitCacheCommand(item.Id), cancellationToken);
                     }
                     start += length;
+                    next = items.Count() < length ? false : true;
                 }
-                next = getAdUnitList.Data.Count() < length ? false : true;
             }
             while (next);
         }

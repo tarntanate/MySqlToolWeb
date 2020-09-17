@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public string UserName { get; set; }
         public string DisplayName { get; set; }
         public string AvatarUrl { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
 
         public virtual List<ActivityLogEntity> ActivityLogs { get; set; }
         public virtual List<UserRoleMappingEntity> UserRoleMappings { get; set; }

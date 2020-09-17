@@ -38,6 +38,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache
             var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
             var analytics = new AnalyticsCacheDto()
             {
+                AdId = adId,
                 Clicks = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Click}".ToLower() },
                 Impressions = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Impression}".ToLower() }
             };
