@@ -2,6 +2,7 @@
 using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGroupStatsListByKey;
 using Ookbee.Ads.Application.Business.Cache.AdGroupStats.Commands.ArchiveAdGroupStatsById;
 using Ookbee.Ads.Application.Business.Cache.AdUnitStats.Commands.ArchiveAdUnitStats;
+using Ookbee.Ads.Common.Extensions;
 using System;
 using System.Linq;
 using System.Threading;
@@ -26,17 +27,20 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStats.Commands.ArchiveAdG
             var next = true;
             do
             {
+                next = false;
                 var getAdGroupStatsListByKey = await Mediator.Send(new GetAdGroupStatsListByKeyQuery(start, length, null, request.CaculatedAt), cancellationToken);
-                if (getAdGroupStatsListByKey.Ok)
+                if (getAdGroupStatsListByKey.Ok &&
+                    getAdGroupStatsListByKey.Data.HasValue())
                 {
-                    foreach (var adGroupStats in getAdGroupStatsListByKey.Data)
+                    var items = getAdGroupStatsListByKey.Data;
+                    foreach (var item in items)
                     {
                         await Mediator.Send(new ArchiveAdUnitStatsCommand(request.CaculatedAt), cancellationToken);
-                        await Mediator.Send(new ArchiveAdGroupStatsByIdCommand(request.CaculatedAt, adGroupStats.AdGroupId), cancellationToken);
+                        await Mediator.Send(new ArchiveAdGroupStatsByIdCommand(request.CaculatedAt, item.AdGroupId), cancellationToken);
                     }
                     start += length;
+                    next = items.Count() < length ? false : true;
                 }
-                next = getAdGroupStatsListByKey.Data.Count() < length ? false : true;
             }
             while (next);
 

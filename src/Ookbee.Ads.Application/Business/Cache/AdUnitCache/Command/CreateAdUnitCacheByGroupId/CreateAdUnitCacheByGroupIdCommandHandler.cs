@@ -55,26 +55,29 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
 
         private IEnumerable<AdUnitCacheDto> PrepareAnalytics(IEnumerable<AdUnitCacheDto> adUnits, Platform platform)
         {
-            foreach (var adUnit in adUnits)
+            if (adUnits.HasValue())
             {
-                if (adUnit.Analytics.HasValue())
+                foreach (var adUnit in adUnits)
                 {
-                    var name = "platform";
-                    var value = platform.ToString();
+                    if (adUnit.Analytics.HasValue())
+                    {
+                        var name = "platform";
+                        var value = platform.ToString();
 
-                    if (adUnit.Analytics.Clicks.HasValue())
-                        adUnit.Analytics.Clicks = adUnit.Analytics.Clicks.Select(url =>
-                        {
-                            url = new Uri(url).AddQueryString(name, value).AbsoluteUri;
-                            return url.ToLower();
-                        }).ToList();
+                        if (adUnit.Analytics.Clicks.HasValue())
+                            adUnit.Analytics.Clicks = adUnit.Analytics.Clicks.Select(url =>
+                            {
+                                url = new Uri(url).AddQueryString(name, value).AbsoluteUri;
+                                return url.ToLower();
+                            }).ToList();
 
-                    if (adUnit.Analytics.Impressions.HasValue())
-                        adUnit.Analytics.Impressions = adUnit.Analytics.Impressions.Select(url =>
-                        {
-                            url = new Uri(url).AddQueryString(name, value).AbsoluteUri;
-                            return url.ToLower();
-                        }).ToList();
+                        if (adUnit.Analytics.Impressions.HasValue())
+                            adUnit.Analytics.Impressions = adUnit.Analytics.Impressions.Select(url =>
+                            {
+                                url = new Uri(url).AddQueryString(name, value).AbsoluteUri;
+                                return url.ToLower();
+                            }).ToList();
+                    }
                 }
             }
 
@@ -90,9 +93,12 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
 
             do
             {
+                next = false;
                 var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, adGroupId), cancellationToken);
-                if (getAdUnitList.Ok)
+                if (getAdUnitList.Ok &&
+                    getAdUnitList.Data.HasValue())
                 {
+                    var items = getAdUnitList.Data;
                     foreach (var adUnit in getAdUnitList.Data)
                     {
                         adUnit._requestPlatform = platform;
@@ -100,9 +106,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                         var item = Mapper.Map<AdUnitCacheDto>(adUnit);
                         result.Add(item);
                     }
+                    start += length;
+                    next = items.Count() < length ? false : true;
                 }
-                next = getAdUnitList.Data.Count() == length ? true : false;
-                start += length;
             }
             while (next);
 

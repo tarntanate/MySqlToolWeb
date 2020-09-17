@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.Analytics.AdStat.Queries.GetAdStatsListByKey;
 using Ookbee.Ads.Application.Business.Cache.AdStats.Commands.ArchiveAdStatsById;
-using System;
+using Ookbee.Ads.Common.Extensions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,16 +25,19 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStats.Commands.ArchiveAdStats
             var next = true;
             do
             {
+                next = false;
                 var getAdStatsList = await Mediator.Send(new GetAdStatsListByKeyQuery(start, length, null, request.CaculatedAt), cancellationToken);
-                if (getAdStatsList.Ok)
+                if (getAdStatsList.Ok &&
+                    getAdStatsList.Data.HasValue())
                 {
-                    foreach (var ad in getAdStatsList.Data)
+                    var items = getAdStatsList.Data;
+                    foreach (var item in items)
                     {
-                        await Mediator.Send(new ArchiveAdStatsByIdCommand(request.CaculatedAt, ad.AdId), cancellationToken);
+                        await Mediator.Send(new ArchiveAdStatsByIdCommand(request.CaculatedAt, item.AdId), cancellationToken);
                     }
                     start += length;
+                    next = items.Count() < length ? false : true;
                 }
-                next = getAdStatsList.Data.Count() < length ? false : true;
             }
             while (next);
 

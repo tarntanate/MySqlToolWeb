@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAssetAdStatsById;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Models;
 using System.Linq;
 using System.Threading;
@@ -24,17 +25,20 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStatsCache.Commands.Initia
             var next = true;
             do
             {
+                next = false;
                 var getAdList = await Mediator.Send(new GetAdListQuery(start, length, request.AdUnitId, null), cancellationToken);
-                if (getAdList.Ok)
+                if (getAdList.Ok &&
+                    getAdList.Data.HasValue())
                 {
-                    foreach (var ad in getAdList.Data)
+                    var items = getAdList.Data;
+                    foreach (var item in items)
                     {
-                        if (ad.Status == AdStatus.Publish || ad.Status == AdStatus.Preview)
-                            await Mediator.Send(new InitialAdStatsByIdCommand(request.AdUnitId, ad.Id, request.CaculatedAt), cancellationToken);
+                        if (item.Status == AdStatus.Publish || item.Status == AdStatus.Preview)
+                            await Mediator.Send(new InitialAdStatsByIdCommand(request.AdUnitId, item.Id, request.CaculatedAt), cancellationToken);
                     }
                     start += length;
+                    next = items.Count() < length ? false : true;
                 }
-                next = getAdList.Data.Count() < length ? false : true;
             }
             while (next);
 

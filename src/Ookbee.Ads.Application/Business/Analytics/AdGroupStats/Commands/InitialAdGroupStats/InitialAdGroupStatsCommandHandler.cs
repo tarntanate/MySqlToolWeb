@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.InitialAdGroupStatsById;
 using Ookbee.Ads.Application.Business.Analytics.AdUnitStatsCache.Commands.InitialAdUnitStats;
+using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStatsCache.Commands.InitialAdGroupStats
 {
@@ -24,17 +25,20 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStatsCache.Commands.I
             var next = true;
             do
             {
+                next = false;
                 var getAdGroupList = await Mediator.Send(new GetAdGroupListQuery(start, length, null, null), cancellationToken);
-                if (getAdGroupList.Ok)
+                if (getAdGroupList.Ok &&
+                    getAdGroupList.Data.HasValue())
                 {
-                    foreach (var adGroup in getAdGroupList.Data)
+                    var items = getAdGroupList.Data;
+                    foreach (var item in items)
                     {
-                        await Mediator.Send(new InitialAdUnitStatsCommand(request.CaculatedAt, adGroup.Id), cancellationToken);
-                        await Mediator.Send(new InitialAdGroupStatsByIdCommand(request.CaculatedAt, adGroup.Id), cancellationToken);
+                        await Mediator.Send(new InitialAdUnitStatsCommand(request.CaculatedAt, item.Id), cancellationToken);
+                        await Mediator.Send(new InitialAdGroupStatsByIdCommand(request.CaculatedAt, item.Id), cancellationToken);
                     }
                     start += length;
+                    next = items.Count() < length ? false : true;
                 }
-                next = getAdGroupList.Data.Count() < length ? false : true;
             }
             while (next);
 
