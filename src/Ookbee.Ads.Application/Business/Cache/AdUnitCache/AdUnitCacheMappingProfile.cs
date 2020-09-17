@@ -24,16 +24,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
                 return adUnit.Id.ToString();
             }
 
-            if (string.Equals("IOS", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
-            {
-                return adUnit.AdNetworkUnitId;
-            }
-
-            if (string.Equals("ANDROID", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
-            {
-                return adUnit.AdNetworkUnitId_Android;
-            }
-            return adUnit.AdNetworkUnitId;
+            return adUnit._requestPlatform.HasValue && adUnit._requestPlatform.Value == Platform.Android ? adUnit.AdNetworkUnitId_Android : adUnit.AdNetworkUnitId;
         }
 
         private AnalyticsCacheDto AnalyticsConverter(AdUnitDto adUnit)

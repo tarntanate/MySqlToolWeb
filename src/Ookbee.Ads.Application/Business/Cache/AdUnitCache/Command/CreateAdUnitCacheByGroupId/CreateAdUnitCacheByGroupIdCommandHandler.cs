@@ -34,10 +34,10 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
 
         public async Task<Unit> Handle(CreateAdUnitCacheByGroupIdCommand request, CancellationToken cancellationToken)
         {
-            var adUnits = await GetAdUnitList(request.AdGroupId, cancellationToken);
-            if (adUnits.HasValue())
+            foreach (var platform in EnumHelper.GetValues<Platform>())
             {
-                foreach (var platform in EnumHelper.GetValues<Platform>())
+                var adUnits = await GetAdUnitList(request.AdGroupId, platform, cancellationToken);
+                if (adUnits.HasValue())
                 {
                     if (platform != Platform.Unknown)
                     {
@@ -81,7 +81,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
             return adUnits;
         }
 
-        private async Task<IEnumerable<AdUnitCacheDto>> GetAdUnitList(long adGroupId, CancellationToken cancellationToken)
+        private async Task<IEnumerable<AdUnitCacheDto>> GetAdUnitList(long adGroupId, Platform platform, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -95,6 +95,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                 {
                     foreach (var adUnit in getAdUnitList.Data)
                     {
+                        adUnit._requestPlatform = platform;
                         await Mediator.Send(new InitialAdCacheCommand(adUnit.Id), cancellationToken);
                         var item = Mapper.Map<AdUnitCacheDto>(adUnit);
                         result.Add(item);
