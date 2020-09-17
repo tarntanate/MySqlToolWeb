@@ -56,8 +56,6 @@ namespace Ookbee.Ads.Common
             get
             {
                 var caculateAt = Now;
-                Console.WriteLine("caculateAt.TimeOfDay: " + caculateAt.TimeOfDay);
-                Console.WriteLine("caculateAt.TimeOfDay.Ticks: " + caculateAt.TimeOfDay.Ticks);
                 return caculateAt.AddTicks(-caculateAt.TimeOfDay.Ticks);
             }
         }
