@@ -29,8 +29,9 @@ namespace Ookbee.Ads.Application.Infrastructure
                     var next = true;
                     do
                     {
-                        var caculatedAt = MechineDateTime.Now;
+                        var caculatedAt = MechineDateTime.Date;
                         Console.WriteLine("MechineDateTime.Now: " + MechineDateTime.Now);
+                        Console.WriteLine("MechineDateTime.Date: " + MechineDateTime.Date);
                         Console.WriteLine("MechineDateTime.Now.Date: " + MechineDateTime.Now.Date);
                         Console.WriteLine("MechineDateTime.UtcNow.Date: " + MechineDateTime.UtcNow.Date);
                         Console.WriteLine("MechineDateTime.WindowsTimeZoneId: " + MechineDateTime.WindowsTimeZoneId);

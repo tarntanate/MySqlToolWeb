@@ -51,6 +51,17 @@ namespace Ookbee.Ads.Common
             }
         }
 
+        public static DateTimeOffset Date
+        {
+            get
+            {
+                var caculateAt = Now;
+                Console.WriteLine("caculateAt.TimeOfDay: " + caculateAt.TimeOfDay);
+                Console.WriteLine("caculateAt.TimeOfDay.Ticks: " + caculateAt.TimeOfDay.Ticks);
+                return caculateAt.AddTicks(-caculateAt.TimeOfDay.Ticks);
+            }
+        }
+
         public static DateTimeOffset UtcNow => Now.ToUniversalTime();
 
         public static DateTimeOffset FirstTimeOfWeek(DateTimeOffset caculateDate) => caculateDate.AddDays(-((int)caculateDate.DayOfWeek)).Date;
