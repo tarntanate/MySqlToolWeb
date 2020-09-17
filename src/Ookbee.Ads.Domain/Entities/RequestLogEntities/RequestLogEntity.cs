@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
 {
     public class RequestLogEntity : BaseEntity, ICreatedAt
     {
-        public DateTime? CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
         public string uuid { get; set; }
         public int? AdId { get; set; }
         public int? AdUnitId { get; set; }

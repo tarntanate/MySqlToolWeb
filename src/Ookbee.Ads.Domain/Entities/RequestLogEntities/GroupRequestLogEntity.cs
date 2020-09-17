@@ -3,7 +3,7 @@ using System;
 
 namespace Ookbee.Ads.Domain.Entities.RequestLogEntities
 {
-    public class GroupRequestLogEntity : BaseEntity, ICreatedAt
+    public class GroupRequestLogEntity : BaseEntity
     {
         public DateTime? CreatedAt { get; set; }
         public string uuid { get; set; }
