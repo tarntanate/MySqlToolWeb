@@ -29,11 +29,13 @@ namespace Ookbee.Ads.Application.Infrastructure
                     var next = true;
                     do
                     {
-                        var caculatedAt = MechineDateTime.Now.Date;
-                        Console.WriteLine(caculatedAt);
-                        Console.WriteLine(MechineDateTime.WindowsTimeZoneId);
+                        var caculatedAt = MechineDateTime.UtcNow.Date;
+                        Console.WriteLine("MechineDateTime.Now: " + MechineDateTime.Now);
+                        Console.WriteLine("MechineDateTime.Now.Date: " + MechineDateTime.Now.Date);
+                        Console.WriteLine("MechineDateTime.UtcNow.Date: " + MechineDateTime.UtcNow.Date);
+                        Console.WriteLine("MechineDateTime.WindowsTimeZoneId: " + MechineDateTime.WindowsTimeZoneId);
                         await mediator.Send(new InitialAdGroupStatsCommand(caculatedAt), cancellationToken);
-                        var nowDateTime = MechineDateTime.Now;
+                        var nowDateTime = MechineDateTime.UtcNow;
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromDays(1));
                         var timeout = nextDateTime - nowDateTime;
                         Thread.Sleep(timeout);
