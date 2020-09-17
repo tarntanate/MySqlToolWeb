@@ -23,6 +23,16 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
             {
                 return adUnit.Id.ToString();
             }
+
+            if (string.Equals("IOS", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            {
+                return adUnit.AdNetworkUnitId;
+            }
+
+            if (string.Equals("ANDROID", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            {
+                return adUnit.AdNetworkUnitId_Android;
+            }
             return adUnit.AdNetworkUnitId;
         }
 
@@ -33,6 +43,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var analytics = new AnalyticsCacheDto()
                 {
+                    AdUnit = adUnit.Id,
                     Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Click}".ToLower() },
                     Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Impression}".ToLower() },
                 };
