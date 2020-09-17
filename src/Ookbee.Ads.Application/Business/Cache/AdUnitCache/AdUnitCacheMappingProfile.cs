@@ -33,6 +33,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var analytics = new AnalyticsCacheDto()
                 {
+                    AdUnit = adUnit.Id,
                     Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Click}".ToLower() },
                     Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Impression}".ToLower() },
                 };
