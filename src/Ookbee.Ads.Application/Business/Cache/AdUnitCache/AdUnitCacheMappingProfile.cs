@@ -23,6 +23,16 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
             {
                 return adUnit.Id.ToString();
             }
+
+            if (string.Equals("IOS", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            {
+                return adUnit.AdNetworkUnitId;
+            }
+
+            if (string.Equals("ANDROID", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            {
+                return adUnit.AdNetworkUnitId_Android;
+            }
             return adUnit.AdNetworkUnitId;
         }
 

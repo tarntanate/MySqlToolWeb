@@ -37,6 +37,9 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Commands.UpdateAdUnit
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(50);
+
+            RuleFor(p => p.AdNetworkUnitId_Android)
+                .MaximumLength(50);
         }
     }
 }
