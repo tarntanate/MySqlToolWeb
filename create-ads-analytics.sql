@@ -46,26 +46,3 @@ CREATE TABLE "public"."AdStats" (
     CONSTRAINT "PK_AdStats" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_AdStats_1" ON "public"."AdStats" ("AdId", "CaculatedAt");
-/* ---------------------------------------------------------------------- */
-/* Scripts                                       	  */
-/* ---------------------------------------------------------------------- */
-/*
- 
-DELETE FROM public."AdGroupStats";
-DELETE FROM public."AdUnitStats";
-DELETE FROM public."AdStats";
-
-SELECT * FROM public."AdGroupStats";
-SELECT * FROM public."AdUnitStats";
-SELECT * FROM public."AdStats";
-
-*/
-
-
-
-
-
-
-
-
-
