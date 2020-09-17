@@ -1,16 +1,15 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.IsExistsAdvertiserById;
-using Ookbee.Ads.Infrastructure.Models;
-using System;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnitType.Queries.IsExistsAdUnitTypeById;
+using Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.IsExistsPublisherById;
 
-namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCampaignList
+namespace Ookbee.Ads.Application.Business.Advertisement.AdNetwork.Queries.GetAdNetworkList
 {
-    public class GetCampaignListQueryValidator : AbstractValidator<GetCampaignListQuery>
+    public class GetAdNetworkListQueryValidator : AbstractValidator<GetAdNetworkListQuery>
     {
         private IMediator Mediator { get; }
 
-        public GetCampaignListQueryValidator(IMediator mediator)
+        public GetAdNetworkListQueryValidator(IMediator mediator)
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
@@ -22,13 +21,13 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCamp
                 .GreaterThan(0)
                 .LessThanOrEqualTo(100);
 
-            RuleFor(p => p.AdvertiserId)
+            RuleFor(p => p.AdUnitId)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     if (value != null)
                     {
-                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value.Value), cancellationToken);
+                        var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value.Value), cancellationToken);
                         if (!isExistsAdUnitResult.Ok)
                             context.AddFailure(isExistsAdUnitResult.Message);
                     }

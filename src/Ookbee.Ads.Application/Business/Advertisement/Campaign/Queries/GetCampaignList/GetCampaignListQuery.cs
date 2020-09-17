@@ -7,14 +7,12 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCamp
     public class GetCampaignListQuery : IRequest<HttpResult<IEnumerable<CampaignDto>>>
     {
         public long? AdvertiserId { get; set; }
-        public string PricingModel { get; set; }
         public int Start { get; set; }
         public int Length { get; set; }
 
-        public GetCampaignListQuery(int start, int length, long? advertiserId, string pricingModel)
+        public GetCampaignListQuery(int start, int length, long? advertiserId)
         {
             AdvertiserId = advertiserId;
-            // PricingModel = pricingModel;
             Start = start;
             Length = length;
         }
