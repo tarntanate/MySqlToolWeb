@@ -26,9 +26,9 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Ad
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public string LinkUrl { get; set; }
-        public List<string> Analytics { get; set; }
-        public List<Platform> Platforms { get; set; }
-        public List<AdAssetDto> Assets { get; set; }
+        public IEnumerable<string> Analytics { get; set; }
+        public IEnumerable<Platform> Platforms { get; set; }
+        public IEnumerable<AdAssetDto> Assets { get; set; }
         public AdUnitDto AdUnit { get; set; }
         public CampaignDto Campaign { get; set; }
 
@@ -58,7 +58,7 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.Ad
                             Position = asset.Position,
                             AssetType = asset.AssetType,
                             AssetPath = asset.AssetPath,
-                        }).ToList(),
+                        }),
                     AdUnit = new AdUnitDto()
                     {
                         Id = entity.AdUnit.Id,

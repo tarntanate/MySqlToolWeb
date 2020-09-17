@@ -34,7 +34,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.CreateAdCache
         public async Task<Unit> Handle(CreateAdCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
-            if (getAdById.Ok)
+            if (getAdById.Ok &&
+                getAdById.Data.HasValue())
             {
                 if (getAdById.Data.Status == AdStatus.Publish ||
                     getAdById.Data.Status == AdStatus.Preview)

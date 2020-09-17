@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGro
             var result = new HttpResult<AdGroupStatsDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"AdGroupStats by GroupId='{request.AdGroupId}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

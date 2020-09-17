@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStat.Queries.GetAdStatsLis
             var result = new HttpResult<IEnumerable<AdStatsDto>>();
             return (items.HasValue())
                 ? result.Success(items)
-                : result.Fail(404, $"AdGroupStatsList by GroupId='{request.AdId}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

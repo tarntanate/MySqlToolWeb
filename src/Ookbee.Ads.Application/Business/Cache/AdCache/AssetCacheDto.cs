@@ -19,9 +19,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache
         {
             get
             {
-                Uri uri = null;
                 if (AssetPath.HasValue())
                 {
+                    Uri uri;
                     if (GlobalVar.AppSettings.Tencent.Cos.BaseUri.CDN.HasValue())
                         uri = new Uri(new Uri(GlobalVar.AppSettings.Tencent.Cos.BaseUri.CDN), AssetPath);
 
@@ -30,8 +30,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache
 
                     else
                         uri = new Uri(AssetPath);
+                    return uri?.IsAbsoluteUri == true ? uri?.AbsoluteUri : uri?.ToString() ?? string.Empty;
                 }
-                return uri?.IsAbsoluteUri == true ? uri?.AbsoluteUri : uri?.ToString() ?? string.Empty;
+                return null;
             }
         }
 
