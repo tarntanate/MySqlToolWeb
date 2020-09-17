@@ -40,13 +40,13 @@ namespace Ookbee.Ads.Common
                 try
                 {
                     var timeZoneInfo = TZConvert.GetTimeZoneInfo(WindowsTimeZoneId);
-                    var dateTime = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, timeZoneInfo);
+                    var dateTime = TimeZoneInfo.ConvertTime(DateTimeOffset.Now, timeZoneInfo);
                     return dateTime;
                 }
                 catch (TimeZoneNotFoundException)
                 {
                     Logger.LogWarning("Unable to identify target time zone for conversion.");
-                    return DateTime.Now;
+                    return DateTimeOffset.Now;
                 }
             }
         }
