@@ -31,6 +31,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     {
                         var caculatedAt = MechineDateTime.Now.Date;
                         Console.WriteLine(caculatedAt);
+                        Console.WriteLine(MechineDateTime.WindowsTimeZoneId);
                         await mediator.Send(new InitialAdGroupStatsCommand(caculatedAt), cancellationToken);
                         var nowDateTime = MechineDateTime.Now;
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromDays(1));
