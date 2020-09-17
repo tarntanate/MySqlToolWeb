@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupById;
-using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUnitCache;
-using Ookbee.Ads.Persistence.Redis.AdsRedis;
-using StackExchange.Redis;
+﻿using MediatR;
+using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.InitialAdUnitCache;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,11 +17,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.CreateAdGr
 
         public async Task<Unit> Handle(CreateAdGroupCacheCommand request, CancellationToken cancellationToken)
         {
-            var getAdGroupById = await Mediator.Send(new GetAdGroupByIdQuery(request.AdGroupId), cancellationToken);
-            if (getAdGroupById.Ok)
-            {
-                await Mediator.Send(new CreateAdUnitCacheCommand(request.AdGroupId), cancellationToken);
-            }
+            await Mediator.Send(new InitialAdUnitCacheCommand(request.AdGroupId), cancellationToken);
 
             return Unit.Value;
         }

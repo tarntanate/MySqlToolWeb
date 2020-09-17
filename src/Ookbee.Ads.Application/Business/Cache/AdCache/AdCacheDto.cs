@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache
+namespace Ookbee.Ads.Application.Business.Cache.AdCache
 {
-    public class AdAssetCacheDto
+    public class AdCacheDto
     {
         public int? CountdownSecond { get; set; }
 

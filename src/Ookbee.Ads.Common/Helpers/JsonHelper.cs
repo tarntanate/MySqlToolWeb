@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Ookbee.Ads.Common.Helpers
 {
-    public class JsonHelper
+    public static class JsonHelper
     {
         public static TResult Deserialize<TResult>(string json)
         {

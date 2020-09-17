@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
-using Ookbee.Ads.Infrastructure.Models;
 using System;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStats
@@ -9,7 +8,6 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats
     {
         public long Id { get; set; }
         public long AdId { get; set; }
-        public Platform Platform { get; set; }
         public long Impression { get; set; }
         public long Click { get; set; }
 
@@ -21,7 +19,6 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats
                 {
                     Id = entity.Id,
                     AdId = entity.AdId,
-                    Platform = entity.Platform,
                     Impression = entity.Impression,
                     Click = entity.Click,
                 };

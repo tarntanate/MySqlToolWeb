@@ -22,14 +22,13 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUni
                 selector: AdUnitStatsDto.Projection,
                 filter: f =>
                     f.AdUnitId == request.AdUnitId &&
-                    f.Platform == request.Platform &&
                     f.CaculatedAt == request.CaculatedAt
             );
 
             var result = new HttpResult<AdUnitStatsDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"AdStats by AdUnitId='{request.AdUnitId}' and Platform='{request.Platform.ToString()}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
+                : result.Fail(404, $"AdStats by AdUnitId='{request.AdUnitId}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
         }
     }
 }

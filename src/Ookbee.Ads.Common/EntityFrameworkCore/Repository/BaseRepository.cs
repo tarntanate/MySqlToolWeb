@@ -57,6 +57,22 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
         }
 
         /// <summary>
+        /// sum item in table
+        /// </summary>
+        /// <param name="field">expression selector</param>
+        /// <param name="filter">expression filter</param>
+        /// <returns>number of rows</returns>
+        public virtual decimal Sum(Expression<Func<TEntity, long>> selector, Expression<Func<TEntity, bool>> filter = null)
+        {
+            IQueryable<TEntity> query = DbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            return query.Select(selector).Sum();
+        }
+
+        /// <summary>
         /// get first item in table
         /// </summary>
         /// <param name="filter">expression filter</param>
@@ -323,6 +339,22 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 query = query.Where(filter);
 
             return query.CountAsync();
+        }
+
+        /// <summary>
+        /// sum item in table
+        /// </summary>
+        /// <param name="selector">expression selector</param>
+        /// <param name="filter">expression filter</param>
+        /// <returns>number of rows</returns>
+        public virtual async Task<decimal> SumAsync(Expression<Func<TEntity, long>> selector, Expression<Func<TEntity, bool>> filter = null)
+        {
+            IQueryable<TEntity> query = DbSet;
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            return await query.Select(selector).SumAsync();
         }
 
         /// <summary>

@@ -1,17 +1,17 @@
 ﻿using MediatR;
 using System;
 
-namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.InitialAdUnitStats
+namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStatsCache.Commands.InitialAdUnitStats
 {
     public class InitialAdUnitStatsCommand : IRequest<Unit>
     {
-        public long AdUnitId { get; set; }
         public DateTime CaculatedAt { get; set; }
+        public long AdGroupId { get; set; }
 
-        public InitialAdUnitStatsCommand(long adUnitId, DateTime caculatedAt)
+        public InitialAdUnitStatsCommand(DateTime caculatedAt, long adGroupId)
         {
-            AdUnitId = adUnitId;
             CaculatedAt = caculatedAt;
+            AdGroupId = adGroupId;
         }
     }
 }

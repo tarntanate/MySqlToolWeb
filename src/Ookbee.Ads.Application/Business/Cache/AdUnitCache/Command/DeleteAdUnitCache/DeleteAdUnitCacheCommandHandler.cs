@@ -1,14 +1,13 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitById;
-using Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.DeleteAdAssetCache;
+using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -35,16 +34,17 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
             if (getAdUnitById.Ok)
             {
                 var adUnit = getAdUnitById.Data;
-                foreach (var platform in Enum.GetValues(typeof(Platform)).Cast<Platform>())
+                foreach (var platform in EnumHelper.GetValues<Platform>())
                 {
                     if (platform != Platform.Unknown)
                     {
                         var platformName = platform.ToString();
-                        var redisKey = CacheKey.Units(adUnit.AdGroup.Id, platform);
-                        var redisValue = await AdsRedis.StringGetAsync(redisKey);
-                        if (redisValue.HasValue())
+                        var redisKey = CacheKey.Units(adUnit.AdGroup.Id);
+                        var hashField = platform.ToString();
+                        var hashValue = await AdsRedis.HashGetAsync(redisKey, hashField);
+                        if (hashValue.HasValue())
                         {
-                            var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(redisValue);
+                            var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(hashValue);
                             var index = adUnits.FindIndex(x => x.Name == adUnit.AdNetwork);
                             if (index > -1)
                             {
@@ -53,12 +53,12 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
 
                             if (adUnits.HasValue())
                             {
-                                redisValue = JsonHelper.Serialize(adUnits);
-                                await AdsRedis.StringSetAsync(redisKey, redisValue);
+                                hashValue = JsonHelper.Serialize(adUnits);
+                                await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
                             }
                             else
                             {
-                                await AdsRedis.KeyDeleteAsync(redisKey);
+                                await AdsRedis.HashDeleteAsync(redisKey, hashField);
                             }
                         }
                     }
@@ -81,7 +81,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
                 {
                     foreach (var ad in getAdList.Data)
                     {
-                        await Mediator.Send(new DeleteAdAssetCacheCommand(ad.Id), cancellationToken);
+                        await Mediator.Send(new DeleteAdCacheCommand(ad.Id), cancellationToken);
                     }
                     start += length;
                 }

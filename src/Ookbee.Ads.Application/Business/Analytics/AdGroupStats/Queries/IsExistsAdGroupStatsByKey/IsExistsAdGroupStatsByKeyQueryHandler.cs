@@ -20,7 +20,6 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.IsExists
         {
             var isExists = await AdGroupStatsDbRepo.AnyAsync(f =>
                 f.AdGroupId == request.AdGroupId &&
-                f.Platform == request.Platform &&
                 f.CaculatedAt == request.CaculatedAt
             );
 

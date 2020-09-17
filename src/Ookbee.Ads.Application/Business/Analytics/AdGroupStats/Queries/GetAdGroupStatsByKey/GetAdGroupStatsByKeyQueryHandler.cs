@@ -22,7 +22,6 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGro
                 selector: AdGroupStatsDto.Projection,
                 filter: f =>
                     f.AdGroupId == request.AdGroupId &&
-                    f.Platform == request.Platform &&
                     f.CaculatedAt == request.CaculatedAt
             );
 

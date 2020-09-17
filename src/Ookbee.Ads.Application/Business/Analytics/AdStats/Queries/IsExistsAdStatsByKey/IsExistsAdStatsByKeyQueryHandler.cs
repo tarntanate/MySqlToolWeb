@@ -20,14 +20,13 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.IsExistsASta
         {
             var isExists = await AdStatsDbRepo.AnyAsync(f =>
                 f.AdId == request.AdId &&
-                f.Platform == request.Platform &&
                 f.CaculatedAt == request.CaculatedAt
             );
 
             var result = new HttpResult<bool>();
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"AdStats by AdId='{request.AdId}' and Platform='{request.Platform.ToString()}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
+                : result.Fail(404, $"AdStats by AdId='{request.AdId}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
         }
     }
 }

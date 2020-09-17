@@ -1,12 +1,12 @@
 ﻿using MediatR;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache.Commands.UpdateAdAssetCache
+namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.UpdateAdCache
 {
-    public class UpdateAdAssetCacheCommand : IRequest<Unit>
+    public class UpdateAdCacheCommand : IRequest<Unit>
     {
         public long AdId { get; set; }
 
-        public UpdateAdAssetCacheCommand(long adId)
+        public UpdateAdCacheCommand(long adId)
         {
             AdId = adId;
         }

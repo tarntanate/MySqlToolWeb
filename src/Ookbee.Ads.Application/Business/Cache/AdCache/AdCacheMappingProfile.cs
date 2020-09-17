@@ -3,16 +3,17 @@ using Ookbee.Ads.Application.Business.AdNetwork.Ad;
 using Ookbee.Ads.Application.Business.AdNetwork.AdAsset;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
+using Ookbee.Ads.Infrastructure.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache
+namespace Ookbee.Ads.Application.Business.Cache.AdCache
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            CreateMap<AdDto, AdAssetCacheDto>()
+            CreateMap<AdDto, AdCacheDto>()
                 .ForMember(dest => dest.CountdownSecond, m => m.MapFrom(src => src.CountdownSecond))
                 .ForMember(dest => dest.ForegroundColor, m => m.MapFrom(src => src.ForegroundColor))
                 .ForMember(dest => dest.BackgroundColor, m => m.MapFrom(src => src.BackgroundColor))
@@ -37,8 +38,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdAssetCache
             var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
             var analytics = new AnalyticsCacheDto()
             {
-                Clicks = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type=click" },
-                Impressions = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type=impression" }
+                Clicks = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Click}".ToLower() },
+                Impressions = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Impression}".ToLower() }
             };
 
             if (impressions.HasValue())

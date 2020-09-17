@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 using Ookbee.Ads.Infrastructure.Models;
+using System;
+using System.Collections.Generic;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
@@ -14,9 +14,9 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public string Description { get; set; }
         public AdStatus Status { get; set; }
         public int? CountdownSecond { get; set; }
-        public int? Quota { get; set; }
-        public DateTime? StartAt { get; set; }
-        public DateTime? EndAt { get; set; }
+        public int Quota { get; set; }
+        public DateTime StartAt { get; set; }
+        public DateTime EndAt { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public List<string> Analytics { get; set; }
