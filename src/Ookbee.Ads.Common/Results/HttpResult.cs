@@ -28,6 +28,7 @@ namespace Ookbee.Ads.Common.Result
                 Message = "Successfully.",
                 StatusCode = HttpStatusCode.OK,
                 StatusMessage = HttpStatusCode.OK.ToString(),
+                Data = data,
             };
         }
 
