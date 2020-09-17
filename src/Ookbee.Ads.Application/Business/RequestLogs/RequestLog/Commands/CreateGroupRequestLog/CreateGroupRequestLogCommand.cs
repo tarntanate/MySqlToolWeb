@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.Create
 
         public CreateGroupRequestLogCommand(short adGroupId, short platformId, string uuid)
         {
-            CreatedAt = MechineDateTime.Now;
+            CreatedAt = MechineDateTime.Now.DateTime;
             PlatformId = platformId;
             AdGroupId = adGroupId;
             UUID = uuid;
