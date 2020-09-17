@@ -60,7 +60,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStats.Commands.ArchiveAdStatsB
 
                 if (adStats.Impression >= adStats.Quota)
                 {
-                    var caculatedAt = MechineDateTime.Now.Date;
+                    var caculatedAt = MechineDateTime.Date;
                     await Mediator.Send(new DeleteAdCacheCommand(request.AdId), cancellationToken);
                     await Mediator.Send(new DeleteAdStatsCacheCommand(request.AdId), cancellationToken);
                 }

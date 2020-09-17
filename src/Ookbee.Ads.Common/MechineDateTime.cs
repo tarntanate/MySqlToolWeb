@@ -16,20 +16,20 @@ namespace Ookbee.Ads.Common
             Logger = logger;
         }
 
-        private static string windowsTimeZoneId;
-        public static string WindowsTimeZoneId
+        private static string timeZoneId;
+        public static string TimeZoneId
         {
             get
             {
-                if (!windowsTimeZoneId.HasValue())
+                if (!timeZoneId.HasValue())
                 {
                     var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
                     var osPlatform = isWindows
                         ? $"{nameof(OSPlatform.Windows)}"
                         : $"{nameof(OSPlatform.Linux)}";
-                    windowsTimeZoneId = ConfigurationHelper.GetConfiguration().GetSection($"AppSettings:TimeZone:{osPlatform}").Value;
+                    timeZoneId = ConfigurationHelper.GetConfiguration().GetSection($"AppSettings:TimeZone:{osPlatform}").Value;
                 }
-                return windowsTimeZoneId;
+                return timeZoneId;
             }
         }
 
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Common
             {
                 try
                 {
-                    var timeZoneInfo = TZConvert.GetTimeZoneInfo(WindowsTimeZoneId);
+                    var timeZoneInfo = TZConvert.GetTimeZoneInfo(TimeZoneId);
                     var dateTime = TimeZoneInfo.ConvertTime(DateTimeOffset.Now, timeZoneInfo);
                     return dateTime;
                 }

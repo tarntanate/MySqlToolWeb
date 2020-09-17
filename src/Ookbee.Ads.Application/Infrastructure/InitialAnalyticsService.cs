@@ -30,13 +30,6 @@ namespace Ookbee.Ads.Application.Infrastructure
                     do
                     {
                         var caculatedAt = MechineDateTime.Date;
-                        Console.WriteLine("MechineDateTime.Now: " + MechineDateTime.Now);
-                        Console.WriteLine("MechineDateTime.Now.Date: " + MechineDateTime.Now.Date);
-                        Console.WriteLine("MechineDateTime.Date: " + MechineDateTime.Date);
-                        Console.WriteLine("MechineDateTime.Date.Date: " + MechineDateTime.Now.Date.Date);
-                        Console.WriteLine("MechineDateTime.UtcNow: " + MechineDateTime.UtcNow);
-                        Console.WriteLine("MechineDateTime.UtcNow.Date: " + MechineDateTime.UtcNow.Date);
-                        Console.WriteLine("MechineDateTime.WindowsTimeZoneId: " + MechineDateTime.WindowsTimeZoneId);
                         await mediator.Send(new InitialAdGroupStatsCommand(caculatedAt), cancellationToken);
                         var nowDateTime = MechineDateTime.Now;
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromDays(1));
