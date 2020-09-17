@@ -7,6 +7,7 @@ CREATE SEQUENCE "public"."SEQ_Ad" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdAsset" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdGroup" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdUnit" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_AdNetwork" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdUnitType" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_Campaign" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_Publisher" INCREMENT 1 START 1;
@@ -96,7 +97,6 @@ CREATE TABLE "public"."AdUnit" (
     "Id" INTEGER DEFAULT nextval('"SEQ_AdUnit"') NOT NULL,
     "AdGroupId" INTEGER NOT NULL,
     "AdNetwork" CHARACTER VARYING(10) NOT NULL,
-    "AdNetworkUnitId" CHARACTER VARYING(50) NULL,
     "SortSeq" INTEGER,
     "CreatedAt" TIMESTAMP WITH TIME ZONE,
     "UpdatedAt" TIMESTAMP WITH TIME ZONE,
@@ -105,6 +105,26 @@ CREATE TABLE "public"."AdUnit" (
 );
 CREATE INDEX "IDX_AdUnit_1" ON "public"."AdUnit" ("DeletedAt", "Id");
 CREATE INDEX "IDX_AdUnit_2" ON "public"."AdUnit" ("DeletedAt", "AdGroupId", "AdNetwork");
+/* ---------------------------------------------------------------------- */
+/* Add table "public"."AdNetwork"                                     */
+/* ---------------------------------------------------------------------- */
+CREATE TABLE "public"."AdNetwork" (
+    "Id" INTEGER DEFAULT nextval('"SEQ_AdNetwork"') NOT NULL,
+    "AdUnitId" INTEGER NOT NULL,
+    "AdNetworkUnitId" CHARACTER VARYING(50) NULL,
+    "Platform" CHARACTER VARYING(10) NOT NULL,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
+    CONSTRAINT "PK_AdNetwork" PRIMARY KEY ("Id"),
+    CONSTRAINT "TCC_AdNetwork_1" CHECK (
+        "Platform" = ANY (
+            ARRAY ['Android', 'iOS', 'Web']::CHARACTER VARYING []
+        )
+    )
+);
+CREATE INDEX "IDX_AdNetwork_1" ON "public"."AdNetwork" ("DeletedAt", "Id");
+CREATE INDEX "IDX_AdNetwork_2" ON "public"."AdNetwork" ("DeletedAt", "AdUnitId", "Platform");
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."User"                                              */
 /* ---------------------------------------------------------------------- */
@@ -254,6 +274,8 @@ ALTER TABLE "public"."AdGroup"
 ADD CONSTRAINT "FK_AdGroup_AdUnitType" FOREIGN KEY ("AdUnitTypeId") REFERENCES "public"."AdUnitType" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."AdUnit"
 ADD CONSTRAINT "FK_AdUnit_AdGroup" FOREIGN KEY ("AdGroupId") REFERENCES "public"."AdGroup" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."AdNetwork"
+ADD CONSTRAINT "FK_AdNetwork_AdUnit" FOREIGN KEY ("AdUnitId") REFERENCES "public"."AdUnit" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."Campaign"
 ADD CONSTRAINT "FK_Campaign_Advertiser" FOREIGN KEY ("AdvertiserId") REFERENCES "public"."Advertiser" ("Id");
 ALTER TABLE "public"."UserPermission"

@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnit;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
 {
@@ -13,28 +14,29 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
         {
             CreateMap<AdUnitDto, AdUnitCacheDto>()
                 .ForMember(dest => dest.Id, m => m.MapFrom(src => AdNetworkUnitIdConverter(src)))
-                .ForMember(dest => dest.Name, m => m.MapFrom(src => src.AdNetwork))
+                .ForMember(dest => dest.Name, m => m.MapFrom(src => src.AdNetwork.Name))
                 .ForMember(dest => dest.Analytics, m => m.MapFrom(src => AnalyticsConverter(src)));
         }
 
         private string AdNetworkUnitIdConverter(AdUnitDto adUnit)
         {
-            if (string.Equals("OOKBEE", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            var ookbee = AdNetwork.Ookbee.ToString();
+            if (string.Equals(ookbee, adUnit.AdNetwork.Name, StringComparison.OrdinalIgnoreCase))
             {
                 return adUnit.Id.ToString();
             }
 
-            return adUnit.AdNetworkUnitId;
+            return adUnit?.AdNetwork?.UnitIds?.FirstOrDefault()?.AdNetworkUnitId;
         }
 
         private AnalyticsCacheDto AnalyticsConverter(AdUnitDto adUnit)
         {
-            if (!string.Equals("OOKBEE", adUnit.AdNetwork, StringComparison.OrdinalIgnoreCase))
+            var ookbee = AdNetwork.Ookbee.ToString();
+            if (!string.Equals(ookbee, adUnit.AdNetwork.Name, StringComparison.OrdinalIgnoreCase))
             {
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var analytics = new AnalyticsCacheDto()
                 {
-                    AdUnit = adUnit.Id,
                     Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Click}".ToLower() },
                     Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Impression}".ToLower() },
                 };

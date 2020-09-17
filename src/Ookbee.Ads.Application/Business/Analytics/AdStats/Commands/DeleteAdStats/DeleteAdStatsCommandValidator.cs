@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.IsExistsAdById;
+using Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.IsExistsAdById;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.DeleteAdStats
 {

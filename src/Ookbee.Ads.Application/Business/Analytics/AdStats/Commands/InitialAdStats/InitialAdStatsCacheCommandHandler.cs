@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
+using Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAssetAdStatsById;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Models;

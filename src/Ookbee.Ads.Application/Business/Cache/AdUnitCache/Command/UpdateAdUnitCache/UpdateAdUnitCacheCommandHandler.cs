@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;

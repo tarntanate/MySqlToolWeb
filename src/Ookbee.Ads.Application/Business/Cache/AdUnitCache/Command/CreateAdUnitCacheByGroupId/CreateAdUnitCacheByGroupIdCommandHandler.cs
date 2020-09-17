@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnit;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.InitialAdCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common.Mapping;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -34,18 +36,48 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
 
         public async Task<Unit> Handle(CreateAdUnitCacheByGroupIdCommand request, CancellationToken cancellationToken)
         {
-            foreach (var platform in EnumHelper.GetValues<Platform>())
+            var start = 0;
+            var length = 100;
+            var next = true;
+            var adUnits = new List<AdUnitDto>();
+
+            do
             {
-                var adUnits = await GetAdUnitList(request.AdGroupId, platform, cancellationToken);
-                if (adUnits.HasValue())
+                next = false;
+                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
+                if (getAdUnitList.Ok &&
+                    getAdUnitList.Data.HasValue())
+                {
+                    var items = getAdUnitList.Data;
+                    adUnits.AddRange(items);
+                    start += length;
+                    next = items.Count() < length ? false : true;
+                }
+            }
+            while (next);
+
+            if (adUnits.HasValue())
+            {
+                foreach (var platform in EnumHelper.GetValues<Platform>())
                 {
                     if (platform != Platform.Unknown)
                     {
-                        var obj = PrepareAnalytics(adUnits, platform);
-                        var redisKey = CacheKey.Units(request.AdGroupId);
-                        var hashField = platform.ToString();
-                        var hashValue = JsonHelper.Serialize(obj);
-                        await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
+                        var cacheValue = new List<AdUnitCacheDto>();
+                        foreach (var adUnit in adUnits)
+                        {
+                            var temp = adUnit.Clone();
+                            temp.AdNetwork.UnitIds = adUnit.AdNetwork.UnitIds.Where(unitId => unitId.Platform == platform).ToList();
+                            var item = Mapper.Map<AdUnitCacheDto>(temp);
+                            cacheValue.Add(item);
+                        }
+                        if (cacheValue.HasValue())
+                        {
+                            var obj = PrepareAnalytics(cacheValue, platform);
+                            var redisKey = CacheKey.Units(request.AdGroupId);
+                            var hashField = platform.ToString();
+                            var hashValue = JsonHelper.Serialize(obj);
+                            await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
+                        }
                     }
                 }
             }

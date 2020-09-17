@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupList;
+using Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGroupList;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

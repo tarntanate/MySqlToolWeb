@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdById;
+using Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdById;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.InitialAssetAdStatsById
 {

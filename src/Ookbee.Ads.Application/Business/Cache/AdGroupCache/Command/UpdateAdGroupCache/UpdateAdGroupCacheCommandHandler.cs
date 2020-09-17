@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.GetAdGroupById;
+using Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGroupById;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
