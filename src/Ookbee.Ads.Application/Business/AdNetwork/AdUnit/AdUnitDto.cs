@@ -27,7 +27,6 @@ namespace Ookbee.Ads.Application.Business.AdNetwork.AdUnit
                     Id = entity.Id,
                     AdNetwork = entity.AdNetwork,
                     AdNetworkUnitId = entity.AdNetworkUnitId,
-                    AdNetworkUnitId_Android = entity.AdNetworkUnitId_Android,
                     SortSeq = entity.SortSeq,
                     AdGroup = new AdGroupDto()
                     {

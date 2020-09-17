@@ -101,7 +101,6 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                     var items = getAdUnitList.Data;
                     foreach (var adUnit in getAdUnitList.Data)
                     {
-                        adUnit._requestPlatform = platform;
                         await Mediator.Send(new InitialAdCacheCommand(adUnit.Id), cancellationToken);
                         var item = Mapper.Map<AdUnitCacheDto>(adUnit);
                         result.Add(item);

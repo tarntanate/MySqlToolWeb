@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache
                 return adUnit.Id.ToString();
             }
 
-            return adUnit._requestPlatform.HasValue && adUnit._requestPlatform.Value == Platform.Android ? adUnit.AdNetworkUnitId_Android : adUnit.AdNetworkUnitId;
+            return adUnit.AdNetworkUnitId;
         }
 
         private AnalyticsCacheDto AnalyticsConverter(AdUnitDto adUnit)
