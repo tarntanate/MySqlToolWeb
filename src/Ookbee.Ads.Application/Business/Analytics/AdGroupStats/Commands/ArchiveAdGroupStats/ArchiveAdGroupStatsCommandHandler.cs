@@ -22,29 +22,36 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStats.Commands.ArchiveAdG
 
         public async Task<Unit> Handle(ArchiveAdGroupStatsCommand request, CancellationToken cancellationToken)
         {
-            var start = 0;
-            var length = 100;
-            var next = true;
-            do
+            try
             {
-                next = false;
-                var getAdGroupStatsListByKey = await Mediator.Send(new GetAdGroupStatsListByKeyQuery(start, length, null, request.CaculatedAt), cancellationToken);
-                if (getAdGroupStatsListByKey.Ok &&
-                    getAdGroupStatsListByKey.Data.HasValue())
+                var start = 0;
+                var length = 100;
+                var next = true;
+                do
                 {
-                    var items = getAdGroupStatsListByKey.Data;
-                    foreach (var item in items)
+                    next = false;
+                    var getAdGroupStatsListByKey = await Mediator.Send(new GetAdGroupStatsListByKeyQuery(start, length, null, request.CaculatedAt), cancellationToken);
+                    if (getAdGroupStatsListByKey.Ok &&
+                        getAdGroupStatsListByKey.Data.HasValue())
                     {
-                        await Mediator.Send(new ArchiveAdUnitStatsCommand(request.CaculatedAt), cancellationToken);
-                        await Mediator.Send(new ArchiveAdGroupStatsByIdCommand(request.CaculatedAt, item.AdGroupId), cancellationToken);
+                        var items = getAdGroupStatsListByKey.Data;
+                        foreach (var item in items)
+                        {
+                            await Mediator.Send(new ArchiveAdUnitStatsCommand(request.CaculatedAt), cancellationToken);
+                            await Mediator.Send(new ArchiveAdGroupStatsByIdCommand(request.CaculatedAt, item.AdGroupId), cancellationToken);
+                        }
+                        start += length;
+                        next = items.Count() < length ? false : true;
                     }
-                    start += length;
-                    next = items.Count() < length ? false : true;
                 }
-            }
-            while (next);
+                while (next);
 
-            return Unit.Value;
+                return Unit.Value;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
