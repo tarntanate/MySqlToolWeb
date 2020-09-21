@@ -12,8 +12,6 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Commands.UpdateAd
             Id = id;
             AdGroupId = request.AdGroupId;
             AdNetwork = request.AdNetwork;
-            AdNetworkUnitId = request.AdNetworkUnitId;
-            AdNetworkUnitId_Android = request.AdNetworkUnitId_Android;
             SortSeq = request.SortSeq;
         }
     }
