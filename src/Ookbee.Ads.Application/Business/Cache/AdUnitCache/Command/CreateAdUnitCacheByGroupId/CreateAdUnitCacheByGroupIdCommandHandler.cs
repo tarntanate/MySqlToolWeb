@@ -49,7 +49,11 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                     getAdUnitList.Data.HasValue())
                 {
                     var items = getAdUnitList.Data;
-                    adUnits.AddRange(items);
+                    foreach (var item in items)
+                    {
+                        await Mediator.Send(new InitialAdCacheCommand(item.Id), cancellationToken);
+                        adUnits.Add(item);
+                    }
                     start += length;
                     next = items.Count() < length ? false : true;
                 }
@@ -114,36 +118,6 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
             }
 
             return adUnits;
-        }
-
-        private async Task<IEnumerable<AdUnitCacheDto>> GetAdUnitList(long adGroupId, Platform platform, CancellationToken cancellationToken)
-        {
-            var start = 0;
-            var length = 100;
-            var next = true;
-            var result = new List<AdUnitCacheDto>();
-
-            do
-            {
-                next = false;
-                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, adGroupId), cancellationToken);
-                if (getAdUnitList.Ok &&
-                    getAdUnitList.Data.HasValue())
-                {
-                    var items = getAdUnitList.Data;
-                    foreach (var adUnit in getAdUnitList.Data)
-                    {
-                        await Mediator.Send(new InitialAdCacheCommand(adUnit.Id), cancellationToken);
-                        var item = Mapper.Map<AdUnitCacheDto>(adUnit);
-                        result.Add(item);
-                    }
-                    start += length;
-                    next = items.Count() < length ? false : true;
-                }
-            }
-            while (next);
-
-            return result;
         }
     }
 }
