@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.GetAdByUnitId;
+using Ookbee.Ads.Application.Business.RequestLogs.AdImpressionLog.Commands.CreateAdImpressionLog;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
