@@ -13,14 +13,11 @@ namespace Ookbee.Ads.Application.Infrastructure
 {
     public class ArchiveAnalyticsService : BackgroundService
     {
-        private ILogger Logger { get; }
         private IServiceProvider ServiceProvider { get; }
 
         public ArchiveAnalyticsService(
-            ILogger logger,
             IServiceProvider serviceProvider)
         {
-            Logger = logger;
             ServiceProvider = serviceProvider;
         }
 
@@ -40,7 +37,6 @@ namespace Ookbee.Ads.Application.Infrastructure
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(3));
                         var timeout = nextDateTime - nowDateTime;
                         Console.WriteLine(timeout);
-                        Logger.LogInformation("" + timeout);
                         Thread.Sleep(timeout);
                     }
                     while (next);
