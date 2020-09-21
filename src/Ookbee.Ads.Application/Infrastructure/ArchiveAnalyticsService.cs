@@ -32,6 +32,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     do
                     {
                         var caculatedAt = MechineDateTime.Date;
+                        Console.WriteLine(caculatedAt);
                         await mediator.Send(new ArchiveAdGroupStatsCommand(caculatedAt), cancellationToken);
                         var nowDateTime = MechineDateTime.Now;
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(3));
