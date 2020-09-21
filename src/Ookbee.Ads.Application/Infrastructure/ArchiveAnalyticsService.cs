@@ -31,14 +31,22 @@ namespace Ookbee.Ads.Application.Infrastructure
                     var next = true;
                     do
                     {
-                        var caculatedAt = MechineDateTime.Date;
-                        Console.WriteLine(caculatedAt);
-                        await mediator.Send(new ArchiveAdGroupStatsCommand(caculatedAt), cancellationToken);
-                        var nowDateTime = MechineDateTime.Now;
-                        var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(3));
-                        var timeout = nextDateTime - nowDateTime;
-                        Console.WriteLine(timeout);
-                        Thread.Sleep(timeout);
+                        try
+                        {
+                            var caculatedAt = MechineDateTime.Date;
+                            Console.WriteLine(caculatedAt);
+                            await mediator.Send(new ArchiveAdGroupStatsCommand(caculatedAt), cancellationToken);
+                            var nowDateTime = MechineDateTime.Now;
+                            var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(3));
+                            var timeout = nextDateTime - nowDateTime;
+                            Console.WriteLine(timeout);
+                            Thread.Sleep(timeout);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            Thread.Sleep(50000);
+                        }
                     }
                     while (next);
                 }
