@@ -9,8 +9,6 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Commands.CreateAd
         {
             AdGroupId = request.AdGroupId;
             AdNetwork = request.AdNetwork;
-            AdNetworkUnitId = request.AdNetworkUnitId;
-            AdNetworkUnitId_Android = request.AdNetworkUnitId_Android;
             SortSeq = request.SortSeq;
         }
     }

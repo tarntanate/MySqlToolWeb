@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdNetwork.Queries.GetAdN
 
             var items = await AdNetworkDbRepo.FindAsync(
                 selector: AdNetworkDto.Projection,
-                filter: f => f.DeletedAt == null,
+                filter: predicate,
                 start: request.Start,
                 length: request.Length
             );

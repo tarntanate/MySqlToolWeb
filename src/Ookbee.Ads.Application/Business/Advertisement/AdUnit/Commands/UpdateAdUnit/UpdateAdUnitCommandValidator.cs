@@ -23,20 +23,16 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Commands.UpdateAd
                         context.AddFailure(result.Message);
                 });
 
-            RuleFor(p => new { p.Id, p.AdNetwork })
+            RuleFor(p => new { p.Id, p.AdNetwork, p.AdGroupId })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var getAdUnitByAdNetwork = await Mediator.Send(new GetAdUnitByAdNetworkQuery(value.AdNetwork), cancellationToken);
                     if (getAdUnitByAdNetwork.Ok &&
-                        getAdUnitByAdNetwork.Data.Id != value.Id)
+                        getAdUnitByAdNetwork.Data.Id != value.Id &&
+                        getAdUnitByAdNetwork.Data.AdGroup.Id == value.AdGroupId)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
 
-            RuleFor(p => p.AdNetworkUnitId)
-                .MaximumLength(50);
-
-            RuleFor(p => p.AdNetworkUnitId_Android)
-                .MaximumLength(50);
         }
     }
 }

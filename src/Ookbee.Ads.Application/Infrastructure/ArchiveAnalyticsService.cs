@@ -14,7 +14,8 @@ namespace Ookbee.Ads.Application.Infrastructure
     {
         private IServiceProvider ServiceProvider { get; }
 
-        public ArchiveAnalyticsService(IServiceProvider serviceProvider)
+        public ArchiveAnalyticsService(
+            IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
         }
