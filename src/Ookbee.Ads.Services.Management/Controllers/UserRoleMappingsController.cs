@@ -20,10 +20,6 @@ namespace Ookbee.Ads.Services.Management.Controllers
         public async Task<HttpResult<IEnumerable<UserRoleMappingDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? userId, [FromQuery] long? roleId, CancellationToken cancellationToken)
             => await Mediator.Send(new GetUserRoleMappingListQuery(start, length, userId, roleId), cancellationToken);
 
-        // [HttpGet]
-        // public async Task<HttpResult<UserRoleMappingDto>> GetById([FromRoute] long userId, [FromRoute] long roleId, CancellationToken cancellationToken)
-        //     => await Mediator.Send(new GetUserRoleMappingByIdQuery(userId, roleId), cancellationToken);
-
         [HttpPost]
         public async Task<HttpResult<bool>> Create([FromBody] CreateUserRoleRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new CreateUserRoleMappingCommand(request), cancellationToken);

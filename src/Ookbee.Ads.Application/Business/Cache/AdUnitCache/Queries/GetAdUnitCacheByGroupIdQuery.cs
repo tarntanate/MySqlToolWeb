@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
+using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Result;
 using Ookbee.Ads.Infrastructure.Models;
 
@@ -6,13 +8,14 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCa
 {
     public class GetAdUnitCacheByGroupIdQuery : IRequest<HttpResult<string>>
     {
-        public long AdGroupId { get; set; }
-        public Platform Platform { get; set; }
+        public long AdGroupId { get; private set; }
+        public Platform Platform { get; private set; }
 
-        public GetAdUnitCacheByGroupIdQuery(long adGroupId, Platform platform)
+
+        public GetAdUnitCacheByGroupIdQuery(long adGroupId, string platform)
         {
             AdGroupId = adGroupId;
-            Platform = platform;
+            Platform = EnumHelper.ConvertTo<Platform>(platform);
         }
     }
 }
