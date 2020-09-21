@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Ookbee.Ads.Application.Business.Cache.AdGroupStats.Commands.ArchiveAdGroupStats;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
@@ -14,7 +15,8 @@ namespace Ookbee.Ads.Application.Infrastructure
     {
         private IServiceProvider ServiceProvider { get; }
 
-        public ArchiveAnalyticsService(IServiceProvider serviceProvider)
+        public ArchiveAnalyticsService(
+            IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
         }
@@ -34,6 +36,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                         var nowDateTime = MechineDateTime.Now;
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(3));
                         var timeout = nextDateTime - nowDateTime;
+                        Console.WriteLine(timeout);
                         Thread.Sleep(timeout);
                     }
                     while (next);
