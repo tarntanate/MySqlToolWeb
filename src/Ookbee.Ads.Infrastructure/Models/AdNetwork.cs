@@ -4,5 +4,6 @@ namespace Ookbee.Ads.Infrastructure.Models
     {
         AdMob,
         Appodeal,
+        Ookbee,
     }
 }

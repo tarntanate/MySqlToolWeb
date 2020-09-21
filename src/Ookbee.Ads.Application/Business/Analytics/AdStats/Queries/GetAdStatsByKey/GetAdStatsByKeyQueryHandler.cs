@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdStatsBy
             var result = new HttpResult<AdStatsDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"AdStats by AdId='{request.AdId}' and CaculatedAt='{request.CaculatedAt}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

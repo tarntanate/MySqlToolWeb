@@ -8,11 +8,11 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.UpdateA
     {
         public long Id { get; set; }
         public long AdUnitId { get; set; }
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
         public Platform Platform { get; set; }
         public long Request { get; set; }
 
-        public UpdateAdUnitStatsCommand(long id, long adUnitId, DateTime caculatedAt, Platform platform, long request)
+        public UpdateAdUnitStatsCommand(long id, long adUnitId, DateTimeOffset caculatedAt, Platform platform, long request)
         {
             Id = id;
             AdUnitId = adUnitId;

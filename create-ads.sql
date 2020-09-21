@@ -7,6 +7,7 @@ CREATE SEQUENCE "public"."SEQ_Ad" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdAsset" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdGroup" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdUnit" INCREMENT 1 START 1;
+CREATE SEQUENCE "public"."SEQ_AdNetwork" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_AdUnitType" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_Campaign" INCREMENT 1 START 1;
 CREATE SEQUENCE "public"."SEQ_Publisher" INCREMENT 1 START 1;
@@ -21,9 +22,9 @@ CREATE TABLE "public"."AdGroup" (
     "PublisherId" INTEGER NOT NULL,
     "Name" CHARACTER VARYING(40) NOT NULL,
     "Description" CHARACTER VARYING(500),
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_AdGroup" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_AdGroup_1" ON "public"."AdGroup" ("DeletedAt", "Id");
@@ -35,9 +36,9 @@ CREATE TABLE "public"."AdUnitType" (
     "Id" INTEGER DEFAULT nextval('"SEQ_AdUnitType"') NOT NULL,
     "Name" CHARACTER VARYING(40) NOT NULL,
     "Description" CHARACTER VARYING(500) NULL,
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_AdUnitType" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_AdUnitType_1" ON "public"."AdUnitType" ("DeletedAt", "Id");
@@ -53,9 +54,9 @@ CREATE TABLE "public"."Advertiser" (
     "Contact" CHARACTER VARYING(5000),
     "Email" CHARACTER VARYING(250),
     "PhoneNumber" CHARACTER VARYING(10),
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_Advertiser" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_Advertiser_1" ON "public"."Advertiser" ("DeletedAt", "Id");
@@ -68,15 +69,10 @@ CREATE TABLE "public"."Campaign" (
     "AdvertiserId" INTEGER NOT NULL,
     "Name" CHARACTER VARYING(40),
     "Description" CHARACTER VARYING(500),
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
-    CONSTRAINT "PK_Campaign" PRIMARY KEY ("Id"),
-    CONSTRAINT "TCC_Campaign_1" CHECK (
-        "PricingModel" = ANY (
-            (ARRAY ['IMP', 'CPC', 'CPM'])::CHARACTER VARYING []
-        )
-    )
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
+    CONSTRAINT "PK_Campaign" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_Campaign_1" ON "public"."Campaign" ("DeletedAt", "AdvertiserId");
 /* ---------------------------------------------------------------------- */
@@ -87,9 +83,9 @@ CREATE TABLE "public"."Publisher" (
     "Name" CHARACTER VARYING(40) NOT NULL,
     "Description" CHARACTER VARYING(500) NULL,
     "ImagePath" CHARACTER VARYING(255),
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_Publisher" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_Publisher_1" ON "public"."Publisher" ("DeletedAt", "Id");
@@ -101,15 +97,34 @@ CREATE TABLE "public"."AdUnit" (
     "Id" INTEGER DEFAULT nextval('"SEQ_AdUnit"') NOT NULL,
     "AdGroupId" INTEGER NOT NULL,
     "AdNetwork" CHARACTER VARYING(10) NOT NULL,
-    "AdNetworkUnitId" CHARACTER VARYING(50) NULL,
     "SortSeq" INTEGER,
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_AdUnit" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_AdUnit_1" ON "public"."AdUnit" ("DeletedAt", "Id");
 CREATE INDEX "IDX_AdUnit_2" ON "public"."AdUnit" ("DeletedAt", "AdGroupId", "AdNetwork");
+/* ---------------------------------------------------------------------- */
+/* Add table "public"."AdNetwork"                                     */
+/* ---------------------------------------------------------------------- */
+CREATE TABLE "public"."AdNetwork" (
+    "Id" INTEGER DEFAULT nextval('"SEQ_AdNetwork"') NOT NULL,
+    "AdUnitId" INTEGER NOT NULL,
+    "AdNetworkUnitId" CHARACTER VARYING(50) NULL,
+    "Platform" CHARACTER VARYING(10) NOT NULL,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
+    CONSTRAINT "PK_AdNetwork" PRIMARY KEY ("Id"),
+    CONSTRAINT "TCC_AdNetwork_1" CHECK (
+        "Platform" = ANY (
+            ARRAY ['Android', 'iOS', 'Web']::CHARACTER VARYING []
+        )
+    )
+);
+CREATE INDEX "IDX_AdNetwork_1" ON "public"."AdNetwork" ("DeletedAt", "Id");
+CREATE INDEX "IDX_AdNetwork_2" ON "public"."AdNetwork" ("DeletedAt", "AdUnitId", "Platform");
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."User"                                              */
 /* ---------------------------------------------------------------------- */
@@ -118,9 +133,9 @@ CREATE TABLE "public"."User" (
     "UserName" CHARACTER VARYING(40) NOT NULL,
     "DisplayName" CHARACTER VARYING(40),
     "AvatarUrl" CHARACTER VARYING(255),
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_User" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_User_1" ON "public"."Publisher" ("DeletedAt", "Id");
@@ -131,9 +146,9 @@ CREATE TABLE "public"."UserRole" (
     "Id" INTEGER DEFAULT nextval('"SEQ_UserRole"') NOT NULL,
     "Name" CHARACTER VARYING(40) NOT NULL,
     "Description" CHARACTER VARYING(500) NULL,
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_UserRole" PRIMARY KEY ("Id")
 );
 CREATE INDEX "IDX_UserRole_1" ON "public"."UserRole" ("DeletedAt", "Id");
@@ -156,7 +171,7 @@ CREATE TABLE "public"."ActivityLog" (
     "ObjectType" CHARACTER VARYING(40),
     "ObjectId" CHARACTER VARYING(40) NOT NULL,
     "ObjectData" JSONB NOT NULL,
-    "CreatedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_ActivityLog" PRIMARY KEY ("Id"),
     CONSTRAINT "TCC_Activity_1" CHECK (
         "Activity" = ANY (
@@ -191,8 +206,8 @@ CREATE TABLE "public"."Ad" (
     "Description" CHARACTER VARYING(500) NULL,
     "Status" CHARACTER VARYING(10),
     "Quota" INTEGER DEFAULT 0 NOT NULL,
-    "StartAt" TIMESTAMP NOT NULL,
-    "EndAt" TIMESTAMP NOT NULL,
+    "StartAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "EndAt" TIMESTAMP WITH TIME ZONE NOT NULL,
     "CountdownSecond" SMALLINT,
     "ForegroundColor" CHARACTER VARYING(7),
     "BackgroundColor" CHARACTER VARYING(7),
@@ -200,14 +215,14 @@ CREATE TABLE "public"."Ad" (
     "Platforms" CHARACTER VARYING(10) ARRAY NOT NULL,
     "AppLink" CHARACTER VARYING(255),
     "WebLink" CHARACTER VARYING(255),
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_Ad" PRIMARY KEY ("Id"),
     CONSTRAINT "TCC_Ad_1" CHECK (
         "Status" = ANY (
             (
-                ARRAY ['Wait', 'Approve', 'Preview', 'Publish', 'Unpublish']
+                ARRAY ['Wait', 'Approve', 'Preview', 'Publish', 'Unpublish', 'Ended']
             )::CHARACTER VARYING []
         )
     ),
@@ -226,9 +241,9 @@ CREATE TABLE "public"."AdAsset" (
     "AssetPath" CHARACTER VARYING(255),
     "AssetType" CHARACTER VARYING(10),
     "Position" CHARACTER VARYING(15),
-    "CreatedAt" TIMESTAMP,
-    "UpdatedAt" TIMESTAMP,
-    "DeletedAt" TIMESTAMP,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE,
+    "DeletedAt" TIMESTAMP WITH TIME ZONE,
     CONSTRAINT "PK_AdAsset" PRIMARY KEY ("Id"),
     CONSTRAINT "TCC_AdAsset_1" CHECK (
         "AssetType" = ANY (
@@ -259,6 +274,8 @@ ALTER TABLE "public"."AdGroup"
 ADD CONSTRAINT "FK_AdGroup_AdUnitType" FOREIGN KEY ("AdUnitTypeId") REFERENCES "public"."AdUnitType" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."AdUnit"
 ADD CONSTRAINT "FK_AdUnit_AdGroup" FOREIGN KEY ("AdGroupId") REFERENCES "public"."AdGroup" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."AdNetwork"
+ADD CONSTRAINT "FK_AdNetwork_AdUnit" FOREIGN KEY ("AdUnitId") REFERENCES "public"."AdUnit" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."Campaign"
 ADD CONSTRAINT "FK_Campaign_Advertiser" FOREIGN KEY ("AdvertiserId") REFERENCES "public"."Advertiser" ("Id");
 ALTER TABLE "public"."UserPermission"

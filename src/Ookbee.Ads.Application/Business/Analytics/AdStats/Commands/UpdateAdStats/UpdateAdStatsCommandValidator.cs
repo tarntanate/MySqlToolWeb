@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdGroup.Queries.IsExistsAdGroupById;
+using Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.IsExistsAdGroupById;
 using Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.IsExistsAdStatsById;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.UpdateAdStats

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Ookbee.Ads.Application.Business.AdNetwork.Ad;
-using Ookbee.Ads.Application.Business.AdNetwork.AdAsset;
+using Ookbee.Ads.Application.Business.Advertisement.Ad;
+using Ookbee.Ads.Application.Business.Advertisement.AdAsset;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;

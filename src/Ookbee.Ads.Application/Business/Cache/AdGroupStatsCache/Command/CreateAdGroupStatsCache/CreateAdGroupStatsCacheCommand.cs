@@ -6,12 +6,12 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Creat
 {
     public class CreateAdGroupStatsCacheCommand : IRequest<Unit>
     {
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
         public StatsType StatsType { get; set; }
         public long AdGroupId { get; set; }
         public long Value { get; set; }
 
-        public CreateAdGroupStatsCacheCommand(DateTime caculatedAt, StatsType statsType, long adGroupId, long value)
+        public CreateAdGroupStatsCacheCommand(DateTimeOffset caculatedAt, StatsType statsType, long adGroupId, long value)
         {
             CaculatedAt = caculatedAt;
             StatsType = statsType;

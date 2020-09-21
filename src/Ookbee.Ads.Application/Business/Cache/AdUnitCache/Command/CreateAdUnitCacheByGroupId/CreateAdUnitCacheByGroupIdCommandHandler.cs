@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnit;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.InitialAdCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common.Mapping;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -34,18 +36,53 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
 
         public async Task<Unit> Handle(CreateAdUnitCacheByGroupIdCommand request, CancellationToken cancellationToken)
         {
-            var adUnits = await GetAdUnitList(request.AdGroupId, cancellationToken);
+            var start = 0;
+            var length = 100;
+            var next = true;
+            var adUnits = new List<AdUnitDto>();
+
+            do
+            {
+                next = false;
+                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
+                if (getAdUnitList.Ok &&
+                    getAdUnitList.Data.HasValue())
+                {
+                    var items = getAdUnitList.Data;
+                    foreach (var item in items)
+                    {
+                        await Mediator.Send(new InitialAdCacheCommand(item.Id), cancellationToken);
+                        adUnits.Add(item);
+                    }
+                    start += length;
+                    next = items.Count() < length ? false : true;
+                }
+            }
+            while (next);
+
             if (adUnits.HasValue())
             {
                 foreach (var platform in EnumHelper.GetValues<Platform>())
                 {
                     if (platform != Platform.Unknown)
                     {
-                        var obj = PrepareAnalytics(adUnits, platform);
-                        var redisKey = CacheKey.Units(request.AdGroupId);
-                        var hashField = platform.ToString();
-                        var hashValue = JsonHelper.Serialize(obj);
-                        await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
+                        var cacheValue = new List<AdUnitCacheDto>();
+                        foreach (var adUnit in adUnits)
+                        {
+                            var temp = adUnit.Clone();
+                            temp.AdNetwork.UnitIds = adUnit.AdNetwork.UnitIds
+                                .Where(unitId => unitId.DeletedAt == null && unitId.Platform == platform).ToList();
+                            var item = Mapper.Map<AdUnitCacheDto>(temp);
+                            cacheValue.Add(item);
+                        }
+                        if (cacheValue.HasValue())
+                        {
+                            var obj = PrepareAnalytics(cacheValue, platform);
+                            var redisKey = CacheKey.Units(request.AdGroupId);
+                            var hashField = platform.ToString();
+                            var hashValue = JsonHelper.Serialize(obj);
+                            await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
+                        }
                     }
                 }
             }
@@ -55,57 +92,33 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
 
         private IEnumerable<AdUnitCacheDto> PrepareAnalytics(IEnumerable<AdUnitCacheDto> adUnits, Platform platform)
         {
-            foreach (var adUnit in adUnits)
+            if (adUnits.HasValue())
             {
-                if (adUnit.Analytics.HasValue())
+                foreach (var adUnit in adUnits)
                 {
-                    var name = "platform";
-                    var value = platform.ToString();
+                    if (adUnit.Analytics.HasValue())
+                    {
+                        var name = "platform";
+                        var value = platform.ToString();
 
-                    if (adUnit.Analytics.Clicks.HasValue())
-                        adUnit.Analytics.Clicks = adUnit.Analytics.Clicks.Select(url =>
-                        {
-                            url = new Uri(url).AddQueryString(name, value).AbsoluteUri;
-                            return url.ToLower();
-                        }).ToList();
+                        if (adUnit.Analytics.Clicks.HasValue())
+                            adUnit.Analytics.Clicks = adUnit.Analytics.Clicks.Select(url =>
+                            {
+                                url = new Uri(url).AddQueryString(name, value).AbsoluteUri;
+                                return url.ToLower();
+                            }).ToList();
 
-                    if (adUnit.Analytics.Impressions.HasValue())
-                        adUnit.Analytics.Impressions = adUnit.Analytics.Impressions.Select(url =>
-                        {
-                            url = new Uri(url).AddQueryString(name, value).AbsoluteUri;
-                            return url.ToLower();
-                        }).ToList();
+                        if (adUnit.Analytics.Impressions.HasValue())
+                            adUnit.Analytics.Impressions = adUnit.Analytics.Impressions.Select(url =>
+                            {
+                                url = new Uri(url).AddQueryString(name, value).AbsoluteUri;
+                                return url.ToLower();
+                            }).ToList();
+                    }
                 }
             }
 
             return adUnits;
-        }
-
-        private async Task<IEnumerable<AdUnitCacheDto>> GetAdUnitList(long adGroupId, CancellationToken cancellationToken)
-        {
-            var start = 0;
-            var length = 100;
-            var next = true;
-            var result = new List<AdUnitCacheDto>();
-
-            do
-            {
-                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, adGroupId), cancellationToken);
-                if (getAdUnitList.Ok)
-                {
-                    foreach (var adUnit in getAdUnitList.Data)
-                    {
-                        await Mediator.Send(new InitialAdCacheCommand(adUnit.Id), cancellationToken);
-                        var item = Mapper.Map<AdUnitCacheDto>(adUnit);
-                        result.Add(item);
-                    }
-                }
-                next = getAdUnitList.Data.Count() == length ? true : false;
-                start += length;
-            }
-            while (next);
-
-            return result;
         }
     }
 }

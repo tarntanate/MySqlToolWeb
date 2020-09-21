@@ -35,7 +35,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaBy
             {
                 var impressions = await AdStatsDbRepo.SumAsync(
                     filter: f =>
-                        f.Id == request.AdId &&
+                        f.AdId == request.AdId &&
                         f.CaculatedAt < request.CaculatedAt,
                     selector: f =>
                         f.Impression

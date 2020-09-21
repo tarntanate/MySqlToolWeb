@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
         public long Quota { get; set; }
         public long Impression { get; set; }
         public long Click { get; set; }
-        public DateTime CaculatedAt { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

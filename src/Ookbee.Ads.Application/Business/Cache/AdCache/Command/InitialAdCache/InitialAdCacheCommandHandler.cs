@@ -1,6 +1,7 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
+using Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.CreateAdCache;
+using Ookbee.Ads.Common.Extensions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,17 +25,19 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.InitialAdCache
             var next = true;
             do
             {
-                var adList = await Mediator.Send(new GetAdListQuery(start, length, request.AdUnitId, null), cancellationToken);
-                if (adList.Ok)
+                next = false;
+                var getAdList = await Mediator.Send(new GetAdListQuery(start, length, request.AdUnitId, null), cancellationToken);
+                if (getAdList.Ok &&
+                    getAdList.Data.HasValue())
                 {
-                    var ads = adList.Data;
-                    foreach (var ad in ads)
+                    var items = getAdList.Data;
+                    foreach (var item in items)
                     {
-                        await Mediator.Send(new CreateAdCacheCommand(ad.Id), cancellationToken);
+                        await Mediator.Send(new CreateAdCacheCommand(item.Id), cancellationToken);
                     }
+                    start += length;
+                    next = getAdList.Data.Count() == length ? true : false;
                 }
-                next = adList.Data.Count() == length ? true : false;
-                start += length;
             }
             while (next);
 

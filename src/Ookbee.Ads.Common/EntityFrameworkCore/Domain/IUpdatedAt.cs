@@ -4,6 +4,6 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Domain
 {
     public interface IUpdatedAt
     {
-        DateTime? UpdatedAt { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
     }
 }

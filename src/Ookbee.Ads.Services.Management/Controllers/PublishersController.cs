@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.AdNetwork.Publisher;
-using Ookbee.Ads.Application.Business.AdNetwork.Publisher.Commands.CreatePublisher;
-using Ookbee.Ads.Application.Business.AdNetwork.Publisher.Commands.DeletePublisher;
-using Ookbee.Ads.Application.Business.AdNetwork.Publisher.Commands.UpdatePublisher;
-using Ookbee.Ads.Application.Business.AdNetwork.Publisher.Queries.GetPublisherById;
-using Ookbee.Ads.Application.Business.AdNetwork.Publisher.Queries.GetPublisherList;
+using Ookbee.Ads.Application.Business.Advertisement.Publisher;
+using Ookbee.Ads.Application.Business.Advertisement.Publisher.Commands.CreatePublisher;
+using Ookbee.Ads.Application.Business.Advertisement.Publisher.Commands.DeletePublisher;
+using Ookbee.Ads.Application.Business.Advertisement.Publisher.Commands.UpdatePublisher;
+using Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.GetPublisherById;
+using Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.GetPublisherList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Result;
 using System.Collections.Generic;

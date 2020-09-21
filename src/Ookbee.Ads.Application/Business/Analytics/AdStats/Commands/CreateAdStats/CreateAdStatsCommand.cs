@@ -7,12 +7,12 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Commands.CreateAdSta
     public class CreateAdStatsCommand : IRequest<HttpResult<long>>
     {
         public long AdId { get; set; }
-        public DateTime CaculatedAt { get; set; }
+        public DateTimeOffset CaculatedAt { get; set; }
         public long Impression { get; set; }
         public long Quota { get; set; }
         public long Click { get; set; }
 
-        public CreateAdStatsCommand(long adId, DateTime caculatedAt, long quota, long impression, long click)
+        public CreateAdStatsCommand(long adId, DateTimeOffset caculatedAt, long quota, long impression, long click)
         {
             AdId = adId;
             CaculatedAt = caculatedAt;

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitList;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
@@ -39,18 +39,20 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.UpdateAdUni
             var adUnits = new List<AdUnitCacheDto>();
             do
             {
+                next = false;
                 var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
-                if (getAdUnitList.Ok)
+                if (getAdUnitList.Ok &&
+                    getAdUnitList.HasValue())
                 {
-                    var units = getAdUnitList.Data;
-                    foreach (var unit in units)
+                    var items = getAdUnitList.Data;
+                    foreach (var item in items)
                     {
-                        var adUnit = Mapper.Map<AdUnitCacheDto>(unit);
+                        var adUnit = Mapper.Map<AdUnitCacheDto>(item);
                         adUnits.Add(adUnit);
                     }
+                    start += length;
+                    next = items.Count() < length ? false : true;
                 }
-                next = getAdUnitList.Data.Count() == length ? true : false;
-                start += length;
             }
             while (next);
 

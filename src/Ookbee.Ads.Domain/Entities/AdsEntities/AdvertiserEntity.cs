@@ -13,9 +13,9 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public string Contact { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
 
         public virtual List<CampaignEntity> Campaigns { get; set; }
     }
