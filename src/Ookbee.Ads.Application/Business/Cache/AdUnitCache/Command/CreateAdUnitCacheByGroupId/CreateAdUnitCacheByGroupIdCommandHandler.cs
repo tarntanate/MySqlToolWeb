@@ -70,7 +70,8 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.CreateAdUni
                         foreach (var adUnit in adUnits)
                         {
                             var temp = adUnit.Clone();
-                            temp.AdNetwork.UnitIds = adUnit.AdNetwork.UnitIds.Where(unitId => unitId.Platform == platform).ToList();
+                            temp.AdNetwork.UnitIds = adUnit.AdNetwork.UnitIds
+                                .Where(unitId => unitId.DeletedAt == null && unitId.Platform == platform).ToList();
                             var item = Mapper.Map<AdUnitCacheDto>(temp);
                             cacheValue.Add(item);
                         }
