@@ -34,6 +34,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                         var nowDateTime = MechineDateTime.Now;
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(3));
                         var timeout = nextDateTime - nowDateTime;
+                        Console.WriteLine(timeout);
                         Thread.Sleep(timeout);
                     }
                     while (next);
