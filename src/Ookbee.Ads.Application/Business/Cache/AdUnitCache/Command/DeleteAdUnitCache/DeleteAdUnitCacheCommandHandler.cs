@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Business.AdNetwork.Ad.Queries.GetAdList;
-using Ookbee.Ads.Application.Business.AdNetwork.AdUnit.Queries.GetAdUnitById;
+using Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdList;
+using Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnitById;
 using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCache;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
@@ -46,7 +46,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.DeleteAdUni
                         if (hashValue.HasValue())
                         {
                             var adUnits = JsonHelper.Deserialize<List<AdUnitCacheDto>>(hashValue);
-                            var index = adUnits.FindIndex(x => x.Name == adUnit.AdNetwork);
+                            var index = adUnits.FindIndex(x => x.Name == adUnit.AdNetwork.Name);
                             if (index > -1)
                             {
                                 adUnits.RemoveAt(index);

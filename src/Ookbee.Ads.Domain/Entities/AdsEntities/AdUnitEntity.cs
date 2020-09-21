@@ -9,8 +9,6 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public long Id { get; set; }
         public long AdGroupId { get; set; }
         public string AdNetwork { get; set; }
-        public string AdNetworkUnitId { get; set; }
-        public string AdNetworkUnitId_Android { get; set; }
         public int? SortSeq { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
@@ -19,5 +17,6 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public virtual AdGroupEntity AdGroup { get; set; }
 
         public virtual List<AdEntity> Ads { get; set; }
+        public virtual List<AdNetworkEntity> AdNetworks { get; set; }
     }
 }

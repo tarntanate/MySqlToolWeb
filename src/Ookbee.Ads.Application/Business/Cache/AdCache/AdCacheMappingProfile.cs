@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Ookbee.Ads.Application.Business.AdNetwork.Ad;
-using Ookbee.Ads.Application.Business.AdNetwork.AdAsset;
+using Ookbee.Ads.Application.Business.Advertisement.Ad;
+using Ookbee.Ads.Application.Business.Advertisement.AdAsset;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;
@@ -38,7 +38,6 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache
             var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
             var analytics = new AnalyticsCacheDto()
             {
-                AdId = adId,
                 Clicks = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Click}".ToLower() },
                 Impressions = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Impression}".ToLower() }
             };
