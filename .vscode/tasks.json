@@ -26,6 +26,18 @@
          "problemMatcher": "$msCompile"
       },
       {
+         "label": "build-analytics",
+         "command": "dotnet",
+         "type": "process",
+         "args": [
+           "build",
+           "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/Ookbee.Ads.Services.Analytics.csproj",
+           "/property:GenerateFullPaths=true",
+           "/consoleloggerparameters:NoSummary"
+         ],
+         "problemMatcher": "$msCompile"
+       },
+      {
          "label": "publish",
          "command": "dotnet",
          "type": "process",

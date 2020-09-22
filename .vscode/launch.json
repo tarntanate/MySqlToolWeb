@@ -24,7 +24,7 @@
       "name": "Analytics-Dev",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "build-analytics",
       "program": "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.Analytics.dll",
       "args": [],
       "cwd": "${workspaceFolder}",
