@@ -8,12 +8,12 @@ WORKDIR /
 COPY . .
 
 FROM build AS publish
-WORKDIR "/src/Ookbee.Ads.Services.Management"
-RUN dotnet publish "Ookbee.Ads.Services.Management.csproj" -c Release -o /app/publish
+WORKDIR "/src/Ookbee.Ads.Services.Publish"
+RUN dotnet publish "Ookbee.Ads.Services.Publish.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY /src/Ookbee.Ads.Services.Management/appsettings.json .
-COPY /src/Ookbee.Ads.Services.Management/appsettings.Local.json .
-ENTRYPOINT ["dotnet", "Ookbee.Ads.Services.Management.dll"]
+COPY /src/Ookbee.Ads.Services.Publish/appsettings.json .
+COPY /src/Ookbee.Ads.Services.Publish/appsettings.Local.json .
+ENTRYPOINT ["dotnet", "Ookbee.Ads.Services.Publish.dll"]

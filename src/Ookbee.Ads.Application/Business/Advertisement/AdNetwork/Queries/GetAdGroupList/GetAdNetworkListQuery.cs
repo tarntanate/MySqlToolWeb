@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Result;
-using Ookbee.Ads.Infrastructure.Models;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdNetwork.Queries.GetAdNetworkList

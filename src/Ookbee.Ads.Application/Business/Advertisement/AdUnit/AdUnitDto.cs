@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit
     public class AdUnitDto : DefaultDto
     {
         public AdGroupDto AdGroup { get; set; }
-        public AdNetworkDto AdNetwork { get; set; }
+        public AdUnitNetworkDto AdNetwork { get; set; }
         public int? SortSeq { get; set; }
 
         public static Expression<Func<AdUnitEntity, AdUnitDto>> Projection
@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit
                             Description = entity.AdGroup.Publisher.Description
                         }
                     },
-                    AdNetwork = new AdNetworkDto()
+                    AdNetwork = new AdUnitNetworkDto()
                     {
                         Name = entity.AdNetwork,
                         UnitIds = entity.AdNetworks

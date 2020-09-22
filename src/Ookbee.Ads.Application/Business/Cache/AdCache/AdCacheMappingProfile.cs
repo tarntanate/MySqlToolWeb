@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache
                 .ForMember(dest => dest.LinkUrl, m => m.MapFrom(src => src.LinkUrl))
                 .ForMember(dest => dest.UnitType, m => m.MapFrom(src => src.AdUnit.AdGroup.AdUnitType.Name))
                 .ForMember(dest => dest.Assets, m => m.MapFrom(src => AssetsConverter(src.Assets)))
-                .ForMember(dest => dest.Analytics, m => m.MapFrom(src => AnalyticsConverter(src.Analytics, src.AdUnit.Id, src.Id)));
+                .ForMember(dest => dest.Analytics, m => m.MapFrom(src => AnalyticsConverter(src.Analytics, src.AdUnit.Id, src.Id, src.Campaign.Id)));
         }
 
         private IEnumerable<AssetCacheDto> AssetsConverter(IEnumerable<AdAssetDto> assets)
@@ -33,13 +33,13 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache
             });
         }
 
-        private AnalyticsCacheDto AnalyticsConverter(IEnumerable<string> impressions, long adUnitId, long adId)
+        private AnalyticsCacheDto AnalyticsConverter(IEnumerable<string> impressions, long adUnitId, long adId, long campaignId)
         {
             var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
             var analytics = new AnalyticsCacheDto()
             {
-                Clicks = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Click}".ToLower() },
-                Impressions = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Impression}".ToLower() }
+                Clicks = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Click}&campaignId={campaignId}".ToLower() },
+                Impressions = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={StatsType.Impression}&campaignId={campaignId}".ToLower() }
             };
 
             if (impressions.HasValue())

@@ -2,21 +2,18 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR /src
-COPY ["Ookbee.Ads.Services.Analytics/Ookbee.Ads.Services.Analytics.csproj", "Ookbee.Ads.Services.Analytics/"]
-RUN dotnet restore "Ookbee.Ads.Services.Analytics/Ookbee.Ads.Services.Analytics.csproj"
+WORKDIR /
 COPY . .
-WORKDIR "/src/Ookbee.Ads.Services.Analytics"
-RUN dotnet build "Ookbee.Ads.Services.Analytics.csproj" -c Release -o /app/build
 
 FROM build AS publish
+WORKDIR "/src/Ookbee.Ads.Services.Analytics"
 RUN dotnet publish "Ookbee.Ads.Services.Analytics.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY /src/Ookbee.Ads.Services.Analytics/appsettings.json .
+COPY /src/Ookbee.Ads.Services.Analytics/appsettings.Local.json .
 ENTRYPOINT ["dotnet", "Ookbee.Ads.Services.Analytics.dll"]

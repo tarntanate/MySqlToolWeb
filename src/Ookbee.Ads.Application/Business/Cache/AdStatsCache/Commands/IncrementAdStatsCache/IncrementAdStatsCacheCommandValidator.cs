@@ -15,21 +15,14 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
 
-            RuleFor(p => new { p.AdId, p.StatsType })
+            RuleFor(p => p.StatsType)
                 .Custom((value, context) =>
                 {
-                    if (value.StatsType != StatsType.Click &&
-                        value.StatsType != StatsType.Impression)
+                    if (value != StatsType.Click &&
+                        value != StatsType.Impression)
                     {
                         context.AddFailure($"Unsupported Stats Type.");
                     }
-                })
-                .CustomAsync(async (value, context, cancellationToken) =>
-                {
-                    var redisKey = CacheKey.AdStats(value.AdId);
-                    var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
-                    if (!keyExists)
-                        context.AddFailure($"CacheKey '{redisKey}' doesn't exist.");
                 });
         }
     }
