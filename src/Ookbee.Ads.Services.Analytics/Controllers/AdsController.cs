@@ -16,27 +16,24 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
     public class AdsController : ApiController
     {
         [HttpGet]
-        public async Task UpdateAdStats([FromRoute] long adId, [FromQuery] string type, [FromQuery] Platform platform, [FromQuery] int campaignId, CancellationToken cancellationToken)
+        public async Task<ContentResult> UpdateAdStats([FromRoute] long adId, [FromQuery] string type, [FromQuery] Platform platform, [FromQuery] int campaignId, CancellationToken cancellationToken)
         {
-            
-             // For Testing TimeScaleDb
-            // short platformId = 1; // (short) platform
-            // Platform p = platform;
-            if (type.ToLower() == "impression") {
-
+            if (type.ToLower() == "impression")
+            {
                 var timescaleResult = await Mediator.Send(
                     new CreateAdImpressionLogCommand(
-                        platformId: (short) platform,
-                        adId: (int) adId,
+                        platformId: (short)platform,
+                        adId: (int)adId,
                         campaignId: campaignId,
-                        uuid: new Random().Next(0,20).ToString()),
+                        uuid: new Random().Next(0, 20).ToString()),
                         cancellationToken);
             }
 
             var result = await Mediator.Send(new IncrementAdStatsCacheCommand(type.ToEnum<StatsType>(), adId), cancellationToken);
-            System.Diagnostics.Debug.WriteLine(result.ToJson());
-            return;
+            if (result.Ok &&
+                result.Data.HasValue())
+                return new ContentResult() { StatusCode = 200 };
+            return new ContentResult() { StatusCode = 404 };
         }
-            
     }
 }

@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: src/Ookbee.Ads.Services.Identity/Dockerfile
     networks:
-      - ookbee-ads
+      - loc
     ports:
       - "5010:5010"
     environment:
@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: src/Ookbee.Ads.Services.Management/Dockerfile
     networks:
-      - ookbee-ads
+      - loc
     ports:
       - "5020:5020"
     environment:
@@ -36,7 +36,7 @@ services:
       context: .
       dockerfile: src/Ookbee.Ads.Services.Analytics/Dockerfile
     networks:
-      - ookbee-ads
+      - loc
     ports:
       - "5030:5030"
     environment:
@@ -50,7 +50,7 @@ services:
       context: .
       dockerfile: src/Ookbee.Ads.Services.Publish/Dockerfile
     networks:
-      - ookbee-ads
+      - loc
     ports:
       - "5040:5040"
     environment:
@@ -58,5 +58,6 @@ services:
       - ASPNETCORE_URLS=http://+:5040
 
 networks:
-  ookbee-ads:
-    name: ookbee-network
+  loc:
+    name: loc-network
+    external: true
