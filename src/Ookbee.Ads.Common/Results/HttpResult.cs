@@ -1,33 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Ookbee.Ads.Common.Helpers;
 
 namespace Ookbee.Ads.Common.Result
 {
-    public class DataLogger
-    {
-        public long ObjectId { get; set; }
-        public object ObjectData { get; set; }
-    }
-
     public class HttpResult<TValue>
     {
-        public bool Ok { get; set; } = true;
-        public string Message { get; set; }
-        public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
-        public string StatusMessage { get; set; }
-        public Dictionary<string, string[]> Reasons { get; set; }
-        public TValue Data { get; set; }
+        public bool Ok { get; private set; } = true;
+        public string Message { get; private set; }
+        public HttpStatusCode StatusCode { get; private set; } = HttpStatusCode.OK;
+        public Dictionary<string, string[]> Reasons { get; private set; }
+        public TValue Data { get; private set; }
 
-        public HttpResult<TValue> Success(TValue data)
+        public HttpResult<TValue> Success(TValue data = default(TValue))
         {
             return new HttpResult<TValue>()
             {
                 Ok = true,
                 Message = "Successfully.",
                 StatusCode = HttpStatusCode.OK,
-                StatusMessage = HttpStatusCode.OK.ToString(),
                 Data = data,
             };
         }
@@ -35,7 +26,7 @@ namespace Ookbee.Ads.Common.Result
         public HttpResult<TValue> Fail(int statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
         {
             if (!Enum.IsDefined(typeof(HttpStatusCode), statusCode))
-                throw new ArgumentException("Invalid HTTP response code.");
+                throw new ArgumentException($"Invalid HTTP status code: {statusCode}");
             return Fail((HttpStatusCode)statusCode, message, reasons);
         }
 
@@ -46,7 +37,6 @@ namespace Ookbee.Ads.Common.Result
                 Ok = false,
                 Message = message,
                 StatusCode = statusCode,
-                StatusMessage = statusCode.ToString(),
                 Reasons = reasons ?? new Dictionary<string, string[]>(),
             };
         }
