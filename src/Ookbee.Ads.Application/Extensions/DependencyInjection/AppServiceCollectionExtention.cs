@@ -17,6 +17,7 @@ using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
+using System;
 using System.Reflection;
 
 namespace Ookbee.Ads.Application.Extensions.DependencyInjection
@@ -32,7 +33,6 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             services.AddSingleton<IConfiguration>(configuration);
             services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
             services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
-
             // MVC
             services.AddRouting((options) =>
             {

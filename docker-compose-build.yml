@@ -1,0 +1,21 @@
+version: "3.6"
+
+services:
+  publish.api:
+    container_name: ads.publish
+    image: ads.publish
+    build:
+      context: .
+      dockerfile: src/Ookbee.Ads.Services.Publish/Dockerfile
+    networks:
+      - loc
+    ports:
+      - "5040:5040"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Local
+      - ASPNETCORE_URLS=http://+:5040
+
+networks:
+  loc:
+    name: loc-network
+    external: true

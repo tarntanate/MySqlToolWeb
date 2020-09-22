@@ -14,4 +14,6 @@ RUN dotnet publish "Ookbee.Ads.Services.Management.csproj" -c Release -o /app/pu
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY /src/Ookbee.Ads.Services.Management/appsettings.json .
+COPY /src/Ookbee.Ads.Services.Management/appsettings.Local.json .
 ENTRYPOINT ["dotnet", "Ookbee.Ads.Services.Management.dll"]

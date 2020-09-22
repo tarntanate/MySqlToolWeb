@@ -8,10 +8,10 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=1234
       - MONGO_INITDB_DATABASE=ookbee-ads
+    networks:
+      - loc
     ports:
       - 27017:27017
-    networks:
-      - ookbee-ads
     volumes:
       - mongo:/data/db
 
@@ -22,11 +22,10 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=ookbee-ads
+    networks:
+      - loc
     ports:
       - 5432:5432
-    networks:
-      - ookbee-ads
-    # network_mode: host
     volumes:
       - postgres:/var/lib/postgresql/data
 
@@ -34,22 +33,20 @@ services:
     image: redis
     container_name: redis
     command: redis-server --requirepass 1234
+    networks:
+      - loc
     ports:
       - 6379:6379
-    networks:
-      - ookbee-ads
-    # network_mode: host
     volumes:
       - redis:/data
 
   consul:
     image: consul
     container_name: consul
+    networks:
+      - loc
     ports:
       - 8500:8500
-    networks:
-      - ookbee-ads
-    # network_mode: host
     volumes:
       - consul:/consul/data
 
@@ -59,8 +56,7 @@ services:
     environment:
       - FABIO_REGISTRY_CONSUL_ADDR=consul:8500
     networks:
-      - ookbee-ads
-    # network_mode: host
+      - loc
     ports:
       - 9998:9998
       - 9999:9999
@@ -68,23 +64,21 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
+    networks:
+      - loc
     ports:
       - 5672:5672
       - 15672:15672
-    networks:
-      - ookbee-ads
-    # network_mode: host
     volumes:
       - rabbitmq:/var/lib/rabbitmq
 
   vault:
     image: vault
     container_name: vault
+    networks:
+      - loc
     ports:
       - 8200:8200
-    networks:
-      - ookbee-ads
-    # network_mode: host
     environment:
       - VAULT_ADDR=http://127.0.0.1:8200
       - VAULT_DEV_ROOT_TOKEN_ID=secret
@@ -92,8 +86,8 @@ services:
       - IPC_LOCK
 
 networks:
-  ookbee-ads:
-    name: ookbee-network
+  loc:
+    name: loc-network
 
 volumes:
   consul:
