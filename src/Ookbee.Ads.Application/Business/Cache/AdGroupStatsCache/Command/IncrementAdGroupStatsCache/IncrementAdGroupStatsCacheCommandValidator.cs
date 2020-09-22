@@ -15,20 +15,13 @@ namespace Ookbee.Ads.Application.Business.Cache.AdGroupStatsCache.Commands.Incre
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
 
-            RuleFor(p => new { p.AdGroupId, p.StatsType })
+            RuleFor(p => p.StatsType)
                 .Custom((value, context) =>
                 {
-                    if (value.StatsType != StatsType.Request)
+                    if (value != StatsType.Request)
                     {
                         context.AddFailure($"Unsupported Stats Type.");
                     }
-                })
-                .CustomAsync(async (value, context, cancellationToken) =>
-                {
-                    var redisKey = CacheKey.GroupStats(value.AdGroupId);
-                    var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
-                    if (!keyExists)
-                        context.AddFailure($"Unable to update stats: Invalid or expired key.");
                 });
         }
     }

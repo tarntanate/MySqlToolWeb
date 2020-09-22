@@ -31,7 +31,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCa
             var redisValue = await AdsRedis.HashGetAsync(redisKey, hashField);
 
             var result = new HttpResult<string>();
-            return result.Success((string)redisValue);
+            if (redisValue.HasValue)
+                return result.Success((string)redisValue);
+            return result.Fail(404, "Data not found.");
         }
     }
 }
