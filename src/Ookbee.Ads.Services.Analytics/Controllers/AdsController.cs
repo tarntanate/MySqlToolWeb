@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementAdStatsCache;
+using Ookbee.Ads.Application.Business.RequestLogs.AdClickLog.Commands.CreateAdClickLog;
 using Ookbee.Ads.Application.Business.RequestLogs.AdImpressionLog.Commands.CreateAdImpressionLog;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Extensions;
@@ -22,6 +23,17 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
             {
                 var timescaleResult = await Mediator.Send(
                     new CreateAdImpressionLogCommand(
+                        platformId: (short)platform,
+                        adId: (int)adId,
+                        unitId: unitId,
+                        campaignId: campaignId,
+                        uuid: new Random().Next(0, 20).ToString()),
+                        cancellationToken);
+            }
+             if (type.ToLower() == "click")
+            {
+                var timescaleResult = await Mediator.Send(
+                    new CreateAdClickLogCommand(
                         platformId: (short)platform,
                         adId: (int)adId,
                         unitId: unitId,
