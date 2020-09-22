@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Queries.GetUserRoleList
 {
-    public class GetUserRoleListQuery : IRequest<HttpResult<IEnumerable<UserRoleDto>>>
+    public class GetUserRoleListQuery : IRequest<Response<IEnumerable<UserRoleDto>>>
     {
         public int Start { get; set; }
 

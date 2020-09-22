@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.DeleteAdAsset
 {
-    public class DeleteAdAssetCommand : IRequest<HttpResult<bool>>
+    public class DeleteAdAssetCommand : IRequest<Response<bool>>
     {
         public long Id { get; set; }
 

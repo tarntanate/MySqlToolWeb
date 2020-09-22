@@ -2,7 +2,7 @@
 using Ookbee.Ads.Application.Business.Analytics.AdStats;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStat.Queries.GetAdStatsListByKey
 {
-    public class GetAdStatsListByKeyQueryHandler : IRequestHandler<GetAdStatsListByKeyQuery, HttpResult<IEnumerable<AdStatsDto>>>
+    public class GetAdStatsListByKeyQueryHandler : IRequestHandler<GetAdStatsListByKeyQuery, Response<IEnumerable<AdStatsDto>>>
     {
         private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
 
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStat.Queries.GetAdStatsLis
             AdStatsDbRepo = adStatsDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<AdStatsDto>>> Handle(GetAdStatsListByKeyQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdStatsDto>>> Handle(GetAdStatsListByKeyQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<AdStatsEntity>();
 
@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStat.Queries.GetAdStatsLis
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<AdStatsDto>>();
+            var result = new Response<IEnumerable<AdStatsDto>>();
             return (items.HasValue())
                 ? result.Success(items)
                 : result.Fail(404, $"Data not found.");

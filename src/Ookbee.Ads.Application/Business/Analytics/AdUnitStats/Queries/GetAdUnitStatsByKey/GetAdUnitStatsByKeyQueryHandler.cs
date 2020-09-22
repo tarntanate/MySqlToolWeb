@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUnitStatsByKey
 {
-    public class GetAdUnitStatsByKeyQueryHandler : IRequestHandler<GetAdUnitStatsByKeyQuery, HttpResult<AdUnitStatsDto>>
+    public class GetAdUnitStatsByKeyQueryHandler : IRequestHandler<GetAdUnitStatsByKeyQuery, Response<AdUnitStatsDto>>
     {
         private AnalyticsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUni
             AdUnitStatsDbRepo = adUnitStatsDbRepo;
         }
 
-        public async Task<HttpResult<AdUnitStatsDto>> Handle(GetAdUnitStatsByKeyQuery request, CancellationToken cancellationToken)
+        public async Task<Response<AdUnitStatsDto>> Handle(GetAdUnitStatsByKeyQuery request, CancellationToken cancellationToken)
         {
             var item = await AdUnitStatsDbRepo.FirstAsync(
                 selector: AdUnitStatsDto.Projection,
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUni
                     f.CaculatedAt == request.CaculatedAt
             );
 
-            var result = new HttpResult<AdUnitStatsDto>();
+            var result = new Response<AdUnitStatsDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"Data not found.");

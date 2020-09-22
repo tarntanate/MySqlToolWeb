@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.UpdateUserRoleMapping
 {
-    public class UpdateUserRoleMappingCommand : UpdateUserRoleMappingRequest, IRequest<HttpResult<bool>>
+    public class UpdateUserRoleMappingCommand : UpdateUserRoleMappingRequest, IRequest<Response<bool>>
     {
         public UpdateUserRoleMappingCommand(UpdateUserRoleMappingRequest request)
         {

@@ -2,13 +2,13 @@
 using COSXML.Model.Object;
 using MediatR;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.InitializeCosXmlServer;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.DeleteObject
 {
-    public class DeleteObjectCommandHandler : IRequestHandler<DeleteObjectCommand, HttpResult<bool>>
+    public class DeleteObjectCommandHandler : IRequestHandler<DeleteObjectCommand, Response<bool>>
     {
         private IMediator Mediator { get; }
 
@@ -17,9 +17,9 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.DeleteObject
             Mediator = mediator;
         }
 
-        public async Task<HttpResult<bool>> Handle(DeleteObjectCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(DeleteObjectCommand request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             try
             {
                 var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand(), cancellationToken);

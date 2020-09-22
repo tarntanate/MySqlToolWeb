@@ -5,7 +5,7 @@ using Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.GetAdAssetBy
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.GenerateUploadUrl
 {
-    public class GenerateUploadUrlCommandHandler : IRequestHandler<GenerateUploadUrlCommand, HttpResult<string>>
+    public class GenerateUploadUrlCommandHandler : IRequestHandler<GenerateUploadUrlCommand, Response<string>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
@@ -30,9 +30,9 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.Generat
             AdAssetDbRepo = adUnitDbRepo;
         }
 
-        public async Task<HttpResult<string>> Handle(GenerateUploadUrlCommand request, CancellationToken cancellationToken)
+        public async Task<Response<string>> Handle(GenerateUploadUrlCommand request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<string>();
+            var result = new Response<string>();
 
             var adAssetResult = await Mediator.Send(new GetAdAssetByIdQuery(request.Id), cancellationToken);
             if (!adAssetResult.Ok)

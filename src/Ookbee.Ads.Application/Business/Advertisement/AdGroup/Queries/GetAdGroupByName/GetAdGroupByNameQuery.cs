@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGroupByName
 {
-    public class GetAdGroupByNameQuery : IRequest<HttpResult<AdGroupDto>>
+    public class GetAdGroupByNameQuery : IRequest<Response<AdGroupDto>>
     {
         public string Name { get; set; }
 

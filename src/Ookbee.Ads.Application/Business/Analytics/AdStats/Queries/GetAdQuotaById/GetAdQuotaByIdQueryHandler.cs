@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaById
 {
-    public class GetAdQuotaByIdQueryHandler : IRequestHandler<GetAdQuotaByIdQuery, HttpResult<int>>
+    public class GetAdQuotaByIdQueryHandler : IRequestHandler<GetAdQuotaByIdQuery, Response<int>>
     {
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
         private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
@@ -23,9 +23,9 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaBy
             AdStatsDbRepo = adStatsDbRepo;
         }
 
-        public async Task<HttpResult<int>> Handle(GetAdQuotaByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<int>> Handle(GetAdQuotaByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<int>();
+            var result = new Response<int>();
 
             var ad = await AdDbRepo.FirstAsync(
                 filter: f => f.Id == request.AdId

@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.User.Queries.GetUserList
 {
-    public class GetUserListQuery : IRequest<HttpResult<IEnumerable<UserDto>>>
+    public class GetUserListQuery : IRequest<Response<IEnumerable<UserDto>>>
     {
         public int Start { get; set; }
 

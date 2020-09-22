@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.GetPublisherById
 {
-    public class GetPublisherByIdQueryHandler : IRequestHandler<GetPublisherByIdQuery, HttpResult<PublisherDto>>
+    public class GetPublisherByIdQueryHandler : IRequestHandler<GetPublisherByIdQuery, Response<PublisherDto>>
     {
         private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.GetPub
             PublisherDbRepo = publisherDbRepo;
         }
 
-        public async Task<HttpResult<PublisherDto>> Handle(GetPublisherByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<PublisherDto>> Handle(GetPublisherByIdQuery request, CancellationToken cancellationToken)
         {
             var item = await PublisherDbRepo.FirstAsync(
                 selector: PublisherDto.Projection,
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.GetPub
                     f.DeletedAt == null
             );
 
-            var result = new HttpResult<PublisherDto>();
+            var result = new Response<PublisherDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"Publisher '{request.Id}' doesn't exist.");

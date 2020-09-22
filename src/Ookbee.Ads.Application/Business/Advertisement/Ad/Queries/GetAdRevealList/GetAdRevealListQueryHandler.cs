@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdRevealList
 {
-    public class GetAdRevealListQueryHandler : IRequestHandler<GetAdRevealListQuery, HttpResult<IEnumerable<AdDto>>>
+    public class GetAdRevealListQueryHandler : IRequestHandler<GetAdRevealListQuery, Response<IEnumerable<AdDto>>>
     {
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdRevealLi
             AdDbRepo = adDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<AdDto>>> Handle(GetAdRevealListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdDto>>> Handle(GetAdRevealListQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<AdEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdRevealLi
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<AdDto>>();
+            var result = new Response<IEnumerable<AdDto>>();
             return result.Success(items);
         }
     }

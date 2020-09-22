@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.IsExistsCampaignById
 {
-    public class IsExistsCampaignByIdQueryHandler : IRequestHandler<IsExistsCampaignByIdQuery, HttpResult<bool>>
+    public class IsExistsCampaignByIdQueryHandler : IRequestHandler<IsExistsCampaignByIdQuery, Response<bool>>
     {
         private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
 
@@ -16,14 +16,14 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.IsExist
             CampaignDbRepo = campaignDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(IsExistsCampaignByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(IsExistsCampaignByIdQuery request, CancellationToken cancellationToken)
         {
             var isExists = await CampaignDbRepo.AnyAsync(f =>
                 f.Id == request.Id &&
                 f.DeletedAt == null
             );
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Campaign '{request.Id}' doesn't exist.");

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Commands.UpdatePublisher
 {
-    public class UpdatePublisherCommandHandler : IRequestHandler<UpdatePublisherCommand, HttpResult<bool>>
+    public class UpdatePublisherCommandHandler : IRequestHandler<UpdatePublisherCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
@@ -24,13 +24,13 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Commands.Updat
             PublisherDbRepo = publisherDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(UpdatePublisherCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(UpdatePublisherCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<PublisherEntity>(request);
             await PublisherDbRepo.UpdateAsync(entity.Id, entity);
             await PublisherDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return result.Success(true);
         }
     }

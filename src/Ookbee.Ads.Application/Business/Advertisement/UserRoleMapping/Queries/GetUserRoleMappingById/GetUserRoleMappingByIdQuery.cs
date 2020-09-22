@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Queries.GetUserRoleMappingById
 {
-    public class GetUserRoleMappingByIdQuery : IRequest<HttpResult<UserRoleMappingDto>>
+    public class GetUserRoleMappingByIdQuery : IRequest<Response<UserRoleMappingDto>>
     {
         public long UserId { get; set; }
         public long RoleId { get; set; }

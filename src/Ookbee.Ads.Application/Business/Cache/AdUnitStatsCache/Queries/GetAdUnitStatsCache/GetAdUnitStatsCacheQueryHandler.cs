@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.GetAdUnitStatsCache
 {
-    public class GetAdUnitStatsCacheQueryHandler : IRequestHandler<GetAdUnitStatsCacheQuery, HttpResult<Dictionary<string, long>>>
+    public class GetAdUnitStatsCacheQueryHandler : IRequestHandler<GetAdUnitStatsCacheQuery, Response<Dictionary<string, long>>>
     {
         private IDatabase AdsRedis { get; }
 
@@ -21,9 +21,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.GetAdU
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<HttpResult<Dictionary<string, long>>> Handle(GetAdUnitStatsCacheQuery request, CancellationToken cancellationToken)
+        public async Task<Response<Dictionary<string, long>>> Handle(GetAdUnitStatsCacheQuery request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<Dictionary<string, long>>();
+            var result = new Response<Dictionary<string, long>>();
 
             var redisKey = CacheKey.UnitsStats(request.AdUnitId);
             var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);

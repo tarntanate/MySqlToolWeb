@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Queries.GetUserRoleByName
 {
-    public class GetUserRoleByNameQuery : IRequest<HttpResult<UserRoleDto>>
+    public class GetUserRoleByNameQuery : IRequest<Response<UserRoleDto>>
     {
         public string Name { get; set; }
 

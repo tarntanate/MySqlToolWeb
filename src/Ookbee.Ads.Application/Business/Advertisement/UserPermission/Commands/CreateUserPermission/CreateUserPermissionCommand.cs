@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Commands.CreateUserPermission
 {
-    public class CreateUserPermissionCommand : CreateUserPermissionRequest, IRequest<HttpResult<long>>
+    public class CreateUserPermissionCommand : CreateUserPermissionRequest, IRequest<Response<long>>
     {
         public CreateUserPermissionCommand(CreateUserPermissionRequest request)
         {

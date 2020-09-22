@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject
 {
-    public class CopyObjectCommand : IRequest<HttpResult<bool>>
+    public class CopyObjectCommand : IRequest<Response<bool>>
     {
         public string SourceAppid { get; set; }
 

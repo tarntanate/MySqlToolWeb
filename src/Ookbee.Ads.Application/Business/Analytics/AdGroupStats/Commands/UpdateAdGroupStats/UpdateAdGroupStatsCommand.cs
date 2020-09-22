@@ -1,11 +1,11 @@
 ﻿using System;
 using MediatR;
 using Microsoft.DotNet.PlatformAbstractions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.UpdateAdGroupStats
 {
-    public class UpdateAdGroupStatsCommand : IRequest<HttpResult<bool>>
+    public class UpdateAdGroupStatsCommand : IRequest<Response<bool>>
     {
         public long Id { get; set; }
         public long AdGroupId { get; set; }

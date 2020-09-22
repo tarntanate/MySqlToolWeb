@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.User.Queries.GetUserById
 {
-    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, HttpResult<UserDto>>
+    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Response<UserDto>>
     {
         private AdsDbRepository<UserEntity> userDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.User.Queries.GetUserById
             userDbRepo = authUserDbRepo;
         }
 
-        public async Task<HttpResult<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<UserDto>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
             var item = await userDbRepo.FirstAsync(
                 selector: UserDto.Projection,
@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.User.Queries.GetUserById
                     f.Id == request.Id
             );
 
-            var result = new HttpResult<UserDto>();
+            var result = new Response<UserDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"User '{request.Id}' doesn't exist.");

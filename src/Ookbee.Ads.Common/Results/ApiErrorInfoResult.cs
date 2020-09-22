@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ookbee.Ads.Common.Result
+namespace Ookbee.Ads.Common.Response
 {
     public class ApiErrorInfoResult
     {

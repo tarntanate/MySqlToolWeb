@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Queries.GetUserRoleMappingList
 {
-    public class GetUserRoleMappingListQuery : IRequest<HttpResult<IEnumerable<UserRoleMappingDto>>>
+    public class GetUserRoleMappingListQuery : IRequest<Response<IEnumerable<UserRoleMappingDto>>>
     {
         public int Start { get; set; }
 

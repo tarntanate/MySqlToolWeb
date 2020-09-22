@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.GetUserPermissionList
 {
-    public class GetUserPermissionListQuery : IRequest<HttpResult<IEnumerable<UserPermissionDto>>>
+    public class GetUserPermissionListQuery : IRequest<Response<IEnumerable<UserPermissionDto>>>
     {
         public int Start { get; set; }
 

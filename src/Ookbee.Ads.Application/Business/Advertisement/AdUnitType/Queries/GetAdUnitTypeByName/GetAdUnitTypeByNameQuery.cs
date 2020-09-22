@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdUnitType.Queries.GetAdUnitTypeByName
 {
-    public class GetAdUnitTypeByNameQuery : IRequest<HttpResult<AdUnitTypeDto>>
+    public class GetAdUnitTypeByNameQuery : IRequest<Response<AdUnitTypeDto>>
     {
         public string Name { get; set; }
 

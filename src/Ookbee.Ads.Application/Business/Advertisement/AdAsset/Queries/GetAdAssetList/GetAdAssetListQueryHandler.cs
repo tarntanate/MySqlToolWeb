@@ -2,7 +2,7 @@
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.GetAdAssetList
 {
-    public class GetAdAssetListQueryHandler : IRequestHandler<GetAdAssetListQuery, HttpResult<IEnumerable<AdAssetDto>>>
+    public class GetAdAssetListQueryHandler : IRequestHandler<GetAdAssetListQuery, Response<IEnumerable<AdAssetDto>>>
     {
         private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.GetAdAss
             AdAssetDbRepo = adUnitDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<AdAssetDto>>> Handle(GetAdAssetListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdAssetDto>>> Handle(GetAdAssetListQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<AdAssetEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.GetAdAss
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<AdAssetDto>>();
+            var result = new Response<IEnumerable<AdAssetDto>>();
             return result.Success(items);
         }
     }

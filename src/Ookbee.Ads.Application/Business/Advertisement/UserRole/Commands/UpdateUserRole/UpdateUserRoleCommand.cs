@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Commands.UpdateUserRole
 {
-    public class UpdateUserRoleCommand : UpdateUserRoleRequest, IRequest<HttpResult<bool>>
+    public class UpdateUserRoleCommand : UpdateUserRoleRequest, IRequest<Response<bool>>
     {
         public long Id { get; set; }
 

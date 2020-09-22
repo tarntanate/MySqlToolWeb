@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ookbee.Ads.Common.Result
+namespace Ookbee.Ads.Common.Response
 {
     public class ApiItemsResult<T>
     {

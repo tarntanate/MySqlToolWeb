@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Commands.CreateAdvertiser
 {
-    public class CreateAdvertiserCommand : CreateAdvertiserRequest, IRequest<HttpResult<long>>
+    public class CreateAdvertiserCommand : CreateAdvertiserRequest, IRequest<Response<long>>
     {
         public CreateAdvertiserCommand(CreateAdvertiserRequest request)
         {

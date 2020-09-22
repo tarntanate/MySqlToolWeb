@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGroupStatsByKey
 {
-    public class GetAdGroupStatsByKeyQuery : IRequest<HttpResult<AdGroupStatsDto>>
+    public class GetAdGroupStatsByKeyQuery : IRequest<Response<AdGroupStatsDto>>
     {
         public long AdGroupId { get; set; }
         public DateTimeOffset CaculatedAt { get; set; }

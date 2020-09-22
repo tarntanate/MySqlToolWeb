@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Queries.GetUserRoleList
 {
-    public class GetUserRoleListQueryHandler : IRequestHandler<GetUserRoleListQuery, HttpResult<IEnumerable<UserRoleDto>>>
+    public class GetUserRoleListQueryHandler : IRequestHandler<GetUserRoleListQuery, Response<IEnumerable<UserRoleDto>>>
     {
         private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
 
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Queries.GetUser
             UserRoleDbRepo = userRoleDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<UserRoleDto>>> Handle(GetUserRoleListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<UserRoleDto>>> Handle(GetUserRoleListQuery request, CancellationToken cancellationToken)
         {
             var items = await UserRoleDbRepo.FindAsync(
                 selector: UserRoleDto.Projection,
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Queries.GetUser
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<UserRoleDto>>();
+            var result = new Response<IEnumerable<UserRoleDto>>();
             return result.Success(items);
         }
     }

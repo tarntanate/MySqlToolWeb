@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.GetAdAssetById
 {
-    public class GetAdAssetByIdQuery : IRequest<HttpResult<AdAssetDto>>
+    public class GetAdAssetByIdQuery : IRequest<Response<AdAssetDto>>
     {
         public long Id { get; set; }
 

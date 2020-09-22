@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.GetUserPermissionList
 {
-    public class GetUserPermissionListQueryHandler : IRequestHandler<GetUserPermissionListQuery, HttpResult<IEnumerable<UserPermissionDto>>>
+    public class GetUserPermissionListQueryHandler : IRequestHandler<GetUserPermissionListQuery, Response<IEnumerable<UserPermissionDto>>>
     {
         private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
 
@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.G
             UserPermissionDbRepo = userPermissionDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<UserPermissionDto>>> Handle(GetUserPermissionListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<UserPermissionDto>>> Handle(GetUserPermissionListQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<UserPermissionEntity>();
 
@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.G
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<UserPermissionDto>>();
+            var result = new Response<IEnumerable<UserPermissionDto>>();
             return result.Success(items);
         }
     }

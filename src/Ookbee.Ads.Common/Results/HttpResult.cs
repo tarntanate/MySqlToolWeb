@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace Ookbee.Ads.Common.Result
+namespace Ookbee.Ads.Common.Response
 {
-    public class HttpResult<TValue>
+    public class Response<T>
     {
         public bool Ok { get; private set; } = true;
         public string Message { get; private set; }
         public HttpStatusCode StatusCode { get; private set; } = HttpStatusCode.OK;
         public Dictionary<string, string[]> Reasons { get; private set; }
-        public TValue Data { get; private set; }
+        public T Data { get; private set; }
 
-        public HttpResult<TValue> Success(TValue data = default(TValue))
+        public Response<T> Success(T data = default(T))
         {
-            return new HttpResult<TValue>()
+            return new Response<T>()
             {
                 Ok = true,
                 Message = "Successfully.",
@@ -23,16 +23,16 @@ namespace Ookbee.Ads.Common.Result
             };
         }
 
-        public HttpResult<TValue> Fail(int statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
+        public Response<T> Fail(int statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
         {
             if (!Enum.IsDefined(typeof(HttpStatusCode), statusCode))
                 throw new ArgumentException($"Invalid HTTP status code: {statusCode}");
             return Fail((HttpStatusCode)statusCode, message, reasons);
         }
 
-        public HttpResult<TValue> Fail(HttpStatusCode statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
+        public Response<T> Fail(HttpStatusCode statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
         {
-            return new HttpResult<TValue>()
+            return new Response<T>()
             {
                 Ok = false,
                 Message = message,

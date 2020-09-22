@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.User.Queries.GetUserList
 {
-    public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, HttpResult<IEnumerable<UserDto>>>
+    public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, Response<IEnumerable<UserDto>>>
     {
         private AdsDbRepository<UserEntity> UserDbRepo { get; }
 
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.User.Queries.GetUserList
             UserDbRepo = userDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<UserDto>>> Handle(GetUserListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<UserDto>>> Handle(GetUserListQuery request, CancellationToken cancellationToken)
         {
             var items = await UserDbRepo.FindAsync(
                 selector: UserDto.Projection,
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.User.Queries.GetUserList
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<UserDto>>();
+            var result = new Response<IEnumerable<UserDto>>();
             return result.Success(items);
         }
     }

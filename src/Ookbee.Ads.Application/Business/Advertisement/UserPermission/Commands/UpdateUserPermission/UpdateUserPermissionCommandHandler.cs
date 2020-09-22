@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Commands.UpdateUserPermission
 {
-    public class UpdateUserPermissionCommandHandler : IRequestHandler<UpdateUserPermissionCommand, HttpResult<bool>>
+    public class UpdateUserPermissionCommandHandler : IRequestHandler<UpdateUserPermissionCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
@@ -24,13 +24,13 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Commands.
             UserPermissionDbRepo = userPermissionDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(UpdateUserPermissionCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(UpdateUserPermissionCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<UserPermissionEntity>(request);
             await UserPermissionDbRepo.UpdateAsync(entity.Id, entity);
             await UserPermissionDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return result.Success(true);
         }
     }

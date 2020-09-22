@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.CreateAdGroupStats
 {
-    public class CreateAdGroupStatsCommandHandler : IRequestHandler<CreateAdGroupStatsCommand, HttpResult<long>>
+    public class CreateAdGroupStatsCommandHandler : IRequestHandler<CreateAdGroupStatsCommand, Response<long>>
     {
         private IMapper Mapper { get; }
         private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
@@ -21,13 +21,13 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Commands.CreateA
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 
-        public async Task<HttpResult<long>> Handle(CreateAdGroupStatsCommand request, CancellationToken cancellationToken)
+        public async Task<Response<long>> Handle(CreateAdGroupStatsCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<AdGroupStatsEntity>(request);
             await AdGroupStatsDbRepo.InsertAsync(entity);
             await AdGroupStatsDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<long>();
+            var result = new Response<long>();
             return result.Success(entity.Id);
         }
     }

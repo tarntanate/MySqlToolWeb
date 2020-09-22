@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnitById
 {
-    public class GetAdUnitByIdQueryHandler : IRequestHandler<GetAdUnitByIdQuery, HttpResult<AdUnitDto>>
+    public class GetAdUnitByIdQueryHandler : IRequestHandler<GetAdUnitByIdQuery, Response<AdUnitDto>>
     {
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
@@ -16,14 +16,14 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnit
             AdUnitDbRepo = adUnitDbRepo;
         }
 
-        public async Task<HttpResult<AdUnitDto>> Handle(GetAdUnitByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<AdUnitDto>> Handle(GetAdUnitByIdQuery request, CancellationToken cancellationToken)
         {
             var item = await AdUnitDbRepo.FirstAsync(
                 selector: AdUnitDto.Projection,
                 filter: f => f.Id == request.Id && f.DeletedAt == null
             );
 
-            var result = new HttpResult<AdUnitDto>();
+            var result = new Response<AdUnitDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"AdUnit '{request.Id}' doesn't exist.");
