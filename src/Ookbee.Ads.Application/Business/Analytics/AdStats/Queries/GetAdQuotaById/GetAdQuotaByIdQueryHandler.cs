@@ -40,11 +40,11 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdQuotaBy
                     selector: f =>
                         f.Impression
                 );
-                var avalible = ad.Quota - (int)impressions;
-                avalible = avalible < 0 ? 0 : avalible;
-                return result.Success(avalible);
+                var available = ad.Quota - (int)impressions;
+                available = available < 0 ? 0 : available;
+                return result.Success(available);
             }
-            return result.Fail(404, "Data not found.");
+            return result.Fail(404, "Ad Quota Exceeded.");
         }
     }
 }

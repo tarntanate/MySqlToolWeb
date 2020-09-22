@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdStatsBy
             var result = new HttpResult<AdStatsDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"Data not found.");
+                : result.Fail(404, $"Ad Stat Key not found.");
         }
     }
 }

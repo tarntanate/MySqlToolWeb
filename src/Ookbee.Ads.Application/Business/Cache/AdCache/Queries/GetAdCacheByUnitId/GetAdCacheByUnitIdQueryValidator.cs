@@ -25,11 +25,11 @@ namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.GetAdByUnitId
                 })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var redisKey = CacheKey.Units(value.AdUnitId);
+                    var redisKey = CacheKey.UnitsAdIds(value.AdUnitId, value.Platform);
                     var hashField = value.Platform.ToString();
-                    var keyExists = await AdsRedis.HashExistsAsync(redisKey, hashField);
+                    var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!keyExists)
-                        context.AddFailure($"Data not found.");
+                        context.AddFailure($"Ad Cache by UnitId not found.");
                 });
         }
     }

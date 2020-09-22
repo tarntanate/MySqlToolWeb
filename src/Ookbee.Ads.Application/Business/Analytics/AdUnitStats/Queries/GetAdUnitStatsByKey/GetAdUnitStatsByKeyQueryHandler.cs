@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUni
             var result = new HttpResult<AdUnitStatsDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"Data not found.");
+                : result.Fail(404, $"Ad Unit Stat Key not found.");
         }
     }
 }

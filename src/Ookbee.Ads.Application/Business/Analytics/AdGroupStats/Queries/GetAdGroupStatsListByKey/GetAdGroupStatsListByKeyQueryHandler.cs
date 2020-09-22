@@ -42,7 +42,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGro
 
             return (items.HasValue())
                 ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                : result.Fail(404, $"Ad Group Stat List not found.");
         }
     }
 }

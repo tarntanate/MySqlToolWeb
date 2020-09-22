@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGro
             var result = new HttpResult<AdGroupStatsDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"Data not found.");
+                : result.Fail(404, $"Ad Group Stat Key not found.");
         }
     }
 }
