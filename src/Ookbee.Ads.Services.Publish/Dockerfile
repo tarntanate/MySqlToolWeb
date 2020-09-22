@@ -8,10 +8,10 @@ WORKDIR /
 COPY . .
 
 FROM build AS publish
-WORKDIR "/src/Ookbee.Ads.Services.Analytics"
-RUN dotnet publish "Ookbee.Ads.Services.Analytics.csproj" -c Release -o /app/publish
+WORKDIR "/src/Ookbee.Ads.Services.Publish"
+RUN dotnet publish "Ookbee.Ads.Services.Publish.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Ookbee.Ads.Services.Analytics.dll"]
+ENTRYPOINT ["dotnet", "Ookbee.Ads.Services.Publish.dll"]
