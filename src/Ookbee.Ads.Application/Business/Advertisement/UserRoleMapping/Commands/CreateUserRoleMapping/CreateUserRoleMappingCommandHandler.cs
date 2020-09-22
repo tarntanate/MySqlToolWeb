@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands
     public class CreateUserRoleMappingCommandHandler : IRequestHandler<CreateUserRoleMappingCommand, HttpResult<bool>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
         private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
 
         public CreateUserRoleMappingCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<UserRoleMappingEntity> userRoleMappingDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             UserRoleMappingDbRepo = userRoleMappingDbRepo;
         }
 

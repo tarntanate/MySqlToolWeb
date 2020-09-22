@@ -4,18 +4,18 @@ using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 
-namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCacheByGroupId
+namespace Ookbee.Ads.Application.Business.Cache.AdCache.Commands.GetAdByUnitId
 {
-    public class GetAdUnitCacheByGroupIdQueryValidator : AbstractValidator<GetAdUnitCacheByGroupIdQuery>
+    public class GetAdCacheByUnitIdQueryValidator : AbstractValidator<GetAdByUnitIdQuery>
     {
         private IDatabase AdsRedis { get; }
 
-        public GetAdUnitCacheByGroupIdQueryValidator(AdsRedisContext adsRedis)
+        public GetAdCacheByUnitIdQueryValidator(AdsRedisContext adsRedis)
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
             AdsRedis = adsRedis.Database();
 
-            RuleFor(p => new { p.AdGroupId, p.Platform })
+            RuleFor(p => new { p.AdUnitId, p.Platform })
                 .Custom((value, context) =>
                 {
                     if (value.Platform == Platform.Unknown)
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCa
                 })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var redisKey = CacheKey.Units(value.AdGroupId);
+                    var redisKey = CacheKey.Units(value.AdUnitId);
                     var hashField = value.Platform.ToString();
                     var keyExists = await AdsRedis.HashExistsAsync(redisKey, hashField);
                     if (!keyExists)

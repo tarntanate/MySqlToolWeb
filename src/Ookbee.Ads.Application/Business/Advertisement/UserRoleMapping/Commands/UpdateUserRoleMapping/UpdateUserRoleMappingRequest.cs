@@ -1,6 +1,6 @@
 ﻿namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.UpdateUserRoleMapping
 {
-    public class UpdateUserRoleRequest
+    public class UpdateUserRoleMappingRequest
     {
         public long UserId { get; set; }
 

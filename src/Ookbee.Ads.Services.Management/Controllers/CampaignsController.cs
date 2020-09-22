@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Services.Management.Controllers
             => await Mediator.Send(new GetCampaignByIdQuery(id), cancellationToken);
 
         [HttpPost]
-        public async Task<HttpResult<long>> CreateCampaignImpression([FromBody] CreateCampaignRequest request, CancellationToken cancellationToken)
+        public async Task<HttpResult<long>> CreateCampaignCommand([FromBody] CreateCampaignRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new CreateCampaignCommand(request), cancellationToken);
 
         [HttpPut("{id}")]

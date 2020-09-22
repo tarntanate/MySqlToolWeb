@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdStatsCache.Commands.IncrementA
                     var redisKey = CacheKey.AdStats(value.AdId);
                     var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
                     if (!keyExists)
-                        context.AddFailure($"CacheKey '{redisKey}' doesn't exist.");
+                        context.AddFailure($"Unable to update stats: Invalid or expired key.");
                 });
         }
     }

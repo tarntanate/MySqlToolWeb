@@ -74,7 +74,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Ad
                                 Description = entity.AdUnit.AdGroup.AdUnitType.Description,
                             }
                         },
-                        AdNetwork = new AdNetworkDto()
+                        AdNetwork = new AdUnitNetworkDto()
                         {
                             Name = entity.AdUnit.AdNetwork,
                             UnitIds = entity.AdUnit.AdNetworks.Select(x => new AdUnitNetworkUnitIdDto()
