@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
     public class AdsController : ApiController
     {
         [HttpGet]
-        public async Task<ContentResult> UpdateAdStats([FromRoute] long adId, [FromQuery] string type, [FromQuery] Platform platform, [FromQuery] int campaignId, CancellationToken cancellationToken)
+        public async Task<ContentResult> UpdateAdStats([FromRoute] long adId, [FromQuery] string type, [FromQuery] Platform platform, [FromQuery] int campaignId, [FromQuery] int unitId, CancellationToken cancellationToken)
         {
             if (type.ToLower() == "impression")
             {
@@ -24,6 +24,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                     new CreateAdImpressionLogCommand(
                         platformId: (short)platform,
                         adId: (int)adId,
+                        unitId: unitId,
                         campaignId: campaignId,
                         uuid: new Random().Next(0, 20).ToString()),
                         cancellationToken);
