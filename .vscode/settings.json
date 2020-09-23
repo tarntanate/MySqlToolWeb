@@ -7,8 +7,8 @@
         "**/.DS_Store": true,
         ".vscode": true,
         "submodules": false,
-        "**/obj": true,
-        "**/bin": true
+        "**/obj": false,
+        "**/bin": false
     },
     "sqltools.connections": [{
             "database": "ookbee-ads",
