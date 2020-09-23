@@ -6,9 +6,9 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         ".vscode": true,
-        "submodules": false,
-        "**/obj": false,
-        "**/bin": false
+        "submodules": true,
+        "**/obj": true,
+        "**/bin": true
     },
     "sqltools.connections": [{
             "database": "ookbee-ads",
