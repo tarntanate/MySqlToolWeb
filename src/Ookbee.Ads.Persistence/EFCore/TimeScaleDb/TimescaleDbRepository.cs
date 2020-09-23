@@ -7,7 +7,8 @@ namespace Ookbee.Ads.Persistence.EFCore.TimeScaleDb
     {
         public TimeScaleDbRepository(TimeScaleDbContext context) : base(context)
         {
-
+            context.ChangeTracker.AutoDetectChangesEnabled = false;
+            context.ChangeTracker.QueryTrackingBehavior = Microsoft.EntityFrameworkCore.QueryTrackingBehavior.NoTracking;
         }
     }
 }

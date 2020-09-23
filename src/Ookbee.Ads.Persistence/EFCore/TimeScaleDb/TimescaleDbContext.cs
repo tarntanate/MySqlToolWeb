@@ -7,8 +7,9 @@ namespace Ookbee.Ads.Persistence.EFCore.TimeScaleDb
     {
         public TimeScaleDbContext(DbContextOptions<TimeScaleDbContext> options) : base(options)
         {
-
-        }
+            // context.Configuration.AutoDetectChangesEnabled = false;
+            // context.Configuration.ValidateOnSaveEnabled = false;
+                    }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
