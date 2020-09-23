@@ -6,9 +6,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleL
 {
     public class GetUserRoleListQuery : IRequest<Response<IEnumerable<UserRoleDto>>>
     {
-        public int Start { get; set; }
-
-        public int Length { get; set; }
+        public int Start { get; private set; }
+        public int Length { get; private set; }
 
         public GetUserRoleListQuery(int start, int length)
         {

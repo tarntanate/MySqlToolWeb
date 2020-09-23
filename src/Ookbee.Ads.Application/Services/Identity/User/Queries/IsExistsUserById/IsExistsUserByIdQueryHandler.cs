@@ -9,23 +9,24 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.IsExistsUserById
 {
     public class IsExistsUserByIdQueryHandler : IRequestHandler<IsExistsUserByIdQuery, Response<bool>>
     {
-        private AdsDbRepository<UserEntity> userDbRepo { get; }
+        private AdsDbRepository<UserEntity> UserDbRepo { get; }
 
-        public IsExistsUserByIdQueryHandler(AdsDbRepository<UserEntity> authUserDbRepo)
+        public IsExistsUserByIdQueryHandler(
+            AdsDbRepository<UserEntity> userDbRepo)
         {
-            userDbRepo = authUserDbRepo;
+            UserDbRepo = userDbRepo;
         }
 
         public async Task<Response<bool>> Handle(IsExistsUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var isExists = await userDbRepo.AnyAsync(f =>
+            var isExists = await UserDbRepo.AnyAsync(f =>
                 f.Id == request.Id
             );
 
             var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"User '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data doesn't exist.");
         }
     }
 }

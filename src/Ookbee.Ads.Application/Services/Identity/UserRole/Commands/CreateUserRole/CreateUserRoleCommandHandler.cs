@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.CreateUserR
     public class CreateUserRoleCommandHandler : IRequestHandler<CreateUserRoleCommand, Response<long>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
         private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
 
         public CreateUserRoleCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<UserRoleEntity> userRoleDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             UserRoleDbRepo = userRoleDbRepo;
         }
 
@@ -29,9 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.CreateUserR
             var entity = Mapper.Map<UserRoleEntity>(request);
             await UserRoleDbRepo.InsertAsync(entity);
             await UserRoleDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<long>();
-            return result.Success(entity.Id);
+            return new Response<long>().Success(entity.Id);
         }
     }
 }

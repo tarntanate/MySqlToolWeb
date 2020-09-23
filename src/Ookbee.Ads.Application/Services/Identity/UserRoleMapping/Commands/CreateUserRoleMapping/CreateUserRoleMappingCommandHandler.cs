@@ -26,9 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Crea
             var entity = Mapper.Map<UserRoleMappingEntity>(request);
             await UserRoleMappingDbRepo.InsertAsync(entity);
             await UserRoleMappingDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<bool>();
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

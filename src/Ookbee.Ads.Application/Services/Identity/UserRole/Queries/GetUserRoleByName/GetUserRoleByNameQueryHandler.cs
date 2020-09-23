@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleB
     {
         private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
 
-        public GetUserRoleByNameQueryHandler(AdsDbRepository<UserRoleEntity> userRoleDbRepo)
+        public GetUserRoleByNameQueryHandler(
+            AdsDbRepository<UserRoleEntity> userRoleDbRepo)
         {
             UserRoleDbRepo = userRoleDbRepo;
         }

@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.IsExis
     {
         private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
 
-        public IsExistsUserPermissionByNameQueryHandler(AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
+        public IsExistsUserPermissionByNameQueryHandler(
+            AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
         {
             UserPermissionDbRepo = userPermissionDbRepo;
         }
@@ -25,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.IsExis
             var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"UserPermission '{request.ExtensionName}' doesn't exist.");
+                : result.Fail(404, $"Data doesn't exist.");
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleB
 {
     public class GetUserRoleByNameQuery : IRequest<Response<UserRoleDto>>
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public GetUserRoleByNameQuery(string name)
         {

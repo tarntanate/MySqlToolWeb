@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.DeleteUserR
 {
     public class DeleteUserRoleCommand : IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public DeleteUserRoleCommand(long id)
         {

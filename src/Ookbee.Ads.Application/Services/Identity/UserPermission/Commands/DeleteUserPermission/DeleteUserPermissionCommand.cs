@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Delet
 {
     public class DeleteUserPermissionCommand : IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public DeleteUserPermissionCommand(long id)
         {

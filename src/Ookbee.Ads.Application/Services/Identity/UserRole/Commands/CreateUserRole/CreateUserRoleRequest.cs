@@ -3,7 +3,6 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.CreateUserR
     public class CreateUserRoleRequest
     {
         public string Name { get; set; }
-
         public string Description { get; set; }
     }
 }

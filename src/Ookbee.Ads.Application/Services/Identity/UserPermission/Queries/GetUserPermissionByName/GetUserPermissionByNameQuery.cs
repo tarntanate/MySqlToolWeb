@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
 {
     public class GetUserPermissionByNameQuery : IRequest<Response<UserPermissionDto>>
     {
-        public string ExtensionName { get; set; }
+        public string ExtensionName { get; private set; }
 
         public GetUserPermissionByNameQuery(string name)
         {

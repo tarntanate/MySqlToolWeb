@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
     {
         public GetUserPermissionByNameQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.ExtensionName)
                 .NotNull()
                 .NotEmpty()

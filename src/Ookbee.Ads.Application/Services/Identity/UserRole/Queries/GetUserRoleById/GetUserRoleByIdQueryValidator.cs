@@ -6,7 +6,10 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleB
     {
         public GetUserRoleByIdQueryValidator()
         {
-            RuleFor(p => p.Id).GreaterThan(0);
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
+            RuleFor(p => p.Id)
+                .GreaterThan(0);
         }
     }
 }

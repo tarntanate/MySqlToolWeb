@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserById
 {
     public class GetUserByIdQuery : IRequest<Response<UserDto>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public GetUserByIdQuery(long id)
         {

@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.IsExistsUser
     {
         public IsExistsUserRoleByNameQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()

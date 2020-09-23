@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserById
     {
         private AdsDbRepository<UserEntity> userDbRepo { get; }
 
-        public GetUserByIdQueryHandler(AdsDbRepository<UserEntity> authUserDbRepo)
+        public GetUserByIdQueryHandler(
+            AdsDbRepository<UserEntity> authUserDbRepo)
         {
             userDbRepo = authUserDbRepo;
         }

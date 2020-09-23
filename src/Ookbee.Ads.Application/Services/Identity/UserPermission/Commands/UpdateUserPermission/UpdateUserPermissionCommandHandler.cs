@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
     public class UpdateUserPermissionCommandHandler : IRequestHandler<UpdateUserPermissionCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
         private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
 
         public UpdateUserPermissionCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             UserPermissionDbRepo = userPermissionDbRepo;
         }
 
@@ -29,9 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
             var entity = Mapper.Map<UserPermissionEntity>(request);
             await UserPermissionDbRepo.UpdateAsync(entity.Id, entity);
             await UserPermissionDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<bool>();
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

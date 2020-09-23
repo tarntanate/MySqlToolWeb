@@ -5,11 +5,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUs
 {
     public class GetUserRoleMappingListQueryValidator : AbstractValidator<GetUserRoleMappingListQuery>
     {
-        private IMediator Mediator { get; }
-
         public GetUserRoleMappingListQueryValidator(IMediator mediator)
         {
-            Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(p => p.Start)

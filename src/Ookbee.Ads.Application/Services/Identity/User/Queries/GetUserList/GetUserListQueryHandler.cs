@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -13,7 +14,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList
     {
         private AdsDbRepository<UserEntity> UserDbRepo { get; }
 
-        public GetUserListQueryHandler(AdsDbRepository<UserEntity> userDbRepo)
+        public GetUserListQueryHandler(
+            AdsDbRepository<UserEntity> userDbRepo)
         {
             UserDbRepo = userDbRepo;
         }
@@ -28,7 +30,9 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList
             );
 
             var result = new Response<IEnumerable<UserDto>>();
-            return result.Success(items);
+            return (items.HasValue())
+                ? result.Success(items)
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.IsExistsUser
 {
     public class IsExistsUserRoleByNameQuery : IRequest<Response<bool>>
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public IsExistsUserRoleByNameQuery(string name)
         {

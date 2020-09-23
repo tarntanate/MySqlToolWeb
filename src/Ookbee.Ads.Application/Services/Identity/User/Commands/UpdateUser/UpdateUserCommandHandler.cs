@@ -11,27 +11,22 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.UpdateUser
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<UserEntity> userDbRepo { get; }
+        private AdsDbRepository<UserEntity> UserDbRepor { get; }
 
         public UpdateUserCommandHandler(
             IMapper mapper,
-            IMediator mediator,
-            AdsDbRepository<UserEntity> authUserDbRepo)
+            AdsDbRepository<UserEntity> userDbRepor)
         {
             Mapper = mapper;
-            Mediator = mediator;
-            userDbRepo = authUserDbRepo;
+            UserDbRepor = userDbRepor;
         }
 
         public async Task<Response<bool>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<UserEntity>(request);
-            await userDbRepo.UpdateAsync(entity.Id, entity);
-            await userDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<bool>();
-            return result.Success(true);
+            await UserDbRepor.UpdateAsync(entity.Id, entity);
+            await UserDbRepor.SaveChangesAsync(cancellationToken);
+            return new Response<bool>().Success(true);
         }
     }
 }

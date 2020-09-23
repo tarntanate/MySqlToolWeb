@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleL
     {
         public GetUserRoleListQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Start)
                 .GreaterThanOrEqualTo(0);
 

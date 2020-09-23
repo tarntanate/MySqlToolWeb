@@ -6,7 +6,10 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
     {
         public GetUserPermissionByIdQueryValidator()
         {
-            RuleFor(p => p.Id).GreaterThan(0);
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
+            RuleFor(p => p.Id)
+                .GreaterThan(0);
         }
     }
 }

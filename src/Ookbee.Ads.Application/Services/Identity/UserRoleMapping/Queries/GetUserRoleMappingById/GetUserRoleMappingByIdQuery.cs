@@ -5,8 +5,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUs
 {
     public class GetUserRoleMappingByIdQuery : IRequest<Response<UserRoleMappingDto>>
     {
-        public long UserId { get; set; }
-        public long RoleId { get; set; }
+        public long UserId { get; private set; }
+        public long RoleId { get; private set; }
 
         public GetUserRoleMappingByIdQuery(long userId, long roleId)
         {

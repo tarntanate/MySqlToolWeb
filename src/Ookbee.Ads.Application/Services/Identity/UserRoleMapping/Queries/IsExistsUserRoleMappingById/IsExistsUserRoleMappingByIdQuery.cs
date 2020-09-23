@@ -5,8 +5,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.IsExi
 {
     public class IsExistsUserRoleMappingByIdQuery : IRequest<Response<bool>>
     {
-        public long UserId { get; set; }
-        public long RoleId { get; set; }
+        public long UserId { get; private set; }
+        public long RoleId { get; private set; }
 
         public IsExistsUserRoleMappingByIdQuery(long userId, long roleId)
         {

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -14,7 +15,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
     {
         private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
 
-        public GetUserPermissionListQueryHandler(AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
+        public GetUserPermissionListQueryHandler(
+            AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
         {
             UserPermissionDbRepo = userPermissionDbRepo;
         }
@@ -35,7 +37,9 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
             );
 
             var result = new Response<IEnumerable<UserPermissionDto>>();
-            return result.Success(items);
+            return (items.HasValue())
+                ? result.Success(items)
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

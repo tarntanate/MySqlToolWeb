@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.IsExistsUser
     {
         private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
 
-        public IsExistsUserRoleByNameQueryHandler(AdsDbRepository<UserRoleEntity> userRoleDbRepo)
+        public IsExistsUserRoleByNameQueryHandler(
+            AdsDbRepository<UserRoleEntity> userRoleDbRepo)
         {
             UserRoleDbRepo = userRoleDbRepo;
         }
@@ -26,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.IsExistsUser
             var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"UserRole '{request.Name}' doesn't exist.");
+                : result.Fail(404, $"Data doesn't exist.");
         }
     }
 }

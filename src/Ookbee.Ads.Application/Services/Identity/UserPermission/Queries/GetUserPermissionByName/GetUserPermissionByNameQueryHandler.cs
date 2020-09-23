@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
     {
         private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
 
-        public GetUserPermissionByNameQueryHandler(AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
+        public GetUserPermissionByNameQueryHandler(
+            AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
         {
             UserPermissionDbRepo = userPermissionDbRepo;
         }
@@ -26,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
             var result = new Response<UserPermissionDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"UserPermission '{request.ExtensionName}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

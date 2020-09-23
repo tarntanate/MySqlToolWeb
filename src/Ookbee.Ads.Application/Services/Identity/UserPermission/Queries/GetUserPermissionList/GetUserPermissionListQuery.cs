@@ -7,7 +7,6 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
     public class GetUserPermissionListQuery : IRequest<Response<IEnumerable<UserPermissionDto>>>
     {
         public int Start { get; set; }
-
         public int Length { get; set; }
         public long? RoleId { get; set; }
 

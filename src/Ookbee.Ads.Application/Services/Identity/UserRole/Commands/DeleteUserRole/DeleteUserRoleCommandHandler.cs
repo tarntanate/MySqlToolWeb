@@ -9,14 +9,11 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.DeleteUserR
 {
     public class DeleteUserRoleCommandHandler : IRequestHandler<DeleteUserRoleCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
         private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
 
         public DeleteUserRoleCommandHandler(
-            IMediator mediator,
             AdsDbRepository<UserRoleEntity> userRoleDbRepo)
         {
-            Mediator = mediator;
             UserRoleDbRepo = userRoleDbRepo;
         }
 
@@ -24,9 +21,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.DeleteUserR
         {
             await UserRoleDbRepo.DeleteAsync(request.Id);
             await UserRoleDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<bool>();
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

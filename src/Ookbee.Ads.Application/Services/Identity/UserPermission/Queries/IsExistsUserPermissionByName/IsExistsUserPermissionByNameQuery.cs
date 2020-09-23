@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.IsExis
 {
     public class IsExistsUserPermissionByNameQuery : IRequest<Response<bool>>
     {
-        public string ExtensionName { get; set; }
+        public string ExtensionName { get; private set; }
 
         public IsExistsUserPermissionByNameQuery(string name)
         {

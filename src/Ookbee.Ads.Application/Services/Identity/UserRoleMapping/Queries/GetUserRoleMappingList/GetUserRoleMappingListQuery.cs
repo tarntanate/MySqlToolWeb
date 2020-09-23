@@ -6,13 +6,10 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUs
 {
     public class GetUserRoleMappingListQuery : IRequest<Response<IEnumerable<UserRoleMappingDto>>>
     {
-        public int Start { get; set; }
-
-        public int Length { get; set; }
-
-        public long? UserId { get; set; }
-
-        public long? RoleId { get; set; }
+        public int Start { get; private set; }
+        public int Length { get; private set; }
+        public long? UserId { get; private set; }
+        public long? RoleId { get; private set; }
 
         public GetUserRoleMappingListQuery(int start, int length, long? userId, long? roleId)
         {

@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleB
     {
         private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
 
-        public GetUserRoleByIdQueryHandler(AdsDbRepository<UserRoleEntity> userRoleDbRepo)
+        public GetUserRoleByIdQueryHandler(
+            AdsDbRepository<UserRoleEntity> userRoleDbRepo)
         {
             UserRoleDbRepo = userRoleDbRepo;
         }
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleB
             var result = new Response<UserRoleDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"UserRole '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

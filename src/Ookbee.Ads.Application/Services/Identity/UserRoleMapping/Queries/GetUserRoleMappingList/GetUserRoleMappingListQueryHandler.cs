@@ -15,7 +15,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUs
     {
         private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
 
-        public GetUserRoleMappingListQueryHandler(AdsDbRepository<UserRoleMappingEntity> userRoleMappingDbRepo)
+        public GetUserRoleMappingListQueryHandler(
+            AdsDbRepository<UserRoleMappingEntity> userRoleMappingDbRepo)
         {
             UserRoleMappingDbRepo = userRoleMappingDbRepo;
         }
@@ -39,7 +40,9 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUs
             );
 
             var result = new Response<IEnumerable<UserRoleMappingDto>>();
-            return result.Success(items);
+            return (items.HasValue())
+                ? result.Success(items)
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

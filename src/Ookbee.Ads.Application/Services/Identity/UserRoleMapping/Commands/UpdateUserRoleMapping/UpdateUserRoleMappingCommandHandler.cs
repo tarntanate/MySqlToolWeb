@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Upda
     public class UpdateUserRoleMappingCommandHandler : IRequestHandler<UpdateUserRoleMappingCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
         private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
 
         public UpdateUserRoleMappingCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<UserRoleMappingEntity> userRoleMappingDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             UserRoleMappingDbRepo = userRoleMappingDbRepo;
         }
 
@@ -29,9 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Upda
             var entity = Mapper.Map<UserRoleMappingEntity>(request);
             await UserRoleMappingDbRepo.UpdateAsync(new { request.UserId, request.RoleId }, entity);
             await UserRoleMappingDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<bool>();
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

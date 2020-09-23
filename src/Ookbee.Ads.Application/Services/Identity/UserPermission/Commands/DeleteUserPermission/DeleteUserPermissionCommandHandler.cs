@@ -9,14 +9,11 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Delet
 {
     public class DeleteUserPermissionCommandHandler : IRequestHandler<DeleteUserPermissionCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
         private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
 
         public DeleteUserPermissionCommandHandler(
-            IMediator mediator,
             AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
         {
-            Mediator = mediator;
             UserPermissionDbRepo = userPermissionDbRepo;
         }
 
@@ -24,9 +21,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Delet
         {
             await UserPermissionDbRepo.DeleteAsync(request.Id);
             await UserPermissionDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<bool>();
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

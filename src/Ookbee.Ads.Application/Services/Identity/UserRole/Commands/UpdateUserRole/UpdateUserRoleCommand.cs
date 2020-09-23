@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.UpdateUserR
 {
     public class UpdateUserRoleCommand : UpdateUserRoleRequest, IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public UpdateUserRoleCommand(long id, UpdateUserRoleRequest request)
         {
