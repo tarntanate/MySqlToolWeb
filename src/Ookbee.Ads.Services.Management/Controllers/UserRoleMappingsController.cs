@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.CreateUserRoleMapping;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.DeleteUserRoleMapping;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.UpdateUserRoleMapping;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Queries.GetUserRoleMappingList;
+using Ookbee.Ads.Application.Business.Identity.UserRoleMapping;
+using Ookbee.Ads.Application.Business.Identity.UserRoleMapping.Commands.CreateUserRoleMapping;
+using Ookbee.Ads.Application.Business.Identity.UserRoleMapping.Commands.DeleteUserRoleMapping;
+using Ookbee.Ads.Application.Business.Identity.UserRoleMapping.Commands.UpdateUserRoleMapping;
+using Ookbee.Ads.Application.Business.Identity.UserRoleMapping.Queries.GetUserRoleMappingList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;

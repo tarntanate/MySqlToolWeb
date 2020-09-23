@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Advertisement.UserRole;
-using Ookbee.Ads.Application.Business.Advertisement.UserRole.Commands.CreateUserRole;
-using Ookbee.Ads.Application.Business.Advertisement.UserRole.Commands.DeleteUserRole;
-using Ookbee.Ads.Application.Business.Advertisement.UserRole.Commands.UpdateUserRole;
-using Ookbee.Ads.Application.Business.Advertisement.UserRole.Queries.GetUserRoleById;
-using Ookbee.Ads.Application.Business.Advertisement.UserRole.Queries.GetUserRoleList;
+using Ookbee.Ads.Application.Business.Identity.UserRole;
+using Ookbee.Ads.Application.Business.Identity.UserRole.Commands.CreateUserRole;
+using Ookbee.Ads.Application.Business.Identity.UserRole.Commands.DeleteUserRole;
+using Ookbee.Ads.Application.Business.Identity.UserRole.Commands.UpdateUserRole;
+using Ookbee.Ads.Application.Business.Identity.UserRole.Queries.GetUserRoleById;
+using Ookbee.Ads.Application.Business.Identity.UserRole.Queries.GetUserRoleList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
