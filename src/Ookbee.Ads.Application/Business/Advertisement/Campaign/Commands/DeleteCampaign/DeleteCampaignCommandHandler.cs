@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.DeleteCampaign
 {
-    public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignCommand, HttpResult<bool>>
+    public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignCommand, Response<bool>>
     {
         private IMediator Mediator { get; }
         private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
@@ -20,12 +20,12 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.Delete
             CampaignDbRepo = campaignDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(DeleteCampaignCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(DeleteCampaignCommand request, CancellationToken cancellationToken)
         {
             await CampaignDbRepo.DeleteAsync(request.Id);
             await CampaignDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return result.Success(true);
         }
     }

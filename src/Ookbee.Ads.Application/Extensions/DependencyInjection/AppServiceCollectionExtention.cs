@@ -13,6 +13,7 @@ using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
 using Ookbee.Ads.Common.Swagger;
 using Ookbee.Ads.Infrastructure.Models;
+using Ookbee.Ads.Infrastructure.Settings;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;

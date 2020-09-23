@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.IsExistsAdvertiserByName
 {
-    public class IsExistsAdvertiserByNameQueryHandler : IRequestHandler<IsExistsAdvertiserByNameQuery, HttpResult<bool>>
+    public class IsExistsAdvertiserByNameQueryHandler : IRequestHandler<IsExistsAdvertiserByNameQuery, Response<bool>>
     {
         private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
@@ -16,14 +16,14 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.IsExi
             AdvertiserDbRepo = advertiserDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(IsExistsAdvertiserByNameQuery request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(IsExistsAdvertiserByNameQuery request, CancellationToken cancellationToken)
         {
             var isExists = await AdvertiserDbRepo.AnyAsync(f =>
                 f.Name == request.Name &&
                 f.DeletedAt == null
             );
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Advertiser '{request.Name}' doesn't exist.");

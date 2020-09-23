@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.IsExistsUserPermissionById
 {
-    public class IsExistsUserPermissionByIdQueryHandler : IRequestHandler<IsExistsUserPermissionByIdQuery, HttpResult<bool>>
+    public class IsExistsUserPermissionByIdQueryHandler : IRequestHandler<IsExistsUserPermissionByIdQuery, Response<bool>>
     {
         private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
 
@@ -16,13 +16,13 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.I
             UserPermissionDbRepo = userPermissionDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(IsExistsUserPermissionByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(IsExistsUserPermissionByIdQuery request, CancellationToken cancellationToken)
         {
             var isExists = await UserPermissionDbRepo.AnyAsync(f =>
                 f.Id == request.Id
             );
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"UserPermission '{request.Id}' doesn't exist.");

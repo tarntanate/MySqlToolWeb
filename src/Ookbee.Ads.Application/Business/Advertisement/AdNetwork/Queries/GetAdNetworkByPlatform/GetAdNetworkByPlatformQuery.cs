@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdNetwork.Queries.GetAdNetworkByPlatform
 {
-    public class GetAdNetworkByPlatformQuery : IRequest<HttpResult<AdNetworkDto>>
+    public class GetAdNetworkByPlatformQuery : IRequest<Response<AdNetworkDto>>
     {
         public Platform Platform { get; set; }
 

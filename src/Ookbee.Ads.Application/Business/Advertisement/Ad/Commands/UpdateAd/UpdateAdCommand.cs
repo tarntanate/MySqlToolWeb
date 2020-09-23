@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Ad.Commands.UpdateAd
 {
-    public class UpdateAdCommand : UpdateAdRequest, IRequest<HttpResult<bool>>
+    public class UpdateAdCommand : UpdateAdRequest, IRequest<Response<bool>>
     {
         public long Id { get; set; }
 

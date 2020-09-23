@@ -1,52 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Ookbee.Ads.Common.Helpers;
 
-namespace Ookbee.Ads.Common.Result
+namespace Ookbee.Ads.Common.Response
 {
-    public class DataLogger
+    public class Response<T>
     {
-        public long ObjectId { get; set; }
-        public object ObjectData { get; set; }
-    }
+        public bool Ok { get; private set; } = true;
+        public string Message { get; private set; }
+        public HttpStatusCode StatusCode { get; private set; } = HttpStatusCode.OK;
+        public Dictionary<string, string[]> Reasons { get; private set; }
+        public T Data { get; private set; }
 
-    public class HttpResult<TValue>
-    {
-        public bool Ok { get; set; } = true;
-        public string Message { get; set; }
-        public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
-        public string StatusMessage { get; set; }
-        public Dictionary<string, string[]> Reasons { get; set; }
-        public TValue Data { get; set; }
-
-        public HttpResult<TValue> Success(TValue data)
+        public Response<T> Success(T data = default(T))
         {
-            return new HttpResult<TValue>()
+            return new Response<T>()
             {
                 Ok = true,
                 Message = "Successfully.",
                 StatusCode = HttpStatusCode.OK,
-                StatusMessage = HttpStatusCode.OK.ToString(),
                 Data = data,
             };
         }
 
-        public HttpResult<TValue> Fail(int statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
+        public Response<T> Fail(int statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
         {
             if (!Enum.IsDefined(typeof(HttpStatusCode), statusCode))
-                throw new ArgumentException("Invalid HTTP response code.");
+                throw new ArgumentException($"Invalid HTTP status code: {statusCode}");
             return Fail((HttpStatusCode)statusCode, message, reasons);
         }
 
-        public HttpResult<TValue> Fail(HttpStatusCode statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
+        public Response<T> Fail(HttpStatusCode statusCode, string message = "An unknown error has occurred.", Dictionary<string, string[]> reasons = default)
         {
-            return new HttpResult<TValue>()
+            return new Response<T>()
             {
                 Ok = false,
                 Message = message,
                 StatusCode = statusCode,
-                StatusMessage = statusCode.ToString(),
                 Reasons = reasons ?? new Dictionary<string, string[]>(),
             };
         }

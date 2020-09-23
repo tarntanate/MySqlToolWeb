@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdStatsByKey
 {
-    public class GetAdStatsByKeyQueryHandler : IRequestHandler<GetAdStatsByKeyQuery, HttpResult<AdStatsDto>>
+    public class GetAdStatsByKeyQueryHandler : IRequestHandler<GetAdStatsByKeyQuery, Response<AdStatsDto>>
     {
         private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdStatsBy
             AdStatsDbRepo = adStatsDbRepo;
         }
 
-        public async Task<HttpResult<AdStatsDto>> Handle(GetAdStatsByKeyQuery request, CancellationToken cancellationToken)
+        public async Task<Response<AdStatsDto>> Handle(GetAdStatsByKeyQuery request, CancellationToken cancellationToken)
         {
             var item = await AdStatsDbRepo.FirstAsync(
                 selector: AdStatsDto.Projection,
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.GetAdStatsBy
                     f.CaculatedAt == request.CaculatedAt
             );
 
-            var result = new HttpResult<AdStatsDto>();
+            var result = new Response<AdStatsDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"Ad Stat Key not found.");

@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.IsExistsPublisherById
 {
-    public class IsExistsPublisherByIdQuery : IRequest<HttpResult<bool>>
+    public class IsExistsPublisherByIdQuery : IRequest<Response<bool>>
     {
         public long Id { get; set; }
 

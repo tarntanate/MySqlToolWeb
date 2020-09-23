@@ -1,5 +1,5 @@
 using Ookbee.Ads.Common.Helpers;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -20,12 +20,12 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog
             BaseUrl = GlobalVar.AppSettings.Services.Ads.RequestLog.BaseUri.Internal;
         }
 
-        public async Task<HttpResult<ApiItemResult<AdsRequestLogResponse>>> Create(AdsRequestLogRequest data, CancellationToken cancellationToken)
+        public async Task<Response<ApiItemResult<AdsRequestLogResponse>>> Create(AdsRequestLogRequest data, CancellationToken cancellationToken)
         {
             return await Create(new List<AdsRequestLogRequest>() { data }, cancellationToken);
         }
 
-        public async Task<HttpResult<ApiItemResult<AdsRequestLogResponse>>> Create(IEnumerable<AdsRequestLogRequest> data, CancellationToken cancellationToken)
+        public async Task<Response<ApiItemResult<AdsRequestLogResponse>>> Create(IEnumerable<AdsRequestLogRequest> data, CancellationToken cancellationToken)
         {
             var content = HttpClientHelper.PrepareContent(data);
             var httpResponse = await Client.PostAsync($"{BaseUrl}/topics/adsrequestlog", content, cancellationToken);

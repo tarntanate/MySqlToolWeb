@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.GetAdvertiserByName
 {
-    public class GetAdvertiserByNameQueryHandler : IRequestHandler<GetAdvertiserByNameQuery, HttpResult<AdvertiserDto>>
+    public class GetAdvertiserByNameQueryHandler : IRequestHandler<GetAdvertiserByNameQuery, Response<AdvertiserDto>>
     {
         private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.GetAd
             AdvertiserDbRepo = advertiserDbRepo;
         }
 
-        public async Task<HttpResult<AdvertiserDto>> Handle(GetAdvertiserByNameQuery request, CancellationToken cancellationToken)
+        public async Task<Response<AdvertiserDto>> Handle(GetAdvertiserByNameQuery request, CancellationToken cancellationToken)
         {
             var item = await AdvertiserDbRepo.FirstAsync(
                 selector: AdvertiserDto.Projection,
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.GetAd
                     f.DeletedAt == null
             );
 
-            var result = new HttpResult<AdvertiserDto>();
+            var result = new Response<AdvertiserDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"Advertiser '{request.Name}' doesn't exist.");

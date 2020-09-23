@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.DeleteAdCacheByAssetId;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.DeleteAdAsset
 {
-    public class DeleteAdAssetCommandHandler : IRequestHandler<DeleteAdAssetCommand, HttpResult<bool>>
+    public class DeleteAdAssetCommandHandler : IRequestHandler<DeleteAdAssetCommand, Response<bool>>
     {
         private IMediator Mediator { get; }
         private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
@@ -21,9 +21,9 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.DeleteA
             AdAssetDbRepo = adUnitDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(DeleteAdAssetCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(DeleteAdAssetCommand request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
 
             await Mediator.Send(new DeleteAdCacheByAssetIdCommand(request.Id), cancellationToken);
             await AdAssetDbRepo.DeleteAsync(request.Id);

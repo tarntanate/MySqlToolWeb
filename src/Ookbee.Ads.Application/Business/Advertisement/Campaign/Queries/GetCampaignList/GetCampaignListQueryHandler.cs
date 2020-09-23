@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCampaignList
 {
-    public class GetCampaignListQueryHandler : IRequestHandler<GetCampaignListQuery, HttpResult<IEnumerable<CampaignDto>>>
+    public class GetCampaignListQueryHandler : IRequestHandler<GetCampaignListQuery, Response<IEnumerable<CampaignDto>>>
     {
         private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
 
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCamp
             CampaignDbRepo = campaignDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<CampaignDto>>> Handle(GetCampaignListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<CampaignDto>>> Handle(GetCampaignListQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<CampaignEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCamp
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<CampaignDto>>();
+            var result = new Response<IEnumerable<CampaignDto>>();
             return result.Success(items);
         }
     }

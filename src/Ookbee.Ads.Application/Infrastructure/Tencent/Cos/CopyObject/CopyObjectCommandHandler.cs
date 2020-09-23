@@ -4,13 +4,13 @@ using COSXML.Model.Tag;
 using COSXML.Utils;
 using MediatR;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.InitializeCosXmlServer;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject
 {
-    public class CopyObjectCommandHandler : IRequestHandler<CopyObjectCommand, HttpResult<bool>>
+    public class CopyObjectCommandHandler : IRequestHandler<CopyObjectCommand, Response<bool>>
     {
         private IMediator Mediator { get; }
 
@@ -19,9 +19,9 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject
             Mediator = mediator;
         }
 
-        public async Task<HttpResult<bool>> Handle(CopyObjectCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(CopyObjectCommand request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             try
             {
                 var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand(), cancellationToken);

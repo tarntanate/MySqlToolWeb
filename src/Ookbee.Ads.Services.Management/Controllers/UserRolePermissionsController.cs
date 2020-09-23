@@ -6,7 +6,7 @@ using Ookbee.Ads.Application.Business.Advertisement.UserPermission.Commands.Upda
 using Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.GetUserPermissionById;
 using Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.GetUserPermissionList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,23 +18,23 @@ namespace Ookbee.Ads.Services.Management.Controllers
     public class UserRolePermissionsController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<UserPermissionDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? roleId, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<UserPermissionDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? roleId, CancellationToken cancellationToken)
             => await Mediator.Send(new GetUserPermissionListQuery(start, length, roleId), cancellationToken);
         
         [HttpGet("{id}")]
-        public async Task<HttpResult<UserPermissionDto>> GetById([FromRoute] long id, CancellationToken cancellationToken)
+        public async Task<Response<UserPermissionDto>> GetById([FromRoute] long id, CancellationToken cancellationToken)
             => await Mediator.Send(new GetUserPermissionByIdQuery(id), cancellationToken);
 
         [HttpPost]
-        public async Task<HttpResult<long>> Create([FromBody] CreateUserPermissionRequest request, CancellationToken cancellationToken)
+        public async Task<Response<long>> Create([FromBody] CreateUserPermissionRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new CreateUserPermissionCommand(request), cancellationToken);
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> Update([FromRoute] long id, [FromBody] UpdateUserPermissionRequest request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Update([FromRoute] long id, [FromBody] UpdateUserPermissionRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdateUserPermissionCommand(id, request), cancellationToken);
 
         [HttpDelete("{id}")]
-        public async Task<HttpResult<bool>> Delete([FromRoute] long id, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Delete([FromRoute] long id, CancellationToken cancellationToken)
             => await Mediator.Send(new DeleteUserPermissionCommand(id), cancellationToken);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUnitStatsListByKey
 {
-    public class GetAdUnitStatsListByKeyQueryHandler : IRequestHandler<GetAdUnitStatsListByKeyQuery, HttpResult<IEnumerable<AdUnitStatsDto>>>
+    public class GetAdUnitStatsListByKeyQueryHandler : IRequestHandler<GetAdUnitStatsListByKeyQuery, Response<IEnumerable<AdUnitStatsDto>>>
     {
         private AnalyticsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo { get; }
 
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUni
             AdUnitStatsDbRepo = adGroupStatsDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<AdUnitStatsDto>>> Handle(GetAdUnitStatsListByKeyQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdUnitStatsDto>>> Handle(GetAdUnitStatsListByKeyQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<AdUnitStatsEntity>();
 
@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Queries.GetAdUni
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<AdUnitStatsDto>>();
+            var result = new Response<IEnumerable<AdUnitStatsDto>>();
             return result.Success(items);
         }
     }

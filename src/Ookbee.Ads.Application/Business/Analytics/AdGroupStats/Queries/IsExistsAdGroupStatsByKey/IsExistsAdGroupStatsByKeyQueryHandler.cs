@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.IsExistsAdGroupStatsByKey
 {
-    public class IsExistsAdGroupStatsByKeyQueryHandler : IRequestHandler<IsExistsAdGroupStatsByKeyQuery, HttpResult<bool>>
+    public class IsExistsAdGroupStatsByKeyQueryHandler : IRequestHandler<IsExistsAdGroupStatsByKeyQuery, Response<bool>>
     {
         private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
 
@@ -16,14 +16,14 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.IsExists
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(IsExistsAdGroupStatsByKeyQuery request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(IsExistsAdGroupStatsByKeyQuery request, CancellationToken cancellationToken)
         {
             var isExists = await AdGroupStatsDbRepo.AnyAsync(f =>
                 f.AdGroupId == request.AdGroupId &&
                 f.CaculatedAt == request.CaculatedAt
             );
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"AdGroup Stat not exist");

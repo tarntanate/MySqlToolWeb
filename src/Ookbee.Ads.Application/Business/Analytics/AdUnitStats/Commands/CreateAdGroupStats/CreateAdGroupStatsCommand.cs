@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdUnitStats.Commands.CreateAdUnitStats
 {
-    public class CreateAdUnitStatsCommand : IRequest<HttpResult<long>>
+    public class CreateAdUnitStatsCommand : IRequest<Response<long>>
     {
         public DateTimeOffset CaculatedAt { get; set; }
         public long AdUnitId { get; set; }

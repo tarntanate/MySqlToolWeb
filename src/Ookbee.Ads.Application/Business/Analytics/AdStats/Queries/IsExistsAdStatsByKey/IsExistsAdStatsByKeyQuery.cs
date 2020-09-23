@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStats.Queries.IsExistsAStatsByKey
 {
-    public class IsExistsAdStatsByKeyQuery : IRequest<HttpResult<bool>>
+    public class IsExistsAdStatsByKeyQuery : IRequest<Response<bool>>
     {
         public long AdId { get; set; }
         public DateTimeOffset CaculatedAt { get; set; }

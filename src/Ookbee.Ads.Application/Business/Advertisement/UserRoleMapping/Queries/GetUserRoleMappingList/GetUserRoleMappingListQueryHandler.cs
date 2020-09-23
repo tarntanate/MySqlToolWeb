@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Queries.GetUserRoleMappingList
 {
-    public class GetUserRoleMappingListQueryHandler : IRequestHandler<GetUserRoleMappingListQuery, HttpResult<IEnumerable<UserRoleMappingDto>>>
+    public class GetUserRoleMappingListQueryHandler : IRequestHandler<GetUserRoleMappingListQuery, Response<IEnumerable<UserRoleMappingDto>>>
     {
         private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
 
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Queries.
             UserRoleMappingDbRepo = userRoleMappingDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<UserRoleMappingDto>>> Handle(GetUserRoleMappingListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<UserRoleMappingDto>>> Handle(GetUserRoleMappingListQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<UserRoleMappingEntity>();
 
@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Queries.
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<UserRoleMappingDto>>();
+            var result = new Response<IEnumerable<UserRoleMappingDto>>();
             return result.Success(items);
         }
     }

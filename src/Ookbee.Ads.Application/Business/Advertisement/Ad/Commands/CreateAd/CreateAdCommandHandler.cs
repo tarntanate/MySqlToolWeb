@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Cache.AdCache.Commands.CreateAdCache;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Ad.Commands.CreateAd
 {
-    public class CreateAdCommandHandler : IRequestHandler<CreateAdCommand, HttpResult<long>>
+    public class CreateAdCommandHandler : IRequestHandler<CreateAdCommand, Response<long>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
@@ -25,14 +25,14 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Ad.Commands.CreateAd
             AdDbRepo = adDbRepo;
         }
 
-        public async Task<HttpResult<long>> Handle(CreateAdCommand request, CancellationToken cancellationToken)
+        public async Task<Response<long>> Handle(CreateAdCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<AdEntity>(request);
             await AdDbRepo.InsertAsync(entity);
             await AdDbRepo.SaveChangesAsync(cancellationToken);
             await Mediator.Send(new CreateAdCacheCommand(entity.Id), cancellationToken);
 
-            var result = new HttpResult<long>();
+            var result = new Response<long>();
             return result.Success(entity.Id);
         }
     }

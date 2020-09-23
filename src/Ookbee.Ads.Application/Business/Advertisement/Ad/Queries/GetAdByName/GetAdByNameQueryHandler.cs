@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdByName
 {
-    public class GetAdByNameQueryHandler : IRequestHandler<GetAdByNameQuery, HttpResult<AdDto>>
+    public class GetAdByNameQueryHandler : IRequestHandler<GetAdByNameQuery, Response<AdDto>>
     {
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
@@ -16,9 +16,9 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Ad.Queries.GetAdByName
             AdDbRepo = adDbRepo;
         }
 
-        public async Task<HttpResult<AdDto>> Handle(GetAdByNameQuery request, CancellationToken cancellationToken)
+        public async Task<Response<AdDto>> Handle(GetAdByNameQuery request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<AdDto>();
+            var result = new Response<AdDto>();
 
             var item = await AdDbRepo.FirstAsync(
                 selector: AdDto.Projection,

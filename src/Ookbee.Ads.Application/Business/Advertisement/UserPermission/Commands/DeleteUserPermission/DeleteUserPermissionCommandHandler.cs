@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Commands.DeleteUserPermission
 {
-    public class DeleteUserPermissionCommandHandler : IRequestHandler<DeleteUserPermissionCommand, HttpResult<bool>>
+    public class DeleteUserPermissionCommandHandler : IRequestHandler<DeleteUserPermissionCommand, Response<bool>>
     {
         private IMediator Mediator { get; }
         private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
@@ -20,12 +20,12 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Commands.
             UserPermissionDbRepo = userPermissionDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(DeleteUserPermissionCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(DeleteUserPermissionCommand request, CancellationToken cancellationToken)
         {
             await UserPermissionDbRepo.DeleteAsync(request.Id);
             await UserPermissionDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return result.Success(true);
         }
     }

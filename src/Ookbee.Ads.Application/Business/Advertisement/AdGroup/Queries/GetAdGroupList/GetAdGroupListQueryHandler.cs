@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGroupList
 {
-    public class GetAdGroupListQueryHandler : IRequestHandler<GetAdGroupListQuery, HttpResult<IEnumerable<AdGroupDto>>>
+    public class GetAdGroupListQueryHandler : IRequestHandler<GetAdGroupListQuery, Response<IEnumerable<AdGroupDto>>>
     {
         private AdsDbRepository<AdGroupEntity> AdGroupDbRepo { get; }
 
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGro
             AdGroupDbRepo = adGroupDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<AdGroupDto>>> Handle(GetAdGroupListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdGroupDto>>> Handle(GetAdGroupListQuery request, CancellationToken cancellationToken)
         {
             var items = await AdGroupDbRepo.FindAsync(
                 selector: AdGroupDto.Projection,
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGro
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<AdGroupDto>>();
+            var result = new Response<IEnumerable<AdGroupDto>>();
             return result.Success(items);
         }
     }

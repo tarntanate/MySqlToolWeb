@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.IsExistsAdAssetByPosition
 {
-    public class IsExistsAdAssetByPositionQueryHandler : IRequestHandler<IsExistsAdAssetByPositionQuery, HttpResult<bool>>
+    public class IsExistsAdAssetByPositionQueryHandler : IRequestHandler<IsExistsAdAssetByPositionQuery, Response<bool>>
     {
         private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.IsExists
             AdAssetDbRepo = adUnitDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(IsExistsAdAssetByPositionQuery request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(IsExistsAdAssetByPositionQuery request, CancellationToken cancellationToken)
         {
             var isExists = await AdAssetDbRepo.AnyAsync(f =>
                 f.AdId == request.AdId &&
@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.IsExists
                 f.DeletedAt == null
             );
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");

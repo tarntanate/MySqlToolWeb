@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Queries.GetUserPermissionByName
 {
-    public class GetUserPermissionByNameQuery : IRequest<HttpResult<UserPermissionDto>>
+    public class GetUserPermissionByNameQuery : IRequest<Response<UserPermissionDto>>
     {
         public string ExtensionName { get; set; }
 

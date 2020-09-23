@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnitList
 {
-    public class GetAdUnitListQuery : IRequest<HttpResult<IEnumerable<AdUnitDto>>>
+    public class GetAdUnitListQuery : IRequest<Response<IEnumerable<AdUnitDto>>>
     {
         public int Start { get; set; }
         public int Length { get; set; }

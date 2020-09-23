@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Commands.DeleteUserRole
 {
-    public class DeleteUserRoleCommandHandler : IRequestHandler<DeleteUserRoleCommand, HttpResult<bool>>
+    public class DeleteUserRoleCommandHandler : IRequestHandler<DeleteUserRoleCommand, Response<bool>>
     {
         private IMediator Mediator { get; }
         private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
@@ -20,12 +20,12 @@ namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Commands.Delete
             UserRoleDbRepo = userRoleDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(DeleteUserRoleCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(DeleteUserRoleCommand request, CancellationToken cancellationToken)
         {
             await UserRoleDbRepo.DeleteAsync(request.Id);
             await UserRoleDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return result.Success(true);
         }
     }

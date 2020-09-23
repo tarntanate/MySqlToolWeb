@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Business.Analytics.AdStats;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdStat.Queries.GetAdStatsListByKey
 {
-    public class GetAdStatsListByKeyQuery : IRequest<HttpResult<IEnumerable<AdStatsDto>>>
+    public class GetAdStatsListByKeyQuery : IRequest<Response<IEnumerable<AdStatsDto>>>
     {
         public int Start { get; set; }
         public int Length { get; set; }

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.GetAdvertiserList
 {
-    public class GetAdvertiserListQueryHandler : IRequestHandler<GetAdvertiserListQuery, HttpResult<IEnumerable<AdvertiserDto>>>
+    public class GetAdvertiserListQueryHandler : IRequestHandler<GetAdvertiserListQuery, Response<IEnumerable<AdvertiserDto>>>
     {
         private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
 
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.GetAd
             AdvertiserDbRepo = advertiserDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<AdvertiserDto>>> Handle(GetAdvertiserListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdvertiserDto>>> Handle(GetAdvertiserListQuery request, CancellationToken cancellationToken)
         {
             var items = await AdvertiserDbRepo.FindAsync(
                 selector: AdvertiserDto.Projection,
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.GetAd
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<AdvertiserDto>>();
+            var result = new Response<IEnumerable<AdvertiserDto>>();
             return result.Success(items);
         }
     }

@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Commands.CreateUserRole
 {
-    public class CreateUserRoleCommand : CreateUserRoleRequest, IRequest<HttpResult<long>>
+    public class CreateUserRoleCommand : CreateUserRoleRequest, IRequest<Response<long>>
     {
         public CreateUserRoleCommand(CreateUserRoleRequest request)
         {

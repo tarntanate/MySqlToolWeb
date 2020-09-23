@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGroupStatsListByKey
 {
-    public class GetAdGroupStatsListByKeyQueryHandler : IRequestHandler<GetAdGroupStatsListByKeyQuery, HttpResult<IEnumerable<AdGroupStatsDto>>>
+    public class GetAdGroupStatsListByKeyQueryHandler : IRequestHandler<GetAdGroupStatsListByKeyQuery, Response<IEnumerable<AdGroupStatsDto>>>
     {
         private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
 
@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGro
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<AdGroupStatsDto>>> Handle(GetAdGroupStatsListByKeyQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdGroupStatsDto>>> Handle(GetAdGroupStatsListByKeyQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<AdGroupStatsEntity>();
 
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.Analytics.AdGroupStat.Queries.GetAdGro
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<AdGroupStatsDto>>();
+            var result = new Response<IEnumerable<AdGroupStatsDto>>();
 
             var x = items.HasValue();
 

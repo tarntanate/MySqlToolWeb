@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnitList
 {
-    public class GetAdUnitListQueryHandler : IRequestHandler<GetAdUnitListQuery, HttpResult<IEnumerable<AdUnitDto>>>
+    public class GetAdUnitListQueryHandler : IRequestHandler<GetAdUnitListQuery, Response<IEnumerable<AdUnitDto>>>
     {
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnit
             AdUnitDbRepo = adUnitDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<AdUnitDto>>> Handle(GetAdUnitListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdUnitDto>>> Handle(GetAdUnitListQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<AdUnitEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.GetAdUnit
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<AdUnitDto>>();
+            var result = new Response<IEnumerable<AdUnitDto>>();
             return result.Success(items);
         }
     }

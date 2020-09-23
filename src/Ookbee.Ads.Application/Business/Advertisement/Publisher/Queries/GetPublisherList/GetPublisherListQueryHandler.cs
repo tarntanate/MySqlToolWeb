@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.GetPublisherList
 {
-    public class GetPublisherListQueryHandler : IRequestHandler<GetPublisherListQuery, HttpResult<IEnumerable<PublisherDto>>>
+    public class GetPublisherListQueryHandler : IRequestHandler<GetPublisherListQuery, Response<IEnumerable<PublisherDto>>>
     {
         private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.GetPub
             PublisherDbRepo = publisherDbRepo;
         }
 
-        public async Task<HttpResult<IEnumerable<PublisherDto>>> Handle(GetPublisherListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<PublisherDto>>> Handle(GetPublisherListQuery request, CancellationToken cancellationToken)
         {
             var items = await PublisherDbRepo.FindAsync(
                 selector: PublisherDto.Projection,
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Queries.GetPub
                 length: request.Length
             );
 
-            var result = new HttpResult<IEnumerable<PublisherDto>>();
+            var result = new Response<IEnumerable<PublisherDto>>();
             return result.Success(items);
         }
     }

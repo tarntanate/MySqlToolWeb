@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRole.Queries.IsExistsUserRoleById
 {
-    public class IsExistsUserRoleByIdQuery : IRequest<HttpResult<bool>>
+    public class IsExistsUserRoleByIdQuery : IRequest<Response<bool>>
     {
         public long Id { get; set; }
 

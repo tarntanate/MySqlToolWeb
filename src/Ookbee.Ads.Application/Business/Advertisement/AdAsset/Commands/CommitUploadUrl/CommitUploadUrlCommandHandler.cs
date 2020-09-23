@@ -2,16 +2,16 @@
 using Ookbee.Ads.Application.Business.Advertisement.AdAsset.Queries.GetAdAssetById;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.DeleteObject;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure;
-using Ookbee.Ads.Infrastructure.Models;
+using Ookbee.Ads.Infrastructure.Settings;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.CommitUploadUrl
 {
-    public class CommitUploadUrlCommandHandler : IRequestHandler<CommitUploadUrlCommand, HttpResult<bool>>
+    public class CommitUploadUrlCommandHandler : IRequestHandler<CommitUploadUrlCommand, Response<bool>>
     {
         private IMediator Mediator { get; }
 
@@ -20,9 +20,9 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.CommitU
             Mediator = mediator;
         }
 
-        public async Task<HttpResult<bool>> Handle(CommitUploadUrlCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(CommitUploadUrlCommand request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
 
             var adAssetResult = await Mediator.Send(new GetAdAssetByIdQuery(request.Id), cancellationToken);
             if (!adAssetResult.Ok)
@@ -44,9 +44,9 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.CommitU
             return result.Success(true);
         }
 
-        private async Task<HttpResult<bool>> CopyObject(CosSettings cos, string bucket, string key, CancellationToken cancellationToken)
+        private async Task<Response<bool>> CopyObject(CosSettings cos, string bucket, string key, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
 
             var copyObjectCommand = new CopyObjectCommand()
             {
@@ -68,9 +68,9 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdAsset.Commands.CommitU
             return result.Success(true);
         }
 
-        private async Task<HttpResult<bool>> DeleteObject(string bucket, string key, CancellationToken cancellationToken)
+        private async Task<Response<bool>> DeleteObject(string bucket, string key, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
 
             var deleteObjectCommand = new DeleteObjectCommand()
             {

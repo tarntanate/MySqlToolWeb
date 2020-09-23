@@ -6,7 +6,9 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         ".vscode": true,
-        "submodules": false
+        "submodules": false,
+        "**/obj": false,
+        "**/bin": false
     },
     "sqltools.connections": [{
             "database": "ookbee-ads",
@@ -31,5 +33,6 @@
             "username": "admin"
         }
     ],
-    "compile-hero.disable-compile-files-on-did-save-code": true
+    "compile-hero.disable-compile-files-on-did-save-code": true,
+    "explorerExclude.backup": null
 }

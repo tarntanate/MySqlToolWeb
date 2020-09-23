@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.DeleteUserRoleMapping
 {
-    public class DeleteUserRoleMappingCommand : IRequest<HttpResult<bool>>
+    public class DeleteUserRoleMappingCommand : IRequest<Response<bool>>
     {
         public long UserId { get; set; }
         public long RoleId { get; set; }

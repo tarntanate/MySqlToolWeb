@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.CreateCampaign
 {
-    public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, HttpResult<long>>
+    public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, Response<long>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
@@ -24,13 +24,13 @@ namespace Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.Create
             CampaignDbRepo = campaignDbRepo;
         }
 
-        public async Task<HttpResult<long>> Handle(CreateCampaignCommand request, CancellationToken cancellationToken)
+        public async Task<Response<long>> Handle(CreateCampaignCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<CampaignEntity>(request);
             await CampaignDbRepo.InsertAsync(entity);
             await CampaignDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<long>();
+            var result = new Response<long>();
             return result.Success(entity.Id);
         }
     }

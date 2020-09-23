@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.UpdateAdGroupCache;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Commands.UpdateAdGroup
 {
-    public class UpdateAdGroupCommandHandler : IRequestHandler<UpdateAdGroupCommand, HttpResult<bool>>
+    public class UpdateAdGroupCommandHandler : IRequestHandler<UpdateAdGroupCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
         private IMediator Mediator { get; }
@@ -25,14 +25,14 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Commands.UpdateA
             AdGroupDbRepo = adGroupDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(UpdateAdGroupCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(UpdateAdGroupCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<AdGroupEntity>(request);
             await Mediator.Send(new UpdateAdGroupCacheCommand(entity.Id), cancellationToken);
             await AdGroupDbRepo.UpdateAsync(entity.Id, entity);
             await AdGroupDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return result.Success(true);
         }
     }

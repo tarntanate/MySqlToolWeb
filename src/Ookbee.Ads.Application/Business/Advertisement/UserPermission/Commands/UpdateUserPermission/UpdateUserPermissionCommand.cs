@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.UserPermission.Commands.UpdateUserPermission
 {
-    public class UpdateUserPermissionCommand : UpdateUserPermissionRequest, IRequest<HttpResult<bool>>
+    public class UpdateUserPermissionCommand : UpdateUserPermissionRequest, IRequest<Response<bool>>
     {
         public UpdateUserPermissionCommand(long id, UpdateUserPermissionRequest request)
         {

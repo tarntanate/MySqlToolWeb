@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.IsExistsAdUnitByAdGroup
 {
-    public class IsExistsAdUnitByAdGroupQueryHandler : IRequestHandler<IsExistsAdUnitByAdGroupQuery, HttpResult<bool>>
+    public class IsExistsAdUnitByAdGroupQueryHandler : IRequestHandler<IsExistsAdUnitByAdGroupQuery, Response<bool>>
     {
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.IsExistsA
             AdUnitDbRepo = adUnitDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(IsExistsAdUnitByAdGroupQuery request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(IsExistsAdUnitByAdGroupQuery request, CancellationToken cancellationToken)
         {
             var isExists = await AdUnitDbRepo.AnyAsync(f =>
                 f.AdNetwork == request.AdNetworkName &&
@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.IsExistsA
                 f.DeletedAt == null
             );
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
                 : result.Fail(404, $"Ad Network '{request.AdNetworkName}' Unit is exist in group id {request.AdGroupId}.");

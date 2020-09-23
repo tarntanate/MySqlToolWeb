@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdNetwork.Queries.GetAdNetworkById
 {
-    public class GetAdNetworkByIdQueryHandler : IRequestHandler<GetAdNetworkByIdQuery, HttpResult<AdNetworkDto>>
+    public class GetAdNetworkByIdQueryHandler : IRequestHandler<GetAdNetworkByIdQuery, Response<AdNetworkDto>>
     {
         private AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdNetwork.Queries.GetAdN
             AdNetworkDbRepo = adNetworkDbRepo;
         }
 
-        public async Task<HttpResult<AdNetworkDto>> Handle(GetAdNetworkByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<AdNetworkDto>> Handle(GetAdNetworkByIdQuery request, CancellationToken cancellationToken)
         {
             var item = await AdNetworkDbRepo.FirstAsync(
                 selector: AdNetworkDto.Projection,
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdNetwork.Queries.GetAdN
                     f.DeletedAt == null
             );
 
-            var result = new HttpResult<AdNetworkDto>();
+            var result = new Response<AdNetworkDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"AdNetwork '{request.Id}' doesn't exist.");

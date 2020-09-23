@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.IncrementAdUnitStatsCache
 {
-    public class IncrementAdUnitStatsCacheCommandHandler : IRequestHandler<IncrementAdUnitStatsCacheCommand, HttpResult<bool>>
+    public class IncrementAdUnitStatsCacheCommandHandler : IRequestHandler<IncrementAdUnitStatsCacheCommand, Response<bool>>
     {
         private IDatabase AdsRedis { get; }
 
@@ -17,7 +17,7 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<HttpResult<bool>> Handle(IncrementAdUnitStatsCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(IncrementAdUnitStatsCacheCommand request, CancellationToken cancellationToken)
         {
 
             var redisKey = CacheKey.UnitsStats(request.AdUnitId);
@@ -26,9 +26,9 @@ namespace Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.Increm
             {
                 var hashField = request.StatsType.ToString();
                 await AdsRedis.HashIncrementAsync(redisKey, hashField, 1, CommandFlags.FireAndForget);
-                return new HttpResult<bool>().Success(true);
+                return new Response<bool>().Success(true);
             }
-            return new HttpResult<bool>().Fail(404, $"Unable to update stats: Invalid or expired data.");
+            return new Response<bool>().Fail(404, $"Unable to update stats: Invalid or expired data.");
         }
     }
 }

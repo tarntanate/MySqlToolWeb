@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGroupById
 {
-    public class GetAdGroupByIdQueryHandler : IRequestHandler<GetAdGroupByIdQuery, HttpResult<AdGroupDto>>
+    public class GetAdGroupByIdQueryHandler : IRequestHandler<GetAdGroupByIdQuery, Response<AdGroupDto>>
     {
         private AdsDbRepository<AdGroupEntity> AdGroupDbRepo { get; }
 
@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGro
             AdGroupDbRepo = adGroupDbRepo;
         }
 
-        public async Task<HttpResult<AdGroupDto>> Handle(GetAdGroupByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<AdGroupDto>> Handle(GetAdGroupByIdQuery request, CancellationToken cancellationToken)
         {
             var item = await AdGroupDbRepo.FirstAsync(
                 selector: AdGroupDto.Projection,
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGro
                     f.DeletedAt == null
             );
 
-            var result = new HttpResult<AdGroupDto>();
+            var result = new Response<AdGroupDto>();
             return (item != null)
                 ? result.Success(item)
                 : result.Fail(404, $"AdGroup '{request.Id}' doesn't exist.");

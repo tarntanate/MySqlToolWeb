@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.AdUnit.Queries.IsExistsAdUnitByAdNetwork
 {
-    public class IsExistsAdUnitByAdNetworkQuery : IRequest<HttpResult<bool>>
+    public class IsExistsAdUnitByAdNetworkQuery : IRequest<Response<bool>>
     {
         public string AdNetwork { get; set; }
 

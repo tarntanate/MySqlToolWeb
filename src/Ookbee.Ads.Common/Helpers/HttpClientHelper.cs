@@ -1,4 +1,4 @@
-﻿using Ookbee.Ads.Common.Result;
+﻿using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -17,9 +17,9 @@ namespace Ookbee.Ads.Common.Helpers
             return result;
         }
 
-        public static async Task<HttpResult<TResult>> ConvertToItemResult<TResult>(HttpResponseMessage responseMessage)
+        public static async Task<Response<TResult>> ConvertToItemResult<TResult>(HttpResponseMessage responseMessage)
         {
-            var httpResult = new HttpResult<TResult>();
+            var httpResult = new Response<TResult>();
             var json = await responseMessage.Content.ReadAsStringAsync();
             var responseBody = JsonHelper.Deserialize<ApiItemResult<TResult>>(json);
             if (responseMessage.IsSuccessStatusCode)
@@ -27,9 +27,9 @@ namespace Ookbee.Ads.Common.Helpers
             return httpResult.Fail(responseMessage.StatusCode, responseBody?.Error?.Message);
         }
 
-        public static async Task<HttpResult<ICollection<TResult>>> ConvertToListResult<TResult>(HttpResponseMessage responseMessage)
+        public static async Task<Response<ICollection<TResult>>> ConvertToListResult<TResult>(HttpResponseMessage responseMessage)
         {
-            var httpResult = new HttpResult<ICollection<TResult>>();
+            var httpResult = new Response<ICollection<TResult>>();
             var json = await responseMessage.Content.ReadAsStringAsync();
             var responseBody = JsonHelper.Deserialize<ApiListResult<TResult>>(json);
             if (responseMessage.IsSuccessStatusCode)

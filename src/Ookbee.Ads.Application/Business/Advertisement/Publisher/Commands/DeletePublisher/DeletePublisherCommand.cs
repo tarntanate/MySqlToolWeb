@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Business.Advertisement.Publisher.Commands.DeletePublisher
 {
-    public class DeletePublisherCommand : IRequest<HttpResult<bool>>
+    public class DeletePublisherCommand : IRequest<Response<bool>>
     {
         public long Id { get; set; }
 

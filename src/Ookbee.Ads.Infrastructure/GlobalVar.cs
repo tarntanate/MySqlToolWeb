@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Ookbee.Ads.Infrastructure.Models;
+using Ookbee.Ads.Infrastructure.Settings;
 using System;
 
 namespace Ookbee.Ads.Infrastructure
