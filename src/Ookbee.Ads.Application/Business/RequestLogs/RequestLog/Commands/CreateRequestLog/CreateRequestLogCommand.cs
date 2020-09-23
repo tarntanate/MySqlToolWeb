@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
 
 namespace Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateRequestLog
 {
-    public class CreateRequestLogCommand : IRequest<HttpResult<bool>>
+    public class CreateRequestLogCommand : IRequest<Response<bool>>
     {
         public DateTime CreatedAt { get; set; }
         public short PlatformId { get; set; }

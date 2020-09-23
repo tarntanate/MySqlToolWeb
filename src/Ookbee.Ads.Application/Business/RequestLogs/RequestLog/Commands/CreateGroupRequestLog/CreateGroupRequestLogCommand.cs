@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System;
 
 namespace Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateGroupRequestLog
 {
-    public class CreateGroupRequestLogCommand : IRequest<HttpResult<bool>>
+    public class CreateGroupRequestLogCommand : IRequest<Response<bool>>
     {
         public DateTime CreatedAt { get; set; }
         public short PlatformId { get; set; }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.RequestLogEntities;
 using Ookbee.Ads.Persistence.EFCore.TimeScaleDb;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.RequestLogs.AdClickLog.Commands.CreateAdClickLog
 {
-    public class CreateAdClickLogCommandHandler : IRequestHandler<CreateAdClickLogCommand, HttpResult<bool>>
+    public class CreateAdClickLogCommandHandler : IRequestHandler<CreateAdClickLogCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
         private TimeScaleDbRepository<AdClickLogEntity> TimeScaleDbRepo { get; }
@@ -21,13 +21,13 @@ namespace Ookbee.Ads.Application.Business.RequestLogs.AdClickLog.Commands.Create
             TimeScaleDbRepo = timeScaleDbRepo;
         }
 
-        public async Task<HttpResult<bool>> Handle(CreateAdClickLogCommand request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(CreateAdClickLogCommand request, CancellationToken cancellationToken)
         {
             var entity = Mapper.Map<AdClickLogEntity>(request);
             await TimeScaleDbRepo.InsertAsync(entity);
             await TimeScaleDbRepo.SaveChangesAsync(cancellationToken);
 
-            var result = new HttpResult<bool>();
+            var result = new Response<bool>();
             if (result.Ok)
                 return result.Success(true);
 

@@ -19,7 +19,8 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
         [HttpGet]
         public async Task<ContentResult> UpdateAdStats([FromRoute] long adId, [FromQuery] string type, [FromQuery] Platform platform, [FromQuery] int campaignId, [FromQuery] int unitId, CancellationToken cancellationToken)
         {
-            if (type.ToLower() == "impression")
+            var _type = type.ToEnum<StatsType>();
+            if (_type == StatsType.Impression)
             {
                 var timescaleResult = await Mediator.Send(
                     new CreateAdImpressionLogCommand(
@@ -30,7 +31,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                         uuid: new Random().Next(0, 20).ToString()),
                         cancellationToken);
             }
-             if (type.ToLower() == "click")
+            if (_type == StatsType.Click)
             {
                 var timescaleResult = await Mediator.Send(
                     new CreateAdClickLogCommand(
