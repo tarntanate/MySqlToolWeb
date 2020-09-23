@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 {
     public class GetAdAssetByIdQuery : IRequest<Response<AdAssetDto>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public GetAdAssetByIdQuery(long id)
         {

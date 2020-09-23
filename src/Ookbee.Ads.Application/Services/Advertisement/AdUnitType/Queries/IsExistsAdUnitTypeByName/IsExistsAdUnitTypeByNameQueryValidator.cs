@@ -6,7 +6,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.IsExi
     {
         public IsExistsAdUnitTypeByNameQueryValidator()
         {
-            RuleFor(p => p.Name).NotNull().NotEmpty().MaximumLength(40);
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
+            RuleFor(p => p.Name)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(40);
         }
     }
 }

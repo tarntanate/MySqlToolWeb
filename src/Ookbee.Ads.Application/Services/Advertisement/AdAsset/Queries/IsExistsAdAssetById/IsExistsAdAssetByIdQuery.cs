@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.IsExists
 {
     public class IsExistsAdAssetByIdQuery : IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public IsExistsAdAssetByIdQuery(long id)
         {

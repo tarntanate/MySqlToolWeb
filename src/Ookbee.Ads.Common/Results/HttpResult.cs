@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Common.Response
 {
@@ -38,6 +39,7 @@ namespace Ookbee.Ads.Common.Response
                 Message = message,
                 StatusCode = statusCode,
                 Reasons = reasons ?? new Dictionary<string, string[]>(),
+                Data = default(T),
             };
         }
     }

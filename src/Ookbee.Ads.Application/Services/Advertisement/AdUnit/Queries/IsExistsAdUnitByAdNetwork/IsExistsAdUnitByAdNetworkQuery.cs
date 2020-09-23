@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsA
 {
     public class IsExistsAdUnitByAdNetworkQuery : IRequest<Response<bool>>
     {
-        public string AdNetwork { get; set; }
+        public string AdNetwork { get; private set; }
 
         public IsExistsAdUnitByAdNetworkQuery(string adNetwork)
         {

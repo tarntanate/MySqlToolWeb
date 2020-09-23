@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.IsExist
     {
         public IsExistsCampaignByNameQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()

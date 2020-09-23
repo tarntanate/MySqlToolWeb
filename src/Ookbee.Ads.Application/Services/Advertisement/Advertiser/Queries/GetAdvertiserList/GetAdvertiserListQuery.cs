@@ -6,9 +6,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.GetAd
 {
     public class GetAdvertiserListQuery : IRequest<Response<IEnumerable<AdvertiserDto>>>
     {
-        public int Start { get; set; }
+        public int Start { get; private set; }
 
-        public int Length { get; set; }
+        public int Length { get; private set; }
 
         public GetAdvertiserListQuery(int start, int length)
         {

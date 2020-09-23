@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
     {
         private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
-        public GetAdAssetByPositionQueryHandler(AdsDbRepository<AdAssetEntity> adUnitDbRepo)
+        public GetAdAssetByPositionQueryHandler(
+            AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
             AdAssetDbRepo = adUnitDbRepo;
         }

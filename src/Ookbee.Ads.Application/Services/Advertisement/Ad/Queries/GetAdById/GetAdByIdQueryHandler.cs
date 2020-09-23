@@ -11,24 +11,25 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdById
     {
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
-        public GetAdByIdQueryHandler(AdsDbRepository<AdEntity> adDbRepo)
+        public GetAdByIdQueryHandler(
+            AdsDbRepository<AdEntity> adDbRepo)
         {
             AdDbRepo = adDbRepo;
         }
 
         public async Task<Response<AdDto>> Handle(GetAdByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = new Response<AdDto>();
-
             var item = await AdDbRepo.FirstAsync(
                 selector: AdDto.Projection,
-                filter: f =>
+                filter: f => 
                     f.Id == request.Id &&
-                    f.DeletedAt == null);
+                    f.DeletedAt == null
+            );
 
+            var result = new Response<AdDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"Ad '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

@@ -6,9 +6,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
 {
     public class GetPublisherListQuery : IRequest<Response<IEnumerable<PublisherDto>>>
     {
-        public int Start { get; set; }
+        public int Start { get; private set; }
 
-        public int Length { get; set; }
+        public int Length { get; private set; }
 
         public GetPublisherListQuery(int start, int length)
         {

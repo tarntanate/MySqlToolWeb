@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.IsExi
 {
     public class IsExistsAdvertiserByNameQuery : IRequest<Response<bool>>
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public IsExistsAdvertiserByNameQuery(string name)
         {

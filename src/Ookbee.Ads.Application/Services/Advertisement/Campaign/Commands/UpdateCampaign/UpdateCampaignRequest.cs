@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.UpdateCampaign
+﻿namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.UpdateCampaign
 {
     public class UpdateCampaignRequest
     {

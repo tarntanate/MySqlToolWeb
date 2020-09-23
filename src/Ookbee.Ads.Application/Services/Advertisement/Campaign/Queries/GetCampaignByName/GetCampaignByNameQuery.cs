@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
 {
     public class GetCampaignByNameQuery : IRequest<Response<CampaignDto>>
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public GetCampaignByNameQuery(string name)
         {

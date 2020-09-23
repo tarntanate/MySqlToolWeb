@@ -11,15 +11,14 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdByName
     {
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
-        public GetAdByNameQueryHandler(AdsDbRepository<AdEntity> adDbRepo)
+        public GetAdByNameQueryHandler(
+            AdsDbRepository<AdEntity> adDbRepo)
         {
             AdDbRepo = adDbRepo;
         }
 
         public async Task<Response<AdDto>> Handle(GetAdByNameQuery request, CancellationToken cancellationToken)
         {
-            var result = new Response<AdDto>();
-
             var item = await AdDbRepo.FirstAsync(
                 selector: AdDto.Projection,
                 filter: f =>
@@ -27,9 +26,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdByName
                     f.DeletedAt == null
             );
 
+            var result = new Response<AdDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"'Ad' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

@@ -4,9 +4,10 @@ using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStatus
 {
-    public class UpdateAdStatusCommand : UpdateAdStatusRequest, IRequest<Response<bool>>
+    public class UpdateAdStatusCommand : IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
+        public AdStatus Status { get; private set; }
 
         public UpdateAdStatusCommand(long id, AdStatus status)
         {

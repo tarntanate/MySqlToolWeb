@@ -37,7 +37,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
             );
 
             var result = new Response<IEnumerable<AdUnitDto>>();
-            return result.Success(items);
+            return (items.HasValue())
+                ? result.Success(items)
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsA
 {
     public class IsExistsAdUnitByAdGroupQuery : IRequest<Response<bool>>
     {
-        public string AdNetworkName { get; set; }
-        public long AdGroupId { get; set; }
+        public string AdNetworkName { get; private set; }
+        public long AdGroupId { get; private set; }
 
         public IsExistsAdUnitByAdGroupQuery(string adNetworkName, long adGroupId)
         {

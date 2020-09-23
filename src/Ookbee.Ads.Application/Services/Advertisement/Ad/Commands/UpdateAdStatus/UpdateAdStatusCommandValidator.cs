@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.IsExistsAdById;
+using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStatus
 {
@@ -23,7 +24,11 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
                 });
 
             RuleFor(p => p.Status)
-                .NotNull();
+                .Custom((value, context) =>
+                {
+                    if (value == AdStatus.Unknown)
+                        context.AddFailure($"Unsupported Status Type.");
+                });
         }
     }
 }

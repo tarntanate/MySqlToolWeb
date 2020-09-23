@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.GetAd
     {
         public GetAdvertiserListQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Start)
                 .GreaterThanOrEqualTo(0);
 

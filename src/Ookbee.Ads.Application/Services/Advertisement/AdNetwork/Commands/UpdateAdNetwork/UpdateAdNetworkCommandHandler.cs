@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
     public class UpdateAdNetworkCommandHandler : IRequestHandler<UpdateAdNetworkCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
         private AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo { get; }
 
         public UpdateAdNetworkCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<AdNetworkEntity> adNetworkDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             AdNetworkDbRepo = adNetworkDbRepo;
         }
 
@@ -29,9 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
             var entity = Mapper.Map<AdNetworkEntity>(request);
             await AdNetworkDbRepo.UpdateAsync(entity.Id, entity);
             await AdNetworkDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<bool>();
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

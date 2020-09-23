@@ -16,7 +16,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
     {
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
-        public GetAdRevealListQueryHandler(AdsDbRepository<AdEntity> adDbRepo)
+        public GetAdRevealListQueryHandler(
+            AdsDbRepository<AdEntity> adDbRepo)
         {
             AdDbRepo = adDbRepo;
         }
@@ -42,7 +43,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
             );
 
             var result = new Response<IEnumerable<AdDto>>();
-            return result.Success(items);
+            return (items.HasValue())
+                ? result.Success(items)
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

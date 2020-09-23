@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.GetAd
 {
     public class GetAdUnitTypeByNameQuery : IRequest<Response<AdUnitTypeDto>>
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public GetAdUnitTypeByNameQuery(string name)
         {

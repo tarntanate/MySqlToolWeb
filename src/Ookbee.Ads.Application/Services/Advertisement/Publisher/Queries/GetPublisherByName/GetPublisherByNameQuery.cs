@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
 {
     public class GetPublisherByNameQuery : IRequest<Response<PublisherDto>>
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public GetPublisherByNameQuery(string name)
         {

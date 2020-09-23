@@ -6,10 +6,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
 {
     public class GetAdGroupListQuery : IRequest<Response<IEnumerable<AdGroupDto>>>
     {
-        public int Start { get; set; }
-        public int Length { get; set; }
-        public long? AdUnitTypeId { get; set; }
-        public long? PublisherId { get; set; }
+        public int Start { get; private set; }
+        public int Length { get; private set; }
+        public long? AdUnitTypeId { get; private set; }
+        public long? PublisherId { get; private set; }
 
         public GetAdGroupListQuery(int start, int length, long? adUnitTypeId, long? publisherId)
         {

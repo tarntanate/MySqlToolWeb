@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
 {
     public class GetAdGroupByIdQuery : IRequest<Response<AdGroupDto>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public GetAdGroupByIdQuery(long id)
         {

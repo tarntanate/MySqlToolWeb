@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Upda
     public class UpdateAdUnitTypeCommandHandler : IRequestHandler<UpdateAdUnitTypeCommand, Response<bool>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
         private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
 
         public UpdateAdUnitTypeCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             AdUnitTypeDbRepo = adUnitTypeDbRepo;
         }
 
@@ -29,9 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Upda
             var entity = Mapper.Map<AdUnitTypeEntity>(request);
             await AdUnitTypeDbRepo.UpdateAsync(entity.Id, entity);
             await AdUnitTypeDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<bool>();
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

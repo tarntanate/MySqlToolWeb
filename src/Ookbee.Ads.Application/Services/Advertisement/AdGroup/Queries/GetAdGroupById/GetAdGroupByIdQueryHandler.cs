@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
     {
         private AdsDbRepository<AdGroupEntity> AdGroupDbRepo { get; }
 
-        public GetAdGroupByIdQueryHandler(AdsDbRepository<AdGroupEntity> adGroupDbRepo)
+        public GetAdGroupByIdQueryHandler(
+            AdsDbRepository<AdGroupEntity> adGroupDbRepo)
         {
             AdGroupDbRepo = adGroupDbRepo;
         }
@@ -20,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
         {
             var item = await AdGroupDbRepo.FirstAsync(
                 selector: AdGroupDto.Projection,
-                filter: f =>
+                filter: f => 
                     f.Id == request.Id &&
                     f.DeletedAt == null
             );
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
             var result = new Response<AdGroupDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"AdGroup '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

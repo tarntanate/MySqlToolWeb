@@ -55,6 +55,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
                         .Where(asset => asset.DeletedAt == null)
                         .Select(asset => new AdAssetDto()
                         {
+                            Id = asset.Id,
                             Position = asset.Position,
                             AssetType = asset.AssetType,
                             AssetPath = asset.AssetPath,

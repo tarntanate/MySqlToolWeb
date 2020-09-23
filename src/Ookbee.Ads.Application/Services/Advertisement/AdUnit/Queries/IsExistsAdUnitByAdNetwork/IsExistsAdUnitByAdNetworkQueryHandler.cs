@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsA
     {
         private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
 
-        public IsExistsAdUnitByAdNetworkQueryHandler(AdsDbRepository<AdUnitEntity> adUnitDbRepo)
+        public IsExistsAdUnitByAdNetworkQueryHandler(
+            AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
             AdUnitDbRepo = adUnitDbRepo;
         }
@@ -26,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsA
             var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"AdUnit By AdNetwork '{request.AdNetwork}' doesn't exist.");
+                : result.Fail(404, $"Data doesn't exist.");
         }
     }
 }

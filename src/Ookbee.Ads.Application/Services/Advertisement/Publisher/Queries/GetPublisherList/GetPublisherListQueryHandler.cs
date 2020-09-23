@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -13,7 +14,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
     {
         private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
-        public GetPublisherListQueryHandler(AdsDbRepository<PublisherEntity> publisherDbRepo)
+        public GetPublisherListQueryHandler(
+            AdsDbRepository<PublisherEntity> publisherDbRepo)
         {
             PublisherDbRepo = publisherDbRepo;
         }
@@ -29,7 +31,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
             );
 
             var result = new Response<IEnumerable<PublisherDto>>();
-            return result.Success(items);
+            return (items.HasValue())
+                ? result.Success(items)
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

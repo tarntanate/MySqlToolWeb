@@ -23,13 +23,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.DeleteA
 
         public async Task<Response<bool>> Handle(DeleteAdAssetCommand request, CancellationToken cancellationToken)
         {
-            var result = new Response<bool>();
-
             await Mediator.Send(new DeleteAdCacheByAssetIdCommand(request.Id), cancellationToken);
             await AdAssetDbRepo.DeleteAsync(request.Id);
             await AdAssetDbRepo.SaveChangesAsync(cancellationToken);
-
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

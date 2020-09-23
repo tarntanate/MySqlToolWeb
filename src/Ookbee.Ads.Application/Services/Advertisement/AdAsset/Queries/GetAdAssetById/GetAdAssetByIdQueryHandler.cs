@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
     {
         private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
 
-        public GetAdAssetByIdQueryHandler(AdsDbRepository<AdAssetEntity> adUnitDbRepo)
+        public GetAdAssetByIdQueryHandler(
+            AdsDbRepository<AdAssetEntity> adUnitDbRepo)
         {
             AdAssetDbRepo = adUnitDbRepo;
         }
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
             var result = new Response<AdAssetDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"AdAsset '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

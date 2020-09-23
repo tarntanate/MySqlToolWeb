@@ -6,10 +6,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList
 {
     public class GetAdListQuery : IRequest<Response<IEnumerable<AdDto>>>
     {
-        public int Start { get; set; }
-        public int Length { get; set; }
-        public long? AdUnitId { get; set; }
-        public long? CampaignId { get; set; }
+        public int Start { get; private set; }
+        public int Length { get; private set; }
+        public long? AdUnitId { get; private set; }
+        public long? CampaignId { get; private set; }
 
         public GetAdListQuery(int start, int length, long? adUnitId, long? campaignId)
         {

@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.IsExistsAdByN
     {
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
-        public IsExistsAdByNameQueryHandler(AdsDbRepository<AdEntity> adDbRepo)
+        public IsExistsAdByNameQueryHandler(
+            AdsDbRepository<AdEntity> adDbRepo)
         {
             AdDbRepo = adDbRepo;
         }
@@ -26,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.IsExistsAdByN
             var result = new Response<bool>();
             return (isExists)
                 ? result.Success(true)
-                : result.Fail(404, $"Ad '{request.Name}' doesn't exist.");
+                : result.Fail(404, $"Data doesn't exist.");
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Delet
 {
     public class DeletePublisherCommand : IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public DeletePublisherCommand(long id)
         {

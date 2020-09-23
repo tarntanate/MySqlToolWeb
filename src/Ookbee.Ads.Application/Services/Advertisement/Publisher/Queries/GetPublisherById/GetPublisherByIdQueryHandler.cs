@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
     {
         private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
 
-        public GetPublisherByIdQueryHandler(AdsDbRepository<PublisherEntity> publisherDbRepo)
+        public GetPublisherByIdQueryHandler(
+            AdsDbRepository<PublisherEntity> publisherDbRepo)
         {
             PublisherDbRepo = publisherDbRepo;
         }
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
             var result = new Response<PublisherDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"Publisher '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

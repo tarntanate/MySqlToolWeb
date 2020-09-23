@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Create
     public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, Response<long>>
     {
         private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
         private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
 
         public CreateCampaignCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<CampaignEntity> campaignDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             CampaignDbRepo = campaignDbRepo;
         }
 
@@ -29,9 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Create
             var entity = Mapper.Map<CampaignEntity>(request);
             await CampaignDbRepo.InsertAsync(entity);
             await CampaignDbRepo.SaveChangesAsync(cancellationToken);
-
-            var result = new Response<long>();
-            return result.Success(entity.Id);
+            return new Response<long>().Success(entity.Id);
         }
     }
 }

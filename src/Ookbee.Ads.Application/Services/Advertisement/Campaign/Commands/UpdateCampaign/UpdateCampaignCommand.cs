@@ -3,9 +3,12 @@ using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.UpdateCampaign
 {
-    public class UpdateCampaignCommand : UpdateCampaignRequest, IRequest<Response<bool>>
+    public class UpdateCampaignCommand : IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
+        public long AdvertiserId { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
 
         public UpdateCampaignCommand(long id, UpdateCampaignRequest request)
         {

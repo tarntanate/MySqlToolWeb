@@ -78,11 +78,11 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
             do
             {
                 next = false;
-                var getAdList = await Mediator.Send(new GetAdListQuery(start, length, adUnitId, null), cancellationToken);
-                if (getAdList.Ok &&
-                    getAdList.Data.HasValue())
+                var getAdListRequest = new GetAdListQuery(start, length, adUnitId, null);
+                var getAdListResponse = await Mediator.Send(getAdListRequest, cancellationToken);
+                if (getAdListResponse.Data.HasValue())
                 {
-                    var items = getAdList.Data;
+                    var items = getAdListResponse.Data;
                     foreach (var item in items)
                     {
                         await Mediator.Send(new DeleteAdCacheCommand(item.Id), cancellationToken);

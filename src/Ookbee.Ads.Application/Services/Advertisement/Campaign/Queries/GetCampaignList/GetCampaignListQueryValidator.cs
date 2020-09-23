@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.IsExistsAdvertiserById;
-using Ookbee.Ads.Infrastructure.Models;
-using System;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCampaignList
 {

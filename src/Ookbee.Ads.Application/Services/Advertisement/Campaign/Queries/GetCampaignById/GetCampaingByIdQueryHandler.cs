@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
     {
         private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
 
-        public GetCampaignByIdQueryHandler(AdsDbRepository<CampaignEntity> campaignDbRepo)
+        public GetCampaignByIdQueryHandler(
+            AdsDbRepository<CampaignEntity> campaignDbRepo)
         {
             CampaignDbRepo = campaignDbRepo;
         }
@@ -20,13 +21,15 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
         {
             var item = await CampaignDbRepo.FirstAsync(
                 selector: CampaignDto.Projection,
-                filter: f => f.Id == request.Id && f.DeletedAt == null
+                filter: f =>
+                    f.Id == request.Id &&
+                    f.DeletedAt == null
             );
 
             var result = new Response<CampaignDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"Campaign '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

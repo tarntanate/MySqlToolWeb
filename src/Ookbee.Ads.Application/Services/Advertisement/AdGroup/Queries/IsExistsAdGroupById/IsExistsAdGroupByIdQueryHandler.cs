@@ -24,9 +24,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExists
             );
 
             var result = new Response<bool>();
-            if (!isExists)
-                return result.Fail(404, $"AdGroup '{request.Id}' doesn't exist.");
-            return result.Success(true);
+            return (isExists)
+                ? result.Success(true)
+                : result.Fail(404, $"Data doesn't exist.");
         }
     }
 }

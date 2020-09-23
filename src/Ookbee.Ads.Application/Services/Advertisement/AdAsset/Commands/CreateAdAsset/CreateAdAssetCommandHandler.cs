@@ -31,9 +31,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CreateA
             await AdAssetDbRepo.InsertAsync(entity);
             await AdAssetDbRepo.SaveChangesAsync(cancellationToken);
             await Mediator.Send(new CreateAdCacheByAssetIdCommand(entity.Id), cancellationToken);
-
-            var result = new Response<long>();
-            return result.Success(entity.Id);
+            return new Response<long>().Success(entity.Id);
         }
     }
 }

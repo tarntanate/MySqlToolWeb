@@ -6,9 +6,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
 {
     public class GetAdNetworkListQuery : IRequest<Response<IEnumerable<AdNetworkDto>>>
     {
-        public int Start { get; set; }
-        public int Length { get; set; }
-        public long? AdUnitId { get; set; }
+        public int Start { get; private set; }
+        public int Length { get; private set; }
+        public long? AdUnitId { get; private set; }
 
         public GetAdNetworkListQuery(int start, int length, long? adUnitId)
         {

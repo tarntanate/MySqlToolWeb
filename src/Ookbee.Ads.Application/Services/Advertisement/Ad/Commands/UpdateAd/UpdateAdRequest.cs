@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Ookbee.Ads.Infrastructure.Models;
+using System;
 using System.Collections.Generic;
-using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
 {
@@ -17,8 +17,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
         public int? CooldownSecond { get; set; }
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
-        public List<string> Analytics { get; set; }
-        public List<Platform> Platforms { get; set; }
+        public IEnumerable<string> Analytics { get; set; }
+        public IEnumerable<Platform> Platforms { get; set; }
         public string AppLink { get; set; }
         public string LinkUrl { get; set; }
     }

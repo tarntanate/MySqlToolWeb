@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Ookbee.Ads.Common.Builders;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -13,23 +15,35 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
     {
         private AdsDbRepository<AdGroupEntity> AdGroupDbRepo { get; }
 
-        public GetAdGroupListQueryHandler(AdsDbRepository<AdGroupEntity> adGroupDbRepo)
+        public GetAdGroupListQueryHandler(
+            AdsDbRepository<AdGroupEntity> adGroupDbRepo)
         {
             AdGroupDbRepo = adGroupDbRepo;
         }
 
         public async Task<Response<IEnumerable<AdGroupDto>>> Handle(GetAdGroupListQuery request, CancellationToken cancellationToken)
         {
+            var predicate = PredicateBuilder.True<AdGroupEntity>();
+            predicate = predicate.And(f => f.DeletedAt == null);
+
+            if (request.AdUnitTypeId.HasValue())
+                predicate = predicate.And(f => f.AdUnitTypeId == request.AdUnitTypeId);
+
+            if (request.PublisherId.HasValue())
+                predicate = predicate.And(f => f.PublisherId == request.PublisherId);
+
             var items = await AdGroupDbRepo.FindAsync(
                 selector: AdGroupDto.Projection,
-                filter: f => f.DeletedAt == null,
+                filter: predicate,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,
                 length: request.Length
             );
 
             var result = new Response<IEnumerable<AdGroupDto>>();
-            return result.Success(items);
+            return (items.HasValue())
+                ? result.Success(items)
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.GetAd
     {
         private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
 
-        public GetAdUnitTypeByIdQueryHandler(AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
+        public GetAdUnitTypeByIdQueryHandler(
+            AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
         {
             AdUnitTypeDbRepo = adUnitTypeDbRepo;
         }
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.GetAd
             var result = new Response<AdUnitTypeDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"AdUnitType '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

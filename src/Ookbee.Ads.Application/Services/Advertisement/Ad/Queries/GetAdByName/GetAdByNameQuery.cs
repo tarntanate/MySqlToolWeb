@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdByName
 {
     public class GetAdByNameQuery : IRequest<Response<AdDto>>
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public GetAdByNameQuery(string name)
         {

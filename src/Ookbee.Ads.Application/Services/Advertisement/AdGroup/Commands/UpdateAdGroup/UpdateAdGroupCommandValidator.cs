@@ -9,11 +9,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.UpdateA
 {
     public class UpdateAdGroupCommandValidator : AbstractValidator<UpdateAdGroupCommand>
     {
-        public IMediator Mediator { get; }
+        private IMediator Mediator { get; }
 
         public UpdateAdGroupCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(p => p.Id)
                 .GreaterThan(0)
@@ -55,7 +56,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.UpdateA
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
 
-            RuleFor(p => p.Description).MaximumLength(500);
+            RuleFor(p => p.Description)
+                .MaximumLength(500);
         }
     }
 }

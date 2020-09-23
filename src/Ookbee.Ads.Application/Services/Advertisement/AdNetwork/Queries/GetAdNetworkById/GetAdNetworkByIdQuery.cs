@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
 {
     public class GetAdNetworkByIdQuery : IRequest<Response<AdNetworkDto>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public GetAdNetworkByIdQuery(long id)
         {

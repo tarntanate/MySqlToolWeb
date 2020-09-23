@@ -15,7 +15,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList
     {
         private AdsDbRepository<AdEntity> AdDbRepo { get; }
 
-        public GetAdListQueryHandler(AdsDbRepository<AdEntity> adDbRepo)
+        public GetAdListQueryHandler(
+            AdsDbRepository<AdEntity> adDbRepo)
         {
             AdDbRepo = adDbRepo;
         }
@@ -40,7 +41,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList
             );
 
             var result = new Response<IEnumerable<AdDto>>();
-            return result.Success(items);
+            return (items.HasValue())
+                ? result.Success(items)
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using Ookbee.Ads.Infrastructure.Models;
-
-namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.CreateCampaign
+﻿namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.CreateCampaign
 {
     public class CreateCampaignRequest
     {

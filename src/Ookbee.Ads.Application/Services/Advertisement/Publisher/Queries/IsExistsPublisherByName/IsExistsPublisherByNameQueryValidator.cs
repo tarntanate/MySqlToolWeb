@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.IsExis
     {
         public IsExistsPublisherByNameQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()

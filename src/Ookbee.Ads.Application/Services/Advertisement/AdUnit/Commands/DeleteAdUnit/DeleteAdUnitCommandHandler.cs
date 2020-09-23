@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitById;
 using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUnitCache;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
@@ -24,17 +23,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.DeleteAd
 
         public async Task<Response<bool>> Handle(DeleteAdUnitCommand request, CancellationToken cancellationToken)
         {
-            var result = new Response<bool>();
-
-            var getAdUnitById = await Mediator.Send(new GetAdUnitByIdQuery(request.Id), cancellationToken);
-            if (!getAdUnitById.Ok)
-                return result.Fail(getAdUnitById.StatusCode, getAdUnitById.Message);
-
-            await Mediator.Send(new DeleteAdUnitCacheCommand(getAdUnitById.Data.Id), cancellationToken);
+            await Mediator.Send(new DeleteAdUnitCacheCommand(request.Id), cancellationToken);
             await AdUnitDbRepo.DeleteAsync(request.Id);
             await AdUnitDbRepo.SaveChangesAsync(cancellationToken);
-
-            return result.Success(true);
+            return new Response<bool>().Success(true);
         }
     }
 }

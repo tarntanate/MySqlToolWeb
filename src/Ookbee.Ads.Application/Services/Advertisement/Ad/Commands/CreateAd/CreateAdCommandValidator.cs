@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.CreateAd
 {
-    public class CreateAdCommandValidator : AbstractValidator<CreateAdCommand>
+    public class CreateAdValidator : AbstractValidator<CreateAdCommand>
     {
         private IMediator Mediator { get; }
 
-        public CreateAdCommandValidator(IMediator mediator)
+        public CreateAdValidator(IMediator mediator)
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;

@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
 {
     public class GetAdNetworkByPlatformQuery : IRequest<Response<AdNetworkDto>>
     {
-        public Platform Platform { get; set; }
+        public Platform Platform { get; private set; }
 
         public GetAdNetworkByPlatformQuery(Platform platform)
         {

@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
     {
         private AdsDbRepository<AdGroupEntity> AdGroupDbRepo { get; }
 
-        public GetAdGroupByNameQueryHandler(AdsDbRepository<AdGroupEntity> adGroupDbRepo)
+        public GetAdGroupByNameQueryHandler(
+            AdsDbRepository<AdGroupEntity> adGroupDbRepo)
         {
             AdGroupDbRepo = adGroupDbRepo;
         }
@@ -22,12 +23,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
                 selector: AdGroupDto.Projection,
                 filter: f =>
                     f.Name == request.Name &&
-                    f.DeletedAt == null);
+                    f.DeletedAt == null
+            );
 
             var result = new Response<AdGroupDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"AdGroup '{request.Name}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

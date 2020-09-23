@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Ookbee.Ads.Infrastructure.Models;
+using System;
 using System.Collections.Generic;
-using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.CreateAd
 {

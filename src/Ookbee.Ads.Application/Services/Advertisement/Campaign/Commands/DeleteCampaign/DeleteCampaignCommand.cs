@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Delete
 {
     public class DeleteCampaignCommand : IRequest<Response<bool>>
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
         public DeleteCampaignCommand(long id)
         {

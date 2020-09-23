@@ -26,17 +26,17 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.InitialAdCache
             do
             {
                 next = false;
-                var getAdList = await Mediator.Send(new GetAdListQuery(start, length, request.AdUnitId, null), cancellationToken);
-                if (getAdList.Ok &&
-                    getAdList.Data.HasValue())
+                var getAdListRequest = new GetAdListQuery(start, length, request.AdUnitId, null);
+                var getAdListResponse = await Mediator.Send(getAdListRequest, cancellationToken);
+                if (getAdListResponse.Data.HasValue())
                 {
-                    var items = getAdList.Data;
+                    var items = getAdListResponse.Data;
                     foreach (var item in items)
                     {
                         await Mediator.Send(new CreateAdCacheCommand(item.Id), cancellationToken);
                     }
                     start += length;
-                    next = getAdList.Data.Count() == length ? true : false;
+                    next = getAdListResponse.Data.Count() == length ? true : false;
                 }
             }
             while (next);

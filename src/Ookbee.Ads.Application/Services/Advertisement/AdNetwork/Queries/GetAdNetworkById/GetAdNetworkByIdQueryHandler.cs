@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
     {
         private AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo { get; }
 
-        public GetAdNetworkByIdQueryHandler(AdsDbRepository<AdNetworkEntity> adNetworkDbRepo)
+        public GetAdNetworkByIdQueryHandler(
+            AdsDbRepository<AdNetworkEntity> adNetworkDbRepo)
         {
             AdNetworkDbRepo = adNetworkDbRepo;
         }
@@ -20,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
         {
             var item = await AdNetworkDbRepo.FirstAsync(
                 selector: AdNetworkDto.Projection,
-                filter: f =>
+                filter: f => 
                     f.Id == request.Id &&
                     f.DeletedAt == null
             );
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
             var result = new Response<AdNetworkDto>();
             return (item != null)
                 ? result.Success(item)
-                : result.Fail(404, $"AdNetwork '{request.Id}' doesn't exist.");
+                : result.Fail(404, $"Data not found.");
         }
     }
 }

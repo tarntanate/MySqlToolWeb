@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.IsExis
 {
     public class IsExistsAdNetworkByPlatformQuery : IRequest<Response<bool>>
     {
-        public Platform Platform { get; set; }
+        public Platform Platform { get; private set; }
 
         public IsExistsAdNetworkByPlatformQuery(Platform platform)
         {
