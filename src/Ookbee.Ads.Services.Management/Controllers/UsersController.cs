@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Identity.User;
-using Ookbee.Ads.Application.Business.Identity.User.Commands.CreateUser;
-using Ookbee.Ads.Application.Business.Identity.User.Commands.UpdateUser;
-using Ookbee.Ads.Application.Business.Identity.User.Queries.GetUserById;
-using Ookbee.Ads.Application.Business.Identity.User.Queries.GetUserList;
+using Ookbee.Ads.Application.Services.Identity.User;
+using Ookbee.Ads.Application.Services.Identity.User.Commands.CreateUser;
+using Ookbee.Ads.Application.Services.Identity.User.Commands.UpdateUser;
+using Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserById;
+using Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;

@@ -1,11 +1,11 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Advertisement.Advertiser;
-using Ookbee.Ads.Application.Business.Advertisement.Advertiser.Commands.CreateAdvertiser;
-using Ookbee.Ads.Application.Business.Advertisement.Advertiser.Commands.DeleteAdvertiser;
-using Ookbee.Ads.Application.Business.Advertisement.Advertiser.Commands.UpdateAdvertiser;
-using Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.GetAdvertiserById;
-using Ookbee.Ads.Application.Business.Advertisement.Advertiser.Queries.GetAdvertiserList;
+using Ookbee.Ads.Application.Services.Advertisement.Advertiser;
+using Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.CreateAdvertiser;
+using Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.DeleteAdvertiser;
+using Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.UpdateAdvertiser;
+using Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.GetAdvertiserById;
+using Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.GetAdvertiserList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
