@@ -1,4 +1,4 @@
-namespace Ookbee.Ads.Infrastructure.Models
+namespace Ookbee.Ads.Infrastructure.Settings
 {
     public class CosBaseUriSettings
     {

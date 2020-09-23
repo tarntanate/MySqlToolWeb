@@ -4,7 +4,7 @@ using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.DeleteObject;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure;
-using Ookbee.Ads.Infrastructure.Models;
+using Ookbee.Ads.Infrastructure.Settings;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
