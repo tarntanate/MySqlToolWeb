@@ -1,6 +1,6 @@
 namespace Ookbee.Ads.Infrastructure.Models
 {
-    public enum AdStatus
+    public enum AdStatusType
     {
         Unknown,
         Wait,

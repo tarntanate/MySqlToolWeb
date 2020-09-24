@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache
     public class AssetCacheDto
     {
         [JsonProperty("position")]
-        public Position Position { get; set; }
+        public AdPosition Position { get; set; }
 
         [JsonProperty("type")]
         public string AssetType { get; set; }

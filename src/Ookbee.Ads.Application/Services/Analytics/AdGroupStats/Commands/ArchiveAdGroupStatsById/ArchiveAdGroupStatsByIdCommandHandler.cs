@@ -45,7 +45,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStats.Commands.ArchiveAdG
                 {
                     var data = getAdGroupStatsCache.Data;
 
-                    var requests = data.SingleOrDefault(x => x.Key == StatsType.Request.ToString()).Value;
+                    var requests = data.SingleOrDefault(x => x.Key == AdStatsType.Request.ToString()).Value;
                     if (requests > adGroupStats.Request)
                         adGroupStats.Request = requests;
 

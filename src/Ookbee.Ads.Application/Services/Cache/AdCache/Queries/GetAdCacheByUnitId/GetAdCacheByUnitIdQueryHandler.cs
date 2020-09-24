@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
 
         public async Task<Response<string>> Handle(GetAdByUnitIdQuery request, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(StatsType.Request, request.AdUnitId), cancellationToken);
+            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(AdStatsType.Request, request.AdUnitId), cancellationToken);
 
             var redisKey = string.Empty;
             var redisValue = string.Empty;
@@ -55,7 +55,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
             var result = new Response<string>();
             if (redisValue.HasValue())
             {
-                await Mediator.Send(new IncrementAdUnitStatsCacheCommand(StatsType.Fill, request.AdUnitId));
+                await Mediator.Send(new IncrementAdUnitStatsCacheCommand(AdStatsType.Fill, request.AdUnitId));
                 return result.Success(redisValue);
             }
             return result.Fail(404, "Data not found.");

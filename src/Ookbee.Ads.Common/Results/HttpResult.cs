@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Ookbee.Ads.Common.Extensions;
 
 namespace Ookbee.Ads.Common.Response
 {

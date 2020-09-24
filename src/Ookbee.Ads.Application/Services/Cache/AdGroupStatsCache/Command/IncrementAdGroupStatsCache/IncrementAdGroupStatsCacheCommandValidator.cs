@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.Incre
             RuleFor(p => p.StatsType)
                 .Custom((value, context) =>
                 {
-                    if (value != StatsType.Request)
+                    if (value != AdStatsType.Request)
                     {
                         context.AddFailure($"Unsupported Stats Type.");
                     }

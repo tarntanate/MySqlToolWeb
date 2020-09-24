@@ -30,8 +30,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.IncrementA
             var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
             if (hashEntries.HasValue())
             {
-                var quota = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == StatsType.Quota.ToString()).Value;
-                var impression = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == StatsType.Impression.ToString()).Value;
+                var quota = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == AdStatsType.Quota.ToString()).Value;
+                var impression = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == AdStatsType.Impression.ToString()).Value;
                 if (impression < quota)
                 {
                     var hashField = request.StatsType.ToString();

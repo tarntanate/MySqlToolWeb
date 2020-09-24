@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
         public long Id { get; private set; }
         public long AdUnitId { get; private set; }
         public string AdNetworkUnitId { get; private set; }
-        public Platform Platform { get; private set; }
+        public AdPlatform Platform { get; private set; }
 
         public UpdateAdNetworkCommand(long id, UpdateAdNetworkRequest request)
         {

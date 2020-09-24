@@ -37,8 +37,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
             if (getAdById.Ok &&
                 getAdById.Data.HasValue())
             {
-                if (getAdById.Data.Status == AdStatus.Publish ||
-                    getAdById.Data.Status == AdStatus.Preview)
+                if (getAdById.Data.Status == AdStatusType.Publish ||
+                    getAdById.Data.Status == AdStatusType.Preview)
                 {
                     var ad = Mapper.Map<AdCacheDto>(getAdById.Data);
                     var platforms = getAdById.Data.Platforms;
@@ -51,7 +51,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
                         var hashValue = (RedisValue)JsonHelper.Serialize(obj);
                         await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
 
-                        redisKey = getAdById.Data.Status == AdStatus.Preview
+                        redisKey = getAdById.Data.Status == AdStatusType.Preview
                             ? CacheKey.UnitsAdIdsPreview(getAdById.Data.AdUnit.Id, platform)
                             : CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
                         hashValue = (RedisValue)getAdById.Data.Id;
@@ -63,7 +63,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
             return Unit.Value;
         }
 
-        private AdCacheDto PrepareAnalytics(AdCacheDto ad, Platform platform)
+        private AdCacheDto PrepareAnalytics(AdCacheDto ad, AdPlatform platform)
         {
             if (ad.Analytics.HasValue())
             {

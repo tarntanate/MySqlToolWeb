@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
         {
             var predicate = PredicateBuilder.True<AdEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
-            predicate = predicate.And(f => f.Status == AdStatus.Preview || f.Status == AdStatus.Publish);
+            predicate = predicate.And(f => f.Status == AdStatusType.Preview || f.Status == AdStatusType.Publish);
 
             if (request.AdUnitId.HasValue() && request.AdUnitId > 0)
                 predicate = predicate.And(f => f.AdUnitId == request.AdUnitId);

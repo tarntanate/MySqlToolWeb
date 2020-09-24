@@ -38,13 +38,13 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.UpdateAdCache
                 getAdById.Data.HasValue())
             {
                 var ad = getAdById.Data;
-                if (ad.Status == AdStatus.Publish ||
-                    ad.Status == AdStatus.Preview)
+                if (ad.Status == AdStatusType.Publish ||
+                    ad.Status == AdStatusType.Preview)
                 {
                     var adCache = Mapper.Map<AdCacheDto>(ad);
-                    foreach (var platform in EnumHelper.GetValues<Platform>())
+                    foreach (var platform in EnumHelper.GetValues<AdPlatform>())
                     {
-                        if (platform != Platform.Unknown)
+                        if (platform != AdPlatform.Unknown)
                         {
                             var redisKey = CacheKey.Ad(ad.Id);
                             var hashField = platform.ToString();

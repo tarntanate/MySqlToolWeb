@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork
 {
     public class AdNetworkDto : DefaultDto
     {
-        public Platform Platform { get; set; }
+        public AdPlatform Platform { get; set; }
         public string AdNetworkUnitId { get; set; }
 
         public static Expression<Func<AdNetworkEntity, AdNetworkDto>> Projection

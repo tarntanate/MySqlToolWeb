@@ -7,13 +7,13 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitCa
 {
     public class GetAdUnitCacheByGroupIdQuery : IRequest<Response<string>>
     {
-        public Platform Platform { get; private set; }
+        public AdPlatform Platform { get; private set; }
         public long AdGroupId { get; private set; }
 
 
         public GetAdUnitCacheByGroupIdQuery(string platform, long adGroupId)
         {
-            Platform = EnumHelper.ConvertTo<Platform>(platform);
+            Platform = EnumHelper.ConvertTo<AdPlatform>(platform);
             AdGroupId = adGroupId;
         }
     }

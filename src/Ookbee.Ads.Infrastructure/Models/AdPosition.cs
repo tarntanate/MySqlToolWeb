@@ -1,6 +1,6 @@
 namespace Ookbee.Ads.Infrastructure.Models
 {
-    public enum Position
+    public enum AdPosition
     {
         Unknown,
         Center,

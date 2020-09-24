@@ -31,9 +31,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCache
                 getAdById.Data.HasValue())
             {
                 var ad = getAdById.Data;
-                foreach (var platform in EnumHelper.GetValues<Platform>())
+                foreach (var platform in EnumHelper.GetValues<AdPlatform>())
                 {
-                    if (platform != Platform.Unknown)
+                    if (platform != AdPlatform.Unknown)
                     {
                         var redisKey = CacheKey.Ad(request.AdId);
                         var hashField = platform.ToString();

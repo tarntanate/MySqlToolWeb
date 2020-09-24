@@ -7,9 +7,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
     public class GetAdAssetByPositionQuery : IRequest<Response<AdAssetDto>>
     {
         public long AdId { get; private set; }
-        public Position Position { get; private set; }
+        public AdPosition Position { get; private set; }
 
-        public GetAdAssetByPositionQuery(long adId, Position position)
+        public GetAdAssetByPositionQuery(long adId, AdPosition position)
         {
             AdId = adId;
             Position = position;

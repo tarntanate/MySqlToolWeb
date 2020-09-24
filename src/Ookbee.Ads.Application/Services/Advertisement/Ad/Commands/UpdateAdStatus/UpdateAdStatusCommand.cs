@@ -7,9 +7,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
     public class UpdateAdStatusCommand : IRequest<Response<bool>>
     {
         public long Id { get; private set; }
-        public AdStatus Status { get; private set; }
+        public AdStatusType Status { get; private set; }
 
-        public UpdateAdStatusCommand(long id, AdStatus status)
+        public UpdateAdStatusCommand(long id, AdStatusType status)
         {
             Id = id;
             Status = status;

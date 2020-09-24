@@ -62,9 +62,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
 
             if (adUnits.HasValue())
             {
-                foreach (var platform in EnumHelper.GetValues<Platform>())
+                foreach (var platform in EnumHelper.GetValues<AdPlatform>())
                 {
-                    if (platform != Platform.Unknown)
+                    if (platform != AdPlatform.Unknown)
                     {
                         var cacheValue = new List<AdUnitCacheDto>();
                         foreach (var adUnit in adUnits)
@@ -90,7 +90,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
             return Unit.Value;
         }
 
-        private IEnumerable<AdUnitCacheDto> PrepareAnalytics(IEnumerable<AdUnitCacheDto> adUnits, Platform platform)
+        private IEnumerable<AdUnitCacheDto> PrepareAnalytics(IEnumerable<AdUnitCacheDto> adUnits, AdPlatform platform)
         {
             if (adUnits.HasValue())
             {

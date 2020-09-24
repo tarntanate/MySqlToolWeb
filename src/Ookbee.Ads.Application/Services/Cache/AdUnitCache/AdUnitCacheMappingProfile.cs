@@ -37,8 +37,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var analytics = new AnalyticsCacheDto()
                 {
-                    Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Click}".ToLower() },
-                    Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={StatsType.Impression}".ToLower() },
+                    Clicks = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={AdStatsType.Click}".ToLower() },
+                    Impressions = new List<string>() { $"{baseUrl}/api/units/{adUnit.Id}/stats?type={AdStatsType.Impression}".ToLower() },
                 };
                 return analytics;
             }

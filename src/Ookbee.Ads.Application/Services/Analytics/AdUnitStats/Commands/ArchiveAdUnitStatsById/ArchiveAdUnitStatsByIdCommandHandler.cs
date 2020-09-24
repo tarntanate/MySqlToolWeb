@@ -46,11 +46,11 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStats.Commands.ArchiveAdUn
                 {
                     var data = getAdUnitStatsCache.Data;
 
-                    var requests = data.SingleOrDefault(x => x.Key == StatsType.Request.ToString()).Value;
+                    var requests = data.SingleOrDefault(x => x.Key == AdStatsType.Request.ToString()).Value;
                     if (requests > adUnitStats.Request)
                         adUnitStats.Request = requests;
 
-                    var fills = data.SingleOrDefault(x => x.Key == StatsType.Fill.ToString()).Value;
+                    var fills = data.SingleOrDefault(x => x.Key == AdStatsType.Fill.ToString()).Value;
                     if (fills > adUnitStats.Fill)
                         adUnitStats.Fill = fills;
 

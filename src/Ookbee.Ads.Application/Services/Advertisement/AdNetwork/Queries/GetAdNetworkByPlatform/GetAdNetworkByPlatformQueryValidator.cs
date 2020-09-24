@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
             RuleFor(p => p.Platform)
                 .Custom((value, context) =>
                {
-                   if (value == Platform.Unknown)
+                   if (value == AdPlatform.Unknown)
                        context.AddFailure($"Unsupported Platform Type.");
                });
         }

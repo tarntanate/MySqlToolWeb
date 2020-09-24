@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
             RuleFor(p => p.Status)
                 .Custom((value, context) =>
                 {
-                    if (value == AdStatus.Unknown)
+                    if (value == AdStatusType.Unknown)
                         context.AddFailure($"Unsupported Status Type.");
                 });
         }

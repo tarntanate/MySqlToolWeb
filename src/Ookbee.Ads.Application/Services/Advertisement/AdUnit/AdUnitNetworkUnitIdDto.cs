@@ -5,7 +5,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
 {
     public class AdUnitNetworkUnitIdDto : DefaultDto
     {
-        public Platform Platform { get; set; }
+        public AdPlatform Platform { get; set; }
         public string AdNetworkUnitId { get; set; }
     }
 }

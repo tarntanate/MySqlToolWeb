@@ -38,16 +38,16 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.InitialAsse
                 }
 
                 var click = getAdStatsByKey?.Data?.Click ?? default(long);
-                await Mediator.Send(new CreateAdStatsByPlatformCacheCommand(request.CaculatedAt, StatsType.Click, request.AdId, click), cancellationToken);
+                await Mediator.Send(new CreateAdStatsByPlatformCacheCommand(request.CaculatedAt, AdStatsType.Click, request.AdId, click), cancellationToken);
                 totalClicks += click;
 
                 var impressions = getAdStatsByKey?.Data?.Impression ?? default(long);
-                await Mediator.Send(new CreateAdStatsByPlatformCacheCommand(request.CaculatedAt, StatsType.Impression, request.AdId, impressions), cancellationToken);
+                await Mediator.Send(new CreateAdStatsByPlatformCacheCommand(request.CaculatedAt, AdStatsType.Impression, request.AdId, impressions), cancellationToken);
                 totalImpressions += impressions;
 
-                await Mediator.Send(new CreateAdStatsCacheCommand(request.CaculatedAt, StatsType.Quota, request.AdId, quota), cancellationToken);
-                await Mediator.Send(new CreateAdStatsCacheCommand(request.CaculatedAt, StatsType.Click, request.AdId, totalClicks), cancellationToken);
-                await Mediator.Send(new CreateAdStatsCacheCommand(request.CaculatedAt, StatsType.Impression, request.AdId, totalImpressions), cancellationToken);
+                await Mediator.Send(new CreateAdStatsCacheCommand(request.CaculatedAt, AdStatsType.Quota, request.AdId, quota), cancellationToken);
+                await Mediator.Send(new CreateAdStatsCacheCommand(request.CaculatedAt, AdStatsType.Click, request.AdId, totalClicks), cancellationToken);
+                await Mediator.Send(new CreateAdStatsCacheCommand(request.CaculatedAt, AdStatsType.Impression, request.AdId, totalImpressions), cancellationToken);
             }
 
             return Unit.Value;

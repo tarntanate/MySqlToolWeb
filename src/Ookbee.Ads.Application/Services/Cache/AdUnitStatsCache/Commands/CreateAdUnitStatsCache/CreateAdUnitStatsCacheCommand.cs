@@ -8,10 +8,10 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.Create
     {
         public DateTimeOffset CaculatedAt { get; set; }
         public long AdUnitId { get; set; }
-        public StatsType StatsType { get; set; }
+        public AdStatsType StatsType { get; set; }
         public long Value { get; set; }
 
-        public CreateAdUnitStatsCacheCommand(DateTimeOffset caculatedAt, long adUnitId, StatsType statsType, long value)
+        public CreateAdUnitStatsCacheCommand(DateTimeOffset caculatedAt, long adUnitId, AdStatsType statsType, long value)
         {
             CaculatedAt = caculatedAt;
             AdUnitId = adUnitId;

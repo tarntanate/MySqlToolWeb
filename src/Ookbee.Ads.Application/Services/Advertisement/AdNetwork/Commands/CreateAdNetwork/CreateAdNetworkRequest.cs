@@ -6,6 +6,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Creat
     {
         public long AdUnitId { get; set; }
         public string AdNetworkUnitId { get; set; }
-        public Platform Platform { get; set; }
+        public AdPlatform Platform { get; set; }
     }
 }

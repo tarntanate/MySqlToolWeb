@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAssetById;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.DeleteObject;
+using Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAssetById;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Settings;

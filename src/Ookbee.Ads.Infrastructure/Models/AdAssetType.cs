@@ -1,6 +1,6 @@
 namespace Ookbee.Ads.Infrastructure.Models
 {
-    public enum AssetType
+    public enum AdAssetType
     {
         Unknown,
         Audio,

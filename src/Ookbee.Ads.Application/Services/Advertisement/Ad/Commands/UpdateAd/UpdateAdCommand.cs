@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
         public long CampaignId { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public AdStatus Status { get; private set; }
+        public AdStatusType Status { get; private set; }
         public int? Quota { get; private set; }
         public DateTimeOffset? StartAt { get; private set; }
         public DateTimeOffset? EndAt { get; private set; }
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
         public string ForegroundColor { get; private set; }
         public string BackgroundColor { get; private set; }
         public IEnumerable<string> Analytics { get; private set; }
-        public IEnumerable<Platform> Platforms { get; private set; }
+        public IEnumerable<AdPlatform> Platforms { get; private set; }
         public string AppLink { get; private set; }
         public string LinkUrl { get; private set; }
 

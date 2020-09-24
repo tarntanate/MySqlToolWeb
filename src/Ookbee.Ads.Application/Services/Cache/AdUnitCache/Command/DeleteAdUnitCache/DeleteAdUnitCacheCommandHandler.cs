@@ -35,9 +35,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
                 getAdUnitById.Data.HasValue())
             {
                 var adUnit = getAdUnitById.Data;
-                foreach (var platform in EnumHelper.GetValues<Platform>())
+                foreach (var platform in EnumHelper.GetValues<AdPlatform>())
                 {
-                    if (platform != Platform.Unknown)
+                    if (platform != AdPlatform.Unknown)
                     {
                         var platformName = platform.ToString();
                         var redisKey = CacheKey.Units(adUnit.AdGroup.Id);

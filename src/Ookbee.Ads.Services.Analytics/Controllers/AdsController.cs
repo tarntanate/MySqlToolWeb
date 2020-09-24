@@ -15,7 +15,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
         [HttpGet]
         public async Task<ContentResult> UpdateAdStats([FromRoute] long adId, [FromQuery] string type, [FromQuery] string platform, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new IncrementAdStatsCacheCommand(type.ToEnum<StatsType>(), adId), cancellationToken);
+            var result = await Mediator.Send(new IncrementAdStatsCacheCommand(type.ToEnum<AdStatsType>(), adId), cancellationToken);
             if (result.Ok &&
                 result.Data.HasValue())
                 return new ContentResult() { StatusCode = 200 };

@@ -29,12 +29,12 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
             builder.Property(e => e.Status)
                    .HasConversion(
                         v => v.ToString(),
-                        v => (AdStatus)Enum.Parse(typeof(AdStatus), v));
+                        v => (AdStatusType)Enum.Parse(typeof(AdStatusType), v));
 
             builder.Property(e => e.Platforms)
                    .HasConversion(
                         v => v.ConvertAll(x => x.ToString()),
-                        v => v.Select(x => (Platform)Enum.Parse(typeof(Platform), x)).ToList());
+                        v => v.Select(x => (AdPlatform)Enum.Parse(typeof(AdPlatform), x)).ToList());
         }
     }
 }
