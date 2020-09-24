@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
                     if (value != null)
                     {
                         var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsAdUnitResult.Ok)
+                        if (!isExistsAdUnitResult.IsSuccess)
                             context.AddFailure(isExistsAdUnitResult.Message);
                     }
                 });
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
                     if (value != null)
                     {
                         var isExistsPublisherResult = await Mediator.Send(new IsExistsPublisherByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsPublisherResult.Ok)
+                        if (!isExistsPublisherResult.IsSuccess)
                             context.AddFailure(isExistsPublisherResult.Message);
                     }
                 });

@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
             await AdGroupDbRepo.InsertAsync(entity);
             await AdGroupDbRepo.SaveChangesAsync(cancellationToken);
             await Mediator.Send(new CreateAdGroupCacheCommand(entity.Id), cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }

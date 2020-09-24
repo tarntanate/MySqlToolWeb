@@ -30,8 +30,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
             var result = new Response<string>();
 
             var adAssetResult = await Mediator.Send(new GetAdAssetByIdQuery(request.Id), cancellationToken);
-            if (!adAssetResult.Ok)
-                return result.Fail(adAssetResult.StatusCode, adAssetResult.Message);
+            if (!adAssetResult.IsSuccess)
+                return result.Status(adAssetResult.StatusCode, adAssetResult.Message);
 
             var adAsset = adAssetResult.Data;
             var bucket = GlobalVar.AppSettings.Tencent.Cos.Bucket.Private;
@@ -44,8 +44,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
                 Key = sourceKey,
             };
             var signURLResult = await Mediator.Send(generateSignURLCommand, cancellationToken);
-            if (!signURLResult.Ok)
-                return result.Fail(signURLResult.StatusCode, signURLResult.Message);
+            if (!signURLResult.IsSuccess)
+                return result.Status(signURLResult.StatusCode, signURLResult.Message);
 
             var assetMimeType = MimeTypeMap.GetMimeType(request.Extension);
             adAsset.AssetPath = targetKey;
@@ -53,10 +53,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
             var updateAdAssetRequest = Mapper.Map<UpdateAdAssetRequest>(adAsset);
             var updateAdAssetCommand = new UpdateAdAssetCommand(adAsset.Id, updateAdAssetRequest);
             var updateAdAssetResult = await Mediator.Send(updateAdAssetCommand, cancellationToken);
-            if (!updateAdAssetResult.Ok)
-                return result.Fail(updateAdAssetResult.StatusCode, updateAdAssetResult.Message);
+            if (!updateAdAssetResult.IsSuccess)
+                return result.Status(updateAdAssetResult.StatusCode, updateAdAssetResult.Message);
 
-            return result.Success(signURLResult.Data);
+            return result.OK(signURLResult.Data);
         }
     }
 }

@@ -32,8 +32,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitCa
 
             var result = new Response<string>();
             if (redisValue.HasValue)
-                return result.Success((string)redisValue);
-            return result.Fail(404, "Data not found.");
+                return result.OK((string)redisValue);
+            return result.NotFound();
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStats.Commands.ArchiveAdUn
             if (adUnitStats.HasValue())
             {
                 var getAdUnitStatsCache = await Mediator.Send(new GetAdUnitStatsCacheQuery(request.AdUnitId), cancellationToken);
-                if (getAdUnitStatsCache.Ok &&
+                if (getAdUnitStatsCache.IsSuccess &&
                     getAdUnitStatsCache.Data.HasValue())
                 {
                     var data = getAdUnitStatsCache.Data;

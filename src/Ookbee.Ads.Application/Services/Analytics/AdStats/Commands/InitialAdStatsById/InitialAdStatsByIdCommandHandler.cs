@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.InitialAsse
                 var totalImpressions = 0L;
 
                 var getAdStatsByKey = await Mediator.Send(new GetAdStatsByKeyQuery(request.AdId, request.CaculatedAt), cancellationToken);
-                if (!getAdStatsByKey.Ok)
+                if (!getAdStatsByKey.IsSuccess)
                 {
                     var data = getAdStatsByKey.Data;
                     await Mediator.Send(new CreateAdStatsCommand(request.AdId, request.CaculatedAt, quota, 0, 0), cancellationToken);

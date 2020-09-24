@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.UpdateUser
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsUserByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 

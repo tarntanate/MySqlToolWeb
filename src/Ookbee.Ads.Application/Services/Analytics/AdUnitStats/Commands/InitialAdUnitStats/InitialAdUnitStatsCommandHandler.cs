@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStatsCache.Commands.In
             {
                 next = false;
                 var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
-                if (getAdUnitList.Ok &&
+                if (getAdUnitList.IsSuccess &&
                     getAdUnitList.Data.HasValue())
                 {
                     var items = getAdUnitList.Data;

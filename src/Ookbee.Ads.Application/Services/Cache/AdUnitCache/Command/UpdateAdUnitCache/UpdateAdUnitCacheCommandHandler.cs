@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.UpdateAdUni
             {
                 next = false;
                 var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
-                if (getAdUnitList.Ok &&
+                if (getAdUnitList.IsSuccess &&
                     getAdUnitList.HasValue())
                 {
                     var items = getAdUnitList.Data;

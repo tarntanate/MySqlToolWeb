@@ -24,8 +24,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.IsExistsAdSt
 
             var result = new Response<bool>();
             return (isExists)
-                ? result.Success(true)
-                : result.Fail(404, $"AdStats Id='{request.Id}' doesn't exist.");
+                ? result.OK(true)
+                : result.NotFound();
         }
     }
 }

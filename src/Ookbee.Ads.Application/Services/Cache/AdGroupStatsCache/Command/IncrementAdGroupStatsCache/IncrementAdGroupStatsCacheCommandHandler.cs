@@ -25,9 +25,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.Incre
             {
                 var hashField = request.StatsType.ToString();
                 await AdsRedis.HashIncrementAsync(redisKey, hashField, 1, CommandFlags.FireAndForget);
-                return new Response<bool>().Success(true);
+                return new Response<bool>().OK(true);
             }
-            return new Response<bool>().Fail(404, $"Unable to update stats: Invalid or expired data.");
+            return new Response<bool>().NotFound($"Unable to update stats: Invalid or expired data.");
         }
     }
 }

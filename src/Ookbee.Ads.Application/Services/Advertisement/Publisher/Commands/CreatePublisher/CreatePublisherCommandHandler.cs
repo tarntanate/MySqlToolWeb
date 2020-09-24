@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Creat
             var entity = Mapper.Map<PublisherEntity>(request);
             await PublisherDbRepo.InsertAsync(entity);
             await PublisherDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }

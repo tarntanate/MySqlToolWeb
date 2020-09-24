@@ -29,8 +29,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 
             var result = new Response<AdAssetDto>();
             return (item != null)
-                ? result.Success(item)
-                : result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");
+                ? result.OK(item)
+                : result.NotFound();
         }
     }
 }

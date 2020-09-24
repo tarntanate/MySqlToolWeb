@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStats.Commands.ArchiveAdG
             if (adGroupStats.HasValue())
             {
                 var getAdGroupStatsCache = await Mediator.Send(new GetAdGroupStatsCacheQuery(request.AdGroupId), cancellationToken);
-                if (getAdGroupStatsCache.Ok &&
+                if (getAdGroupStatsCache.IsSuccess &&
                     getAdGroupStatsCache.Data.HasValue())
                 {
                     var data = getAdGroupStatsCache.Data;

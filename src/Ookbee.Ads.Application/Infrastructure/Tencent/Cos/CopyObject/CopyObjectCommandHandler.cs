@@ -5,6 +5,7 @@ using COSXML.Utils;
 using MediatR;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.InitializeCosXmlServer;
 using Ookbee.Ads.Common.Response;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,12 +37,12 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject
                 copyObjectRequest.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.COPY);
                 var copyObjectResult = cosXml.CopyObject(copyObjectRequest);
                 if (copyObjectResult.httpCode == 200)
-                    return result.Success(true);
-                return result.Fail(copyObjectResult.httpCode, copyObjectResult.httpMessage);
+                    return result.OK(true);
+                return result.Status((HttpStatusCode)copyObjectResult.httpCode, copyObjectResult.httpMessage);
             }
             catch (CosServerException serverEx)
             {
-                return result.Fail(serverEx.statusCode, serverEx.errorMessage);
+                return result.Status((HttpStatusCode)serverEx.statusCode, serverEx.errorMessage);
             }
         }
     }

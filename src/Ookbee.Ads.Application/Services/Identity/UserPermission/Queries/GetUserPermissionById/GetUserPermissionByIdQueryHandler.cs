@@ -26,8 +26,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
 
             var result = new Response<UserPermissionDto>();
             return (item != null)
-                ? result.Success(item)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(item)
+                : result.NotFound();
         }
     }
 }

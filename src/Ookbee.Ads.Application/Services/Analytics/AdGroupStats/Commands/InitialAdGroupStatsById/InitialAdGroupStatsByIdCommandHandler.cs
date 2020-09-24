@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.Initial
         public async Task<Unit> Handle(InitialAdGroupStatsByIdCommand request, CancellationToken cancellationToken)
         {
             var getAdGroupStatByKey = await Mediator.Send(new GetAdGroupStatsByKeyQuery(request.AdGroupId, request.CaculatedAt), cancellationToken);
-            if (!getAdGroupStatByKey.Ok)
+            if (!getAdGroupStatByKey.IsSuccess)
             {
                 var data = getAdGroupStatByKey.Data;
                 await Mediator.Send(new CreateAdGroupStatsCommand(request.CaculatedAt, request.AdGroupId, 0), cancellationToken);

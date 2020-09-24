@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Delete
         {
             await CampaignDbRepo.DeleteAsync(request.Id);
             await CampaignDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

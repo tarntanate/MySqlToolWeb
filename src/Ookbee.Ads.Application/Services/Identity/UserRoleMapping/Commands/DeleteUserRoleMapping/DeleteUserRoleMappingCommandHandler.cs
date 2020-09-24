@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Dele
         {
             await UserRoleMappingDbRepo.DeleteAsync(new { request.UserId, request.RoleId });
             await UserRoleMappingDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

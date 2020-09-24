@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsPublisherByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -32,7 +32,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
                 {
                     var validate = context.InstanceToValidate as UpdatePublisherCommand;
                     var result = await Mediator.Send(new GetPublisherByNameQuery(value), cancellationToken);
-                    if (result.Ok &&
+                    if (result.IsSuccess &&
                         result.Data.Id != validate.Id &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");

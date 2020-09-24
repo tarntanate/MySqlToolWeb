@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Create
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Create
                 {
                     var validate = context.InstanceToValidate as CreateCampaignCommand;
                     var result = await Mediator.Send(new GetCampaignByNameQuery(value), cancellationToken);
-                    if (result.Ok &&
+                    if (result.IsSuccess &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });

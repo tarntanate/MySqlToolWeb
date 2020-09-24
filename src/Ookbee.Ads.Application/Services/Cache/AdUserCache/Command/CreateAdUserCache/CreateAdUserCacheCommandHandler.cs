@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUserCache.Commands.CreateAdUse
         public async Task<Unit> Handle(CreateAdUserCacheCommand request, CancellationToken cancellationToken)
         {
             var isExistsUserById = await Mediator.Send(new IsExistsUserByIdQuery(request.UserId), cancellationToken);
-            if (isExistsUserById.Ok &&
+            if (isExistsUserById.IsSuccess &&
                 isExistsUserById.Data.HasValue())
             {
                 var redisKey = CacheKey.UserPreview();

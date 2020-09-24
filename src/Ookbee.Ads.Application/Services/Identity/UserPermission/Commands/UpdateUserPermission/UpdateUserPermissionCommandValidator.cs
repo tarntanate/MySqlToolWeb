@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsUserPermissionByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetUserRoleByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
                 {
                     var validate = context.InstanceToValidate as UpdateUserPermissionCommand;
                     var result = await Mediator.Send(new GetUserPermissionByNameQuery(value), cancellationToken);
-                    if (result.Ok &&
+                    if (result.IsSuccess &&
                         result.Data.Id != validate.Id &&
                         result.Data.ExtensionName == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");

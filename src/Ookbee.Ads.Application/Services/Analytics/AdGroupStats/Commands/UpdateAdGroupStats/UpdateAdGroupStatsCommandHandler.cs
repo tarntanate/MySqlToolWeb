@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.UpdateA
             var entity = Mapper.Map<AdGroupStatsEntity>(request);
             await AdGroupStatsDbRepo.InsertAsync(entity);
             await AdGroupStatsDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
             var entity = Mapper.Map<UserPermissionEntity>(request);
             await UserPermissionDbRepo.UpdateAsync(entity.Id, entity);
             await UserPermissionDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

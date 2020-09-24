@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.CreateUserR
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetUserRoleByNameQuery(value), cancellationToken);
-                    if (result.Ok)
+                    if (result.IsSuccess)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
 

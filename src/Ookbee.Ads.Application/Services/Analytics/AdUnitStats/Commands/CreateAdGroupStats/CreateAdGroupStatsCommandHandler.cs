@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.CreateA
             await RequestLogDbRepo.SaveChangesAsync(cancellationToken);
 
             var result = new Response<long>();
-            return result.Success(entity.Id);
+            return result.OK(entity.Id);
         }
     }
 }

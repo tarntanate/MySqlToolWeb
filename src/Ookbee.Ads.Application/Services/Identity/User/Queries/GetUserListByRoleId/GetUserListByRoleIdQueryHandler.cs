@@ -38,8 +38,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserListByRol
 
             var result = new Response<IEnumerable<long>>();
             return (items.HasValue())
-                ? result.Success(items.Select(x => x.UserId))
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items.Select(x => x.UserId))
+                : result.NotFound();
         }
     }
 }

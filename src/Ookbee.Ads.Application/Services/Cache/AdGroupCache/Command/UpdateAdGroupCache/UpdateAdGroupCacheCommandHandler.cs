@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.UpdateAdGr
         public async Task<Unit> Handle(UpdateAdGroupCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdGroupById = await Mediator.Send(new GetAdGroupByIdQuery(request.AdGroupId), cancellationToken);
-            if (getAdGroupById.Ok)
+            if (getAdGroupById.IsSuccess)
             {
                 var adUnit = getAdGroupById.Data;
                 var redisKey = CacheKey.Groups();

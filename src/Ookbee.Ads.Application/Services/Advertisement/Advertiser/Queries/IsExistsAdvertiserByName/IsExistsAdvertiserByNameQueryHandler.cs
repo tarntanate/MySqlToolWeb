@@ -26,8 +26,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.IsExi
 
             var result = new Response<bool>();
             return (isExists)
-                ? result.Success(true)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(true)
+                : result.NotFound();
         }
     }
 }

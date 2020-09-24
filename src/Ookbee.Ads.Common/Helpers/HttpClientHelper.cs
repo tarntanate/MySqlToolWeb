@@ -23,8 +23,8 @@ namespace Ookbee.Ads.Common.Helpers
             var json = await responseMessage.Content.ReadAsStringAsync();
             var responseBody = JsonHelper.Deserialize<ApiItemResult<TResult>>(json);
             if (responseMessage.IsSuccessStatusCode)
-                return httpResult.Success(responseBody.Data);
-            return httpResult.Fail(responseMessage.StatusCode, responseBody?.Error?.Message);
+                return httpResult.OK(responseBody.Data);
+            return httpResult.Status(responseMessage.StatusCode, responseBody?.Error?.Message);
         }
 
         public static async Task<Response<ICollection<TResult>>> ConvertToListResult<TResult>(HttpResponseMessage responseMessage)
@@ -33,8 +33,8 @@ namespace Ookbee.Ads.Common.Helpers
             var json = await responseMessage.Content.ReadAsStringAsync();
             var responseBody = JsonHelper.Deserialize<ApiListResult<TResult>>(json);
             if (responseMessage.IsSuccessStatusCode)
-                return httpResult.Success(responseBody.Data.Items);
-            return httpResult.Fail(responseMessage.StatusCode, responseBody?.Error?.Message);
+                return httpResult.OK(responseBody.Data.Items);
+            return httpResult.Status(responseMessage.StatusCode, responseBody?.Error?.Message);
         }
     }
 }

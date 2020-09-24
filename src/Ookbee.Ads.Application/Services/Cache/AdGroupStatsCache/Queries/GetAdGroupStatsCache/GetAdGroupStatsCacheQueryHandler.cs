@@ -30,9 +30,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.GetAd
             if (hashEntries.HasValue())
             {
                 var data = hashEntries.ToDictionary(x => x.Name.ToString(), x => (long)x.Value, StringComparer.Ordinal);
-                return result.Success(data);
+                return result.OK(data);
             }
-            return result.Fail(404, "Data not found.");
+            return result.NotFound();
         }
     }
 }

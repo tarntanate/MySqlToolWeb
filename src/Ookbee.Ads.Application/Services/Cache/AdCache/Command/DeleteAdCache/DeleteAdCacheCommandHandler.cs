@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCache
         public async Task<Unit> Handle(DeleteAdCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
-            if (getAdById.Ok &&
+            if (getAdById.IsSuccess &&
                 getAdById.Data.HasValue())
             {
                 var ad = getAdById.Data;

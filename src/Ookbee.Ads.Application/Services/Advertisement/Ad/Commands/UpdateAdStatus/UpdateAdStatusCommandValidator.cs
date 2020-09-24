@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value), cancellationToken);
-                    if (!isExistsAdResult.Ok)
+                    if (!isExistsAdResult.IsSuccess)
                         context.AddFailure(isExistsAdResult.Message);
                 });
 

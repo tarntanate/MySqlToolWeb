@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.DeleteAd
             await AdDbRepo.DeleteAsync(request.Id);
             await AdDbRepo.SaveChangesAsync(cancellationToken);
             await Mediator.Send(new DeleteAdCacheCommand(request.Id), cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

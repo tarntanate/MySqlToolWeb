@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUni
             );
 
             var result = new Response<IEnumerable<AdUnitStatsDto>>();
-            return result.Success(items);
+            return result.OK(items);
         }
     }
 }

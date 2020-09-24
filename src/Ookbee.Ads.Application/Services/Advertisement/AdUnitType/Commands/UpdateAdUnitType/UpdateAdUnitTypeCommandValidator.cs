@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Upda
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Upda
                 {
                     var validate = context.InstanceToValidate as UpdateAdUnitTypeCommand;
                     var result = await Mediator.Send(new GetAdUnitTypeByNameQuery(value), cancellationToken);
-                    if (result.Ok &&
+                    if (result.IsSuccess &&
                         result.Data.Id != validate.Id &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");

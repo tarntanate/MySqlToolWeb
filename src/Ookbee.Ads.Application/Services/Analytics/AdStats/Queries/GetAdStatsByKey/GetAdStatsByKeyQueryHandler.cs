@@ -28,8 +28,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdStatsBy
 
             var result = new Response<AdStatsDto>();
             return (item != null)
-                ? result.Success(item)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(item)
+                : result.NotFound();
         }
     }
 }

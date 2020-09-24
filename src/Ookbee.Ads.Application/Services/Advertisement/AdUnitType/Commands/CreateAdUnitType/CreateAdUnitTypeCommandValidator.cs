@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Crea
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdUnitTypeByNameQuery(value), cancellationToken);
-                    if (result.Ok)
+                    if (result.IsSuccess)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
 

@@ -31,8 +31,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList
 
             var result = new Response<IEnumerable<UserDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

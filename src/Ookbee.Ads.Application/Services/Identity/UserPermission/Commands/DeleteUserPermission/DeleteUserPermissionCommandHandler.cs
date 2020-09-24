@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Delet
         {
             await UserPermissionDbRepo.DeleteAsync(request.Id);
             await UserPermissionDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         public async Task<ContentResult> GetAdUnitCacheByGroupId([FromQuery] string platform, [FromRoute] long groupId, CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(new GetAdUnitCacheByGroupIdQuery(platform, groupId), cancellationToken);
-            if (result.Ok &&
+            if (result.IsSuccess &&
                 result.Data.HasValue())
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };

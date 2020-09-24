@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.CreateUser
             var entity = Mapper.Map<UserEntity>(request);
             await userDbRepo.InsertAsync(entity);
             await userDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }

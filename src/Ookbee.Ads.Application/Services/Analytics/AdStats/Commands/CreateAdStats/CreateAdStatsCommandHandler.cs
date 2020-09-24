@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdSta
             await AdStatsDbRepo.SaveChangesAsync(cancellationToken);
 
             var result = new Response<long>();
-            return result.Success(entity.Id);
+            return result.OK(entity.Id);
         }
     }
 }

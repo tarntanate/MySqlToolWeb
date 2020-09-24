@@ -42,9 +42,9 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdQuotaBy
                 );
                 var avalible = ad.Quota - (int)impressions;
                 avalible = avalible < 0 ? 0 : avalible;
-                return result.Success(avalible);
+                return result.OK(avalible);
             }
-            return result.Fail(404, "Data not found.");
+            return result.NotFound();
         }
     }
 }

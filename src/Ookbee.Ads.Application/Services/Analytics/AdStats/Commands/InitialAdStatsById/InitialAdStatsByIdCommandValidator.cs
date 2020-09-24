@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.InitialAsse
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetAdByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
         }

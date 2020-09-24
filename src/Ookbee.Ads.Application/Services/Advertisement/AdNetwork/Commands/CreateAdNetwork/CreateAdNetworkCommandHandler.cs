@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Creat
             var entity = Mapper.Map<AdNetworkEntity>(request);
             await AdNetworkDbRepo.InsertAsync(entity);
             await AdNetworkDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }
