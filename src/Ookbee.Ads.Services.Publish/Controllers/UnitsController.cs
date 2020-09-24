@@ -2,8 +2,6 @@
 using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Infrastructure.Models;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,9 +12,9 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     public class UnitsController : ApiController
     {
         [HttpGet("{unitId}/ad")]
-        public async Task<ContentResult> GetAdAssetByUnitId([FromRoute] long unitId, [FromQuery] string platform, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdAssetByUnitId([FromQuery] string platform, [FromRoute] long unitId, [FromRoute] long? userId, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new GetAdByUnitIdQuery(unitId, platform), cancellationToken);
+            var result = await Mediator.Send(new GetAdByUnitIdQuery(platform, unitId, userId), cancellationToken);
             if (result.Ok &&
                 result.Data.HasValue())
                 return Content(result.Data, "application/json");

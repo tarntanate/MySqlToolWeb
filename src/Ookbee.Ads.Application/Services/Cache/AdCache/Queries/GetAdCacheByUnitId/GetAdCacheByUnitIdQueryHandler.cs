@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Ookbee.Ads.Application.Services.Cache.AdUserCache.Queries.IsExistsAdUserCacheById;
 
 namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
 {
@@ -30,26 +31,34 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
         {
             await Mediator.Send(new IncrementAdUnitStatsCacheCommand(StatsType.Request, request.AdUnitId), cancellationToken);
 
-            var redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
+            var redisKey = string.Empty;
             var redisValue = string.Empty;
-            var redisValues = await AdsRedis.SetMembersAsync(redisKey);
-            if (redisValues.HasValue())
+
+            if (request.UserId.HasValue())
             {
-                var adIds = redisValues.Select(adId => (long)adId);
+                var isExistsAdUserResponse = await Mediator.Send(new IsExistsAdUserCacheByIdQuery(request.UserId.Value), cancellationToken);
+                if (isExistsAdUserResponse.Ok)
+                    redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
+                else 
+                    redisKey = CacheKey.UnitsAdIdsPreview(request.AdUnitId, request.Platform);
+            }
+
+            var setMembers = await AdsRedis.SetMembersAsync(redisKey);
+            if (setMembers.HasValue())
+            {
+                var adIds = setMembers.Select(adId => (long)adId);
                 var adId = adIds.OrderBy(adId => Guid.NewGuid()).First();
                 redisKey = CacheKey.Ad(adId);
-                var hashField = request.Platform.ToString();
-                redisValue = await AdsRedis.HashGetAsync(redisKey, hashField);
+                redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
             }
 
             var result = new Response<string>();
-
-            if (!redisValue.HasValue())
-                return result.Fail(404, "Data not found.");
-
-            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(StatsType.Fill, request.AdUnitId));
-
-            return result.Success(redisValue);
+            if (redisValue.HasValue())
+            {
+                await Mediator.Send(new IncrementAdUnitStatsCacheCommand(StatsType.Fill, request.AdUnitId));
+                return result.Success(redisValue);
+            }
+            return result.Fail(404, "Data not found.");
         }
     }
 }

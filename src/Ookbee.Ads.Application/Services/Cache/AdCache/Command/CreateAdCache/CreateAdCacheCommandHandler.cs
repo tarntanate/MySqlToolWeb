@@ -51,7 +51,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
                         var hashValue = (RedisValue)JsonHelper.Serialize(obj);
                         await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
 
-                        redisKey = CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
+                        redisKey = getAdById.Data.Status == AdStatus.Preview
+                            ? CacheKey.UnitsAdIdsPreview(getAdById.Data.AdUnit.Id, platform)
+                            : CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
                         hashValue = (RedisValue)getAdById.Data.Id;
                         await AdsRedis.SetAddAsync(redisKey, hashValue);
                     }

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList;
+using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealList;
 using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache;
 using Ookbee.Ads.Common.Extensions;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.InitialAdCache
             do
             {
                 next = false;
-                var getAdListRequest = new GetAdListQuery(start, length, request.AdUnitId, null);
+                var getAdListRequest = new GetAdRevealListQuery(start, length, request.AdUnitId, null);
                 var getAdListResponse = await Mediator.Send(getAdListRequest, cancellationToken);
                 if (getAdListResponse.Data.HasValue())
                 {

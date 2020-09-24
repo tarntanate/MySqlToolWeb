@@ -22,7 +22,13 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static string UnitsAdIds(long adUnitId, Platform platform)
             => $"units/{adUnitId}/ads/ids/{platform}".ToUpper();
 
+        public static string UnitsAdIdsPreview(long adUnitId, Platform platform)
+            => $"units/{adUnitId}/ads/ids/{platform}/preview".ToUpper();
+
         public static string UnitsStats(long adUnitId)
             => $"units/{adUnitId}/stats".ToUpper();
+
+        public static string UserPreview()
+            => $"users/ids/preview".ToUpper();
     }
 }
