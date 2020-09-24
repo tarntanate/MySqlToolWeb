@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.TimescaleDb;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupReportByGroupId
 {
-    public class GetAdGroupReportByGroupIdHandler : IRequestHandler<GetAdGroupReportByGroupIdQuery, HttpResult<List<AdGroupReportDto>>>
+    public class GetAdGroupReportByGroupIdHandler : IRequestHandler<GetAdGroupReportByGroupIdQuery, Response<List<AdGroupSummaryReportDto>>>
     {
         // private TimescaleDbRepository<AdGroupReportDto> AdGroupReportDbRepo { get; }
         private TimescaleDbContext dbContext { get; }
@@ -21,16 +21,17 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGrou
             this.dbContext = dbContext;
         }
 
-        public async Task<HttpResult<List<AdGroupReportDto>>> Handle(GetAdGroupReportByGroupIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<List<AdGroupSummaryReportDto>>> Handle(GetAdGroupReportByGroupIdQuery request, CancellationToken cancellationToken)
         {
             // var item = new List<AdGroupReportDto>();
             var sqlCommandText = $@"SELECT time_bucket('1 day', ""CreatedAt"" ) AS ""Day"",
                 ""AdGroupId"" , COUNT(*) as ""Total""
                 FROM public.""GroupRequestLog""
+                WHERE ""AdGroupId"" = " + request.AdGroupId.ToString() + @"
                 GROUP BY ""Day"", ""AdGroupId"" 
-                ORDER BY ""Day"" DESC";
+                ORDER BY ""Day"" ";
 
-            var data = await dbContext.AdGroupReports.FromSqlRaw(sqlCommandText).Select(AdGroupReportDto.Projection).ToListAsync();
+            var data = await dbContext.AdGroupReports.FromSqlRaw(sqlCommandText).Select(AdGroupSummaryReportDto.Projection).ToListAsync();
 
             // Execute a query.
             // using (var dr = await dbContext.Database.ExecuteSqlQueryAsync()
@@ -48,7 +49,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGrou
             //     }
             // }
 
-            var result = new HttpResult<List<AdGroupReportDto>>();
+            var result = new Response<List<AdGroupSummaryReportDto>>();
             return (data != null)
                 ? result.Success(data)
                 : result.Fail(404, $"Fail");

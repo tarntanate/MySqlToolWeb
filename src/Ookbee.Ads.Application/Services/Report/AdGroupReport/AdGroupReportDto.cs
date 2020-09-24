@@ -21,10 +21,28 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
                 {
                     Day = entity.Day,
                     AdGroupId = entity.AdGroupId,
-                    Total = entity.Total           
+                    Total = entity.Total
                 };
             }
         }
     }
- 
+
+    public class AdGroupSummaryReportDto
+    {
+        public DateTime Day { get; set; }
+        public long Total { get; set; }
+
+        public static Expression<Func<AdGroupReportEntity, AdGroupSummaryReportDto>> Projection
+        {
+            get
+            {
+                return entity => new AdGroupSummaryReportDto()
+                {
+                    Day = entity.Day.Date,
+                    Total = entity.Total
+                };
+            }
+        }
+    }
+
 }

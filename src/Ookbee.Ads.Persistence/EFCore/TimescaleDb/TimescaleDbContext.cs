@@ -8,6 +8,7 @@ namespace Ookbee.Ads.Persistence.EFCore.TimescaleDb
     public class TimescaleDbContext : DbContext
     {
         public DbSet<AdGroupReportEntity> AdGroupReports { get; set; }
+        public DbSet<PlatformReportEntity> PlatformReports { get; set; }
 
         public TimescaleDbContext(DbContextOptions<TimescaleDbContext> options) : base(options)
         {
@@ -25,6 +26,7 @@ namespace Ookbee.Ads.Persistence.EFCore.TimescaleDb
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TimescaleDbContext).Assembly);
 
             modelBuilder.Entity<AdGroupReportEntity>().HasNoKey();
+            modelBuilder.Entity<PlatformReportEntity>().HasNoKey();
 
             // foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             // {
