@@ -1,16 +1,16 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.DeleteCampaign;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCampaignById;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCampaignList;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.DeleteCampaign;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCampaignById;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCampaignList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.CreateCampaign;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.UpdateCampaign;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.CreateCampaign;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.UpdateCampaign;
 
 namespace Ookbee.Ads.Services.Management.Controllers
 {
@@ -19,23 +19,23 @@ namespace Ookbee.Ads.Services.Management.Controllers
     public class CampaignsController : ApiController
     {
         [HttpGet]
-        public async Task<HttpResult<IEnumerable<CampaignDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? advertiserId, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<CampaignDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? advertiserId, CancellationToken cancellationToken)
             => await Mediator.Send(new GetCampaignListQuery(start, length, advertiserId), cancellationToken);
 
         [HttpGet("{id}")]
-        public async Task<HttpResult<CampaignDto>> GetById([FromRoute] long id, CancellationToken cancellationToken)
+        public async Task<Response<CampaignDto>> GetById([FromRoute] long id, CancellationToken cancellationToken)
             => await Mediator.Send(new GetCampaignByIdQuery(id), cancellationToken);
 
         [HttpPost]
-        public async Task<HttpResult<long>> CreateCampaignCommand([FromBody] CreateCampaignRequest request, CancellationToken cancellationToken)
+        public async Task<Response<long>> CreateCampaignCommand([FromBody] CreateCampaignRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new CreateCampaignCommand(request), cancellationToken);
 
         [HttpPut("{id}")]
-        public async Task<HttpResult<bool>> UpdateCampaignCost([FromRoute] long id, [FromBody] UpdateCampaignRequest request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> UpdateCampaignCost([FromRoute] long id, [FromBody] UpdateCampaignRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdateCampaignCommand(id, request), cancellationToken);
 
         [HttpDelete("{id}")]
-        public async Task<HttpResult<bool>> Delete([FromRoute] long id, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Delete([FromRoute] long id, CancellationToken cancellationToken)
             => await Mediator.Send(new DeleteCampaignCommand(id), cancellationToken);
     }
 }

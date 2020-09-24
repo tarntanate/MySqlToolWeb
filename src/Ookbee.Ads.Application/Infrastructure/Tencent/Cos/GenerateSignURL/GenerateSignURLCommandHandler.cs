@@ -1,14 +1,14 @@
 ﻿using COSXML.Model.Tag;
 using MediatR;
 using Ookbee.Ads.Application.Infrastructure.Tencent.Cos.InitializeCosXmlServer;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
 {
-    public class GenerateSignURLCommandHandler : IRequestHandler<GenerateSignURLCommand, HttpResult<string>>
+    public class GenerateSignURLCommandHandler : IRequestHandler<GenerateSignURLCommand, Response<string>>
     {
         private IMediator Mediator { get; }
 
@@ -17,9 +17,9 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
             Mediator = mediator;
         }
 
-        public async Task<HttpResult<string>> Handle(GenerateSignURLCommand request, CancellationToken cancellationToken)
+        public async Task<Response<string>> Handle(GenerateSignURLCommand request, CancellationToken cancellationToken)
         {
-            var result = new HttpResult<string>();
+            var result = new Response<string>();
             var cosConfig = GlobalVar.AppSettings.Tencent.Cos;
             var cosXml = await Mediator.Send(new InitializeCosXmlServerCommand(), cancellationToken);
             var preSignatureStruct = new PreSignatureStruct();

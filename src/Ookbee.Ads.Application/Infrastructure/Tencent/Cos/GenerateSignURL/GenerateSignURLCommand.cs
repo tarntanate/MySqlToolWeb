@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
 {
-    public class GenerateSignURLCommand : IRequest<HttpResult<string>>
+    public class GenerateSignURLCommand : IRequest<Response<string>>
     {
         public string Bucket { get; set; }
 

@@ -1,5 +1,5 @@
 ﻿using Ookbee.Ads.Common.Helpers;
-using Ookbee.Ads.Common.Result;
+using Ookbee.Ads.Common.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
@@ -66,7 +66,7 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
         private bool IsHttpResult(Type objType)
         {
             if (objType.IsGenericType)
-                return typeof(HttpResult<>).IsAssignableFrom(objType.GetGenericTypeDefinition());
+                return typeof(Response<>).IsAssignableFrom(objType.GetGenericTypeDefinition());
             return false;
         }
     }

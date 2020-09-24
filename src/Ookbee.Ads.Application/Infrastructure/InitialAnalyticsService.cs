@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ookbee.Ads.Application.Business.Analytics.AdGroupStatsCache.Commands.InitialAdGroupStats;
+using Ookbee.Ads.Application.Services.Analytics.AdGroupStatsCache.Commands.InitialAdGroupStats;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using System;

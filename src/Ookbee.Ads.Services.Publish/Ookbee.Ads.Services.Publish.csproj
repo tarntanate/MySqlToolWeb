@@ -6,10 +6,17 @@
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <UserSecretsId>0edf2e02-7c11-4a0a-8b98-92d20053377f</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Ookbee.Ads.Application\Ookbee.Ads.Application.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="appsettings*.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>  
   </ItemGroup>
 
 </Project>
