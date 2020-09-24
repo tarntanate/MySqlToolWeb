@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
     public class PlatformReportDto
     {
         public int PlatformId { get; set; }
-        public Platform Platform { get; set; }
+        public Platform Name { get; set; }
         public long Total { get; set; }
 
         public static Expression<Func<PlatformReportEntity, PlatformReportDto>> Projection
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
                 return entity => new PlatformReportDto()
                 {
                     PlatformId = entity.PlatformId,
-                    Platform = (Platform) entity.PlatformId,
+                    Name = (Platform) entity.PlatformId,
                     Total = entity.Total
                 };
             }
