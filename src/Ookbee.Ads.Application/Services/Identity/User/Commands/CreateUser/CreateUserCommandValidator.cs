@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.CreateUser
 {
     public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateUserCommandValidator(IMediator mediator)
         {

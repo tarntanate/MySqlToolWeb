@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.IsExists
 {
     public class IsExistsAdAssetByPositionQueryHandler : IRequestHandler<IsExistsAdAssetByPositionQuery, Response<bool>>
     {
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public IsExistsAdAssetByPositionQueryHandler(
             AdsDbRepository<AdAssetEntity> adUnitDbRepo)

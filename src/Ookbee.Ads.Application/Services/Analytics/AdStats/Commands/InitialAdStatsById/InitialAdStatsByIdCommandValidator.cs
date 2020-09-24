@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.InitialAsse
 {
     public class InitialAdStatsByIdCommandValidator : AbstractValidator<InitialAdStatsByIdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public InitialAdStatsByIdCommandValidator(IMediator mediator)
         {

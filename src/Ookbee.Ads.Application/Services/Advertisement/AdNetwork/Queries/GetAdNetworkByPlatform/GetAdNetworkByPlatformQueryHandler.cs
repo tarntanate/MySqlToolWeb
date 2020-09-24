@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
 {
     public class GetAdNetworkByPlatformQueryHandler : IRequestHandler<GetAdNetworkByPlatformQuery, Response<AdNetworkDto>>
     {
-        private AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo { get; }
+        private readonly AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo;
 
         public GetAdNetworkByPlatformQueryHandler(
             AdsDbRepository<AdNetworkEntity> adNetworkDbRepo)

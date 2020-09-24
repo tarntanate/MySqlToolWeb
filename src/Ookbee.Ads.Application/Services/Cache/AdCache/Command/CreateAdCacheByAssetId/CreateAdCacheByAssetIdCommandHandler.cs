@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CeateAdCacheByA
 {
     public class CreateAdCacheByAssetIdCommandHandler : IRequestHandler<CreateAdCacheByAssetIdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateAdCacheByAssetIdCommandHandler(
             IMediator mediator)

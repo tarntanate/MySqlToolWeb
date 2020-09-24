@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject
 {
     public class CopyObjectCommandHandler : IRequestHandler<CopyObjectCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CopyObjectCommandHandler(IMediator mediator)
         {

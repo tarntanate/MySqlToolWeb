@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.CreateA
 {
     public class CreateAdUnitStatsCommandHandler : IRequestHandler<CreateAdUnitStatsCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AnalyticsDbRepository<AdUnitStatsEntity> RequestLogDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AnalyticsDbRepository<AdUnitStatsEntity> RequestLogDbRepo;
 
         public CreateAdUnitStatsCommandHandler(
             IMapper mapper,

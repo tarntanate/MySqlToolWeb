@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Creat
 {
     public class CreateAdNetworkCommandHandler : IRequestHandler<CreateAdNetworkCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo;
 
         public CreateAdNetworkCommandHandler(
             IMapper mapper,

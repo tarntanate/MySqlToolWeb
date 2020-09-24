@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.CreateAd
 {
     public class CreateAdCommandHandler : IRequestHandler<CreateAdCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdEntity> AdDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<AdEntity> AdDbRepo;
 
         public CreateAdCommandHandler(
             IMapper mapper,

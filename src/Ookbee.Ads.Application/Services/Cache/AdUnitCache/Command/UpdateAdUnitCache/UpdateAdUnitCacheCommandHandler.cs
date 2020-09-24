@@ -17,8 +17,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.UpdateAdUni
 {
     public class UpdateAdUnitCacheCommandHandler : IRequestHandler<UpdateAdUnitCacheCommand>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public UpdateAdUnitCacheCommandHandler(

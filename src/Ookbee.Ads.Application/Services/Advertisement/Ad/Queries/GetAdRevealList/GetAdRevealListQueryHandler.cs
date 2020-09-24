@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
 {
     public class GetAdRevealListQueryHandler : IRequestHandler<GetAdRevealListQuery, Response<IEnumerable<AdDto>>>
     {
-        private AdsDbRepository<AdEntity> AdDbRepo { get; }
+        private readonly AdsDbRepository<AdEntity> AdDbRepo;
 
         public GetAdRevealListQueryHandler(
             AdsDbRepository<AdEntity> adDbRepo)

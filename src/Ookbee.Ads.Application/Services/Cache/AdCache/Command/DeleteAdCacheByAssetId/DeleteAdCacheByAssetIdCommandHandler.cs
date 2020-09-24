@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCacheBy
 {
     public class DeleteAdCacheByAssetIdCommandHandler : IRequestHandler<DeleteAdCacheByAssetIdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public DeleteAdCacheByAssetIdCommandHandler(
             IMediator mediator)

@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
 {
     public class GetAdNetworkListQueryValidator : AbstractValidator<GetAdNetworkListQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GetAdNetworkListQueryValidator(IMediator mediator)
         {

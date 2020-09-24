@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.IsExis
 {
     public class IsExistsUserPermissionByIdQueryHandler : IRequestHandler<IsExistsUserPermissionByIdQuery, Response<bool>>
     {
-        private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
+        private readonly AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo;
 
         public IsExistsUserPermissionByIdQueryHandler(
             AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)

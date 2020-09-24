@@ -12,16 +12,13 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUserCache.Commands.CreateAdUse
 {
     public class CreateAdCacheCommandHandler : IRequestHandler<CreateAdUserCacheCommand>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public CreateAdCacheCommandHandler(
-            IMapper mapper,
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
-            Mapper = mapper;
             Mediator = mediator;
             AdsRedis = adsRedis.Database();
         }

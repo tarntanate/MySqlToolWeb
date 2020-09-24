@@ -20,8 +20,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
 {
     public class CreateAdUnitCacheByGroupIdCommandHandler : IRequestHandler<CreateAdUnitCacheByGroupIdCommand>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public CreateAdUnitCacheByGroupIdCommandHandler(

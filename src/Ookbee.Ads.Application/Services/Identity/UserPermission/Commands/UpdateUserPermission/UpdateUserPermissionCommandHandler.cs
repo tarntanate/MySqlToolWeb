@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
 {
     public class UpdateUserPermissionCommandHandler : IRequestHandler<UpdateUserPermissionCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo;
 
         public UpdateUserPermissionCommandHandler(
             IMapper mapper,

@@ -12,8 +12,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdQuotaBy
 {
     public class GetAdQuotaByIdQueryHandler : IRequestHandler<GetAdQuotaByIdQuery, Response<int>>
     {
-        private AdsDbRepository<AdEntity> AdDbRepo { get; }
-        private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
+        private readonly AdsDbRepository<AdEntity> AdDbRepo;
+        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public GetAdQuotaByIdQueryHandler(
             AdsDbRepository<AdEntity> adDbRepo,

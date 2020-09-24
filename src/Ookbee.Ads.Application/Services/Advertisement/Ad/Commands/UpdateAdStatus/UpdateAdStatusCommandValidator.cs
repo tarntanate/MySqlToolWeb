@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
 {
     public class UpdateAdStatusCommandValidator : AbstractValidator<UpdateAdStatusCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateAdStatusCommandValidator(IMediator mediator)
         {

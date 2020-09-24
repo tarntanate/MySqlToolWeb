@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.CreateAdGr
 {
     public class CreateAdGroupCacheCommandHandler : IRequestHandler<CreateAdGroupCacheCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateAdGroupCacheCommandHandler(
             IMediator mediator)

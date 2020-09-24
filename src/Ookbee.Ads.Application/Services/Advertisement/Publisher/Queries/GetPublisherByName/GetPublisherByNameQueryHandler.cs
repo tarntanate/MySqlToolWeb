@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
 {
     public class GetPublisherByNameQueryHandler : IRequestHandler<GetPublisherByNameQuery, Response<PublisherDto>>
     {
-        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
+        private readonly AdsDbRepository<PublisherEntity> PublisherDbRepo;
 
         public GetPublisherByNameQueryHandler(
             AdsDbRepository<PublisherEntity> publisherDbRepo)

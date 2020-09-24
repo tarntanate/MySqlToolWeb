@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList
 {
     public class GetAdListQueryHandler : IRequestHandler<GetAdListQuery, Response<IEnumerable<AdDto>>>
     {
-        private AdsDbRepository<AdEntity> AdDbRepo { get; }
+        private readonly AdsDbRepository<AdEntity> AdDbRepo;
 
         public GetAdListQueryHandler(
             AdsDbRepository<AdEntity> adDbRepo)

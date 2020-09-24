@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList
 {
     public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, Response<IEnumerable<UserDto>>>
     {
-        private AdsDbRepository<UserEntity> UserDbRepo { get; }
+        private readonly AdsDbRepository<UserEntity> UserDbRepo;
 
         public GetUserListQueryHandler(
             AdsDbRepository<UserEntity> userDbRepo)

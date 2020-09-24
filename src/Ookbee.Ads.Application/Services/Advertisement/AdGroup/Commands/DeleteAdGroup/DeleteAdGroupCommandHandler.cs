@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.DeleteA
 {
     public class DeleteAdGroupCommandHandler : IRequestHandler<DeleteAdGroupCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdGroupEntity> AdGroupDbRepo { get; }
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<AdGroupEntity> AdGroupDbRepo;
 
         public DeleteAdGroupCommandHandler(
             IMediator mediator,

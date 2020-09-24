@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Crea
 {
     public class CreateUserRoleMappingCommandValidator : AbstractValidator<CreateUserRoleMappingCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateUserRoleMappingCommandValidator(IMediator mediator)
         {

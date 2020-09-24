@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
 {
     public class GetCampaignListQueryValidator : AbstractValidator<GetCampaignListQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GetCampaignListQueryValidator(IMediator mediator)
         {

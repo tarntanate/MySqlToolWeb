@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.GetAd
 {
     public class GetAdvertiserByIdQueryHandler : IRequestHandler<GetAdvertiserByIdQuery, Response<AdvertiserDto>>
     {
-        private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
+        private readonly AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo;
 
         public GetAdvertiserByIdQueryHandler(
             AdsDbRepository<AdvertiserEntity> advertiserDbRepo)

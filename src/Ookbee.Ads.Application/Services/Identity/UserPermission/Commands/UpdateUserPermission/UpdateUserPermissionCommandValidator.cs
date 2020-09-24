@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
 {
     public class UpdateUserPermissionCommandValidator : AbstractValidator<UpdateUserPermissionCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateUserPermissionCommandValidator(IMediator mediator)
         {

@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
 {
     public class GetUserPermissionListQueryHandler : IRequestHandler<GetUserPermissionListQuery, Response<IEnumerable<UserPermissionDto>>>
     {
-        private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
+        private readonly AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo;
 
         public GetUserPermissionListQueryHandler(
             AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)

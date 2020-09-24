@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
 {
     public class GetCampaignByNameQueryHandler : IRequestHandler<GetCampaignByNameQuery, Response<CampaignDto>>
     {
-        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
+        private readonly AdsDbRepository<CampaignEntity> CampaignDbRepo;
 
         public GetCampaignByNameQueryHandler(
             AdsDbRepository<CampaignEntity> campaignDbRepo)

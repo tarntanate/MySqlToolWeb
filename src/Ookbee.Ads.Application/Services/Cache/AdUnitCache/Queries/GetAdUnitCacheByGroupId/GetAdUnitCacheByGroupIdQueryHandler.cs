@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitCa
 {
     public class GetAdUnitCacheByGroupIdQueryHandler : IRequestHandler<GetAdUnitCacheByGroupIdQuery, Response<string>>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public GetAdUnitCacheByGroupIdQueryHandler(

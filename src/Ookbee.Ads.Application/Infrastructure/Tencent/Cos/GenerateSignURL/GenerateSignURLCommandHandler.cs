@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
 {
     public class GenerateSignURLCommandHandler : IRequestHandler<GenerateSignURLCommand, Response<string>>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GenerateSignURLCommandHandler(IMediator mediator)
         {

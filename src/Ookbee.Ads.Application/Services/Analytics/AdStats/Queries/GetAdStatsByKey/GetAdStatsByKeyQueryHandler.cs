@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdStatsBy
 {
     public class GetAdStatsByKeyQueryHandler : IRequestHandler<GetAdStatsByKeyQuery, Response<AdStatsDto>>
     {
-        private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
+        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public GetAdStatsByKeyQueryHandler(AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
         {

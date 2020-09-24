@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStats.Commands.ArchiveAdUn
 {
     public class ArchiveAdUnitStatsCommandHandler : IRequestHandler<ArchiveAdUnitStatsCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public ArchiveAdUnitStatsCommandHandler(
             IMediator mediator)

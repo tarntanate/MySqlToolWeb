@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdSta
 {
     public class CreateAdStatsCommandHandler : IRequestHandler<CreateAdStatsCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public CreateAdStatsCommandHandler(
             IMapper mapper,

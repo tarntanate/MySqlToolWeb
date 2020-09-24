@@ -13,12 +13,12 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserListByRol
 {
     public class GetUserListByRoleIdQueryHandler : IRequestHandler<GetUserListByRoleIdQuery, Response<IEnumerable<long>>>
     {
-        private AdsDbRepository<UserRoleMappingEntity> UserRoleDbRepo { get; }
+        private readonly AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo;
 
         public GetUserListByRoleIdQueryHandler(
-            AdsDbRepository<UserRoleMappingEntity> userRoleDbRepo)
+            AdsDbRepository<UserRoleMappingEntity> userRoleMappingDbRepo)
         {
-            UserRoleDbRepo = userRoleDbRepo;
+            UserRoleMappingDbRepo = userRoleMappingDbRepo;
         }
 
         public async Task<Response<IEnumerable<long>>> Handle(GetUserListByRoleIdQuery request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserListByRol
             if (request.RoleId.HasValue())
                 predicate = predicate.And(f => f.RoleId == request.RoleId);
 
-            var items = await UserRoleDbRepo.FindAsync(
+            var items = await UserRoleMappingDbRepo.FindAsync(
                 selector: f => new { f.UserId },
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.RoleId),

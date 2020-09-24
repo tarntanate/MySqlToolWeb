@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.UpdateA
 {
     public class UpdateAdGroupStatsCommandHandler : IRequestHandler<UpdateAdGroupStatsCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
         public UpdateAdGroupStatsCommandHandler(
             IMapper mapper,

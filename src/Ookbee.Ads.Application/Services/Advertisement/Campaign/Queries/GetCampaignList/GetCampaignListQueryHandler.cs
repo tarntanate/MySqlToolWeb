@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
 {
     public class GetCampaignListQueryHandler : IRequestHandler<GetCampaignListQuery, Response<IEnumerable<CampaignDto>>>
     {
-        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
+        private readonly AdsDbRepository<CampaignEntity> CampaignDbRepo;
 
         public GetCampaignListQueryHandler(
             AdsDbRepository<CampaignEntity> campaignDbRepo)

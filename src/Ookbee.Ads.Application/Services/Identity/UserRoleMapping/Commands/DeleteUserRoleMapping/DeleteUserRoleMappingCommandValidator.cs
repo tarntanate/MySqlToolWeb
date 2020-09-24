@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Dele
 {
     public class DeleteUserRoleMappingCommandValidator : AbstractValidator<DeleteUserRoleMappingCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public DeleteUserRoleMappingCommandValidator(IMediator mediator)
         {

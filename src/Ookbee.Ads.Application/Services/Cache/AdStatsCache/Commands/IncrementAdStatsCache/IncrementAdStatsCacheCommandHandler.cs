@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.IncrementA
 {
     public class IncrementAdStatsCacheCommandHandler : IRequestHandler<IncrementAdStatsCacheCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public IncrementAdStatsCacheCommandHandler(

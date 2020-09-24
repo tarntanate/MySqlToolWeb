@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
 {
     public class GetUserPermissionByIdQueryHandler : IRequestHandler<GetUserPermissionByIdQuery, Response<UserPermissionDto>>
     {
-        private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
+        private readonly AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo;
 
         public GetUserPermissionByIdQueryHandler(
             AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)

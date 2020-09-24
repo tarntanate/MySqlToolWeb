@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Upda
 {
     public class UpdateUserRoleMappingCommandValidator : AbstractValidator<UpdateUserRoleMappingCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateUserRoleMappingCommandValidator(IMediator mediator)
         {

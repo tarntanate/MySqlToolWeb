@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdSta
 {
     public class CreateAdStatsCommandValidator : AbstractValidator<CreateAdStatsCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateAdStatsCommandValidator(IMediator mediator)
         {

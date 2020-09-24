@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<UserEntity> userDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<UserEntity> userDbRepo;
 
         public CreateUserCommandHandler(
             IMapper mapper,

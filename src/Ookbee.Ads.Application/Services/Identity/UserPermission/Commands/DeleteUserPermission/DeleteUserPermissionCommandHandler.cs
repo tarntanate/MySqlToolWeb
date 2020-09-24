@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Delet
 {
     public class DeleteUserPermissionCommandHandler : IRequestHandler<DeleteUserPermissionCommand, Response<bool>>
     {
-        private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
+        private readonly AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo;
 
         public DeleteUserPermissionCommandHandler(
             AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)

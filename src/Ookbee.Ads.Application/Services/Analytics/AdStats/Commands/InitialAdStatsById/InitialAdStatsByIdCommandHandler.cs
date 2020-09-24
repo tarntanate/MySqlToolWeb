@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.InitialAsse
 {
     public class InitialAdStatsByIdCommandHandler : IRequestHandler<InitialAdStatsByIdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public InitialAdStatsByIdCommandHandler(
             IMediator mediator)

@@ -17,7 +17,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
 {
     public class DeleteAdUnitCacheCommandHandler : IRequestHandler<DeleteAdUnitCacheCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public DeleteAdUnitCacheCommandHandler(

@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStats.Queries.IsExist
 {
     public class IsExistsAdUnitStatsByIdQueryHandler : IRequestHandler<IsExistsAdUnitStatsByIdQuery, Response<bool>>
     {
-        private AdsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo { get; }
+        private readonly AdsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo;
 
         public IsExistsAdUnitStatsByIdQueryHandler(AdsDbRepository<AdUnitStatsEntity> adUnitStatsDbRepo)
         {

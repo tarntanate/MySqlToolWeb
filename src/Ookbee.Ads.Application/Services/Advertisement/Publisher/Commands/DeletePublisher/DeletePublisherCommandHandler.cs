@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Delet
 {
     public class DeletePublisherCommandHandler : IRequestHandler<DeletePublisherCommand, Response<bool>>
     {
-        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
+        private readonly AdsDbRepository<PublisherEntity> PublisherDbRepo;
 
         public DeletePublisherCommandHandler(
             AdsDbRepository<PublisherEntity> publisherDbRepo)

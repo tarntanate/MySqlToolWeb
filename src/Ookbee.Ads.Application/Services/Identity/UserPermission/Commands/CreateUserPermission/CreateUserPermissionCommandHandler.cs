@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Creat
 {
     public class CreateUserPermissionCommandHandler : IRequestHandler<CreateUserPermissionCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo;
 
         public CreateUserPermissionCommandHandler(
             IMapper mapper,

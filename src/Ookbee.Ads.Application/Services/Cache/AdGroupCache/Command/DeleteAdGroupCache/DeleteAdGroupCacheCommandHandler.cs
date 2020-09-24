@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.DeleteAdGr
 {
     public class DeleteAdGroupCacheCommandHandler : IRequestHandler<DeleteAdGroupCacheCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public DeleteAdGroupCacheCommandHandler(

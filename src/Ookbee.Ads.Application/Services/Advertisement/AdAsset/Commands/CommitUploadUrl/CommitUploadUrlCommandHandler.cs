@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CommitU
 {
     public class CommitUploadUrlCommandHandler : IRequestHandler<CommitUploadUrlCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CommitUploadUrlCommandHandler(IMediator mediator)
         {

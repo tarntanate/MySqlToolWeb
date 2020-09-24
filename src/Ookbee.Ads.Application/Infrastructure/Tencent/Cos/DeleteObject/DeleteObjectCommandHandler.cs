@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.DeleteObject
 {
     public class DeleteObjectCommandHandler : IRequestHandler<DeleteObjectCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public DeleteObjectCommandHandler(IMediator mediator)
         {

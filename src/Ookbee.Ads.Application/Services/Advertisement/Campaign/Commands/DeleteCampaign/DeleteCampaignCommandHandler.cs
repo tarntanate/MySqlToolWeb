@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Delete
 {
     public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignCommand, Response<bool>>
     {
-        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
+        private readonly AdsDbRepository<CampaignEntity> CampaignDbRepo;
 
         public DeleteCampaignCommandHandler(
             AdsDbRepository<CampaignEntity> campaignDbRepo)

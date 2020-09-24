@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserById
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Response<UserDto>>
     {
-        private AdsDbRepository<UserEntity> userDbRepo { get; }
+        private readonly AdsDbRepository<UserEntity> userDbRepo;
 
         public GetUserByIdQueryHandler(
             AdsDbRepository<UserEntity> authUserDbRepo)

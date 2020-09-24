@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Dele
 {
     public class DeleteAdUnitTypeCommandHandler : IRequestHandler<DeleteAdUnitTypeCommand, Response<bool>>
     {
-        private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
+        private readonly AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo;
 
         public DeleteAdUnitTypeCommandHandler(
             AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)

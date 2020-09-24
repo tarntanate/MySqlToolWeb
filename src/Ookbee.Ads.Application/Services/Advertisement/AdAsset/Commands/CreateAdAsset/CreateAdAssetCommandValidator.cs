@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CreateA
 {
     public class CreateAdAssetCommandValidator : AbstractValidator<CreateAdAssetCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateAdAssetCommandValidator(IMediator mediator)
         {

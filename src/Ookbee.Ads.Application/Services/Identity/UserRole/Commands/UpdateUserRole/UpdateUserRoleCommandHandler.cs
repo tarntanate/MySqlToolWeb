@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.UpdateUserR
 {
     public class UpdateUserRoleCommandHandler : IRequestHandler<UpdateUserRoleCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<UserRoleEntity> UserRoleDbRepo;
 
         public UpdateUserRoleCommandHandler(
             IMapper mapper,

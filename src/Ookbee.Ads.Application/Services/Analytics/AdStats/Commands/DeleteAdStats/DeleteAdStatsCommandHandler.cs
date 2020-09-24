@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.DeleteAdSta
 {
     public class DeleteAdStatsCommandHandler : IRequestHandler<DeleteAdStatsCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public DeleteAdStatsCommandHandler(
             IMediator mediator)

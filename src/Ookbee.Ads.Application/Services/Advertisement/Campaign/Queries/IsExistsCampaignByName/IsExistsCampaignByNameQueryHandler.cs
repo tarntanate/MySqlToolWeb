@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.IsExist
 {
     public class IsExistsCampaignByNameQueryHandler : IRequestHandler<IsExistsCampaignByNameQuery, Response<bool>>
     {
-        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
+        private readonly AdsDbRepository<CampaignEntity> CampaignDbRepo;
 
         public IsExistsCampaignByNameQueryHandler(AdsDbRepository<CampaignEntity> campaignDbRepo)
         {

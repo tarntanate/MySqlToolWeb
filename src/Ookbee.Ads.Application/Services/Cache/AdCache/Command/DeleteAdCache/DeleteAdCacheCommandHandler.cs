@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCache
 {
     public class DeleteAdCacheCommandHandler : IRequestHandler<DeleteAdCacheCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public DeleteAdCacheCommandHandler(

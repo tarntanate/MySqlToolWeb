@@ -16,7 +16,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
 {
     public class GetAdByUnitIdQueryHandler : IRequestHandler<GetAdByUnitIdQuery, Response<string>>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public GetAdByUnitIdQueryHandler(

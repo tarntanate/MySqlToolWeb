@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.IsExi
 {
     public class IsExistsUserRoleMappingByIdQueryValidator : AbstractValidator<IsExistsUserRoleMappingByIdQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public IsExistsUserRoleMappingByIdQueryValidator(IMediator mediator)
         {

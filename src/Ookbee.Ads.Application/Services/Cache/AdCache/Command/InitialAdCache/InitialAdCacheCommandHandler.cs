@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.InitialAdCache
 {
     public class InitialAdCacheCommandHandler : IRequestHandler<InitialAdCacheCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public InitialAdCacheCommandHandler(
             IMediator mediator)

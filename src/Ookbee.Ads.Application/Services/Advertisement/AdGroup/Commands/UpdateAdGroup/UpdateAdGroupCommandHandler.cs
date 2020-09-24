@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.UpdateA
 {
     public class UpdateAdGroupCommandHandler : IRequestHandler<UpdateAdGroupCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdGroupEntity> AdGroupDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<AdGroupEntity> AdGroupDbRepo;
 
         public UpdateAdGroupCommandHandler(
             IMapper mapper,

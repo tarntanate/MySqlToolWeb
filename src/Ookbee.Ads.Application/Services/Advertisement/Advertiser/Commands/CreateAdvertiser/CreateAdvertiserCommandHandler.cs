@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.Crea
 {
     public class CreateAdvertiserCommandHandler : IRequestHandler<CreateAdvertiserCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo;
 
         public CreateAdvertiserCommandHandler(
             IMapper mapper,

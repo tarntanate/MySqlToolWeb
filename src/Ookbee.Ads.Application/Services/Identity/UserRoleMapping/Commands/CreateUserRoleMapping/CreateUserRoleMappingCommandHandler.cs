@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Crea
 {
     public class CreateUserRoleMappingCommandHandler : IRequestHandler<CreateUserRoleMappingCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo;
 
         public CreateUserRoleMappingCommandHandler(
             IMapper mapper,

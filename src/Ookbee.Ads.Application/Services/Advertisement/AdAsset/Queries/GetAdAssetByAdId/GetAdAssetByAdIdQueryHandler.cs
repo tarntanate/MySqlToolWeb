@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 {
     public class GetAdAssetByAdIdQueryHandler : IRequestHandler<GetAdAssetByAdIdQuery, Response<IEnumerable<AdAssetDto>>>
     {
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public GetAdAssetByAdIdQueryHandler(
             AdsDbRepository<AdAssetEntity> adUnitDbRepo)

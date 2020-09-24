@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.IsExi
 {
     public class IsExistsAdvertiserByNameQueryHandler : IRequestHandler<IsExistsAdvertiserByNameQuery, Response<bool>>
     {
-        private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
+        private readonly AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo;
 
         public IsExistsAdvertiserByNameQueryHandler(
             AdsDbRepository<AdvertiserEntity> advertiserDbRepo)

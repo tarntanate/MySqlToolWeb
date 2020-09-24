@@ -16,9 +16,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
 {
     public class GenerateUploadUrlCommandHandler : IRequestHandler<GenerateUploadUrlCommand, Response<string>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public GenerateUploadUrlCommandHandler(
             IMapper mapper,

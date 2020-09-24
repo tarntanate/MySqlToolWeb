@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.CreateAd
 {
     public class CreateAdValidator : AbstractValidator<CreateAdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateAdValidator(IMediator mediator)
         {

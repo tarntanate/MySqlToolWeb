@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Upda
 {
     public class UpdateAdUnitTypeCommandHandler : IRequestHandler<UpdateAdUnitTypeCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo;
 
         public UpdateAdUnitTypeCommandHandler(
             IMapper mapper,

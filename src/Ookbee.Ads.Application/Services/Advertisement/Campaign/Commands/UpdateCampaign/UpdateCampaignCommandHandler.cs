@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Update
 {
     public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<CampaignEntity> CampaignDbRepo;
 
         public UpdateCampaignCommandHandler(
             IMapper mapper,

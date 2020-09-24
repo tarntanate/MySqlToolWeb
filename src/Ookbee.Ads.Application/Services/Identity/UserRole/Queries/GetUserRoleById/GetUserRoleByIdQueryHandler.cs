@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleB
 {
     public class GetUserRoleByIdQueryHandler : IRequestHandler<GetUserRoleByIdQuery, Response<UserRoleDto>>
     {
-        private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
+        private readonly AdsDbRepository<UserRoleEntity> UserRoleDbRepo;
 
         public GetUserRoleByIdQueryHandler(
             AdsDbRepository<UserRoleEntity> userRoleDbRepo)

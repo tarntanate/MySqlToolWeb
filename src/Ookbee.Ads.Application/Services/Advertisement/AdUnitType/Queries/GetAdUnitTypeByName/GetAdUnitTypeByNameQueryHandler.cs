@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.GetAd
 {
     public class GetAdUnitTypeByNameQueryHandler : IRequestHandler<GetAdUnitTypeByNameQuery, Response<AdUnitTypeDto>>
     {
-        private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
+        private readonly AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo;
 
         public GetAdUnitTypeByNameQueryHandler(
             AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)

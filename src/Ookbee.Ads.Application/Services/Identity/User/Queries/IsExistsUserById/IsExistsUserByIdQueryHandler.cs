@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.IsExistsUserById
 {
     public class IsExistsUserByIdQueryHandler : IRequestHandler<IsExistsUserByIdQuery, Response<bool>>
     {
-        private AdsDbRepository<UserEntity> UserDbRepo { get; }
+        private readonly AdsDbRepository<UserEntity> UserDbRepo;
 
         public IsExistsUserByIdQueryHandler(
             AdsDbRepository<UserEntity> userDbRepo)

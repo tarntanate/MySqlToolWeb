@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUs
 {
     public class GetUserRoleMappingByIdQueryValidator : AbstractValidator<GetUserRoleMappingByIdQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GetUserRoleMappingByIdQueryValidator(IMediator mediator)
         {

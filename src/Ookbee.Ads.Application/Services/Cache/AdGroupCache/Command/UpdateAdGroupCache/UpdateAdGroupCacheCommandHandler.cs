@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.UpdateAdGr
 {
     public class UpdateAdGroupCacheCommandHandler : IRequestHandler<UpdateAdGroupCacheCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
         private IDatabase AdsRedis { get; }
 
         public UpdateAdGroupCacheCommandHandler(
