@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.GetAd
 {
     public class GetAdGroupStatsCacheQueryHandler : IRequestHandler<GetAdGroupStatsCacheQuery, Response<Dictionary<string, long>>>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public GetAdGroupStatsCacheQueryHandler(AdsRedisContext adsRedis)
         {

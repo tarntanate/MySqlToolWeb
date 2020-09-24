@@ -14,9 +14,10 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.GetAdU
 {
     public class GetAdUnitStatsCacheQueryHandler : IRequestHandler<GetAdUnitStatsCacheQuery, Response<Dictionary<string, long>>>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
-        public GetAdUnitStatsCacheQueryHandler(AdsRedisContext adsRedis)
+        public GetAdUnitStatsCacheQueryHandler(
+            AdsRedisContext adsRedis)
         {
             AdsRedis = adsRedis.Database();
         }

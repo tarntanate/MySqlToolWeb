@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCache;
 using Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.DeleteAdStatsCache;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.UpdateAdCache
     {
         private readonly IMapper Mapper;
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public UpdateAdCacheCommandHandler(
             IMapper mapper,

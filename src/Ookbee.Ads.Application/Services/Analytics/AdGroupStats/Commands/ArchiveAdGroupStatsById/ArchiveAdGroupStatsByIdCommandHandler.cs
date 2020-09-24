@@ -15,7 +15,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStats.Commands.ArchiveAdG
     public class ArchiveAdGroupStatsByIdCommandHandler : IRequestHandler<ArchiveAdGroupStatsByIdCommand>
     {
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
         private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
         public ArchiveAdGroupStatsByIdCommandHandler(

@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Common.Response;
+using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.IsExistsAdAssetByPosition
 {

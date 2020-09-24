@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.GetAdGro
     {
         public GetAdGroupStatsByKeyQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.AdGroupId)
                 .GreaterThan(0)
                 .WithMessage("'{PropertyName}' is not a valid");

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Identity.User.Queries.IsExistsUserById;
 using Ookbee.Ads.Common.Extensions;
@@ -13,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUserCache.Commands.CreateAdUse
     public class CreateAdCacheCommandHandler : IRequestHandler<CreateAdUserCacheCommand>
     {
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public CreateAdCacheCommandHandler(
             IMediator mediator,

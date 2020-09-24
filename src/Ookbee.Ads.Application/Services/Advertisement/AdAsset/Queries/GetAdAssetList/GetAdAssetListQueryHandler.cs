@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;

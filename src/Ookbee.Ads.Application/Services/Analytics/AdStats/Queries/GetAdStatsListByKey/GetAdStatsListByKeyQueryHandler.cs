@@ -5,7 +5,6 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

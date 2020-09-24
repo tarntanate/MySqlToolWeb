@@ -1,7 +1,7 @@
 ﻿using MediatR;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCache;
 using Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.DeleteAdStatsCache;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
@@ -9,7 +9,6 @@ using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStats.Commands.ArchiveAdStatsB
     public class ArchiveAdStatsByIdCommandHandler : IRequestHandler<ArchiveAdStatsByIdCommand>
     {
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
         private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public ArchiveAdStatsByIdCommandHandler(

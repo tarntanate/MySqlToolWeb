@@ -9,9 +9,10 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.Delete
 {
     public class DeleteAdUnitStatsCacheCommandHandler : IRequestHandler<DeleteAdUnitStatsCacheCommand>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
-        public DeleteAdUnitStatsCacheCommandHandler(AdsRedisContext adsRedis)
+        public DeleteAdUnitStatsCacheCommandHandler(
+            AdsRedisContext adsRedis)
         {
             AdsRedis = adsRedis.Database();
         }

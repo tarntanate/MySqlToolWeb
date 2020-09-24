@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.IncrementAdGroupStatCache;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.IncrementAdGroupStatCache;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitCa
     public class GetAdUnitCacheByGroupIdQueryHandler : IRequestHandler<GetAdUnitCacheByGroupIdQuery, Response<string>>
     {
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public GetAdUnitCacheByGroupIdQueryHandler(
             IMediator mediator,

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Infrastructure.Models;
 using System;
 
 namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.CreateAdGroupStats

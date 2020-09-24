@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
         {
             var item = await AdNetworkDbRepo.FirstAsync(
                 selector: AdNetworkDto.Projection,
-                filter: f => 
+                filter: f =>
                     f.Id == request.Id &&
                     f.DeletedAt == null
             );

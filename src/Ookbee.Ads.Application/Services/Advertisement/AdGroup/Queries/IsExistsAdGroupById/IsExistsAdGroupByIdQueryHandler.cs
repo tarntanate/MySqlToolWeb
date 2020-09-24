@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExists
     {
         private readonly AdsDbRepository<AdGroupEntity> AdGroupDbRepo;
 
-        public IsExistsAdGroupByIdQueryHandler(AdsDbRepository<AdGroupEntity> adGroupDbRepo)
+        public IsExistsAdGroupByIdQueryHandler(
+            AdsDbRepository<AdGroupEntity> adGroupDbRepo)
         {
             AdGroupDbRepo = adGroupDbRepo;
         }

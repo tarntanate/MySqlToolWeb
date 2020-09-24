@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdStatsBy
     {
         private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
-        public GetAdStatsByKeyQueryHandler(AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
+        public GetAdStatsByKeyQueryHandler(
+            AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
             AdStatsDbRepo = adStatsDbRepo;
         }

@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGroupList;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.InitialAdGroupStatsById;
 using Ookbee.Ads.Application.Services.Analytics.AdUnitStatsCache.Commands.InitialAdUnitStats;
 using Ookbee.Ads.Common.Extensions;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStatsCache.Commands.InitialAdGroupStats
 {

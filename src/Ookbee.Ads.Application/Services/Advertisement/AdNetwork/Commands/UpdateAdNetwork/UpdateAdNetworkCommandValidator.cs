@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
+using Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdNetworkByPlatform;
 using Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.IsExistsAdNetworkById;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsAdUnitById;
-using Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdNetworkByPlatform;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.UpdateAdNetwork
 {
@@ -13,6 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
         public UpdateAdNetworkCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(p => p.Id)
                 .GreaterThan(0)

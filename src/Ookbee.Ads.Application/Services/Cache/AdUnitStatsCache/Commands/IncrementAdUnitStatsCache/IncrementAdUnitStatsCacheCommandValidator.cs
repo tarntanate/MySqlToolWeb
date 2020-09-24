@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.Increm
 {
     public class IncrementAdUnitStatsCacheCommandValidator : AbstractValidator<IncrementAdUnitStatsCacheCommand>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public IncrementAdUnitStatsCacheCommandValidator(AdsRedisContext adsRedis)
         {

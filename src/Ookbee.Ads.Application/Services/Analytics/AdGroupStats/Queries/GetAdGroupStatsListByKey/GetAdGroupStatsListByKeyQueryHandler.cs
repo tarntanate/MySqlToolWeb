@@ -37,9 +37,6 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.GetAdGro
             );
 
             var result = new Response<IEnumerable<AdGroupStatsDto>>();
-
-            var x = items.HasValue();
-
             return (items.HasValue())
                 ? result.Success(items)
                 : result.Fail(404, $"Data not found.");

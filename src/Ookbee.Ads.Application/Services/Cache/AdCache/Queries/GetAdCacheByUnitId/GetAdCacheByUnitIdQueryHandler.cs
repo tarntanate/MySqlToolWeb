@@ -1,6 +1,7 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.IncrementAdUnitStatsCache;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.IncrementAdUnitStatsCache;
+using Ookbee.Ads.Application.Services.Cache.AdUserCache.Queries.IsExistsAdUserCacheById;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
@@ -10,14 +11,13 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Ookbee.Ads.Application.Services.Cache.AdUserCache.Queries.IsExistsAdUserCacheById;
 
 namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
 {
     public class GetAdByUnitIdQueryHandler : IRequestHandler<GetAdByUnitIdQuery, Response<string>>
     {
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public GetAdByUnitIdQueryHandler(
             IMediator mediator,
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
                 var isExistsAdUserResponse = await Mediator.Send(new IsExistsAdUserCacheByIdQuery(request.UserId.Value), cancellationToken);
                 if (isExistsAdUserResponse.Ok)
                     redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
-                else 
+                else
                     redisKey = CacheKey.UnitsAdIdsPreview(request.AdUnitId, request.Platform);
             }
 

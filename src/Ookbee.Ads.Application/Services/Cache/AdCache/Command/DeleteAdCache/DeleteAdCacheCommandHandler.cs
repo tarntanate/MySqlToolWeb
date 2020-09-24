@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdById;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCache
     public class DeleteAdCacheCommandHandler : IRequestHandler<DeleteAdCacheCommand>
     {
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public DeleteAdCacheCommandHandler(
             IMediator mediator,

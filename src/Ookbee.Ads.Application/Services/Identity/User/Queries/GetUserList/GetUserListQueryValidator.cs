@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList
     {
         public GetUserListQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(p => p.Start)
                 .GreaterThanOrEqualTo(0);
 

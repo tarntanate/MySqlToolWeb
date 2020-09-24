@@ -15,7 +15,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CommitU
     {
         private readonly IMediator Mediator;
 
-        public CommitUploadUrlCommandHandler(IMediator mediator)
+        public CommitUploadUrlCommandHandler(
+            IMediator mediator)
         {
             Mediator = mediator;
         }

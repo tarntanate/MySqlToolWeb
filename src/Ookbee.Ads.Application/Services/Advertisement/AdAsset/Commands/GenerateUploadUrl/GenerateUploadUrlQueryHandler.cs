@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Infrastructure.Tencent.Cos;
 using Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.UpdateAdAsset;
 using Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAssetById;
-using Ookbee.Ads.Application.Infrastructure.Tencent.Cos;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure;
-using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,16 +16,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
     {
         private readonly IMapper Mapper;
         private readonly IMediator Mediator;
-        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public GenerateUploadUrlCommandHandler(
             IMapper mapper,
-            IMediator mediator,
-            AdsDbRepository<AdAssetEntity> adUnitDbRepo)
+            IMediator mediator)
         {
             Mapper = mapper;
             Mediator = mediator;
-            AdAssetDbRepo = adUnitDbRepo;
         }
 
         public async Task<Response<string>> Handle(GenerateUploadUrlCommand request, CancellationToken cancellationToken)

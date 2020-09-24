@@ -1,6 +1,6 @@
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnitType;
 using Ookbee.Ads.Application.Services.Advertisement.Publisher;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
 using System.Linq.Expressions;

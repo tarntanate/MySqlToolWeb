@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.InitialAdCache;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Mapping;
@@ -22,7 +22,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
     {
         private readonly IMapper Mapper;
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public CreateAdUnitCacheByGroupIdCommandHandler(
             IMapper mapper,

@@ -12,15 +12,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.UpdateA
         public AdAssetType AssetType { get; private set; }
         public AdPosition Position { get; private set; }
 
-        public UpdateAdAssetCommand(long id, long adId, string assetPath, AdAssetType assetType, AdPosition position)
-        {
-            Id = id;
-            AdId = adId;
-            AssetPath = assetPath;
-            AssetType = assetType;
-            Position = position;
-        }
-
         public UpdateAdAssetCommand(long id, UpdateAdAssetRequest request)
         {
             Id = id;

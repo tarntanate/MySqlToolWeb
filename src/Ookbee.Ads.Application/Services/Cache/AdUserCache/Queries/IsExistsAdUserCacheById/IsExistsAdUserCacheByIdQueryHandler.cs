@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUserCache.Queries.IsExistsAdUs
 {
     public class GetAdUserCacheByIdQueryHandler : IRequestHandler<IsExistsAdUserCacheByIdQuery, Response<bool>>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public GetAdUserCacheByIdQueryHandler(
             AdsRedisContext adsRedis)

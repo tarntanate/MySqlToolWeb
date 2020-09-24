@@ -9,12 +9,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
         public long Id { get; private set; }
         public AdStatusType Status { get; private set; }
 
-        public UpdateAdStatusCommand(long id, AdStatusType status)
-        {
-            Id = id;
-            Status = status;
-        }
-
         public UpdateAdStatusCommand(long id, UpdateAdStatusRequest request)
         {
             Id = id;

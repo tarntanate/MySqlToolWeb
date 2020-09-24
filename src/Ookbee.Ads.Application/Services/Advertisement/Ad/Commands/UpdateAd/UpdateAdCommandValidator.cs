@@ -16,6 +16,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Quota)
                 .GreaterThan(0);
                 

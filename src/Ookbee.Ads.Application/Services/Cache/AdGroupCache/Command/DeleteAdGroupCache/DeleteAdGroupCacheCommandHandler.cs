@@ -1,7 +1,7 @@
 ﻿using MediatR;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUnitCache;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.DeleteAdGr
     public class DeleteAdGroupCacheCommandHandler : IRequestHandler<DeleteAdGroupCacheCommand>
     {
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public DeleteAdGroupCacheCommandHandler(
             IMediator mediator,

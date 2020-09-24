@@ -1,10 +1,10 @@
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdAsset;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnitType;
 using Ookbee.Ads.Application.Services.Advertisement.Advertiser;
 using Ookbee.Ads.Application.Services.Advertisement.Campaign;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using System;

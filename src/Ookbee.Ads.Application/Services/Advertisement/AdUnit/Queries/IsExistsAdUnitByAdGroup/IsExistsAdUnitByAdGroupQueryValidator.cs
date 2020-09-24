@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsA
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(40);
-            
+
             RuleFor(p => p.AdGroupId)
                 .NotNull();
         }

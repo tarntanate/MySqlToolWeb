@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdByName
     {
         public GetAdByNameQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()

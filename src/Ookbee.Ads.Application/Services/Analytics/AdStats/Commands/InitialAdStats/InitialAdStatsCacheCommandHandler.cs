@@ -13,7 +13,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStatsCache.Commands.Initia
     {
         private readonly IMediator Mediator;
 
-        public InitialAdStatsCommandHandler(IMediator mediator)
+        public InitialAdStatsCommandHandler(
+            IMediator mediator)
         {
             Mediator = mediator;
         }

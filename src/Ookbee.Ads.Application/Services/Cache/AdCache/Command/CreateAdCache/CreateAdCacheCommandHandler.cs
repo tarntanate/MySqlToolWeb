@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
     {
         private readonly IMapper Mapper;
         private readonly IMediator Mediator;
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public CreateAdCacheCommandHandler(
             IMapper mapper,

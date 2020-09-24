@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.Incre
 {
     public class IncrementAdGroupStatsCacheCommandHandler : IRequestHandler<IncrementAdGroupStatsCacheCommand, Response<bool>>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public IncrementAdGroupStatsCacheCommandHandler(AdsRedisContext adsRedis)
         {
