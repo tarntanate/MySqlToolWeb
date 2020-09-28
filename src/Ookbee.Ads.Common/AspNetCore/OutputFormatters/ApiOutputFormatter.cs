@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Common.AspNetCore.OutputFormatters
 
             if (IsHttpResult(objType))
             {
-                if (obj.Ok)
+                if (obj.IsSuccess)
                 {
                     obj = obj?.Data;
                     objType = obj?.GetType();

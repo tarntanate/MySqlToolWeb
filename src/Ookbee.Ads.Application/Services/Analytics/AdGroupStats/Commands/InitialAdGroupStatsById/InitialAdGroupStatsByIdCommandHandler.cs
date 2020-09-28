@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.Initial
 {
     public class InitialAdGroupStatsByIdCommandHandler : IRequestHandler<InitialAdGroupStatsByIdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public InitialAdGroupStatsByIdCommandHandler(
             IMediator mediator)
@@ -21,13 +21,13 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.Initial
         public async Task<Unit> Handle(InitialAdGroupStatsByIdCommand request, CancellationToken cancellationToken)
         {
             var getAdGroupStatByKey = await Mediator.Send(new GetAdGroupStatsByKeyQuery(request.AdGroupId, request.CaculatedAt), cancellationToken);
-            if (!getAdGroupStatByKey.Ok)
+            if (!getAdGroupStatByKey.IsSuccess)
             {
                 var data = getAdGroupStatByKey.Data;
                 await Mediator.Send(new CreateAdGroupStatsCommand(request.CaculatedAt, request.AdGroupId, 0), cancellationToken);
             }
             var requestStats = getAdGroupStatByKey?.Data?.Request ?? default(long);
-            await Mediator.Send(new CreateAdGroupStatsCacheCommand(request.CaculatedAt, StatsType.Request, request.AdGroupId, requestStats), cancellationToken);
+            await Mediator.Send(new CreateAdGroupStatsCacheCommand(request.CaculatedAt, AdStatsType.Request, request.AdGroupId, requestStats), cancellationToken);
 
             return Unit.Value;
         }

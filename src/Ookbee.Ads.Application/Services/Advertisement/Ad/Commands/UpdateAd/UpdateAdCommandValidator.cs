@@ -10,12 +10,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
 {
     public class UpdateAdCommandValidator : AbstractValidator<UpdateAdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateAdCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Quota)
                 .GreaterThan(0);
                 
@@ -24,7 +25,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value), cancellationToken);
-                    if (!isExistsAdResult.Ok)
+                    if (!isExistsAdResult.IsSuccess)
                         context.AddFailure(isExistsAdResult.Message);
                 });
 
@@ -33,7 +34,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(value), cancellationToken);
-                    if (!isExistsAdUnitResult.Ok)
+                    if (!isExistsAdUnitResult.IsSuccess)
                         context.AddFailure(isExistsAdUnitResult.Message);
                 });
 
@@ -42,7 +43,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(value), cancellationToken);
-                    if (!isExistsCampaignResult.Ok)
+                    if (!isExistsCampaignResult.IsSuccess)
                         context.AddFailure(isExistsCampaignResult.Message);
                 });
 

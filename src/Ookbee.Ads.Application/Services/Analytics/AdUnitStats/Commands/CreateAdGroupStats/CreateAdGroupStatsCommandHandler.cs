@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.CreateA
 {
     public class CreateAdUnitStatsCommandHandler : IRequestHandler<CreateAdUnitStatsCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AnalyticsDbRepository<AdUnitStatsEntity> RequestLogDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AnalyticsDbRepository<AdUnitStatsEntity> RequestLogDbRepo;
 
         public CreateAdUnitStatsCommandHandler(
             IMapper mapper,
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.CreateA
             await RequestLogDbRepo.SaveChangesAsync(cancellationToken);
 
             var result = new Response<long>();
-            return result.Success(entity.Id);
+            return result.OK(entity.Id);
         }
     }
 }

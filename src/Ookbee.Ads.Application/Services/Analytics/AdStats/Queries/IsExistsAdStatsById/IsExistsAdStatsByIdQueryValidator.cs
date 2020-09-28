@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.IsExistsAdSt
     {
         public IsExistsAdStatsByIdQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .WithMessage("'{PropertyName}' is not a valid");

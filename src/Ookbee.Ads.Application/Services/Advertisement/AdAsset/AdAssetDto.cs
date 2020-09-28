@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset
         [JsonIgnore]
         public string AssetPath { get; set; }
         public string AssetType { get; set; }
-        public Position Position { get; set; }
+        public AdPosition Position { get; set; }
 
         public static Expression<Func<AdAssetEntity, AdAssetDto>> Projection
         {

@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsPublisherByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdGroupByNameQuery(value), cancellationToken);
-                    if (result.Ok)
+                    if (result.IsSuccess)
                         context.AddFailure("'{PropertyName}' already exists.");
                 });
 

@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Update
 {
     public class UpdateCampaignCommandValidator : AbstractValidator<UpdateCampaignCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateCampaignCommandValidator(IMediator mediator)
         {
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Update
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsCampaignByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Update
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdvertiserByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Update
                 {
                     var validate = context.InstanceToValidate as UpdateCampaignCommand;
                     var result = await Mediator.Send(new GetCampaignByNameQuery(value), cancellationToken);
-                    if (result.Ok &&
+                    if (result.IsSuccess &&
                         result.Data.Id != validate.Id &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");

@@ -12,10 +12,10 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     public class GroupsController : ApiController
     {
         [HttpGet("{groupId}/units")]
-        public async Task<ContentResult> GetAdUnitCacheByGroupId([FromRoute] long groupId, [FromQuery] string platform, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdUnitCacheByGroupId([FromQuery] string platform, [FromRoute] long groupId, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new GetAdUnitCacheByGroupIdQuery(groupId, platform), cancellationToken);
-            if (result.Ok &&
+            var result = await Mediator.Send(new GetAdUnitCacheByGroupIdQuery(platform, groupId), cancellationToken);
+            if (result.IsSuccess &&
                 result.Data.HasValue())
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };

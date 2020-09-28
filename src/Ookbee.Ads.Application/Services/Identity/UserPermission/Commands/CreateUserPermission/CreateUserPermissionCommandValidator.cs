@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Creat
 {
     public class CreateUserPermissionCommandValidator : AbstractValidator<CreateUserPermissionCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateUserPermissionCommandValidator(IMediator mediator)
         {
@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Creat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetUserRoleByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Creat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetUserPermissionByNameQuery(value), cancellationToken);
-                    if (result.Ok)
+                    if (result.IsSuccess)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
         }

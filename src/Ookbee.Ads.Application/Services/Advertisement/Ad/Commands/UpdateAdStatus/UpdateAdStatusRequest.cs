@@ -4,6 +4,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
 {
     public class UpdateAdStatusRequest
     {
-        public AdStatus Status { get; set; }
+        public AdStatusType Status { get; set; }
     }
 }

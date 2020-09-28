@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Creat
 {
     public class CreateUserPermissionCommandHandler : IRequestHandler<CreateUserPermissionCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo;
 
         public CreateUserPermissionCommandHandler(
             IMapper mapper,
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Creat
             var entity = Mapper.Map<UserPermissionEntity>(request);
             await UserPermissionDbRepo.InsertAsync(entity);
             await UserPermissionDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }

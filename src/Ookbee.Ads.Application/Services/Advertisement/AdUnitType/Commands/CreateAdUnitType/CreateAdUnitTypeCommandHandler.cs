@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Crea
 {
     public class CreateAdUnitTypeCommandHandler : IRequestHandler<CreateAdUnitTypeCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo;
 
         public CreateAdUnitTypeCommandHandler(
             IMapper mapper,
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Commands.Crea
             var entity = Mapper.Map<AdUnitTypeEntity>(request);
             await AdUnitTypeDbRepo.InsertAsync(entity);
             await AdUnitTypeDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }

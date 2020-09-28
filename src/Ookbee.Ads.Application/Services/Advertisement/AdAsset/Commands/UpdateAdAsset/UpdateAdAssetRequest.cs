@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.UpdateA
     {
         public long AdId { get; set; }
         public string AssetPath { get; set; }
-        public AssetType AssetType { get; set; }
-        public Position Position { get; set; }
+        public AdAssetType AssetType { get; set; }
+        public AdPosition Position { get; set; }
     }
 }

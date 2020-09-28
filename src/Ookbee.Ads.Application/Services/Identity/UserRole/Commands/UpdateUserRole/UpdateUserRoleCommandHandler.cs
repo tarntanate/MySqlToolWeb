@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.UpdateUserR
 {
     public class UpdateUserRoleCommandHandler : IRequestHandler<UpdateUserRoleCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<UserRoleEntity> UserRoleDbRepo;
 
         public UpdateUserRoleCommandHandler(
             IMapper mapper,
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.UpdateUserR
             var entity = Mapper.Map<UserRoleEntity>(request);
             await UserRoleDbRepo.UpdateAsync(entity.Id, entity);
             await UserRoleDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

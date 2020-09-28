@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.Increm
 {
     public class IncrementAdUnitStatsCacheCommandHandler : IRequestHandler<IncrementAdUnitStatsCacheCommand, Response<bool>>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public IncrementAdUnitStatsCacheCommandHandler(AdsRedisContext adsRedis)
         {
@@ -26,9 +26,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.Increm
             {
                 var hashField = request.StatsType.ToString();
                 await AdsRedis.HashIncrementAsync(redisKey, hashField, 1, CommandFlags.FireAndForget);
-                return new Response<bool>().Success(true);
+                return new Response<bool>().OK(true);
             }
-            return new Response<bool>().Fail(404, $"Unable to update stats: Invalid or expired data.");
+            return new Response<bool>().NotFound($"Unable to update stats: Invalid or expired data.");
         }
     }
 }

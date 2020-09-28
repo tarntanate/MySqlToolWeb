@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 {
     public class GetAdAssetByPositionQueryHandler : IRequestHandler<GetAdAssetByPositionQuery, Response<AdAssetDto>>
     {
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public GetAdAssetByPositionQueryHandler(
             AdsDbRepository<AdAssetEntity> adUnitDbRepo)
@@ -29,8 +29,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 
             var result = new Response<AdAssetDto>();
             return (item != null)
-                ? result.Success(item)
-                : result.Fail(404, $"AdAsset '{request.Position.ToString()}' doesn't exist.");
+                ? result.OK(item)
+                : result.NotFound();
         }
     }
 }

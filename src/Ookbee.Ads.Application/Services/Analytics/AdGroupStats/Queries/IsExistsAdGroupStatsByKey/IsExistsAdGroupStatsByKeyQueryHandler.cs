@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.IsExists
 {
     public class IsExistsAdGroupStatsByKeyQueryHandler : IRequestHandler<IsExistsAdGroupStatsByKeyQuery, Response<bool>>
     {
-        private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
+        private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
         public IsExistsAdGroupStatsByKeyQueryHandler(AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
@@ -25,8 +25,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.IsExists
 
             var result = new Response<bool>();
             return (isExists)
-                ? result.Success(true)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(true)
+                : result.NotFound();
         }
     }
 }

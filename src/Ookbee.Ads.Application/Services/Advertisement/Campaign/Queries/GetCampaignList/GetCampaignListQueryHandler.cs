@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
 {
     public class GetCampaignListQueryHandler : IRequestHandler<GetCampaignListQuery, Response<IEnumerable<CampaignDto>>>
     {
-        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
+        private readonly AdsDbRepository<CampaignEntity> CampaignDbRepo;
 
         public GetCampaignListQueryHandler(
             AdsDbRepository<CampaignEntity> campaignDbRepo)
@@ -39,8 +39,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
 
             var result = new Response<IEnumerable<CampaignDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

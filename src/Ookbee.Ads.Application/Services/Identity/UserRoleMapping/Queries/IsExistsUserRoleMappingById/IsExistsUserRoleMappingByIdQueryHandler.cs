@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.IsExi
 {
     public class IsExistsUserRoleMappingByIdQueryHandler : IRequestHandler<IsExistsUserRoleMappingByIdQuery, Response<bool>>
     {
-        private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
+        private readonly AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo;
 
         public IsExistsUserRoleMappingByIdQueryHandler(
             AdsDbRepository<UserRoleMappingEntity> userRoleMappingDbRepo)
@@ -26,8 +26,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.IsExi
 
             var result = new Response<bool>();
             return (isExists)
-                ? result.Success(true)
-                : result.Fail(404, $"Data doesn't exist.");
+                ? result.OK(true)
+                : result.NotFound();
         }
     }
 }

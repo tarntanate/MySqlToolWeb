@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public long AdId { get; set; }
         public string AssetType { get; set; }
         public string AssetPath { get; set; }
-        public Position Position { get; set; }
+        public AdPosition Position { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset? DeletedAt { get; set; }

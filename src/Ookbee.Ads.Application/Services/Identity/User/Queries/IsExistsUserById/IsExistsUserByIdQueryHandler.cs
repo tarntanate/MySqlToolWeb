@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.IsExistsUserById
 {
     public class IsExistsUserByIdQueryHandler : IRequestHandler<IsExistsUserByIdQuery, Response<bool>>
     {
-        private AdsDbRepository<UserEntity> UserDbRepo { get; }
+        private readonly AdsDbRepository<UserEntity> UserDbRepo;
 
         public IsExistsUserByIdQueryHandler(
             AdsDbRepository<UserEntity> userDbRepo)
@@ -25,8 +25,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.IsExistsUserById
 
             var result = new Response<bool>();
             return (isExists)
-                ? result.Success(true)
-                : result.Fail(404, $"Data doesn't exist.");
+                ? result.OK(true)
+                : result.NotFound();
         }
     }
 }

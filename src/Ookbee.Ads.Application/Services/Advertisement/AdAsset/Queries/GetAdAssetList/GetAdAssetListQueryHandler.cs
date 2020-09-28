@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Builders;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 {
     public class GetAdAssetListQueryHandler : IRequestHandler<GetAdAssetListQuery, Response<IEnumerable<AdAssetDto>>>
     {
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public GetAdAssetListQueryHandler(
             AdsDbRepository<AdAssetEntity> adUnitDbRepo)
@@ -39,8 +39,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 
             var result = new Response<IEnumerable<AdAssetDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

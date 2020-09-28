@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
@@ -17,9 +17,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.UpdateAdUni
 {
     public class UpdateAdUnitCacheCommandHandler : IRequestHandler<UpdateAdUnitCacheCommand>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public UpdateAdUnitCacheCommandHandler(
             IMapper mapper,
@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.UpdateAdUni
             {
                 next = false;
                 var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
-                if (getAdUnitList.Ok &&
+                if (getAdUnitList.IsSuccess &&
                     getAdUnitList.HasValue())
                 {
                     var items = getAdUnitList.Data;
@@ -58,9 +58,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.UpdateAdUni
 
             if (adUnits.HasValue())
             {
-                foreach (var platform in EnumHelper.GetValues<Platform>())
+                foreach (var platform in EnumHelper.GetValues<AdPlatform>())
                 {
-                    if (platform != Platform.Unknown)
+                    if (platform != AdPlatform.Unknown)
                     {
                         var platformName = platform.ToString();
                         foreach (var group in adUnits)

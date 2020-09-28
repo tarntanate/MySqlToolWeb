@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Delet
 {
     public class DeletePublisherCommandHandler : IRequestHandler<DeletePublisherCommand, Response<bool>>
     {
-        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
+        private readonly AdsDbRepository<PublisherEntity> PublisherDbRepo;
 
         public DeletePublisherCommandHandler(
             AdsDbRepository<PublisherEntity> publisherDbRepo)
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Delet
         {
             await PublisherDbRepo.DeleteAsync(request.Id);
             await PublisherDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

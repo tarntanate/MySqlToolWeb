@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Creat
 {
     public class CreatePublisherCommandValidator : AbstractValidator<CreatePublisherCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreatePublisherCommandValidator(IMediator mediator)
         {
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Creat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetPublisherByNameQuery(value), cancellationToken);
-                    if (result.Ok)
+                    if (result.IsSuccess)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
 

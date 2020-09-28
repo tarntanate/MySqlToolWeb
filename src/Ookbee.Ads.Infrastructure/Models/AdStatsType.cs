@@ -1,6 +1,6 @@
 namespace Ookbee.Ads.Infrastructure.Models
 {
-    public enum StatsType
+    public enum AdStatsType
     {
         Unknown,
         Quota,

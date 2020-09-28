@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Infrastructure.Tencent.Cos;
 using Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.UpdateAdAsset;
 using Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAssetById;
-using Ookbee.Ads.Application.Infrastructure.Tencent.Cos;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure;
-using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,18 +14,15 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
 {
     public class GenerateUploadUrlCommandHandler : IRequestHandler<GenerateUploadUrlCommand, Response<string>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
 
         public GenerateUploadUrlCommandHandler(
             IMapper mapper,
-            IMediator mediator,
-            AdsDbRepository<AdAssetEntity> adUnitDbRepo)
+            IMediator mediator)
         {
             Mapper = mapper;
             Mediator = mediator;
-            AdAssetDbRepo = adUnitDbRepo;
         }
 
         public async Task<Response<string>> Handle(GenerateUploadUrlCommand request, CancellationToken cancellationToken)
@@ -35,8 +30,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
             var result = new Response<string>();
 
             var adAssetResult = await Mediator.Send(new GetAdAssetByIdQuery(request.Id), cancellationToken);
-            if (!adAssetResult.Ok)
-                return result.Fail(adAssetResult.StatusCode, adAssetResult.Message);
+            if (!adAssetResult.IsSuccess)
+                return result.Status(adAssetResult.StatusCode, adAssetResult.Message);
 
             var adAsset = adAssetResult.Data;
             var bucket = GlobalVar.AppSettings.Tencent.Cos.Bucket.Private;
@@ -49,8 +44,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
                 Key = sourceKey,
             };
             var signURLResult = await Mediator.Send(generateSignURLCommand, cancellationToken);
-            if (!signURLResult.Ok)
-                return result.Fail(signURLResult.StatusCode, signURLResult.Message);
+            if (!signURLResult.IsSuccess)
+                return result.Status(signURLResult.StatusCode, signURLResult.Message);
 
             var assetMimeType = MimeTypeMap.GetMimeType(request.Extension);
             adAsset.AssetPath = targetKey;
@@ -58,10 +53,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.Generat
             var updateAdAssetRequest = Mapper.Map<UpdateAdAssetRequest>(adAsset);
             var updateAdAssetCommand = new UpdateAdAssetCommand(adAsset.Id, updateAdAssetRequest);
             var updateAdAssetResult = await Mediator.Send(updateAdAssetCommand, cancellationToken);
-            if (!updateAdAssetResult.Ok)
-                return result.Fail(updateAdAssetResult.StatusCode, updateAdAssetResult.Message);
+            if (!updateAdAssetResult.IsSuccess)
+                return result.Status(updateAdAssetResult.StatusCode, updateAdAssetResult.Message);
 
-            return result.Success(signURLResult.Data);
+            return result.OK(signURLResult.Data);
         }
     }
 }

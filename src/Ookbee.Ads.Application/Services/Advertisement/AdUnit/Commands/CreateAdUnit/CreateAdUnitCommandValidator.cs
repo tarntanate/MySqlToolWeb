@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.CreateAd
 {
     public class CreateAdUnitCommandValidator : AbstractValidator<CreateAdUnitCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateAdUnitCommandValidator(IMediator mediator)
         {
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.CreateAd
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var IsExistsAdNetworkNameByAdGroup = await Mediator.Send(new IsExistsAdUnitByAdGroupQuery(adNetworkName: value.AdNetwork, adGroupId: value.AdGroupId), cancellationToken);
-                    if (IsExistsAdNetworkNameByAdGroup.Ok)
+                    if (IsExistsAdNetworkNameByAdGroup.IsSuccess)
                         context.AddFailure($"'{value.AdNetwork}' already exists in groupId {value.AdGroupId}.");
                 });
         }

@@ -6,10 +6,10 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.IncrementA
 {
     public class IncrementAdStatsCacheCommand : IRequest<Response<bool>>
     {
-        public StatsType StatsType { get; set; }
+        public AdStatsType StatsType { get; set; }
         public long AdId { get; set; }
 
-        public IncrementAdStatsCacheCommand(StatsType statsType, long adId)
+        public IncrementAdStatsCacheCommand(AdStatsType statsType, long adId)
         {
             StatsType = statsType;
             AdId = adId;

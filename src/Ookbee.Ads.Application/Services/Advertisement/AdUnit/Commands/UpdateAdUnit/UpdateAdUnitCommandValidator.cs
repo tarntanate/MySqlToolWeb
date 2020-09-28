@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.UpdateAd
 {
     public class UpdateAdUnitCommandValidator : AbstractValidator<UpdateAdUnitCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateAdUnitCommandValidator(IMediator mediator)
         {
@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.UpdateAd
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdUnitByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.UpdateAd
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var getAdUnitByAdNetwork = await Mediator.Send(new GetAdUnitByAdNetworkQuery(value.AdNetwork), cancellationToken);
-                    if (getAdUnitByAdNetwork.Ok &&
+                    if (getAdUnitByAdNetwork.IsSuccess &&
                         getAdUnitByAdNetwork.Data.Id != value.Id &&
                         getAdUnitByAdNetwork.Data.AdGroup.Id == value.AdGroupId)
                         context.AddFailure($"'{context.PropertyName}' already exists.");

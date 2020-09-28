@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.CreateAd
 {
     public class CreateAdUnitCommandHandler : IRequestHandler<CreateAdUnitCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<AdUnitEntity> AdUnitDbRepo;
 
         public CreateAdUnitCommandHandler(
             IMapper mapper,
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.CreateAd
             await AdUnitDbRepo.InsertAsync(entity);
             await AdUnitDbRepo.SaveChangesAsync(cancellationToken);
             await Mediator.Send(new CreateAdUnitCacheByGroupIdCommand(entity.AdGroupId), cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }

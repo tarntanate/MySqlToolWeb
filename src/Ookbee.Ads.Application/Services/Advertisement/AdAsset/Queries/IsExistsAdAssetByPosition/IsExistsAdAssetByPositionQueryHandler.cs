@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.IsExists
 {
     public class IsExistsAdAssetByPositionQueryHandler : IRequestHandler<IsExistsAdAssetByPositionQuery, Response<bool>>
     {
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public IsExistsAdAssetByPositionQueryHandler(
             AdsDbRepository<AdAssetEntity> adUnitDbRepo)
@@ -27,8 +27,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.IsExists
 
             var result = new Response<bool>();
             return (isExists)
-                ? result.Success(true)
-                : result.Fail(404, $"Data doesn't exist.");
+                ? result.OK(true)
+                : result.NotFound();
         }
     }
 }

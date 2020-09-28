@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.GetAdGro
 {
     public class GetAdGroupStatsListByKeyQueryHandler : IRequestHandler<GetAdGroupStatsListByKeyQuery, Response<IEnumerable<AdGroupStatsDto>>>
     {
-        private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
+        private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
         public GetAdGroupStatsListByKeyQueryHandler(AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
@@ -37,12 +37,9 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.GetAdGro
             );
 
             var result = new Response<IEnumerable<AdGroupStatsDto>>();
-
-            var x = items.HasValue();
-
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

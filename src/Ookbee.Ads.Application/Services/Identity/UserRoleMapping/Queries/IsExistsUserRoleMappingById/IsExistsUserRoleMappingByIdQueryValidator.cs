@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.IsExi
 {
     public class IsExistsUserRoleMappingByIdQueryValidator : AbstractValidator<IsExistsUserRoleMappingByIdQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public IsExistsUserRoleMappingByIdQueryValidator(IMediator mediator)
         {
@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.IsExi
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetUserByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.IsExi
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetUserRoleByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
         }

@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
 {
     public class GetAdUnitListQueryValidator : AbstractValidator<GetAdUnitListQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GetAdUnitListQueryValidator(IMediator mediator)
         {
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
                     if (value != null)
                     {
                         var isExistsAdGroupResult = await Mediator.Send(new IsExistsAdGroupByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsAdGroupResult.Ok)
+                        if (!isExistsAdGroupResult.IsSuccess)
                             context.AddFailure(isExistsAdGroupResult.Message);
                     }
                 });

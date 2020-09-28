@@ -7,6 +7,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
     {
         public GetAdAssetByPositionValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(p => p.AdId)
                 .GreaterThan(0)
                 .WithMessage("'{PropertyName}' is not a valid");
@@ -14,7 +16,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
             RuleFor(p => p.Position)
                 .Custom((value, context) =>
                 {
-                    if (value == Position.Unknown)
+                    if (value == AdPosition.Unknown)
                         context.AddFailure($"Unsupported Position Type.");
                 });
         }

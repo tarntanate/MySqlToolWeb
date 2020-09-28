@@ -5,7 +5,6 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStat.Queries.GetAdStatsLis
 {
     public class GetAdStatsListByKeyQueryHandler : IRequestHandler<GetAdStatsListByKeyQuery, Response<IEnumerable<AdStatsDto>>>
     {
-        private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
+        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public GetAdStatsListByKeyQueryHandler(AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
@@ -40,8 +39,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStat.Queries.GetAdStatsLis
 
             var result = new Response<IEnumerable<AdStatsDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

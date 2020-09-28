@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.IsExistsUserById
     {
         public IsExistsUserByIdQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .WithMessage("'{PropertyName}' is not a valid");

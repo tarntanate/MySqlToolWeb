@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.Initial
 {
     public class InitialAdUnitStatsByIdCommandHandler : IRequestHandler<InitialAdUnitStatsByIdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public InitialAdUnitStatsByIdCommandHandler(
             IMediator mediator)
@@ -21,17 +21,17 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.Initial
         public async Task<Unit> Handle(InitialAdUnitStatsByIdCommand request, CancellationToken cancellationToken)
         {
             var getAdUnitStatsByKey = await Mediator.Send(new GetAdUnitStatsByKeyQuery(request.AdUnitId, request.CaculatedAt), cancellationToken);
-            if (!getAdUnitStatsByKey.Ok)
+            if (!getAdUnitStatsByKey.IsSuccess)
             {
                 var data = getAdUnitStatsByKey.Data;
                 await Mediator.Send(new CreateAdUnitStatsCommand(request.CaculatedAt, request.AdUnitId, 0, 0), cancellationToken);
             }
 
             var requestStats = getAdUnitStatsByKey?.Data?.Request ?? default(long);
-            await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.CaculatedAt, request.AdUnitId, StatsType.Request, requestStats), cancellationToken);
+            await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.CaculatedAt, request.AdUnitId, AdStatsType.Request, requestStats), cancellationToken);
 
             var fillStats = getAdUnitStatsByKey?.Data?.Fill ?? default(long);
-            await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.CaculatedAt, request.AdUnitId, StatsType.Fill, fillStats), cancellationToken);
+            await Mediator.Send(new CreateAdUnitStatsCacheCommand(request.CaculatedAt, request.AdUnitId, AdStatsType.Fill, fillStats), cancellationToken);
 
             return Unit.Value;
         }

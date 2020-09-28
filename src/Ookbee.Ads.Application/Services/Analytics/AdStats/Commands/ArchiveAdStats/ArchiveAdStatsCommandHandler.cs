@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStats.Commands.ArchiveAdStats
 {
     public class ArchiveAdStatsCommandHandler : IRequestHandler<ArchiveAdStatsCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public ArchiveAdStatsCommandHandler(
             IMediator mediator)
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStats.Commands.ArchiveAdStats
             {
                 next = false;
                 var getAdStatsList = await Mediator.Send(new GetAdStatsListByKeyQuery(start, length, null, request.CaculatedAt), cancellationToken);
-                if (getAdStatsList.Ok &&
+                if (getAdStatsList.IsSuccess &&
                     getAdStatsList.Data.HasValue())
                 {
                     var items = getAdStatsList.Data;

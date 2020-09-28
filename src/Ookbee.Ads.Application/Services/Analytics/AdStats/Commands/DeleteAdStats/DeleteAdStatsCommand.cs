@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Common.Response;
 
 namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.DeleteAdStats
 {

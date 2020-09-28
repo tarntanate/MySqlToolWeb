@@ -1,10 +1,9 @@
 namespace Ookbee.Ads.Infrastructure.Models
 {
-    public enum Platform
+    public enum AdPricingModel
     {
         Unknown,
-        Android,
-        iOS,
-        Web
+        CPM,
+        IMP
     }
 }

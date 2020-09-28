@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -8,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.Incre
 {
     public class IncrementAdGroupStatsCacheCommandValidator : AbstractValidator<IncrementAdGroupStatsCacheCommand>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public IncrementAdGroupStatsCacheCommandValidator(AdsRedisContext adsRedis)
         {
@@ -18,7 +17,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.Incre
             RuleFor(p => p.StatsType)
                 .Custom((value, context) =>
                 {
-                    if (value != StatsType.Request)
+                    if (value != AdStatsType.Request)
                     {
                         context.AddFailure($"Unsupported Stats Type.");
                     }

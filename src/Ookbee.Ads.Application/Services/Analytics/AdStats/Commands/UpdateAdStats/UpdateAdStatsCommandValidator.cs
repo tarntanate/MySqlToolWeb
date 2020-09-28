@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.UpdateAdSta
 {
     public class UpdateAdStatsCommandValidator : AbstractValidator<UpdateAdStatsCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateAdStatsCommandValidator(IMediator mediator)
         {
@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.UpdateAdSta
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdStatsByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.UpdateAdSta
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdGroupByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
         }

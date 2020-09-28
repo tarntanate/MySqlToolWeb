@@ -10,17 +10,14 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<UserEntity> userDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<UserEntity> userDbRepo;
 
         public CreateUserCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<UserEntity> authUserDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             userDbRepo = authUserDbRepo;
         }
 
@@ -29,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.CreateUser
             var entity = Mapper.Map<UserEntity>(request);
             await userDbRepo.InsertAsync(entity);
             await userDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }

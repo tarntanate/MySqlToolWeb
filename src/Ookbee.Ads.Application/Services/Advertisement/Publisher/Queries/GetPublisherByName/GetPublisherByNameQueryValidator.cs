@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
         public GetPublisherByNameQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            
+
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()

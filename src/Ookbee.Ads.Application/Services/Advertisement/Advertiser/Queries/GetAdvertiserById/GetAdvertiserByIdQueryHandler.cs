@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.GetAd
 {
     public class GetAdvertiserByIdQueryHandler : IRequestHandler<GetAdvertiserByIdQuery, Response<AdvertiserDto>>
     {
-        private AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo { get; }
+        private readonly AdsDbRepository<AdvertiserEntity> AdvertiserDbRepo;
 
         public GetAdvertiserByIdQueryHandler(
             AdsDbRepository<AdvertiserEntity> advertiserDbRepo)
@@ -28,8 +28,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.GetAd
 
             var result = new Response<AdvertiserDto>();
             return (item != null)
-                ? result.Success(item)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(item)
+                : result.NotFound();
         }
     }
 }

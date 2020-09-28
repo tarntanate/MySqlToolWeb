@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.GetAd
 {
     public class GetAdUnitTypeListQueryHandler : IRequestHandler<GetAdUnitTypeListQuery, Response<IEnumerable<AdUnitTypeDto>>>
     {
-        private AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo { get; }
+        private readonly AdsDbRepository<AdUnitTypeEntity> AdUnitTypeDbRepo;
 
         public GetAdUnitTypeListQueryHandler(
             AdsDbRepository<AdUnitTypeEntity> adUnitTypeDbRepo)
@@ -32,8 +32,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.GetAd
 
             var result = new Response<IEnumerable<AdUnitTypeDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

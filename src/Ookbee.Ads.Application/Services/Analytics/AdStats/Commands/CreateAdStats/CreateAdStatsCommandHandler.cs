@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdSta
 {
     public class CreateAdStatsCommandHandler : IRequestHandler<CreateAdStatsCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public CreateAdStatsCommandHandler(
             IMapper mapper,
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdSta
             await AdStatsDbRepo.SaveChangesAsync(cancellationToken);
 
             var result = new Response<long>();
-            return result.Success(entity.Id);
+            return result.OK(entity.Id);
         }
     }
 }

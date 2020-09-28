@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 {
     public class GetAdAssetListQueryValidator : AbstractValidator<GetAdAssetListQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GetAdAssetListQueryValidator(IMediator mediator)
         {
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
                     if (value != null)
                     {
                         var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsAdResult.Ok)
+                        if (!isExistsAdResult.IsSuccess)
                             context.AddFailure(isExistsAdResult.Message);
                     }
                 });

@@ -7,15 +7,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CreateA
     public class CreateAdAssetCommand : IRequest<Response<long>>
     {
         public long AdId { get; private set; }
-        public AssetType AssetType { get; private set; }
-        public Position Position { get; private set; }
-
-        public CreateAdAssetCommand(long adId, AssetType assetType, Position position)
-        {
-            AdId = adId;
-            AssetType = assetType;
-            Position = position;
-        }
+        public AdAssetType AssetType { get; private set; }
+        public AdPosition Position { get; private set; }
 
         public CreateAdAssetCommand(CreateAdAssetRequest request)
         {

@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.InitialAsse
 {
     public class InitialAdStatsByIdCommandValidator : AbstractValidator<InitialAdStatsByIdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public InitialAdStatsByIdCommandValidator(IMediator mediator)
         {
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.InitialAsse
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new GetAdByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
         }

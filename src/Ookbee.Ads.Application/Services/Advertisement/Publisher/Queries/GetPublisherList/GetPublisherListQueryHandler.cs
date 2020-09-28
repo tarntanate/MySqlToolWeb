@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
 {
     public class GetPublisherListQueryHandler : IRequestHandler<GetPublisherListQuery, Response<IEnumerable<PublisherDto>>>
     {
-        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
+        private readonly AdsDbRepository<PublisherEntity> PublisherDbRepo;
 
         public GetPublisherListQueryHandler(
             AdsDbRepository<PublisherEntity> publisherDbRepo)
@@ -32,8 +32,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
 
             var result = new Response<IEnumerable<PublisherDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

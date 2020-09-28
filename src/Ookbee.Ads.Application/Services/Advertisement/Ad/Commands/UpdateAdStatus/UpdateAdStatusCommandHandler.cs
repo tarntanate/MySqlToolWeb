@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
 {
     public class UpdateAdStatusCommandHandler : IRequestHandler<UpdateAdStatusCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdEntity> AdDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<AdEntity> AdDbRepo;
 
         public UpdateAdStatusCommandHandler(
             IMapper mapper,
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
             await AdDbRepo.UpdateAsync(entity.Id, entity, x => x.Status);
             await AdDbRepo.SaveChangesAsync(cancellationToken);
             await Mediator.Send(new UpdateAdCacheCommand(entity.Id), cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

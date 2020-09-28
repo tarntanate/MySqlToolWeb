@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.CreateA
 {
     public class CreateAdUnitStatsCommandValidator : AbstractValidator<CreateAdUnitStatsCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateAdUnitStatsCommandValidator(IMediator mediator)
         {
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.CreateA
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdUnitByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
         }

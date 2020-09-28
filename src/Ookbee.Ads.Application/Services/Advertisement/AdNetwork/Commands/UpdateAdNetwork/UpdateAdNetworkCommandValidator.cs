@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
+using Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdNetworkByPlatform;
 using Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.IsExistsAdNetworkById;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsAdUnitById;
-using Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdNetworkByPlatform;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.UpdateAdNetwork
 {
@@ -13,13 +13,14 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
         public UpdateAdNetworkCommandValidator(IMediator mediator)
         {
             Mediator = mediator;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdNetworkByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -28,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdUnitByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -37,7 +38,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
                 {
                     var validate = context.InstanceToValidate as UpdateAdNetworkCommand;
                     var result = await Mediator.Send(new GetAdNetworkByPlatformQuery(value), cancellationToken);
-                    if (result.Ok &&
+                    if (result.IsSuccess &&
                         result.Data.Id != validate.Id &&
                         result.Data.Platform == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");

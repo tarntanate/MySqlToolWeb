@@ -14,7 +14,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
 {
     public class GetAdRevealListQueryHandler : IRequestHandler<GetAdRevealListQuery, Response<IEnumerable<AdDto>>>
     {
-        private AdsDbRepository<AdEntity> AdDbRepo { get; }
+        private readonly AdsDbRepository<AdEntity> AdDbRepo;
 
         public GetAdRevealListQueryHandler(
             AdsDbRepository<AdEntity> adDbRepo)
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
         {
             var predicate = PredicateBuilder.True<AdEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
-            predicate = predicate.And(f => f.Status == AdStatus.Preview || f.Status == AdStatus.Publish);
+            predicate = predicate.And(f => f.Status == AdStatusType.Preview || f.Status == AdStatusType.Publish);
 
             if (request.AdUnitId.HasValue() && request.AdUnitId > 0)
                 predicate = predicate.And(f => f.AdUnitId == request.AdUnitId);
@@ -44,8 +44,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
 
             var result = new Response<IEnumerable<AdDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

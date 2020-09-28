@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList
 {
     public class GetAdListQueryHandler : IRequestHandler<GetAdListQuery, Response<IEnumerable<AdDto>>>
     {
-        private AdsDbRepository<AdEntity> AdDbRepo { get; }
+        private readonly AdsDbRepository<AdEntity> AdDbRepo;
 
         public GetAdListQueryHandler(
             AdsDbRepository<AdEntity> adDbRepo)
@@ -42,8 +42,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList
 
             var result = new Response<IEnumerable<AdDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

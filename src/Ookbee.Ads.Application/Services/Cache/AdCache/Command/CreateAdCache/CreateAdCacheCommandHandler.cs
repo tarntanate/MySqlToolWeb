@@ -17,9 +17,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
 {
     public class CreateAdCacheCommandHandler : IRequestHandler<CreateAdCacheCommand>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public CreateAdCacheCommandHandler(
             IMapper mapper,
@@ -34,11 +34,11 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
         public async Task<Unit> Handle(CreateAdCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
-            if (getAdById.Ok &&
+            if (getAdById.IsSuccess &&
                 getAdById.Data.HasValue())
             {
-                if (getAdById.Data.Status == AdStatus.Publish ||
-                    getAdById.Data.Status == AdStatus.Preview)
+                if (getAdById.Data.Status == AdStatusType.Publish ||
+                    getAdById.Data.Status == AdStatusType.Preview)
                 {
                     var ad = Mapper.Map<AdCacheDto>(getAdById.Data);
                     var platforms = getAdById.Data.Platforms;
@@ -51,7 +51,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
                         var hashValue = (RedisValue)JsonHelper.Serialize(obj);
                         await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
 
-                        redisKey = CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
+                        redisKey = getAdById.Data.Status == AdStatusType.Preview
+                            ? CacheKey.UnitsAdIdsPreview(getAdById.Data.AdUnit.Id, platform)
+                            : CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
                         hashValue = (RedisValue)getAdById.Data.Id;
                         await AdsRedis.SetAddAsync(redisKey, hashValue);
                     }
@@ -61,7 +63,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
             return Unit.Value;
         }
 
-        private AdCacheDto PrepareAnalytics(AdCacheDto ad, Platform platform)
+        private AdCacheDto PrepareAnalytics(AdCacheDto ad, AdPlatform platform)
         {
             if (ad.Analytics.HasValue())
             {

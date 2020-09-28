@@ -1,7 +1,7 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 using Microsoft.DotNet.PlatformAbstractions;
 using Ookbee.Ads.Common.Response;
+using System;
 
 namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.UpdateAdGroupStats
 {

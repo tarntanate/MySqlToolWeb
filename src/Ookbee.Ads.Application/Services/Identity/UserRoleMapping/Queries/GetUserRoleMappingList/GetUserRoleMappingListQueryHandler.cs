@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUs
 {
     public class GetUserRoleMappingListQueryHandler : IRequestHandler<GetUserRoleMappingListQuery, Response<IEnumerable<UserRoleMappingDto>>>
     {
-        private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
+        private readonly AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo;
 
         public GetUserRoleMappingListQueryHandler(
             AdsDbRepository<UserRoleMappingEntity> userRoleMappingDbRepo)

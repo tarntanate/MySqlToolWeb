@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleL
 {
     public class GetUserRoleListQueryHandler : IRequestHandler<GetUserRoleListQuery, Response<IEnumerable<UserRoleDto>>>
     {
-        private AdsDbRepository<UserRoleEntity> UserRoleDbRepo { get; }
+        private readonly AdsDbRepository<UserRoleEntity> UserRoleDbRepo;
 
         public GetUserRoleListQueryHandler(
             AdsDbRepository<UserRoleEntity> userRoleDbRepo)
@@ -32,8 +32,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleL
 
             var result = new Response<IEnumerable<UserRoleDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

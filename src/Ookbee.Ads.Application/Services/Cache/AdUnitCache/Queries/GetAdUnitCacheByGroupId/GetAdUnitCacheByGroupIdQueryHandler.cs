@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.IncrementAdGroupStatCache;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.IncrementAdGroupStatCache;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
@@ -12,8 +12,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitCa
 {
     public class GetAdUnitCacheByGroupIdQueryHandler : IRequestHandler<GetAdUnitCacheByGroupIdQuery, Response<string>>
     {
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public GetAdUnitCacheByGroupIdQueryHandler(
             IMediator mediator,
@@ -25,15 +25,15 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitCa
 
         public async Task<Response<string>> Handle(GetAdUnitCacheByGroupIdQuery request, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new IncrementAdGroupStatsCacheCommand(StatsType.Request, request.AdGroupId), cancellationToken);
+            await Mediator.Send(new IncrementAdGroupStatsCacheCommand(AdStatsType.Request, request.AdGroupId), cancellationToken);
             var redisKey = CacheKey.Units(request.AdGroupId);
             var hashField = request.Platform.ToString();
             var redisValue = await AdsRedis.HashGetAsync(redisKey, hashField);
 
             var result = new Response<string>();
             if (redisValue.HasValue)
-                return result.Success((string)redisValue);
-            return result.Fail(404, "Data not found.");
+                return result.OK((string)redisValue);
+            return result.NotFound();
         }
     }
 }

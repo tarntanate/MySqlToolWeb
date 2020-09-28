@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CreateA
 {
     public class CreateAdAssetCommandHandler : IRequestHandler<CreateAdAssetCommand, Response<long>>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public CreateAdAssetCommandHandler(
             IMapper mapper,
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CreateA
             await AdAssetDbRepo.InsertAsync(entity);
             await AdAssetDbRepo.SaveChangesAsync(cancellationToken);
             await Mediator.Send(new CreateAdCacheByAssetIdCommand(entity.Id), cancellationToken);
-            return new Response<long>().Success(entity.Id);
+            return new Response<long>().OK(entity.Id);
         }
     }
 }

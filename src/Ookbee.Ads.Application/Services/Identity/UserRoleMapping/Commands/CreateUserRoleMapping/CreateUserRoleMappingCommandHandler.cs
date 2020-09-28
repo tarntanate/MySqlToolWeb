@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Crea
 {
     public class CreateUserRoleMappingCommandHandler : IRequestHandler<CreateUserRoleMappingCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo;
 
         public CreateUserRoleMappingCommandHandler(
             IMapper mapper,
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Crea
             var entity = Mapper.Map<UserRoleMappingEntity>(request);
             await UserRoleMappingDbRepo.InsertAsync(entity);
             await UserRoleMappingDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

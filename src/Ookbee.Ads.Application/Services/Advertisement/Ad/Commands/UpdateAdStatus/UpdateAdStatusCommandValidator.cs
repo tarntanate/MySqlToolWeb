@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
 {
     public class UpdateAdStatusCommandValidator : AbstractValidator<UpdateAdStatusCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateAdStatusCommandValidator(IMediator mediator)
         {
@@ -19,14 +19,14 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAdStat
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var isExistsAdResult = await Mediator.Send(new IsExistsAdByIdQuery(value), cancellationToken);
-                    if (!isExistsAdResult.Ok)
+                    if (!isExistsAdResult.IsSuccess)
                         context.AddFailure(isExistsAdResult.Message);
                 });
 
             RuleFor(p => p.Status)
                 .Custom((value, context) =>
                 {
-                    if (value == AdStatus.Unknown)
+                    if (value == AdStatusType.Unknown)
                         context.AddFailure($"Unsupported Status Type.");
                 });
         }

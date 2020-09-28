@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
 {
     public class UpdatePublisherCommandHandler : IRequestHandler<UpdatePublisherCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<PublisherEntity> PublisherDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<PublisherEntity> PublisherDbRepo;
 
         public UpdatePublisherCommandHandler(
             IMapper mapper,
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
             var entity = Mapper.Map<PublisherEntity>(request);
             await PublisherDbRepo.UpdateAsync(entity.Id, entity);
             await PublisherDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

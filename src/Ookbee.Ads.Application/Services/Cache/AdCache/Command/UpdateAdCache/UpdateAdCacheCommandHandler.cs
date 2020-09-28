@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdById;
 using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCache;
 using Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.DeleteAdStatsCache;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
@@ -17,9 +17,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.UpdateAdCache
 {
     public class UpdateAdCacheCommandHandler : IRequestHandler<UpdateAdCacheCommand>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public UpdateAdCacheCommandHandler(
             IMapper mapper,
@@ -34,17 +34,17 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.UpdateAdCache
         public async Task<Unit> Handle(UpdateAdCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
-            if (getAdById.Ok &&
+            if (getAdById.IsSuccess &&
                 getAdById.Data.HasValue())
             {
                 var ad = getAdById.Data;
-                if (ad.Status == AdStatus.Publish ||
-                    ad.Status == AdStatus.Preview)
+                if (ad.Status == AdStatusType.Publish ||
+                    ad.Status == AdStatusType.Preview)
                 {
                     var adCache = Mapper.Map<AdCacheDto>(ad);
-                    foreach (var platform in EnumHelper.GetValues<Platform>())
+                    foreach (var platform in EnumHelper.GetValues<AdPlatform>())
                     {
-                        if (platform != Platform.Unknown)
+                        if (platform != AdPlatform.Unknown)
                         {
                             var redisKey = CacheKey.Ad(ad.Id);
                             var hashField = platform.ToString();

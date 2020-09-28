@@ -7,10 +7,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.IsExis
     {
         public IsExistsAdNetworkByPlatformQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Platform)
                 .Custom((value, context) =>
                 {
-                    if (value == Platform.Unknown)
+                    if (value == AdPlatform.Unknown)
                         context.AddFailure($"Unsupported Platform Type.");
                 });
         }

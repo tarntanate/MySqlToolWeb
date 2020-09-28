@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
 {
     public class GetAdRevealListQueryValidator : AbstractValidator<GetAdRevealListQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GetAdRevealListQueryValidator(IMediator mediator)
         {
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
                     if (value != null)
                     {
                         var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsAdUnitResult.Ok)
+                        if (!isExistsAdUnitResult.IsSuccess)
                             context.AddFailure(isExistsAdUnitResult.Message);
                     }
                 });
@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
                     if (value != null)
                     {
                         var isExistsCampaignResult = await Mediator.Send(new IsExistsCampaignByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsCampaignResult.Ok)
+                        if (!isExistsCampaignResult.IsSuccess)
                             context.AddFailure(isExistsCampaignResult.Message);
                     }
                 });

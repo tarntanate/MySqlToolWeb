@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.UpdateAdCacheBy
 {
     public class UpdateAdCacheByAssetIdCommandHandler : IRequestHandler<UpdateAdCacheByAssetIdCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateAdCacheByAssetIdCommandHandler(
             IMediator mediator)
@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.UpdateAdCacheBy
         public async Task<Unit> Handle(UpdateAdCacheByAssetIdCommand request, CancellationToken cancellationToken)
         {
             var getAdAssetById = await Mediator.Send(new GetAdAssetByIdQuery(request.AdAssetId), cancellationToken);
-            if (getAdAssetById.Ok)
+            if (getAdAssetById.IsSuccess)
             {
                 await Mediator.Send(new UpdateAdCacheCommand(getAdAssetById.Data.AdId));
             }

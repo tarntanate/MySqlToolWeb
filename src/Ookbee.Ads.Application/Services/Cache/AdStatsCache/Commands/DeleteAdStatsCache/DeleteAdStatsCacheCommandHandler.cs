@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.DeleteAdSt
 {
     public class DeleteAdStatsCacheCommandHandler : IRequestHandler<DeleteAdStatsCacheCommand>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public DeleteAdStatsCacheCommandHandler(AdsRedisContext adsRedis)
         {

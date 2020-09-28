@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.IsExist
 {
     public class IsExistsCampaignByIdQueryHandler : IRequestHandler<IsExistsCampaignByIdQuery, Response<bool>>
     {
-        private AdsDbRepository<CampaignEntity> CampaignDbRepo { get; }
+        private readonly AdsDbRepository<CampaignEntity> CampaignDbRepo;
 
         public IsExistsCampaignByIdQueryHandler(
             AdsDbRepository<CampaignEntity> campaignDbRepo)
@@ -26,8 +26,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.IsExist
 
             var result = new Response<bool>();
             return (isExists)
-                ? result.Success(true)
-                : result.Fail(404, $"Data doesn't exist.");
+                ? result.OK(true)
+                : result.NotFound();
         }
     }
 }

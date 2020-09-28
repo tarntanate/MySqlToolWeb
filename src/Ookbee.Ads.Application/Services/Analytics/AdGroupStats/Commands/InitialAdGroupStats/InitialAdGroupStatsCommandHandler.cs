@@ -1,17 +1,17 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGroupList;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.InitialAdGroupStatsById;
 using Ookbee.Ads.Application.Services.Analytics.AdUnitStatsCache.Commands.InitialAdUnitStats;
 using Ookbee.Ads.Common.Extensions;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStatsCache.Commands.InitialAdGroupStats
 {
     public class InitialAdGroupStatsCommandHandler : IRequestHandler<InitialAdGroupStatsCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public InitialAdGroupStatsCommandHandler(IMediator mediator)
         {
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStatsCache.Commands.I
             {
                 next = false;
                 var getAdGroupList = await Mediator.Send(new GetAdGroupListQuery(start, length, null, null), cancellationToken);
-                if (getAdGroupList.Ok &&
+                if (getAdGroupList.IsSuccess &&
                     getAdGroupList.Data.HasValue())
                 {
                     var items = getAdGroupList.Data;

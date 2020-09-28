@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.Upda
 {
     public class UpdateAdvertiserCommandValidator : AbstractValidator<UpdateAdvertiserCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public UpdateAdvertiserCommandValidator(IMediator mediator)
         {
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.Upda
                 {
                     var validate = context.InstanceToValidate as UpdateAdvertiserCommand;
                     var result = await Mediator.Send(new GetAdvertiserByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
 
@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.Upda
                 {
                     var validate = context.InstanceToValidate as UpdateAdvertiserCommand;
                     var result = await Mediator.Send(new GetAdvertiserByNameQuery(value), cancellationToken);
-                    if (result.Ok &&
+                    if (result.IsSuccess &&
                         result.Data.Id != validate.Id &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");

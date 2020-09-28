@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
 {
     public class GetAdNetworkListQueryHandler : IRequestHandler<GetAdNetworkListQuery, Response<IEnumerable<AdNetworkDto>>>
     {
-        private AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo { get; }
+        private readonly AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo;
 
         public GetAdNetworkListQueryHandler(
             AdsDbRepository<AdNetworkEntity> adNetworkDbRepo)
@@ -37,8 +37,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
 
             var result = new Response<IEnumerable<AdNetworkDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

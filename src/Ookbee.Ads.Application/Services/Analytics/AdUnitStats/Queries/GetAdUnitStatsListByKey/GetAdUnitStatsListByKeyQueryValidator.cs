@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUni
     {
         public GetAdUnitStatsListByKeyQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(p => p.AdUnitId)
                 .GreaterThan(0);
         }

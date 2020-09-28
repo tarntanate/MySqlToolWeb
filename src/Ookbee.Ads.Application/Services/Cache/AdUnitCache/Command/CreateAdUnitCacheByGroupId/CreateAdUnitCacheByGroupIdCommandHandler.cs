@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.InitialAdCache;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Mapping;
@@ -20,9 +20,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
 {
     public class CreateAdUnitCacheByGroupIdCommandHandler : IRequestHandler<CreateAdUnitCacheByGroupIdCommand>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public CreateAdUnitCacheByGroupIdCommandHandler(
             IMapper mapper,
@@ -45,7 +45,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
             {
                 next = false;
                 var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
-                if (getAdUnitList.Ok &&
+                if (getAdUnitList.IsSuccess &&
                     getAdUnitList.Data.HasValue())
                 {
                     var items = getAdUnitList.Data;
@@ -62,9 +62,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
 
             if (adUnits.HasValue())
             {
-                foreach (var platform in EnumHelper.GetValues<Platform>())
+                foreach (var platform in EnumHelper.GetValues<AdPlatform>())
                 {
-                    if (platform != Platform.Unknown)
+                    if (platform != AdPlatform.Unknown)
                     {
                         var cacheValue = new List<AdUnitCacheDto>();
                         foreach (var adUnit in adUnits)
@@ -90,7 +90,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
             return Unit.Value;
         }
 
-        private IEnumerable<AdUnitCacheDto> PrepareAnalytics(IEnumerable<AdUnitCacheDto> adUnits, Platform platform)
+        private IEnumerable<AdUnitCacheDto> PrepareAnalytics(IEnumerable<AdUnitCacheDto> adUnits, AdPlatform platform)
         {
             if (adUnits.HasValue())
             {

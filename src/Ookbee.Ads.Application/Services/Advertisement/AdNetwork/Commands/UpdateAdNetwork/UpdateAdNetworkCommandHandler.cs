@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
 {
     public class UpdateAdNetworkCommandHandler : IRequestHandler<UpdateAdNetworkCommand, Response<bool>>
     {
-        private IMapper Mapper { get; }
-        private AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo { get; }
+        private readonly IMapper Mapper;
+        private readonly AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo;
 
         public UpdateAdNetworkCommandHandler(
             IMapper mapper,
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
             var entity = Mapper.Map<AdNetworkEntity>(request);
             await AdNetworkDbRepo.UpdateAsync(entity.Id, entity);
             await AdNetworkDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

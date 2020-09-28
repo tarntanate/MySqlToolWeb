@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
 {
     public class GetUserPermissionListQueryHandler : IRequestHandler<GetUserPermissionListQuery, Response<IEnumerable<UserPermissionDto>>>
     {
-        private AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo { get; }
+        private readonly AdsDbRepository<UserPermissionEntity> UserPermissionDbRepo;
 
         public GetUserPermissionListQueryHandler(
             AdsDbRepository<UserPermissionEntity> userPermissionDbRepo)
@@ -38,8 +38,8 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.GetUse
 
             var result = new Response<IEnumerable<UserPermissionDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

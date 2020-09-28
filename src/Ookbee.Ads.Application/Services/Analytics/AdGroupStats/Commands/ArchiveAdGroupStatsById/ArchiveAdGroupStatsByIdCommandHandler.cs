@@ -14,9 +14,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStats.Commands.ArchiveAdG
 {
     public class ArchiveAdGroupStatsByIdCommandHandler : IRequestHandler<ArchiveAdGroupStatsByIdCommand>
     {
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
-        private AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo { get; }
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
+        private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
         public ArchiveAdGroupStatsByIdCommandHandler(
             IMediator mediator,
@@ -40,12 +40,12 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupStats.Commands.ArchiveAdG
             if (adGroupStats.HasValue())
             {
                 var getAdGroupStatsCache = await Mediator.Send(new GetAdGroupStatsCacheQuery(request.AdGroupId), cancellationToken);
-                if (getAdGroupStatsCache.Ok &&
+                if (getAdGroupStatsCache.IsSuccess &&
                     getAdGroupStatsCache.Data.HasValue())
                 {
                     var data = getAdGroupStatsCache.Data;
 
-                    var requests = data.SingleOrDefault(x => x.Key == StatsType.Request.ToString()).Value;
+                    var requests = data.SingleOrDefault(x => x.Key == AdStatsType.Request.ToString()).Value;
                     if (requests > adGroupStats.Request)
                         adGroupStats.Request = requests;
 

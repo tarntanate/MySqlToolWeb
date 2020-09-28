@@ -1,8 +1,8 @@
 ﻿using MediatR;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitById;
 using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.DeleteAdCache;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
@@ -17,8 +17,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
 {
     public class DeleteAdUnitCacheCommandHandler : IRequestHandler<DeleteAdUnitCacheCommand>
     {
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public DeleteAdUnitCacheCommandHandler(
             IMediator mediator,
@@ -31,13 +31,13 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
         public async Task<Unit> Handle(DeleteAdUnitCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdUnitById = await Mediator.Send(new GetAdUnitByIdQuery(request.AdUnitId), cancellationToken);
-            if (getAdUnitById.Ok &&
+            if (getAdUnitById.IsSuccess &&
                 getAdUnitById.Data.HasValue())
             {
                 var adUnit = getAdUnitById.Data;
-                foreach (var platform in EnumHelper.GetValues<Platform>())
+                foreach (var platform in EnumHelper.GetValues<AdPlatform>())
                 {
-                    if (platform != Platform.Unknown)
+                    if (platform != AdPlatform.Unknown)
                     {
                         var platformName = platform.ToString();
                         var redisKey = CacheKey.Units(adUnit.AdGroup.Id);

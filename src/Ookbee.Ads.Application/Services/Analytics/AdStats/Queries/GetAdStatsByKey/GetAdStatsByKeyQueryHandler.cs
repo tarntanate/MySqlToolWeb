@@ -9,9 +9,10 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdStatsBy
 {
     public class GetAdStatsByKeyQueryHandler : IRequestHandler<GetAdStatsByKeyQuery, Response<AdStatsDto>>
     {
-        private AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo { get; }
+        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
-        public GetAdStatsByKeyQueryHandler(AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
+        public GetAdStatsByKeyQueryHandler(
+            AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
             AdStatsDbRepo = adStatsDbRepo;
         }
@@ -27,8 +28,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdStatsBy
 
             var result = new Response<AdStatsDto>();
             return (item != null)
-                ? result.Success(item)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(item)
+                : result.NotFound();
         }
     }
 }

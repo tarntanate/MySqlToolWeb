@@ -1,6 +1,7 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.IncrementAdUnitStatsCache;
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.IncrementAdUnitStatsCache;
+using Ookbee.Ads.Application.Services.Cache.AdUserCache.Queries.IsExistsAdUserCacheById;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
@@ -15,8 +16,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
 {
     public class GetAdByUnitIdQueryHandler : IRequestHandler<GetAdByUnitIdQuery, Response<string>>
     {
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public GetAdByUnitIdQueryHandler(
             IMediator mediator,
@@ -28,28 +29,36 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
 
         public async Task<Response<string>> Handle(GetAdByUnitIdQuery request, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(StatsType.Request, request.AdUnitId), cancellationToken);
+            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(AdStatsType.Request, request.AdUnitId), cancellationToken);
 
-            var redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
+            var redisKey = string.Empty;
             var redisValue = string.Empty;
-            var redisValues = await AdsRedis.SetMembersAsync(redisKey);
-            if (redisValues.HasValue())
+
+            if (request.UserId.HasValue())
             {
-                var adIds = redisValues.Select(adId => (long)adId);
+                var isExistsAdUserResponse = await Mediator.Send(new IsExistsAdUserCacheByIdQuery(request.UserId.Value), cancellationToken);
+                if (isExistsAdUserResponse.IsSuccess)
+                    redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
+                else
+                    redisKey = CacheKey.UnitsAdIdsPreview(request.AdUnitId, request.Platform);
+            }
+
+            var setMembers = await AdsRedis.SetMembersAsync(redisKey);
+            if (setMembers.HasValue())
+            {
+                var adIds = setMembers.Select(adId => (long)adId);
                 var adId = adIds.OrderBy(adId => Guid.NewGuid()).First();
                 redisKey = CacheKey.Ad(adId);
-                var hashField = request.Platform.ToString();
-                redisValue = await AdsRedis.HashGetAsync(redisKey, hashField);
+                redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
             }
 
             var result = new Response<string>();
-
-            if (!redisValue.HasValue())
-                return result.Fail(404, "Data not found.");
-
-            await Mediator.Send(new IncrementAdUnitStatsCacheCommand(StatsType.Fill, request.AdUnitId));
-
-            return result.Success(redisValue);
+            if (redisValue.HasValue())
+            {
+                await Mediator.Send(new IncrementAdUnitStatsCacheCommand(AdStatsType.Fill, request.AdUnitId));
+                return result.OK(redisValue);
+            }
+            return result.NotFound();
         }
     }
 }

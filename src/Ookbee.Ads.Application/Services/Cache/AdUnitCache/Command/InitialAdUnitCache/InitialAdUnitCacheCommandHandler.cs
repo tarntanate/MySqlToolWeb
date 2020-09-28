@@ -10,9 +10,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.InitialAdUn
 {
     public class InitialAdUnitCacheCommandHandler : IRequestHandler<InitialAdUnitCacheCommand>
     {
-        private IMapper Mapper { get; }
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMapper Mapper;
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public InitialAdUnitCacheCommandHandler(
             IMapper mapper,

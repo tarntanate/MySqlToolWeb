@@ -13,8 +13,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.IncrementA
 {
     public class IncrementAdStatsCacheCommandHandler : IRequestHandler<IncrementAdStatsCacheCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public IncrementAdStatsCacheCommandHandler(
             IMediator mediator,
@@ -30,16 +30,16 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.IncrementA
             var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
             if (hashEntries.HasValue())
             {
-                var quota = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == StatsType.Quota.ToString()).Value;
-                var impression = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == StatsType.Impression.ToString()).Value;
+                var quota = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == AdStatsType.Quota.ToString()).Value;
+                var impression = (long)hashEntries.SingleOrDefault(hashEntry => hashEntry.Name == AdStatsType.Impression.ToString()).Value;
                 if (impression < quota)
                 {
                     var hashField = request.StatsType.ToString();
                     await AdsRedis.HashIncrementAsync(redisKey, hashField, 1, CommandFlags.FireAndForget);
                 }
-                return new Response<bool>().Success(true);
+                return new Response<bool>().OK(true);
             }
-            return new Response<bool>().Fail(404, $"Unable to update stats: Invalid or expired data.");
+            return new Response<bool>().NotFound($"Unable to update stats: Invalid or expired data.");
         }
     }
 }

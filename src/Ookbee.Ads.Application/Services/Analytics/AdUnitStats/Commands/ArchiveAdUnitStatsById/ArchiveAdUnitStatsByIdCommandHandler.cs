@@ -6,7 +6,6 @@ using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,9 +14,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStats.Commands.ArchiveAdUn
 {
     public class ArchiveAdUnitStatsByIdCommandHandler : IRequestHandler<ArchiveAdUnitStatsByIdCommand>
     {
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
-        private AnalyticsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo { get; }
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
+        private readonly AnalyticsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo;
 
         public ArchiveAdUnitStatsByIdCommandHandler(
             IMediator mediator,
@@ -41,16 +40,16 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStats.Commands.ArchiveAdUn
             if (adUnitStats.HasValue())
             {
                 var getAdUnitStatsCache = await Mediator.Send(new GetAdUnitStatsCacheQuery(request.AdUnitId), cancellationToken);
-                if (getAdUnitStatsCache.Ok &&
+                if (getAdUnitStatsCache.IsSuccess &&
                     getAdUnitStatsCache.Data.HasValue())
                 {
                     var data = getAdUnitStatsCache.Data;
 
-                    var requests = data.SingleOrDefault(x => x.Key == StatsType.Request.ToString()).Value;
+                    var requests = data.SingleOrDefault(x => x.Key == AdStatsType.Request.ToString()).Value;
                     if (requests > adUnitStats.Request)
                         adUnitStats.Request = requests;
 
-                    var fills = data.SingleOrDefault(x => x.Key == StatsType.Fill.ToString()).Value;
+                    var fills = data.SingleOrDefault(x => x.Key == AdStatsType.Fill.ToString()).Value;
                     if (fills > adUnitStats.Fill)
                         adUnitStats.Fill = fills;
 

@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUni
     {
         public GetAdUnitStatsByKeyQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(p => p.AdUnitId)
                 .GreaterThan(0)
                 .WithMessage("'{PropertyName}' is not a valid");

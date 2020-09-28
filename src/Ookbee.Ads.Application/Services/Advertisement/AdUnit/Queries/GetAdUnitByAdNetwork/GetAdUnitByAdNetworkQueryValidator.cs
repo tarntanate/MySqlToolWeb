@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
     {
         public GetAdUnitByAdNetworkQueryValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+
             RuleFor(p => p.AdNetwork)
                 .NotNull()
                 .NotEmpty()

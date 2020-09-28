@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUni
 {
     public class GetAdUnitStatsListByKeyQueryHandler : IRequestHandler<GetAdUnitStatsListByKeyQuery, Response<IEnumerable<AdUnitStatsDto>>>
     {
-        private AnalyticsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo { get; }
+        private readonly AnalyticsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo;
 
         public GetAdUnitStatsListByKeyQueryHandler(AnalyticsDbRepository<AdUnitStatsEntity> adGroupStatsDbRepo)
         {
@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUni
             );
 
             var result = new Response<IEnumerable<AdUnitStatsDto>>();
-            return result.Success(items);
+            return result.OK(items);
         }
     }
 }

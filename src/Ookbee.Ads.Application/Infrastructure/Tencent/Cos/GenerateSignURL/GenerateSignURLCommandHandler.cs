@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
 {
     public class GenerateSignURLCommandHandler : IRequestHandler<GenerateSignURLCommand, Response<string>>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GenerateSignURLCommandHandler(IMediator mediator)
         {
@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos
             preSignatureStruct.headers = request.Headers;                           //The header in signature for verification
             preSignatureStruct.queryParameters = request.QueryParameters;           //The request parameters of URL in signature for verification
             var signURL = cosXml.GenerateSignURL(preSignatureStruct);               //The pre-signed URL (a signature URL computed with permanent key) for upload request
-            return result.Success(signURL);
+            return result.OK(signURL);
         }
     }
 }

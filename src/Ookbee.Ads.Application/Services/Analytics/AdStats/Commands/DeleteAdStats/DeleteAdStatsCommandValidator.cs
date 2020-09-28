@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.DeleteAdSta
 {
     public class DeleteAdStatsCommandValidator : AbstractValidator<DeleteAdStatsCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public DeleteAdStatsCommandValidator(IMediator mediator)
         {
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.DeleteAdSta
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
         }

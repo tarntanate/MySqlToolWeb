@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList
 {
     public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, Response<IEnumerable<UserDto>>>
     {
-        private AdsDbRepository<UserEntity> UserDbRepo { get; }
+        private readonly AdsDbRepository<UserEntity> UserDbRepo;
 
         public GetUserListQueryHandler(
             AdsDbRepository<UserEntity> userDbRepo)
@@ -31,8 +31,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList
 
             var result = new Response<IEnumerable<UserDto>>();
             return (items.HasValue())
-                ? result.Success(items)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(items)
+                : result.NotFound();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public long Id { get; set; }
         public long AdUnitId { get; set; }
         public string AdNetworkUnitId { get; set; }
-        public Platform Platform { get; set; }
+        public AdPlatform Platform { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset? DeletedAt { get; set; }

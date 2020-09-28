@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
 {
     public class GetAdUnitByAdNetworkQueryHandler : IRequestHandler<GetAdUnitByAdNetworkQuery, Response<AdUnitDto>>
     {
-        private AdsDbRepository<AdUnitEntity> AdUnitDbRepo { get; }
+        private readonly AdsDbRepository<AdUnitEntity> AdUnitDbRepo;
 
         public GetAdUnitByAdNetworkQueryHandler(
             AdsDbRepository<AdUnitEntity> adUnitDbRepo)
@@ -21,15 +21,15 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
         {
             var item = await AdUnitDbRepo.FirstAsync(
                 selector: AdUnitDto.Projection,
-                filter: f => 
+                filter: f =>
                     f.AdNetwork == request.AdNetwork &&
                     f.DeletedAt == null
             );
 
             var result = new Response<AdUnitDto>();
             return (item != null)
-                ? result.Success(item)
-                : result.Fail(404, $"Data not found.");
+                ? result.OK(item)
+                : result.NotFound();
         }
     }
 }

@@ -1,10 +1,10 @@
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdAsset;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnitType;
 using Ookbee.Ads.Application.Services.Advertisement.Advertiser;
 using Ookbee.Ads.Application.Services.Advertisement.Campaign;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public AdStatus Status { get; set; }
+        public AdStatusType Status { get; set; }
         public int? Quota { get; set; }
         public DateTimeOffset? StartAt { get; set; }
         public DateTimeOffset? EndAt { get; set; }
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
         public string BackgroundColor { get; set; }
         public string LinkUrl { get; set; }
         public IEnumerable<string> Analytics { get; set; }
-        public IEnumerable<Platform> Platforms { get; set; }
+        public IEnumerable<AdPlatform> Platforms { get; set; }
         public IEnumerable<AdAssetDto> Assets { get; set; }
         public AdUnitDto AdUnit { get; set; }
         public CampaignDto Campaign { get; set; }

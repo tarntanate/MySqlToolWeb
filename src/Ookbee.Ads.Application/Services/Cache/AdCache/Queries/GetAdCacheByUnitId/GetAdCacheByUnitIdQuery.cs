@@ -7,13 +7,16 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
 {
     public class GetAdByUnitIdQuery : IRequest<Response<string>>
     {
+        public AdPlatform Platform { get; set; }
         public long AdUnitId { get; set; }
-        public Platform Platform { get; set; }
+        public long? UserId { get; set; }
 
-        public GetAdByUnitIdQuery(long adUnitId, string platform)
+        public GetAdByUnitIdQuery(string platform, long adUnitId, long? userId)
         {
+            Platform = EnumHelper.ConvertTo<AdPlatform>(platform);
             AdUnitId = adUnitId;
-            Platform = EnumHelper.ConvertTo<Platform>(platform);
+
+            UserId = userId;
         }
     }
 }

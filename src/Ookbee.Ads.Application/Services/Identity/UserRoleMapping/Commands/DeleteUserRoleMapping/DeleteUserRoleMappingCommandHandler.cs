@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Dele
 {
     public class DeleteUserRoleMappingCommandHandler : IRequestHandler<DeleteUserRoleMappingCommand, Response<bool>>
     {
-        private AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo { get; }
+        private readonly AdsDbRepository<UserRoleMappingEntity> UserRoleMappingDbRepo;
 
         public DeleteUserRoleMappingCommandHandler(
             AdsDbRepository<UserRoleMappingEntity> userRoleMappingDbRepo)
@@ -19,9 +19,9 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Dele
 
         public async Task<Response<bool>> Handle(DeleteUserRoleMappingCommand request, CancellationToken cancellationToken)
         {
-            await UserRoleMappingDbRepo.DeleteAsync(new { request.UserId, request.RoleId });
+            await UserRoleMappingDbRepo.DeleteAsync(request.UserId, request.RoleId);
             await UserRoleMappingDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

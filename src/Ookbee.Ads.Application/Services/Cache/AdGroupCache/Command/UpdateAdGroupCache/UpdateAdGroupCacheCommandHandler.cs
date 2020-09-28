@@ -12,8 +12,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.UpdateAdGr
 {
     public class UpdateAdGroupCacheCommandHandler : IRequestHandler<UpdateAdGroupCacheCommand>
     {
-        private IMediator Mediator { get; }
-        private IDatabase AdsRedis { get; }
+        private readonly IMediator Mediator;
+        private readonly IDatabase AdsRedis;
 
         public UpdateAdGroupCacheCommandHandler(
             IMediator mediator,
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.UpdateAdGr
         public async Task<Unit> Handle(UpdateAdGroupCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdGroupById = await Mediator.Send(new GetAdGroupByIdQuery(request.AdGroupId), cancellationToken);
-            if (getAdGroupById.Ok)
+            if (getAdGroupById.IsSuccess)
             {
                 var adUnit = getAdGroupById.Data;
                 var redisKey = CacheKey.Groups();

@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserById
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Response<UserDto>>
     {
-        private AdsDbRepository<UserEntity> userDbRepo { get; }
+        private readonly AdsDbRepository<UserEntity> userDbRepo;
 
         public GetUserByIdQueryHandler(
             AdsDbRepository<UserEntity> authUserDbRepo)
@@ -27,8 +27,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserById
 
             var result = new Response<UserDto>();
             return (item != null)
-                ? result.Success(item)
-                : result.Fail(404, $"User '{request.Id}' doesn't exist.");
+                ? result.OK(item)
+                : result.NotFound();
         }
     }
 }

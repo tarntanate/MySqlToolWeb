@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.IsExistsAdUnitTypeById;
-using Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.IsExistsPublisherById;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdNetworkList
 {
     public class GetAdNetworkListQueryValidator : AbstractValidator<GetAdNetworkListQuery>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public GetAdNetworkListQueryValidator(IMediator mediator)
         {
@@ -28,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
                     if (value != null)
                     {
                         var isExistsAdUnitResult = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value.Value), cancellationToken);
-                        if (!isExistsAdUnitResult.Ok)
+                        if (!isExistsAdUnitResult.IsSuccess)
                             context.AddFailure(isExistsAdUnitResult.Message);
                     }
                 });

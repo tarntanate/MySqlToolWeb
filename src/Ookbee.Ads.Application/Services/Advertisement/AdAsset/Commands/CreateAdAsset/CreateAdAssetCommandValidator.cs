@@ -6,7 +6,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CreateA
 {
     public class CreateAdAssetCommandValidator : AbstractValidator<CreateAdAssetCommand>
     {
-        private IMediator Mediator { get; }
+        private readonly IMediator Mediator;
 
         public CreateAdAssetCommandValidator(IMediator mediator)
         {
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.CreateA
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var result = await Mediator.Send(new IsExistsAdByIdQuery(value), cancellationToken);
-                    if (!result.Ok)
+                    if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
         }

@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.CreateAdSt
 {
     public class CreateAdStatsCacheCommandHandler : IRequestHandler<CreateAdStatsCacheCommand>
     {
-        private IDatabase AdsRedis { get; }
+        private readonly IDatabase AdsRedis;
 
         public CreateAdStatsCacheCommandHandler(AdsRedisContext adsRedis)
         {

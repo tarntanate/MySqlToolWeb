@@ -10,8 +10,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.DeleteA
 {
     public class DeleteAdAssetCommandHandler : IRequestHandler<DeleteAdAssetCommand, Response<bool>>
     {
-        private IMediator Mediator { get; }
-        private AdsDbRepository<AdAssetEntity> AdAssetDbRepo { get; }
+        private readonly IMediator Mediator;
+        private readonly AdsDbRepository<AdAssetEntity> AdAssetDbRepo;
 
         public DeleteAdAssetCommandHandler(
             IMediator mediator,
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Commands.DeleteA
             await Mediator.Send(new DeleteAdCacheByAssetIdCommand(request.Id), cancellationToken);
             await AdAssetDbRepo.DeleteAsync(request.Id);
             await AdAssetDbRepo.SaveChangesAsync(cancellationToken);
-            return new Response<bool>().Success(true);
+            return new Response<bool>().OK(true);
         }
     }
 }

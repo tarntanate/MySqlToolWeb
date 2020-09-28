@@ -6,6 +6,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Delete
     {
         public DeleteCampaignCommandValidator()
         {
+            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .WithMessage("'{PropertyName}' is not a valid");
