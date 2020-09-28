@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ookbee.Ads.Application.Business.Advertisement.AdGroup.Queries.GetAdGroupList;
-using Ookbee.Ads.Application.Business.Cache.AdGroupCache.Commands.CreateAdGroupCache;
+using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGroupList;
+using Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.CreateAdGroupCache;
 using Ookbee.Ads.Common.Extensions;
 using System;
 using System.Linq;
@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     {
                         next = false;
                         var getAdGroupList = await mediator.Send(new GetAdGroupListQuery(start, length, null, null), cancellationToken);
-                        if (getAdGroupList.Ok &&
+                        if (getAdGroupList.IsSuccess &&
                             getAdGroupList.Data.HasValue())
                         {
                             var items = getAdGroupList.Data;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using ValidationException = Ookbee.Ads.Common.Exceptions.ValidationException;
 
 namespace Ookbee.Ads.Application.Infrastructure

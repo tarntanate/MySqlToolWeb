@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.CreateUserRoleMapping;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.DeleteUserRoleMapping;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Commands.UpdateUserRoleMapping;
-using Ookbee.Ads.Application.Business.Advertisement.UserRoleMapping.Queries.GetUserRoleMappingList;
+using Ookbee.Ads.Application.Services.Identity.UserRoleMapping;
+using Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.CreateUserRoleMapping;
+using Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.DeleteUserRoleMapping;
+using Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.UpdateUserRoleMapping;
+using Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUserRoleMappingList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Services.Management.Controllers
             => await Mediator.Send(new UpdateUserRoleMappingCommand(request), cancellationToken);
 
         [HttpDelete]
-        public async Task<Response<bool>> Delete([FromRoute] long userId, [FromRoute] long roleId, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Delete([FromQuery] long userId, [FromQuery] long roleId, CancellationToken cancellationToken)
             => await Mediator.Send(new DeleteUserRoleMappingCommand(userId, roleId), cancellationToken);
     }
 }

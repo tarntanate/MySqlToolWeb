@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Cache.AdUnitStatsCache.Commands.IncrementAdUnitStatsCache;
 using Ookbee.Ads.Application.Business.RequestLogs.AdClickLog.Commands.CreateAdClickLog;
 using Ookbee.Ads.Application.Business.RequestLogs.AdImpressionLog.Commands.CreateAdImpressionLog;
+using Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.IncrementAdUnitStatsCache;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Models;
@@ -16,10 +16,10 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
     public class UnitsController : ApiController
     {
         [HttpGet]
-        public async Task UpdateUnitStats([FromRoute] long adUnitId, [FromQuery] Platform platform, [FromQuery] string type, CancellationToken cancellationToken)
+        public async Task<ContentResult> UpdateUnitStats([FromRoute] long adUnitId, [FromQuery] AdPlatform platform, [FromQuery] string type, CancellationToken cancellationToken)
         {
-            var _type = type.ToEnum<StatsType>();
-            if (_type == StatsType.Impression)
+            var _type = type.ToEnum<AdStatsType>();
+            if (_type == AdStatsType.Impression)
             {
                 var timescaleResult = await Mediator.Send(
                         new CreateAdImpressionLogCommand(
@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                             uuid: new Random().Next(0, 20).ToString()),
                             cancellationToken);
             }
-            if (_type == StatsType.Click)
+            if (_type == AdStatsType.Click)
             {
                 var timescaleResult = await Mediator.Send(
                         new CreateAdClickLogCommand(
@@ -41,12 +41,12 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                             uuid: new Random().Next(0, 20).ToString()),
                             cancellationToken);
             }
-            return;
-            // var result = await Mediator.Send(new IncrementAdUnitStatsCacheCommand(type.ToEnum<StatsType>(), adUnitId), cancellationToken);
-            // if (result.Ok &&
-            //     result.Data.HasValue())
-            //     return new ContentResult() { StatusCode = 200 };
-            // return new ContentResult() { StatusCode = 404 };
+         
+            var result = await Mediator.Send(new IncrementAdUnitStatsCacheCommand(type.ToEnum<AdStatsType>(), adUnitId), cancellationToken);
+            if (result.IsSuccess &&
+                result.Data.HasValue())
+                return new ContentResult() { StatusCode = 200 };
+            return new ContentResult() { StatusCode = 404 };
         }
     }
 }

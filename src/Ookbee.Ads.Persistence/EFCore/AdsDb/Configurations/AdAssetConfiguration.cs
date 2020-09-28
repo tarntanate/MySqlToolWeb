@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
             builder.Property(e => e.Position)
                    .HasConversion(
                         v => v.ToString(),
-                        v => (Position)Enum.Parse(typeof(Position), v));
+                        v => (AdPosition)Enum.Parse(typeof(AdPosition), v));
 
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();

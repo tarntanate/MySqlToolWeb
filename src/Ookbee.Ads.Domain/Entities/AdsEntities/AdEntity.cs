@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public long CampaignId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public AdStatus Status { get; set; }
+        public AdStatusType Status { get; set; }
         public int? CountdownSecond { get; set; }
         public int Quota { get; set; }
         public DateTimeOffset StartAt { get; set; }
@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public string ForegroundColor { get; set; }
         public string BackgroundColor { get; set; }
         public List<string> Analytics { get; set; }
-        public List<Platform> Platforms { get; set; }
+        public List<AdPlatform> Platforms { get; set; }
         public string AppLink { get; set; }
         public string WebLink { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }

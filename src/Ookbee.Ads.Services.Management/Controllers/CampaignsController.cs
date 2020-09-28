@@ -1,16 +1,16 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.DeleteCampaign;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCampaignById;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Queries.GetCampaignList;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.DeleteCampaign;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCampaignById;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCampaignList;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Response;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.CreateCampaign;
-using Ookbee.Ads.Application.Business.Advertisement.Campaign.Commands.UpdateCampaign;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.CreateCampaign;
+using Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.UpdateCampaign;
 
 namespace Ookbee.Ads.Services.Management.Controllers
 {

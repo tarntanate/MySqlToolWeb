@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.Cache.AdUnitCache.Commands.GetAdUnitCacheByGroupId;
 using Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateGroupRequestLog;
+using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitCacheByGroupId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Models;
@@ -15,7 +15,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     public class GroupsController : ApiController
     {
         [HttpGet("{groupId}/units")]
-        public async Task<ContentResult> GetAdUnitCacheByGroupId([FromRoute] long groupId, [FromQuery] Platform platform, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdUnitCacheByGroupId([FromRoute] long groupId, [FromQuery] AdPlatform platform, CancellationToken cancellationToken)
         {
             // For Testing TimeScaleDb
             var timescaleResult = await Mediator.Send(
@@ -25,10 +25,10 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                     uuid: new Random().Next(0, 20).ToString()),
                     cancellationToken);
 
-            string platformx = Enum.GetName(typeof(Platform), platform);
+            string platformString = Enum.GetName(typeof(AdPlatform), platform);
 
-            var result = await Mediator.Send(new GetAdUnitCacheByGroupIdQuery(groupId, platformx), cancellationToken);
-            if (result.Ok &&
+            var result = await Mediator.Send(new GetAdUnitCacheByGroupIdQuery(platform: platformString, adGroupId: groupId), cancellationToken);
+            if (result.IsSuccess &&
                 result.Data.HasValue())
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };
