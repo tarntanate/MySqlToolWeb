@@ -46,7 +46,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
             if (result.IsSuccess &&
                 result.Data.HasValue())
                 return new ContentResult() { StatusCode = 200 };
-            return new ContentResult() { StatusCode = 404 };
+            return new ContentResult() { StatusCode = 404, Content = result.Message };
         }
     }
 }

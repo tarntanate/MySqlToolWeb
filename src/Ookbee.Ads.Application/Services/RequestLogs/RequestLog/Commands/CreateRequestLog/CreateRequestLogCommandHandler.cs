@@ -28,10 +28,7 @@ namespace Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.Create
             await TimeScaleDbRepo.SaveChangesAsync(cancellationToken);
 
             var result = new Response<bool>();
-            if (result.IsSuccess)
-                return result.OK(true);
-
-            return result.NotFound();
+            return result.OK(true);
         }
     }
 }
