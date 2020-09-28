@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
-using Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserById;
-using Ookbee.Ads.Application.Services.Identity.UserRole.Queries.GetUserRoleById;
+using Ookbee.Ads.Application.Services.Identity.User.Queries.IsExistsUserById;
+using Ookbee.Ads.Application.Services.Identity.UserRole.Queries.IsExistsUserRoleById;
 
 namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.DeleteUserRoleMapping
 {
@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Dele
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new GetUserByIdQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new IsExistsUserByIdQuery(value), cancellationToken);
                     if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Commands.Dele
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new GetUserRoleByIdQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new IsExistsUserRoleByIdQuery(value), cancellationToken);
                     if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
