@@ -31,8 +31,8 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGrou
 
             var result = new Response<List<PlatformReportDto>>();
             return (data != null)
-                ? result.Success(data)
-                : result.Fail(404, $"Fail");
+                ? result.OK(data)
+                : result.NotFound();
         }
     }
 }

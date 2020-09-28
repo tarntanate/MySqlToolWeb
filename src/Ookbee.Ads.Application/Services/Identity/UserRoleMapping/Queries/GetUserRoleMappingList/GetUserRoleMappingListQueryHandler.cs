@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUs
             );
 
             var result = new Response<IEnumerable<UserRoleMappingDto>>();
-            return result.Success(items);
+            return result.OK(items);
         }
     }
 }
