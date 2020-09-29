@@ -3,6 +3,7 @@ using Ookbee.Ads.Application.Business.Report.AdGroupReport;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupPlatformReportByGroupId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupReportByGroupId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByAdId;
+using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByCampaignId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByUnitId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Response;
@@ -26,12 +27,16 @@ namespace Ookbee.Ads.Services.Management.Controllers
 
         
         [HttpGet("adunit/{adUnitId}")]
-        public async Task<Response<List<AdUnitImpressionReportDto>>> GetAdImpressionReportByUnitId([FromRoute] int adUnitId, CancellationToken cancellationToken)
+        public async Task<Response<List<AdImpressionReportByUnitIdDto>>> GetAdImpressionReportByUnitId([FromRoute] int adUnitId, CancellationToken cancellationToken)
            => await Mediator.Send(new GetAdImpressionReportByUnitIdQuery(unitId: adUnitId), cancellationToken);
         
         [HttpGet("ad/{adId}")]
-        public async Task<Response<List<AdImpressionReportDto>>> GetAdImpressionReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
+        public async Task<Response<List<AdImpressionReportByAdIdDto>>> GetAdImpressionReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
            => await Mediator.Send(new GetAdImpressionReportByAdIdQuery(adId: adId), cancellationToken);
+
+         [HttpGet("campaign/{campaignId}")]
+        public async Task<Response<List<AdImpressionReportByCampaignIdDto>>> GetAdImpressionReportByCampaignId([FromRoute] int campaignId, CancellationToken cancellationToken)
+           => await Mediator.Send(new GetAdImpressionReportByCampaignIdQuery(campaignId: campaignId), cancellationToken);
 
     }
 }

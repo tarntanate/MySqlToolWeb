@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByAdId
 {
-    public class GetAdImpressionReportByAdIdQuery : IRequest<Response<List<AdImpressionReportDto>>>
+    public class GetAdImpressionReportByAdIdQuery : IRequest<Response<List<AdImpressionReportByAdIdDto>>>
     {
         public int AdId { get; set; }
 

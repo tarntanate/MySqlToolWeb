@@ -25,17 +25,17 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
         }
     }
 
-    public class AdUnitImpressionReportDto
+    public class AdImpressionReportByUnitIdDto
     {
         public DateTime Day { get; set; }
         public int AdUnitId { get; set; }
         public long Total { get; set; }
 
-        public static Expression<Func<AdImpressionReportEntity, AdUnitImpressionReportDto>> Projection
+        public static Expression<Func<AdImpressionReportEntity, AdImpressionReportByUnitIdDto>> Projection
         {
             get
             {
-                return entity => new AdUnitImpressionReportDto()
+                return entity => new AdImpressionReportByUnitIdDto()
                 {
                     Day = entity.Day,
                     AdUnitId = entity.AdUnitId,
@@ -45,20 +45,40 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
         }
     }
 
-     public class AdImpressionReportDto
+    public class AdImpressionReportByAdIdDto
     {
         public DateTime Day { get; set; }
         public int AdId { get; set; }
         public long Total { get; set; }
 
-        public static Expression<Func<AdImpressionReportEntity, AdImpressionReportDto>> Projection
+        public static Expression<Func<AdImpressionReportEntity, AdImpressionReportByAdIdDto>> Projection
         {
             get
             {
-                return entity => new AdImpressionReportDto()
+                return entity => new AdImpressionReportByAdIdDto()
                 {
                     Day = entity.Day,
                     AdId = entity.AdId,
+                    Total = entity.Total
+                };
+            }
+        }
+    }
+
+    public class AdImpressionReportByCampaignIdDto
+    {
+        public DateTime Day { get; set; }
+        public int CampaignId { get; set; }
+        public long Total { get; set; }
+
+        public static Expression<Func<AdImpressionReportEntity, AdImpressionReportByCampaignIdDto>> Projection
+        {
+            get
+            {
+                return entity => new AdImpressionReportByCampaignIdDto()
+                {
+                    Day = entity.Day,
+                    CampaignId = entity.CampaignId,
                     Total = entity.Total
                 };
             }

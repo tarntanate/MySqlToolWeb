@@ -7,6 +7,7 @@ namespace Ookbee.Ads.Domain.Entities.ReportEntities
     {
         public DateTime Day { get; set; }
         public int AdUnitId { get; set; }
+        public int CampaignId { get; set; }
         public int AdId { get; set; }
         public long Total { get; set; }
     }

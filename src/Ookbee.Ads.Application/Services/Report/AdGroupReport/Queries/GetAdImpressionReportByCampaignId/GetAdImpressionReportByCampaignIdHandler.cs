@@ -1,37 +1,35 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.TimescaleDb;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByAdId
+namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByCampaignId
 {
-    public class GetAdImpressionReportByAdIdHandler : IRequestHandler<GetAdImpressionReportByAdIdQuery, Response<List<AdImpressionReportByAdIdDto>>>
+    public class GetAdImpressionReportByCampaignIdHandler : IRequestHandler<GetAdImpressionReportByCampaignIdQuery, Response<List<AdImpressionReportByCampaignIdDto>>>
     {
         // private TimescaleDbRepository<AdGroupReportDto> AdGroupReportDbRepo { get; }
         private TimescaleDbContext dbContext { get; }
 
-        public GetAdImpressionReportByAdIdHandler(TimescaleDbContext dbContext)
+        public GetAdImpressionReportByCampaignIdHandler(TimescaleDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public async Task<Response<List<AdImpressionReportByAdIdDto>>> Handle(GetAdImpressionReportByAdIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<List<AdImpressionReportByCampaignIdDto>>> Handle(GetAdImpressionReportByCampaignIdQuery request, CancellationToken cancellationToken)
         {
             // var item = new List<AdGroupReportDto>();
             var sqlCommandText = $@"SELECT time_bucket('1 day', ""CreatedAt"" ) AS ""Day"",
-                ""AdId"", COUNT(*) as ""Total""
+                ""CampaignId"", COUNT(*) as ""Total""
                 FROM public.""AdImpressionLog""
-                WHERE ""AdId"" = " + request.AdId.ToString() + @"
-                GROUP BY ""Day"", ""AdId"" 
+                WHERE ""CampaignId"" = " + request.CampaignId.ToString() + @"
+                GROUP BY ""Day"", ""CampaignId"" 
                 ORDER BY ""Day"" ";
 
-            var data = await dbContext.AdImpressionReports.FromSqlRaw(sqlCommandText).Select(AdImpressionReportByAdIdDto.Projection).ToListAsync();
+            var data = await dbContext.AdImpressionReports.FromSqlRaw(sqlCommandText).Select(AdImpressionReportByCampaignIdDto.Projection).ToListAsync();
 
             // Execute a query.
             // using (var dr = await dbContext.Database.ExecuteSqlQueryAsync()
@@ -49,7 +47,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpr
             //     }
             // }
 
-            var result = new Response<List<AdImpressionReportByAdIdDto>>();
+            var result = new Response<List<AdImpressionReportByCampaignIdDto>>();
             return (data != null)
                 ? result.OK(data)
                 : result.NotFound();
