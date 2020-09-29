@@ -1,7 +1,7 @@
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 using System;
 
-namespace Ookbee.Ads.Domain.Entities.AdsEntities
+namespace Ookbee.Ads.Domain.Entities.ReportEntities
 {
     public class PlatformReportEntity : BaseEntity
     {

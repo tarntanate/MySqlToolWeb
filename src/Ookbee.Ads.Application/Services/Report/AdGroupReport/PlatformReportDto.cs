@@ -1,6 +1,4 @@
-using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
+using Ookbee.Ads.Domain.Entities.ReportEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Collections.Generic;

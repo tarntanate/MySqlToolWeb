@@ -3,10 +3,11 @@ using System;
 
 namespace Ookbee.Ads.Domain.Entities.ReportEntities
 {
-    public class AdGroupReportEntity : BaseEntity
+    public class AdImpressionReportEntity : BaseEntity
     {
         public DateTime Day { get; set; }
-        public int AdGroupId { get; set; }
+        public int AdUnitId { get; set; }
+        public int AdId { get; set; }
         public long Total { get; set; }
     }
 }
