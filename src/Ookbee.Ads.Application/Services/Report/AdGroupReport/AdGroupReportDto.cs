@@ -58,7 +58,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
                 return entity => new AdImpressionReportDto()
                 {
                     Day = entity.Day,
-                    AdId = entity.AdUnitId,
+                    AdId = entity.AdId,
                     Total = entity.Total
                 };
             }
