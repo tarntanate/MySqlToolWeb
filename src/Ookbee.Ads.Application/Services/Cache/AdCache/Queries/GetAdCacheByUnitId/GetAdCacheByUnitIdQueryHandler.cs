@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
             if (request.UserId.HasValue())
             {
                 var isExistsAdUserResponse = await Mediator.Send(new IsExistsAdUserCacheByIdQuery(request.UserId.Value), cancellationToken);
-                if (!isExistsAdUserResponse.IsSuccess)
+                if (isExistsAdUserResponse.IsSuccess)
                     redisKey = CacheKey.UnitsAdIdsPreview(request.AdUnitId, request.Platform);
             }
 
