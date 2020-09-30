@@ -38,8 +38,8 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache
             var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
             var analytics = new AnalyticsCacheDto()
             {
-                Clicks = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={AdStatsType.Click}&campaignId={campaignId}".ToLower() },
-                Impressions = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={AdStatsType.Impression}&campaignId={campaignId}".ToLower() }
+                Clicks = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={AdStatsType.Click}&campaignId={campaignId}&platform=_PLATFORM_&ookbeeId=_OBID_".ToLower() },
+                Impressions = new List<string>() { $"{baseUrl}/api/ads/{adId}/stats?type={AdStatsType.Impression}&campaignId={campaignId}&platform=_PLATFORM_&ookbeeId=_OBID_".ToLower() }
             };
 
             if (impressions.HasValue())
