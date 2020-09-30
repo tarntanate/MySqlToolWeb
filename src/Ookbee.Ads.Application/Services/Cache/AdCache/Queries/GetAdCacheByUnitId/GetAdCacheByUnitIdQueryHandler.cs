@@ -31,15 +31,13 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
         {
             await Mediator.Send(new IncrementAdUnitStatsCacheCommand(AdStatsType.Request, request.AdUnitId), cancellationToken);
 
-            var redisKey = string.Empty;
+            var redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
             var redisValue = string.Empty;
 
             if (request.UserId.HasValue())
             {
                 var isExistsAdUserResponse = await Mediator.Send(new IsExistsAdUserCacheByIdQuery(request.UserId.Value), cancellationToken);
-                if (isExistsAdUserResponse.IsSuccess)
-                    redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
-                else
+                if (!isExistsAdUserResponse.IsSuccess)
                     redisKey = CacheKey.UnitsAdIdsPreview(request.AdUnitId, request.Platform);
             }
 

@@ -12,9 +12,9 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     public class UnitsController : ApiController
     {
         [HttpGet("{unitId}/ad")]
-        public async Task<ContentResult> GetAdAssetByUnitId([FromQuery] string platform, [FromRoute] long unitId, [FromRoute] long? userId, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdAssetByUnitId([FromQuery] string platform, [FromRoute] long unitId, [FromQuery] long? ookbeeId, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new GetAdByUnitIdQuery(platform, unitId, userId), cancellationToken);
+            var result = await Mediator.Send(new GetAdByUnitIdQuery(platform, unitId, ookbeeId), cancellationToken);
             if (result.IsSuccess && result.Data.HasValue())
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };
