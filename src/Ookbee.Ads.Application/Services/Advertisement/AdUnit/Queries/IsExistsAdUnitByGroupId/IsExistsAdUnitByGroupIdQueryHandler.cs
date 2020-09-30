@@ -5,23 +5,23 @@ using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsAdUnitByAdGroup
+namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsAdUnitByAdGroupId
 {
-    public class IsExistsAdUnitByAdGroupQueryHandler : IRequestHandler<IsExistsAdUnitByAdGroupQuery, Response<bool>>
+    public class IsExistsAdUnitByGroupIdQueryHandler : IRequestHandler<IsExistsAdUnitByGroupIdQuery, Response<bool>>
     {
         private readonly AdsDbRepository<AdUnitEntity> AdUnitDbRepo;
 
-        public IsExistsAdUnitByAdGroupQueryHandler(
+        public IsExistsAdUnitByGroupIdQueryHandler(
             AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
             AdUnitDbRepo = adUnitDbRepo;
         }
 
-        public async Task<Response<bool>> Handle(IsExistsAdUnitByAdGroupQuery request, CancellationToken cancellationToken)
+        public async Task<Response<bool>> Handle(IsExistsAdUnitByGroupIdQuery request, CancellationToken cancellationToken)
         {
             var isExists = await AdUnitDbRepo.AnyAsync(f =>
-                f.AdNetwork == request.AdNetworkName &&
                 f.AdGroupId == request.AdGroupId &&
+                f.AdNetwork == request.AdNetworkName &&
                 f.DeletedAt == null
             );
 

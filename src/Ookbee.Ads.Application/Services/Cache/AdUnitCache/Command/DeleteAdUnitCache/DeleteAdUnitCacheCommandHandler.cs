@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
                     if (platform != AdPlatform.Unknown)
                     {
                         var platformName = platform.ToString();
-                        var redisKey = CacheKey.Units(adUnit.AdGroup.Id);
+                        var redisKey = CacheKey.GroupUnitPlatforms(adUnit.AdGroup.Id);
                         var hashField = platform.ToString();
                         var hashValue = await AdsRedis.HashGetAsync(redisKey, hashField);
                         if (hashValue.HasValue())

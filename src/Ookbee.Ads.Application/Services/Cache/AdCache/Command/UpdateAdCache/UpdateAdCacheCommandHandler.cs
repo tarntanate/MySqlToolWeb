@@ -46,12 +46,12 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.UpdateAdCache
                     {
                         if (platform != AdPlatform.Unknown)
                         {
-                            var redisKey = CacheKey.Ad(ad.Id);
+                            var redisKey = CacheKey.AdPlatforms(ad.Id);
                             var hashField = platform.ToString();
                             var hashValue = (RedisValue)JsonHelper.Serialize(adCache);
                             await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
 
-                            redisKey = CacheKey.UnitsAdIds(ad.AdUnit.Id, platform);
+                            redisKey = CacheKey.UnitAdIds(ad.AdUnit.Id, platform);
                             hashValue = (RedisValue)ad.Id;
                             if (getAdById.Data.Platforms.Any(x => x == platform))
                                 await AdsRedis.SetAddAsync(redisKey, hashValue);

@@ -7,6 +7,7 @@ namespace Ookbee.Ads.Common.Response
     public class Response<T>
     {
         public bool IsSuccess { get; private set; } = false;
+        public bool IsFail => !IsSuccess;
         public string Message { get; private set; }
         public HttpStatusCode StatusCode { get; private set; } = HttpStatusCode.OK;
         public Dictionary<string, string[]> Reasons { get; private set; }

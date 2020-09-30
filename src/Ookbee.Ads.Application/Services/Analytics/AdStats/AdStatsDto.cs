@@ -8,6 +8,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats
     {
         public long Id { get; set; }
         public long AdId { get; set; }
+        public long Quota { get; set; }
         public long Impression { get; set; }
         public long Click { get; set; }
 
@@ -19,8 +20,9 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats
                 {
                     Id = entity.Id,
                     AdId = entity.AdId,
-                    Impression = entity.Impression,
+                    Quota = entity.Quota,
                     Click = entity.Click,
+                    Impression = entity.Impression,
                 };
             }
         }

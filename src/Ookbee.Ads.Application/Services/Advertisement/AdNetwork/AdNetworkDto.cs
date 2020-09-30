@@ -9,6 +9,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork
     public class AdNetworkDto : DefaultDto
     {
         public AdPlatform Platform { get; set; }
+        public long AdUnitId { get; set; }
+        public string AdNetwork { get; set; }
         public string AdNetworkUnitId { get; set; }
 
         public static Expression<Func<AdNetworkEntity, AdNetworkDto>> Projection
@@ -19,6 +21,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork
                 {
                     Id = entity.Id,
                     Platform = entity.Platform,
+                    AdUnitId = entity.AdUnit.Id,
+                    AdNetwork = entity.AdUnit.AdNetwork,
                     AdNetworkUnitId = entity.AdNetworkUnitId,
                 };
             }

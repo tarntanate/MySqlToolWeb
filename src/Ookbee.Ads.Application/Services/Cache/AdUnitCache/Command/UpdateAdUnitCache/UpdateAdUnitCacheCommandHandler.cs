@@ -85,7 +85,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.UpdateAdUni
                                     }).ToList();
                             }
                         }
-                        var redisKey = CacheKey.Units(request.AdGroupId);
+                        var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
                         var hashField = platformName;
                         var hashValue = JsonHelper.Serialize(adUnits);
                         await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);

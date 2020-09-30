@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.GetAdU
         {
             var result = new Response<Dictionary<string, long>>();
 
-            var redisKey = CacheKey.UnitsStats(request.AdUnitId);
+            var redisKey = CacheKey.UnitStats(request.AdUnitId);
             var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
             if (hashEntries.HasValue())
             {

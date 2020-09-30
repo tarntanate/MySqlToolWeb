@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ookbee.Ads.Application.Services.Cache.AdGroupRedis.Commands.UpdateAdGroupStatsRedis;
 using Ookbee.Ads.Application.Services.Cache.AdGroupStatsCache.Commands.IncrementAdGroupStatCache;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Extensions;
@@ -15,7 +16,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
         [HttpGet]
         public async Task<ContentResult> UpdateGroupStats([FromRoute] long adGroupId, [FromQuery] string platform, [FromQuery] string type, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new IncrementAdGroupStatsCacheCommand(type.ToEnum<AdStatsType>(), adGroupId), cancellationToken);
+            var result = await Mediator.Send(new UpdateAdGroupStatsRedisCommand(adGroupId, type.ToEnum<AdStatsType>()), cancellationToken);
             if (result.IsSuccess &&
                 result.Data.HasValue())
                 return new ContentResult() { StatusCode = 200 };

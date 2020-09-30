@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache
                 return adUnit.Id.ToString();
             }
 
-            return adUnit?.AdNetwork?.UnitIds?.FirstOrDefault()?.AdNetworkUnitId;
+            return adUnit?.AdNetwork?.AdNetworkUnits?.FirstOrDefault()?.AdNetworkUnitId;
         }
 
         private AnalyticsCacheDto AnalyticsConverter(AdUnitDto adUnit)

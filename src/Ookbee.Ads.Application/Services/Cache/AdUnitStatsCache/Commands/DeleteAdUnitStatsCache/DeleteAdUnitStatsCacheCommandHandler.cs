@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.Delete
 
         public async Task<Unit> Handle(DeleteAdUnitStatsCacheCommand request, CancellationToken cancellationToken)
         {
-            var redisKey = CacheKey.UnitsStats(request.AdUnitId);
+            var redisKey = CacheKey.UnitStats(request.AdUnitId);
             await AdsRedis.KeyDeleteAsync(redisKey);
 
             return Unit.Value;

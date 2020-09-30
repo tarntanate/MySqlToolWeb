@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsAdUnitByAdGroup
+namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsAdUnitByAdGroupId
 {
-    public class IsExistsAdUnitByAdGroupQueryValidator : AbstractValidator<IsExistsAdUnitByAdGroupQuery>
+    public class IsExistsAdUnitByGroupIdQueryValidator : AbstractValidator<IsExistsAdUnitByGroupIdQuery>
     {
-        public IsExistsAdUnitByAdGroupQueryValidator()
+        public IsExistsAdUnitByGroupIdQueryValidator()
         {
             RuleFor(p => p.AdNetworkName)
                 .NotNull()

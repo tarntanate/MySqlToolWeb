@@ -46,14 +46,14 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.CreateAdCache
                     {
                         var obj = PrepareAnalytics(ad, platform);
 
-                        var redisKey = CacheKey.Ad(getAdById.Data.Id);
+                        var redisKey = CacheKey.AdPlatforms(getAdById.Data.Id);
                         var hashField = platform.ToString();
                         var hashValue = (RedisValue)JsonHelper.Serialize(obj);
                         await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);
 
                         redisKey = getAdById.Data.Status == AdStatusType.Preview
                             ? CacheKey.UnitsAdIdsPreview(getAdById.Data.AdUnit.Id, platform)
-                            : CacheKey.UnitsAdIds(getAdById.Data.AdUnit.Id, platform);
+                            : CacheKey.UnitAdIds(getAdById.Data.AdUnit.Id, platform);
                         hashValue = (RedisValue)getAdById.Data.Id;
                         await AdsRedis.SetAddAsync(redisKey, hashValue);
                     }

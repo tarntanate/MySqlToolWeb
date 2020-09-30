@@ -70,15 +70,14 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
                         foreach (var adUnit in adUnits)
                         {
                             var temp = adUnit.Clone();
-                            temp.AdNetwork.UnitIds = adUnit.AdNetwork.UnitIds
-                                .Where(unitId => unitId.DeletedAt == null && unitId.Platform == platform).ToList();
+                            temp.AdNetwork.AdNetworkUnits = adUnit.AdNetwork.AdNetworkUnits.Where(unit => unit.Platform == platform).ToList();
                             var item = Mapper.Map<AdUnitCacheDto>(temp);
                             cacheValue.Add(item);
                         }
                         if (cacheValue.HasValue())
                         {
                             var obj = PrepareAnalytics(cacheValue, platform);
-                            var redisKey = CacheKey.Units(request.AdGroupId);
+                            var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
                             var hashField = platform.ToString();
                             var hashValue = JsonHelper.Serialize(obj);
                             await AdsRedis.HashSetAsync(redisKey, hashField, hashValue);

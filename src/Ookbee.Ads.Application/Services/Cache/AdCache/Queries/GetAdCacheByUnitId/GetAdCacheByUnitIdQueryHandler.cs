@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
             {
                 var isExistsAdUserResponse = await Mediator.Send(new IsExistsAdUserCacheByIdQuery(request.UserId.Value), cancellationToken);
                 if (isExistsAdUserResponse.IsSuccess)
-                    redisKey = CacheKey.UnitsAdIds(request.AdUnitId, request.Platform);
+                    redisKey = CacheKey.UnitAdIds(request.AdUnitId, request.Platform);
                 else
                     redisKey = CacheKey.UnitsAdIdsPreview(request.AdUnitId, request.Platform);
             }
@@ -48,7 +48,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdCache.Commands.GetAdByUnitId
             {
                 var adIds = setMembers.Select(adId => (long)adId);
                 var adId = adIds.OrderBy(adId => Guid.NewGuid()).First();
-                redisKey = CacheKey.Ad(adId);
+                redisKey = CacheKey.AdPlatforms(adId);
                 redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
             }
 

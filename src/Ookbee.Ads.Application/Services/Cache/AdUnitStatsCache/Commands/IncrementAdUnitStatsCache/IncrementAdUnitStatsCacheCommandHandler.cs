@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitStatsCache.Commands.Increm
         public async Task<Response<bool>> Handle(IncrementAdUnitStatsCacheCommand request, CancellationToken cancellationToken)
         {
 
-            var redisKey = CacheKey.UnitsStats(request.AdUnitId);
+            var redisKey = CacheKey.UnitStats(request.AdUnitId);
             var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
             if (!keyExists)
             {
