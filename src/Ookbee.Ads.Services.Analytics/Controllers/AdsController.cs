@@ -18,6 +18,9 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
         [HttpGet]
         public async Task<ContentResult> UpdateAdStats([FromRoute] long adId, [FromQuery] string type, [FromQuery] AdPlatform platform, [FromQuery] int campaignId, [FromQuery] int unitId, CancellationToken cancellationToken)
         {
+            if (platform == AdPlatform.Unknown) {
+                return new ContentResult() { StatusCode = 500, Content = "Require platform parameter!" };
+            }
             var _type = type.ToEnum<AdStatsType>();
             if (_type == AdStatsType.Impression)
             {
