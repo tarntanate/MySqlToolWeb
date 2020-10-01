@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.UpdateAdUnitStatsRedis;
+using Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.IsExistsAdUserPreviewRedis;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
@@ -32,6 +33,15 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
 
             var redisKey = CacheKey.UnitAdIds(request.AdUnitId, request.Platform);
             var redisValue = string.Empty;
+
+            if (request.UserId != null)
+            {
+                var isExistsAdUserPreview = await Mediator.Send(new IsExistsAdUserPreviewRedisQuery(request.UserId.Value), cancellationToken);
+                if (isExistsAdUserPreview.IsSuccess)
+                {
+                    redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, request.Platform);
+                }
+            }
 
             var setMembers = await AdsRedis.SetMembersAsync(redisKey);
             if (setMembers.HasValue())

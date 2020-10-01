@@ -40,6 +40,8 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static string UnitStats(long adUnitId)
             => $"units/{adUnitId}/stats".ToUpper();
 
+        public static string UserIdsPreview()
+            => $"users/ids/preview".ToUpper();
 
 
 
@@ -64,7 +66,5 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static string UnitsAdIdsPreview(long adUnitId, AdPlatform platform)
             => $"units/{adUnitId}/ads/{platform}/preview".ToUpper();
 
-        public static string UserPreview()
-            => $"users/preview".ToUpper();
     }
 }

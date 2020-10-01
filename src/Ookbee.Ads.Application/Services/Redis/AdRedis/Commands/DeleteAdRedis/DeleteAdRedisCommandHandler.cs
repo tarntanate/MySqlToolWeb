@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
 
         public async Task<Unit> Handle(DeleteAdRedisCommand request, CancellationToken cancellationToken)
         {
-            var getAdIdList = await Mediator.Send(new GetAdIdListRedisCommand(request.AdUnitId), cancellationToken);
+            var getAdIdList = await Mediator.Send(new GetAdIdListRedisQuery(request.AdUnitId), cancellationToken);
             if (getAdIdList.IsSuccess)
             {
                 foreach (var adId in getAdIdList.Data)

@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGroupRedis;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.DeleteAdGroupRedis;
+using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUserPreviewRedis;
+using Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.CreateAdUserPreviewRedis;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using System;
@@ -36,6 +38,8 @@ namespace Ookbee.Ads.Application.Infrastructure
                             var caculatedAt = MechineDateTime.Date;
                             await mediator.Send(new DeleteAdGroupRedisCommand(), cancellationToken);
                             await mediator.Send(new CreateAdGroupRedisCommand(caculatedAt), cancellationToken);
+                            await mediator.Send(new DeleteAdUserPreviewRedisCommand(), cancellationToken);
+                            await mediator.Send(new CreateAdUserPreviewRedisCommand(), cancellationToken);
                             var nowDateTime = MechineDateTime.Now;
                             var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
                             var timeout = nextDateTime - nowDateTime;

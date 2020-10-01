@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdUnitIdListRedis
 {
-    public class GetAdUnitIdListRedisCommand : IRequest<Response<IEnumerable<long>>>
+    public class GetAdUnitIdListRedisQuery : IRequest<Response<IEnumerable<long>>>
     {
         public long AdUnitId { get; set; }
 
-        public GetAdUnitIdListRedisCommand(long adUnitId)
+        public GetAdUnitIdListRedisQuery(long adUnitId)
         {
             AdUnitId = adUnitId;
         }
