@@ -8,17 +8,13 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdSta
     {
         public long AdId { get; set; }
         public DateTimeOffset CaculatedAt { get; set; }
-        public long Impression { get; set; }
         public long Quota { get; set; }
-        public long Click { get; set; }
 
-        public CreateAdStatsCommand(long adId, DateTimeOffset caculatedAt, long quota, long impression, long click)
+        public CreateAdStatsCommand(long adId, DateTimeOffset caculatedAt, long quota)
         {
             AdId = adId;
             CaculatedAt = caculatedAt;
             Quota = quota;
-            Impression = impression;
-            Click = click;
         }
     }
 }

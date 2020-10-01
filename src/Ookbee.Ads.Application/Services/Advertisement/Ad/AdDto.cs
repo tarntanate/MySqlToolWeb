@@ -78,7 +78,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
                         AdNetwork = new AdUnitNetworkDto()
                         {
                             Name = entity.AdUnit.AdNetwork,
-                            UnitIds = entity.AdUnit.AdNetworks.Select(x => new AdUnitNetworkUnitIdDto()
+                            AdNetworkUnits = entity.AdUnit.AdNetworks.Select(x => new AdUnitNetworkUnitIdDto()
                             {
                                 Id = x.Id,
                                 Platform = x.Platform,

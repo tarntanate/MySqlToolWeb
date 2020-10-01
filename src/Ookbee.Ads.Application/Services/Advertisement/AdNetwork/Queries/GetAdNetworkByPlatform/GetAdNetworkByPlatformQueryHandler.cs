@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdNetworkByPlatform
 {
-    public class GetAdNetworkByPlatformQueryHandler : IRequestHandler<GetAdNetworkByPlatformQuery, Response<AdNetworkDto>>
+    public class GetAdNetworkListByGroupIdQueryHandler : IRequestHandler<GetAdNetworkByPlatformQuery, Response<AdNetworkDto>>
     {
         private readonly AdsDbRepository<AdNetworkEntity> AdNetworkDbRepo;
 
-        public GetAdNetworkByPlatformQueryHandler(
+        public GetAdNetworkListByGroupIdQueryHandler(
             AdsDbRepository<AdNetworkEntity> adNetworkDbRepo)
         {
             AdNetworkDbRepo = adNetworkDbRepo;
@@ -22,6 +22,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
             var item = await AdNetworkDbRepo.FirstAsync(
                 selector: AdNetworkDto.Projection,
                 filter: f =>
+                    f.AdUnitId == request.AdUnitId &&
                     f.Platform == request.Platform &&
                     f.DeletedAt == null
             );

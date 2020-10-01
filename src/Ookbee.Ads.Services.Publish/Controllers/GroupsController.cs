@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateGroupRequestLog;
-using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitCacheByGroupId;
+using Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupId;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Models;
@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
 
-            var result = await Mediator.Send(new GetAdUnitCacheByGroupIdQuery(platform: platformString, adGroupId: groupId), cancellationToken);
+            var result = await Mediator.Send(new GetAdUnitByGroupIdQuery(platformString, groupId), cancellationToken);
             if (result.IsSuccess &&
                 result.Data.HasValue())
                 return Content(result.Data, "application/json");
