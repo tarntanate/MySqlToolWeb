@@ -33,14 +33,15 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Commands.Updat
                         context.AddFailure(result.Message);
                 });
 
-            RuleFor(p => p.Platform)
+            RuleFor(p => new { p.AdUnitId, p.Platform })
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var validate = context.InstanceToValidate as UpdateAdNetworkCommand;
-                    var result = await Mediator.Send(new GetAdNetworkByPlatformQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new GetAdNetworkByPlatformQuery(value.AdUnitId, value.Platform), cancellationToken);
                     if (result.IsSuccess &&
                         result.Data.Id != validate.Id &&
-                        result.Data.Platform == value)
+                        result.Data.AdUnitId == value.AdUnitId &&
+                        result.Data.Platform == value.Platform)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
         }

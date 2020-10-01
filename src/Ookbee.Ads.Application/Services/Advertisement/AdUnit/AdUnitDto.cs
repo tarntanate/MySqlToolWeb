@@ -43,13 +43,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
                     AdNetwork = new AdUnitNetworkDto()
                     {
                         Name = entity.AdNetwork,
-                        UnitIds = entity.AdNetworks
+                        AdNetworkUnits = entity.AdNetworks
                             .Where(item => item.DeletedAt == null)
-                            .Select(x => new AdUnitNetworkUnitIdDto()
+                            .Select(adNetwork => new AdUnitNetworkUnitIdDto()
                             {
-                                Id = x.Id,
-                                Platform = x.Platform,
-                                AdNetworkUnitId = x.AdNetworkUnitId
+                                Id = adNetwork.Id,
+                                Platform = adNetwork.Platform,
+                                AdNetworkUnitId = adNetwork.AdNetworkUnitId
                             })
                     },
                     SortSeq = entity.SortSeq,
