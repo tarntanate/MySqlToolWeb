@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.CreateAdUnitStats;
-using Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUnitStatsByKey;
+using Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUnitStats;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
 
         public async Task<Unit> Handle(CreateAdUnitStatsRedisCommand request, CancellationToken cancellationToken)
         {
-            var getAdUnitStats = await Mediator.Send(new GetAdUnitStatsByKeyQuery(request.AdUnitId, request.CaculatedAt), cancellationToken);
+            var getAdUnitStats = await Mediator.Send(new GetAdUnitStatsQuery(request.AdUnitId, request.CaculatedAt), cancellationToken);
             if (getAdUnitStats.IsFail)
             {
                 var data = getAdUnitStats.Data;

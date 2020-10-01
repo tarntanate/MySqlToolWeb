@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroupIdListRedis
 {
-    public class GetAdGroupIdListRedisCommandHandler : IRequestHandler<GetAdGroupIdListRedisCommand, Response<IEnumerable<long>>>
+    public class GetAdGroupIdListRedisQueryHandler : IRequestHandler<GetAdGroupIdListRedisQuery, Response<IEnumerable<long>>>
     {
         private readonly IDatabase AdsRedis;
 
-        public GetAdGroupIdListRedisCommandHandler(
+        public GetAdGroupIdListRedisQueryHandler(
             AdsRedisContext adsRedis)
         {
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Response<IEnumerable<long>>> Handle(GetAdGroupIdListRedisCommand request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<long>>> Handle(GetAdGroupIdListRedisQuery request, CancellationToken cancellationToken)
         {
             var items = new List<long>();
             var redisKey = CacheKey.GroupIds();

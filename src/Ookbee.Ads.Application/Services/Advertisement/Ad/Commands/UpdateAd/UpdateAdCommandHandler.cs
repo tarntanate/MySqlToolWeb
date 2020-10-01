@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Ookbee.Ads.Application.Services.Cache.AdCache.Commands.UpdateAdCache;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -30,7 +29,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
             var entity = Mapper.Map<AdEntity>(request);
             await AdDbRepo.UpdateAsync(entity.Id, entity);
             await AdDbRepo.SaveChangesAsync(cancellationToken);
-            await Mediator.Send(new UpdateAdCacheCommand(entity.Id), cancellationToken);
             return new Response<bool>().OK(true);
         }
     }

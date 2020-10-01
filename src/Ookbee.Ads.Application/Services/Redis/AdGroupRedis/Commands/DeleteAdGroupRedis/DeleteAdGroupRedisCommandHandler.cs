@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.DeleteAdGr
 
         public async Task<Unit> Handle(DeleteAdGroupRedisCommand request, CancellationToken cancellationToken)
         {
-            var getAdGroupIdList = await Mediator.Send(new GetAdGroupIdListRedisCommand(), cancellationToken);
+            var getAdGroupIdList = await Mediator.Send(new GetAdGroupIdListRedisQuery(), cancellationToken);
             if (getAdGroupIdList.IsSuccess)
             {
                 var adGroupIds = getAdGroupIdList.Data;
@@ -35,9 +35,6 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.DeleteAdGr
                     var isExistsAdGroupById = await Mediator.Send(new IsExistsAdGroupByIdQuery(adGroupId));
                     if (isExistsAdGroupById.IsFail)
                     {
-                        redisKey = CacheKey.GroupIds();
-                        await AdsRedis.SetRemoveAsync(redisKey, adGroupId, CommandFlags.FireAndForget);
-
                         redisKey = CacheKey.GroupStats(adGroupId);
                         await AdsRedis.KeyDeleteAsync(redisKey);
 
@@ -46,6 +43,9 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.DeleteAdGr
 
                         redisKey = CacheKey.GroupUnitPlatforms(adGroupId);
                         await AdsRedis.KeyDeleteAsync(redisKey);
+
+                        redisKey = CacheKey.GroupIds();
+                        await AdsRedis.SetRemoveAsync(redisKey, adGroupId, CommandFlags.FireAndForget);
                     }
                     await Mediator.Send(new DeleteAdUnitRedisCommand(adGroupId));
                 }

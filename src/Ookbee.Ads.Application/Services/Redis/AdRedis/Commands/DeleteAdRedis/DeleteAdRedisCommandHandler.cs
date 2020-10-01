@@ -34,8 +34,6 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
             var getAdIdList = await Mediator.Send(new GetAdIdListRedisCommand(request.AdUnitId), cancellationToken);
             if (getAdIdList.IsSuccess)
             {
-                var redisKey = string.Empty;
-                var redisValue = string.Empty;
                 foreach (var adId in getAdIdList.Data)
                 {
                     var isExists = await AdDbRepo.AnyAsync(
@@ -46,8 +44,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                             f.AdUnit.AdGroup.DeletedAt == null);
                     if (!isExists)
                     {
-                        redisKey = CacheKey.AdIds();
-                        await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
+                        string redisKey;
 
                         redisKey = CacheKey.AdPlatforms(adId);
                         await AdsRedis.KeyDeleteAsync(redisKey);
@@ -55,8 +52,18 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                         redisKey = CacheKey.UnitAdIds(request.AdUnitId);
                         await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
 
+                        var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
+                        foreach (var platform in platforms)
+                        {
+                            redisKey = CacheKey.UnitAdIds(request.AdUnitId, platform);
+                            await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
+                        }
+                        
                         redisKey = CacheKey.AdStats(adId);
                         await AdsRedis.KeyDeleteAsync(redisKey);
+
+                        redisKey = CacheKey.AdIds();
+                        await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
                     }
                 }
             }

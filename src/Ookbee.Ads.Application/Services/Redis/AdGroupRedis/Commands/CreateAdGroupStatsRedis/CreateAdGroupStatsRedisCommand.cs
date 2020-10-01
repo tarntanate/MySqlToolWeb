@@ -7,13 +7,11 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
     {
         public DateTimeOffset CaculatedAt { get; private set; }
         public long AdGroupId { get; private set; }
-        public long Request { get; private set; }
 
-        public CreateAdGroupStatsRedisCommand(DateTimeOffset caculatedAt, long adGroupId, long request)
+        public CreateAdGroupStatsRedisCommand(DateTimeOffset caculatedAt, long adGroupId)
         {
             CaculatedAt = caculatedAt;
             AdGroupId = adGroupId;
-            Request = request;
         }
     }
 }

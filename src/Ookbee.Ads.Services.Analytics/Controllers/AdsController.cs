@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Services.Cache.AdStatsCache.Commands.IncrementAdStatsCache;
 using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.UpdateAdStatsRedis;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Extensions;

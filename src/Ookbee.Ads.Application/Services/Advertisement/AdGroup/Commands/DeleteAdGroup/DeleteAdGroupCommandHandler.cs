@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.DeleteAdGroupCache;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -23,7 +22,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.DeleteA
 
         public async Task<Response<bool>> Handle(DeleteAdGroupCommand request, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new DeleteAdGroupCacheCommand(request.Id), cancellationToken);
             await AdGroupDbRepo.DeleteAsync(request.Id);
             await AdGroupDbRepo.SaveChangesAsync(cancellationToken);
             return new Response<bool>().OK(true);

@@ -34,15 +34,15 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
                 var getAdGroupIdList = await Mediator.Send(new GetAdGroupIdListQuery(start, length, null, null), cancellationToken);
                 if (getAdGroupIdList.IsSuccess)
                 {
-                    var items = getAdGroupIdList.Data;
+                    var adGroupIds = getAdGroupIdList.Data;
                     var redisKey = CacheKey.GroupIds();
-                    foreach (var adGroupId in items)
+                    foreach (var adGroupId in adGroupIds)
                     {
                         await AdsRedis.SetAddAsync(redisKey, adGroupId, CommandFlags.FireAndForget);
-                        await Mediator.Send(new CreateAdGroupStatsRedisCommand(request.CaculatedAt, adGroupId, 0));
+                        await Mediator.Send(new CreateAdGroupStatsRedisCommand(request.CaculatedAt, adGroupId));
                         await Mediator.Send(new CreateAdUnitRedisCommand(request.CaculatedAt, adGroupId));
                     }
-                    next = items.Count() == length ? true : false;
+                    next = adGroupIds.Count() == length ? true : false;
                 }
             }
             while (next);

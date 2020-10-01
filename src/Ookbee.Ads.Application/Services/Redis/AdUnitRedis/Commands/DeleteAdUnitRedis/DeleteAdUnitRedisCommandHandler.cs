@@ -36,8 +36,6 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUni
             if (getAdUnitIdList.IsSuccess)
             {
                 var adUnitIds = getAdUnitIdList.Data;
-                var redisKey = string.Empty;
-                var redisValue = string.Empty;
                 foreach (var adUnitId in adUnitIds)
                 {
                     var isExists = await AdUnitDbRepo.AnyAsync(
@@ -47,8 +45,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUni
                             f.AdGroup.DeletedAt == null);
                     if (!isExists)
                     {
-                        redisKey = CacheKey.UnitIds();
-                        await AdsRedis.SetRemoveAsync(redisKey, adUnitId, CommandFlags.FireAndForget);
+                        string redisKey;
 
                         redisKey = CacheKey.UnitStats(adUnitId);
                         await AdsRedis.KeyDeleteAsync(redisKey);
@@ -59,6 +56,9 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUni
                             redisKey = CacheKey.UnitAdIds(adUnitId, platform);
                             await AdsRedis.KeyDeleteAsync(redisKey);
                         }
+
+                        redisKey = CacheKey.UnitIds();
+                        await AdsRedis.SetRemoveAsync(redisKey, adUnitId, CommandFlags.FireAndForget);
                     }
                     await Mediator.Send(new DeleteAdRedisCommand(adUnitId));
                 }

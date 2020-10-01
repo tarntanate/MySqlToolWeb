@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroupIdListRedis
 {
-    public class GetAdGroupIdListRedisCommand : IRequest<Response<IEnumerable<long>>>
+    public class GetAdGroupIdListRedisQuery : IRequest<Response<IEnumerable<long>>>
     {
-        public GetAdGroupIdListRedisCommand()
+        public GetAdGroupIdListRedisQuery()
         {
 
         }
