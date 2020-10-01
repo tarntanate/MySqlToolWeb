@@ -52,10 +52,16 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                         redisKey = CacheKey.UnitAdIds(request.AdUnitId);
                         await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
 
+                        redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId);
+                        await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
+
                         var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                         foreach (var platform in platforms)
                         {
                             redisKey = CacheKey.UnitAdIds(request.AdUnitId, platform);
+                            await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
+                        
+                            redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, platform);
                             await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
                         }
                         

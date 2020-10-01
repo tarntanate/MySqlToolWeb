@@ -10,6 +10,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
     public class AdPlatformDto : DefaultDto
     {
         public IEnumerable<AdPlatform> Platforms { get; set; }
+        public AdStatusType Status { get; set; }
 
         public static Expression<Func<AdEntity, AdPlatformDto>> Projection
         {
@@ -18,6 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
                 return entity => new AdPlatformDto()
                 {
                     Id = entity.Id,
+                    Status = entity.Status,
                     Platforms = entity.Platforms
                 };
             }
