@@ -13,6 +13,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.UpdateAdUni
                 .Custom((value, context) =>
                 {
                     if (value != AdStatsType.Request &&
+                        value != AdStatsType.Click &&
+                        value != AdStatsType.Impression &&
                         value != AdStatsType.Fill)
                     {
                         context.AddFailure($"Only 'Request' and 'Fill' status type are allowed.");
