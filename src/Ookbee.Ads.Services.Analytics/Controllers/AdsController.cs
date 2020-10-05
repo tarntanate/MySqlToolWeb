@@ -16,8 +16,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
         public async Task<ContentResult> UpdateAdStats([FromRoute] long adId, [FromQuery] string type, [FromQuery] string platform, CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(new UpdateAdStatsRedisCommand(adId, type.ToEnum<AdStatsType>(), 1), cancellationToken);
-            if (result.IsSuccess &&
-                result.Data.HasValue())
+            if (result.IsSuccess)
                 return new ContentResult() { StatusCode = 200 };
             return new ContentResult() { StatusCode = 404 };
         }
