@@ -47,8 +47,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
             }
          
             var result = await Mediator.Send(new UpdateAdUnitStatsRedisCommand(adUnitId, type.ToEnum<AdStatsType>()), cancellationToken);
-            if (result.IsSuccess &&
-                result.Data.HasValue())
+            if (result.IsSuccess)
                 return new ContentResult() { StatusCode = 200 };
             return new ContentResult() { StatusCode = 404, Content = result.Message };
         }

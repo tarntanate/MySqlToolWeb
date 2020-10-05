@@ -15,8 +15,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         public async Task<ContentResult> GetAdByUnitId([FromQuery] string platform, [FromRoute] long unitId, [FromQuery] long? ookbeeId, CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(new GetAdRedisQuery(platform, unitId, userId: ookbeeId), cancellationToken);
-            if (result.IsSuccess &&
-                result.Data.HasValue())
+            if (result.IsSuccess)
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };
         }
