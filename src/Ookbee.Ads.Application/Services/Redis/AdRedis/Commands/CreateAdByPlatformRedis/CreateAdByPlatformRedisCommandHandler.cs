@@ -48,7 +48,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                         {
                             Position = asset.Position,
                             AssetType = asset.AssetType,
-                            AssetPath = asset.AssetPath,
+                            AssetUrl = asset.AssetUrl,
                         }),
                         Analytics = new
                         {
