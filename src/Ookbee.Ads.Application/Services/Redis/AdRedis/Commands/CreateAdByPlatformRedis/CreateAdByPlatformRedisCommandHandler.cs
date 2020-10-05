@@ -49,7 +49,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                             Position = asset.Position,
                             AssetType = asset.AssetType,
                             AssetUrl = asset.AssetUrl,
-                        }),
+                        }).ToList(),
                         Analytics = new
                         {
                             Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Click}&campaignId={ad.Campaign.Id}".ToLower() },
