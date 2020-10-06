@@ -52,8 +52,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                         }).ToList(),
                         Analytics = new
                         {
-                            Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Click}&campaignId={ad.Campaign.Id}".ToLower() },
-                            Impressions = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Impression}&campaignId={ad.Campaign.Id}".ToLower() }
+                            Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Click}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}".ToLower() },
+                            Impressions = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Impression}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}".ToLower() }
                         }
                     };
 
