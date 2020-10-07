@@ -1,3 +1,4 @@
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models;
@@ -13,16 +14,40 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog
         private HttpClient Client { get; }
         private string BaseUrl { get; }
 
+        private readonly string contentType = "application/vnd.kafka.avro.v1+json";
+
         public AdsRequestLogService(HttpClient client)
         {
             Client = client;
-            Client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/vnd.kafka.avro.v1+json");
             BaseUrl = GlobalVar.AppSettings.Services.Ads.RequestLog.BaseUri.Internal;
         }
 
-        public async Task<Response<ApiItemResult<AdsRequestLogResponse>>> Create(AdsRequestLogRequest data, CancellationToken cancellationToken)
+        private HttpRequestMessage CreateHttpRequest(HttpMethod httpMethod, string uri, object data = null, string contentType = "application/json")
         {
-            return await Create(new List<AdsRequestLogRequest>() { data }, cancellationToken);
+            var request = new HttpRequestMessage
+            {
+                RequestUri = new System.Uri(uri),
+                Method = httpMethod,
+                Headers = {
+                    { System.Net.HttpRequestHeader.ContentType.ToString(), contentType },
+                }
+            };
+            if (data == null)
+                return request;
+
+            var content = HttpClientHelper.PrepareContent(data, contentType, false);
+            request.Content = content;
+
+            return request;
+        }
+
+        public async Task<Response<AdsRequestLogResponse>> Create(AdsRequestLogRequest data, CancellationToken cancellationToken)
+        {
+            var request = this.CreateHttpRequest(HttpMethod.Post, $"{BaseUrl}/topics/adsrequestlog", data, contentType); // HttpClientHelper.PrepareContent(data);
+            var httpResponse = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            httpResponse.EnsureSuccessStatusCode();
+            var response = await HttpClientHelper.ConvertToItemResult<AdsRequestLogResponse>(httpResponse);
+            return response;
         }
 
         public async Task<Response<ApiItemResult<AdsRequestLogResponse>>> Create(IEnumerable<AdsRequestLogRequest> data, CancellationToken cancellationToken)

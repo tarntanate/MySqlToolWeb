@@ -8,23 +8,25 @@ namespace Ookbee.Ads.Common.Helpers
 {
     public static class HttpClientHelper
     {
-        public static StringContent PrepareContent(object content)
+        public static StringContent PrepareContent(object content, string contentType = "application/json", bool useCamelCasePropertyName = false)
         {
             if (content == null)
                 return null;
-            var json = JsonHelper.Serialize(content);
-            var result = new StringContent(json, Encoding.UTF8, "application/json");
+            var json = JsonHelper.Serialize(content, useCamelCasePropertyName);
+            var result = new StringContent(json, Encoding.UTF8, contentType);
             return result;
         }
 
         public static async Task<Response<TResult>> ConvertToItemResult<TResult>(HttpResponseMessage responseMessage)
         {
             var httpResult = new Response<TResult>();
-            var json = await responseMessage.Content.ReadAsStringAsync();
-            var responseBody = JsonHelper.Deserialize<ApiItemResult<TResult>>(json);
             if (responseMessage.IsSuccessStatusCode)
-                return httpResult.OK(responseBody.Data);
-            return httpResult.Status(responseMessage.StatusCode, responseBody?.Error?.Message);
+            {
+                var json = await responseMessage.Content.ReadAsStringAsync();
+                var responseObject = JsonHelper.Deserialize<TResult>(json);
+                return httpResult.OK(responseObject);
+            }
+            return httpResult.Status(responseMessage.StatusCode, responseMessage.ReasonPhrase);
         }
 
         public static async Task<Response<ICollection<TResult>>> ConvertToListResult<TResult>(HttpResponseMessage responseMessage)

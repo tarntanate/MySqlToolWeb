@@ -5,6 +5,7 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models
 {
     public class AdsRequestLogRequest
     {
+        [JsonProperty("records")]
         public List<AdsRequestLogRecordRequest> Records { get; set; }
 
         [JsonProperty("key_schema_id")]

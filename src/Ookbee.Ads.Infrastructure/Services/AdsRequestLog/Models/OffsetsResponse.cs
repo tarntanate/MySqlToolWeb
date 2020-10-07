@@ -14,6 +14,6 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models
         public string Error { get; set; }
 
         [JsonProperty("error_code")]
-        public int ErrorCode { get; set; }
+        public int? ErrorCode { get; set; }
     }
 }

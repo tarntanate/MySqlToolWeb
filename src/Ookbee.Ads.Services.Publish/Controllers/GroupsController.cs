@@ -1,10 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateGroupRequestLog;
 using Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupId;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
+using Ookbee.Ads.Infrastructure.Services.AdsRequestLog;
+using Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models;
 using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,16 +23,53 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     [Route("api/groups")]
     public class GroupsController : ApiController
     {
-        [HttpGet("{groupId}/units")]
-        public async Task<ContentResult> GetAdUnitCacheByGroupId([FromRoute] long groupId, [FromQuery] AdPlatform platform, CancellationToken cancellationToken)
+        private static readonly HttpClient HttpClient;
+
+        static GroupsController()
         {
+            HttpClient = new HttpClient();
+        }
+
+        [HttpGet("{groupId}/units")]
+        public async Task<ContentResult> GetAdUnitCacheByGroupId([FromRoute] long groupId, [FromQuery] AdPlatform platform,  [FromQuery] string ookbeeId, CancellationToken cancellationToken)
+        {
+            var kafkaKeyValue = new AdsRequestLogRecordRequest
+            {
+                Key = new AdsRequestLogKeyRequest
+                {
+                    UUID = ookbeeId ?? "99"
+                },
+                Value = new AdsRequestLogValueRequest
+                {
+                    CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    AdsGroupId = (int)groupId,
+                    PlatformId = (int)platform,
+                    UUID = ookbeeId ?? new Random().Next(0, 20).ToString(),
+                    RequestTypeId = 1
+                }
+            };
+
+            var kafkaRequest = new AdsRequestLogRequest
+            {
+                Records = new List<AdsRequestLogRecordRequest>() {
+                    kafkaKeyValue
+                },
+                ValueSchemaId = 45,
+                KeySchemaId = 41
+            };
+            
+
+            var adRequestLogService = new AdsRequestLogService(HttpClient);
+            var kafkaResponse = await adRequestLogService.Create(kafkaRequest, cancellationToken);
+            var s = kafkaResponse.StatusCode;
+
             // For Testing TimeScaleDb
-            var timescaleResult = await Mediator.Send(
-                new CreateGroupRequestLogCommand(
-                    platformId: (short)platform,
-                    adGroupId: (short)groupId,
-                    uuid: new Random().Next(0, 20).ToString()),
-                    cancellationToken);
+            // var timescaleResult = await Mediator.Send(
+            //     new CreateGroupRequestLogCommand(
+            //         platformId: (short)platform,
+            //         adGroupId: (short)groupId,
+            //         uuid: new Random().Next(0, 20).ToString()),
+            //         cancellationToken);
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
 
