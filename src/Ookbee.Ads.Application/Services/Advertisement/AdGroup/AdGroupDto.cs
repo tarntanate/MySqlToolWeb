@@ -11,6 +11,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool Enabled { get; set; }
         public AdUnitTypeDto AdUnitType { get; set; }
         public PublisherDto Publisher { get; set; }
 
@@ -23,6 +24,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
                     Id = entity.Id,
                     Name = entity.Name,
                     Description = entity.Description,
+                    Enabled = entity.Enabled,
                     AdUnitType = new AdUnitTypeDto()
                     {
                         Id = entity.AdUnitType.Id,
