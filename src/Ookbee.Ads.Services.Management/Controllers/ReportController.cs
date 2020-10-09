@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport;
+using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdClickReportByAdId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupPlatformReportByGroupId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupReportByGroupId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionPlatformReportByAdId;
@@ -38,6 +39,10 @@ namespace Ookbee.Ads.Services.Management.Controllers
         [HttpGet("ad/{adId}")]
         public async Task<Response<List<AdImpressionReportByAdIdDto>>> GetAdImpressionReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
            => await Mediator.Send(new GetAdImpressionReportByAdIdQuery(adId: adId), cancellationToken);
+
+        [HttpGet("ad/{adId}/click")]
+        public async Task<Response<List<AdImpressionReportByAdIdDto>>> GetAdClickReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
+                  => await Mediator.Send(new GetAdClickReportByAdIdQuery(adId: adId), cancellationToken);
 
         [HttpGet("campaign/{campaignId}")]
         public async Task<Response<List<AdImpressionReportByCampaignIdDto>>> GetAdImpressionReportByCampaignId([FromRoute] int campaignId, CancellationToken cancellationToken)
