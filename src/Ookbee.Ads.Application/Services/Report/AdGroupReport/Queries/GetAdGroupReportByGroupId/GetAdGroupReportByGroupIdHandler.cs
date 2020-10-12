@@ -25,10 +25,10 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGrou
         {
             // var item = new List<AdGroupReportDto>();
             var sqlCommandText = $@"SELECT time_bucket('1 day', ""CreatedAt"" ) AS ""Day"",
-                ""AdGroupId"" , COUNT(*) as ""Total""
+                COUNT(*) as ""Total""
                 FROM public.""GroupRequestLog""
                 WHERE ""AdGroupId"" = " + request.AdGroupId.ToString() + @"
-                GROUP BY ""Day"", ""AdGroupId"" 
+                GROUP BY ""Day""
                 ORDER BY ""Day"" ";
 
             var data = await dbContext.AdGroupReports.FromSqlRaw(sqlCommandText).Select(AdSummaryReportDto.Projection).ToListAsync();
