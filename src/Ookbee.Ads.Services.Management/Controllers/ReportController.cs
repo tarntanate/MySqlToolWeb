@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdClickReportByAdId;
+using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdClickReportByUnitId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupPlatformReportByGroupId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupReportByGroupId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionPlatformReportByAdId;
@@ -29,19 +30,23 @@ namespace Ookbee.Ads.Services.Management.Controllers
 
 
         [HttpGet("adunit/{adUnitId}")]
-        public async Task<Response<List<AdImpressionReportByUnitIdDto>>> GetAdImpressionReportByUnitId([FromRoute] int adUnitId, CancellationToken cancellationToken)
+        public async Task<Response<List<AdReportByUnitIdDto>>> GetAdImpressionReportByUnitId([FromRoute] int adUnitId, CancellationToken cancellationToken)
            => await Mediator.Send(new GetAdImpressionReportByUnitIdQuery(unitId: adUnitId), cancellationToken);
+
+        [HttpGet("adunit/{adUnitId}/click")]
+        public async Task<Response<List<AdReportByUnitIdDto>>> GetAdClickReportByUnitId([FromRoute] int adUnitId, CancellationToken cancellationToken)
+       => await Mediator.Send(new GetAdClickReportByUnitIdQuery(unitId: adUnitId), cancellationToken);
 
         [HttpGet("ad/{adId}/platform")]
         public async Task<Response<List<PlatformReportDto>>> GetAdImpressionPlatformReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
        => await Mediator.Send(new GetAdImpressionPlatformReportByAdIdQuery(adId: adId), cancellationToken);
 
         [HttpGet("ad/{adId}")]
-        public async Task<Response<List<AdImpressionReportByAdIdDto>>> GetAdImpressionReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
+        public async Task<Response<List<AdReportByAdIdDto>>> GetAdImpressionReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
            => await Mediator.Send(new GetAdImpressionReportByAdIdQuery(adId: adId), cancellationToken);
 
         [HttpGet("ad/{adId}/click")]
-        public async Task<Response<List<AdImpressionReportByAdIdDto>>> GetAdClickReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
+        public async Task<Response<List<AdReportByAdIdDto>>> GetAdClickReportByAdId([FromRoute] int adId, CancellationToken cancellationToken)
                   => await Mediator.Send(new GetAdClickReportByAdIdQuery(adId: adId), cancellationToken);
 
         [HttpGet("campaign/{campaignId}")]

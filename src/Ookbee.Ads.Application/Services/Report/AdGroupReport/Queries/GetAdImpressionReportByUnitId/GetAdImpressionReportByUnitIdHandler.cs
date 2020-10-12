@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByUnitId
 {
-    public class GetAdImpressionReportByUnitIdHandler : IRequestHandler<GetAdImpressionReportByUnitIdQuery, Response<List<AdImpressionReportByUnitIdDto>>>
+    public class GetAdImpressionReportByUnitIdHandler : IRequestHandler<GetAdImpressionReportByUnitIdQuery, Response<List<AdReportByUnitIdDto>>>
     {
         // private TimescaleDbRepository<AdGroupReportDto> AdGroupReportDbRepo { get; }
         private TimescaleDbContext dbContext { get; }
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpr
             this.dbContext = dbContext;
         }
 
-        public async Task<Response<List<AdImpressionReportByUnitIdDto>>> Handle(GetAdImpressionReportByUnitIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<List<AdReportByUnitIdDto>>> Handle(GetAdImpressionReportByUnitIdQuery request, CancellationToken cancellationToken)
         {
             // var item = new List<AdGroupReportDto>();
             var sqlCommandText = $@"SELECT time_bucket('1 day', ""CreatedAt"" ) AS ""Day"",
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpr
                 GROUP BY ""Day"", ""UnitId"" 
                 ORDER BY ""Day"" ";
 
-            var data = await dbContext.AdImpressionReports.FromSqlRaw(sqlCommandText).Select(AdImpressionReportByUnitIdDto.Projection).ToListAsync();
+            var data = await dbContext.AdImpressionReports.FromSqlRaw(sqlCommandText).Select(AdReportByUnitIdDto.Projection).ToListAsync();
 
             // Execute a query.
             // using (var dr = await dbContext.Database.ExecuteSqlQueryAsync()
@@ -49,7 +49,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpr
             //     }
             // }
 
-            var result = new Response<List<AdImpressionReportByUnitIdDto>>();
+            var result = new Response<List<AdReportByUnitIdDto>>();
             return (data != null)
                 ? result.OK(data)
                 : result.NotFound();

@@ -25,17 +25,17 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
         }
     }
 
-    public class AdImpressionReportByUnitIdDto
+    public class AdReportByUnitIdDto
     {
         public DateTime Day { get; set; }
         public int AdUnitId { get; set; }
         public long Total { get; set; }
 
-        public static Expression<Func<AdImpressionReportEntity, AdImpressionReportByUnitIdDto>> Projection
+        public static Expression<Func<AdImpressionReportEntity, AdReportByUnitIdDto>> Projection
         {
             get
             {
-                return entity => new AdImpressionReportByUnitIdDto()
+                return entity => new AdReportByUnitIdDto()
                 {
                     Day = entity.Day,
                     AdUnitId = entity.AdUnitId,
@@ -45,17 +45,17 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
         }
     }
 
-    public class AdImpressionReportByAdIdDto
+    public class AdReportByAdIdDto
     {
         public DateTime Day { get; set; }
         public int AdId { get; set; }
         public long Total { get; set; }
 
-        public static Expression<Func<AdImpressionReportEntity, AdImpressionReportByAdIdDto>> Projection
+        public static Expression<Func<AdImpressionReportEntity, AdReportByAdIdDto>> Projection
         {
             get
             {
-                return entity => new AdImpressionReportByAdIdDto()
+                return entity => new AdReportByAdIdDto()
                 {
                     Day = entity.Day,
                     AdId = entity.AdId,

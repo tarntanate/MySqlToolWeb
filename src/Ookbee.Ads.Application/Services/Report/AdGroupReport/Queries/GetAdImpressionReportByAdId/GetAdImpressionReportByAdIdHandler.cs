@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByAdId
 {
-    public class GetAdImpressionReportByAdIdHandler : IRequestHandler<GetAdImpressionReportByAdIdQuery, Response<List<AdImpressionReportByAdIdDto>>>
+    public class GetAdImpressionReportByAdIdHandler : IRequestHandler<GetAdImpressionReportByAdIdQuery, Response<List<AdReportByAdIdDto>>>
     {
         // private TimescaleDbRepository<AdGroupReportDto> AdGroupReportDbRepo { get; }
         private TimescaleDbContext dbContext { get; }
@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpr
             this.dbContext = dbContext;
         }
 
-        public async Task<Response<List<AdImpressionReportByAdIdDto>>> Handle(GetAdImpressionReportByAdIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<List<AdReportByAdIdDto>>> Handle(GetAdImpressionReportByAdIdQuery request, CancellationToken cancellationToken)
         {
             // var item = new List<AdGroupReportDto>();
             var sqlCommandText = $@"SELECT time_bucket('1 day', ""CreatedAt"" ) AS ""Day"",
@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpr
                 GROUP BY ""Day"", ""AdId"" 
                 ORDER BY ""Day"" ";
 
-            var data = await dbContext.AdImpressionReports.FromSqlRaw(sqlCommandText).Select(AdImpressionReportByAdIdDto.Projection).ToListAsync();
+            var data = await dbContext.AdImpressionReports.FromSqlRaw(sqlCommandText).Select(AdReportByAdIdDto.Projection).ToListAsync();
 
             // Execute a query.
             // using (var dr = await dbContext.Database.ExecuteSqlQueryAsync()
@@ -49,7 +49,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpr
             //     }
             // }
 
-            var result = new Response<List<AdImpressionReportByAdIdDto>>();
+            var result = new Response<List<AdReportByAdIdDto>>();
             return (data != null)
                 ? result.OK(data)
                 : result.NotFound();
