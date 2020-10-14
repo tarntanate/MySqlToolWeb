@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.IsExistsUserRoleMappingById;
 using Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.GetAdUserPreviewListRedis;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -27,16 +26,12 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUse
             var getAdUserList = await Mediator.Send(new GetAdUserPreviewListRedisQuery(), cancellationToken);
             if (getAdUserList.IsSuccess)
             {
-                var adUserIds = getAdUserList.Data;
-                foreach (var adUserId in adUserIds)
+                var userIds = getAdUserList.Data;
+                foreach (var userId in userIds)
                 {
-                    var isExistsUserRole = await Mediator.Send(new IsExistsUserRoleMappingByIdQuery(adUserId, 3), cancellationToken);
-                    if (isExistsUserRole.IsFail)
-                    {
-                        var redisKey = CacheKey.UserIdsPreview();
-                        var redisValue = adUserId;
-                        await AdsRedis.SetRemoveAsync(redisKey, redisValue);
-                    }
+                    var redisKey = CacheKey.UserIdsPreview();
+                    var redisValue = userId;
+                    await AdsRedis.SetRemoveAsync(redisKey, redisValue);
                 }
             }
 

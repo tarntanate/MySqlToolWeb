@@ -130,6 +130,7 @@ CREATE INDEX "IDX_AdNetwork_2" ON "public"."AdNetwork" ("DeletedAt", "AdUnitId",
 /* ---------------------------------------------------------------------- */
 CREATE TABLE "public"."User" (
     "Id" INTEGER NOT NULL,
+    "RoleId" INTEGER NOT NULL,
     "UserName" CHARACTER VARYING(40) NOT NULL,
     "DisplayName" CHARACTER VARYING(40),
     "AvatarUrl" CHARACTER VARYING(255),
@@ -153,14 +154,6 @@ CREATE TABLE "public"."UserRole" (
 );
 CREATE INDEX "IDX_UserRole_1" ON "public"."UserRole" ("DeletedAt", "Id");
 CREATE INDEX "IDX_UserRole_2" ON "public"."UserRole" ("DeletedAt", "Name");
-/* ---------------------------------------------------------------------- */
-/* Add table "public"."UserRoleMapping"                                   */
-/* ---------------------------------------------------------------------- */
-CREATE TABLE "public"."UserRoleMapping" (
-    "UserId" INTEGER NOT NULL,
-    "RoleId" INTEGER NOT NULL,
-    CONSTRAINT "PK_UserRoleMapping" PRIMARY KEY ("UserId", "RoleId")
-);
 /* ---------------------------------------------------------------------- */
 /* Add table "public"."ActivityLog"                                       */
 /* ---------------------------------------------------------------------- */
@@ -278,8 +271,8 @@ ALTER TABLE "public"."AdNetwork"
 ADD CONSTRAINT "FK_AdNetwork_AdUnit" FOREIGN KEY ("AdUnitId") REFERENCES "public"."AdUnit" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."Campaign"
 ADD CONSTRAINT "FK_Campaign_Advertiser" FOREIGN KEY ("AdvertiserId") REFERENCES "public"."Advertiser" ("Id");
-ALTER TABLE "public"."UserPermission"
-ADD CONSTRAINT "FK_UserPermission_UserRole" FOREIGN KEY ("Id") REFERENCES "public"."UserRole" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."User"
+ADD CONSTRAINT "FK_User_UserRole" FOREIGN KEY ("RoleId") REFERENCES "public"."UserRole" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."UserRoleMapping"
 ADD CONSTRAINT "FK_UserRoleMapping_User" FOREIGN KEY ("UserId") REFERENCES "public"."User" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "public"."UserRoleMapping"

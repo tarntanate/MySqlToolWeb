@@ -31,7 +31,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
         {
             await Mediator.Send(new UpdateAdUnitStatsRedisCommand(request.AdUnitId, AdStatsType.Request, 1), cancellationToken);
 
+            var isPreview = false;
             var redisKey = CacheKey.UnitAdIds(request.AdUnitId, request.Platform);
+            var redisKeyPreview = CacheKey.UnitAdIdsPreview(request.AdUnitId, request.Platform);
             var redisValue = string.Empty;
 
             if (request.UserId != null)
@@ -39,16 +41,19 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
                 var isExistsAdUserPreview = await Mediator.Send(new IsExistsAdUserPreviewRedisQuery(request.UserId.Value), cancellationToken);
                 if (isExistsAdUserPreview.IsSuccess)
                 {
+                    isPreview = true;
                     redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, request.Platform);
                 }
             }
 
-            var setMembers = await AdsRedis.SetMembersAsync(redisKey);
-            if (setMembers.HasValue())
+            var adId = await AdsRedis.SetRandomMemberAsync(redisKey);
+            if (adId.HasValue())
             {
-                var adIds = setMembers.Select(adId => (long)adId);
-                var adId = adIds.OrderBy(adId => Guid.NewGuid()).First();
-                redisKey = CacheKey.AdPlatforms(adId);
+                redisKey = CacheKey.AdPlatforms((long)adId);
+                redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
+            } 
+            else if (isPreview) {
+                redisKey = CacheKey.AdPlatforms((long)adId);
                 redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
             }
 
