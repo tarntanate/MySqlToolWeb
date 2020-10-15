@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User
         public string UserName { get; set; }
         public string DisplayName { get; set; }
         public string AvatarUrl { get; set; }
-        public UserRoleEntity Role { get; set; }
+        public long RoleId { get; set; }
 
         public static Expression<Func<UserEntity, UserDto>> Projection
         {
@@ -25,7 +25,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User
                     UserName = entity.UserName,
                     DisplayName = entity.DisplayName,
                     AvatarUrl = entity.AvatarUrl,
-                    Role = entity.Role
+                    RoleId = entity.Role.Id
                 };
             }
         }
