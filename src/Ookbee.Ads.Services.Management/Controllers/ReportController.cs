@@ -53,5 +53,9 @@ namespace Ookbee.Ads.Services.Management.Controllers
         public async Task<Response<List<AdImpressionReportByCampaignIdDto>>> GetAdImpressionReportByCampaignId([FromRoute] int campaignId, CancellationToken cancellationToken)
           => await Mediator.Send(new GetAdImpressionReportByCampaignIdQuery(campaignId: campaignId), cancellationToken);
 
+        [HttpGet("campaign/{campaignId}/platform")]
+        public async Task<Response<List<PlatformReportDto>>> GetAdImpressionPlatformReportByCampaignId([FromRoute] int campaignId, CancellationToken cancellationToken)
+        => await Mediator.Send(new GetAdImpressionReportByCampaignIdQuery(campaignId: campaignId), cancellationToken);
+
     }
 }
