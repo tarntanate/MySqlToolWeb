@@ -5,6 +5,7 @@ using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdClickRep
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupPlatformReportByGroupId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGroupReportByGroupId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionPlatformReportByAdId;
+using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionPlatformReportByCampaignId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByAdId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByCampaignId;
 using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByUnitId;
@@ -55,7 +56,7 @@ namespace Ookbee.Ads.Services.Management.Controllers
 
         [HttpGet("campaign/{campaignId}/platform")]
         public async Task<Response<List<PlatformReportDto>>> GetAdImpressionPlatformReportByCampaignId([FromRoute] int campaignId, CancellationToken cancellationToken)
-        => await Mediator.Send(new GetAdImpressionReportByCampaignIdQuery(campaignId: campaignId), cancellationToken);
+        => await Mediator.Send(new GetAdImpressionPlatformReportByCampaignIdQuery(campaignId: campaignId), cancellationToken);
 
     }
 }
