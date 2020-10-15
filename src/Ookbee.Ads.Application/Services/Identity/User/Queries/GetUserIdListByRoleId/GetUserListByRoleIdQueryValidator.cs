@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
-using MediatR;
 
-namespace Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUserRoleMappingList
+namespace Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserIdListByRoleId
 {
-    public class GetUserRoleMappingListQueryValidator : AbstractValidator<GetUserRoleMappingListQuery>
+    public class GetUserIdListByRoleIdQueryValidator : AbstractValidator<GetUserIdListByRoleIdQuery>
     {
-        public GetUserRoleMappingListQueryValidator(IMediator mediator)
+        public GetUserIdListByRoleIdQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
 

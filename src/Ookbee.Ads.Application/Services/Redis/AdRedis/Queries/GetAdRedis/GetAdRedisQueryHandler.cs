@@ -7,8 +7,6 @@ using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,24 +29,28 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
         {
             await Mediator.Send(new UpdateAdUnitStatsRedisCommand(request.AdUnitId, AdStatsType.Request, 1), cancellationToken);
 
-            var redisKey = CacheKey.UnitAdIds(request.AdUnitId, request.Platform);
-            var redisValue = string.Empty;
+            var adId = (long?)null;
+            var redisValue = (RedisValue?)null;
 
             if (request.UserId != null)
             {
                 var isExistsAdUserPreview = await Mediator.Send(new IsExistsAdUserPreviewRedisQuery(request.UserId.Value), cancellationToken);
                 if (isExistsAdUserPreview.IsSuccess)
                 {
-                    redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, request.Platform);
+                    var redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, request.Platform);
+                    adId = (long?)await AdsRedis.SetRandomMemberAsync(redisKey);
                 }
             }
 
-            var setMembers = await AdsRedis.SetMembersAsync(redisKey);
-            if (setMembers.HasValue())
+            if (!adId.HasValue())
             {
-                var adIds = setMembers.Select(adId => (long)adId);
-                var adId = adIds.OrderBy(adId => Guid.NewGuid()).First();
-                redisKey = CacheKey.AdPlatforms(adId);
+                var redisKey = CacheKey.UnitAdIds(request.AdUnitId, request.Platform);
+                adId = (long?)await AdsRedis.SetRandomMemberAsync(redisKey);
+            }
+
+            if (adId.HasValue())
+            {
+                var redisKey = CacheKey.AdPlatforms(adId.Value);
                 redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
             }
 

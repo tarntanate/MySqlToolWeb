@@ -1,38 +1,13 @@
 {
     "files.exclude": {
         "**/.git": true,
-        "**/.svn": true,
         "**/.hg": true,
-        "**/CVS": true,
+        "**/.svn": true,
         "**/.DS_Store": true,
-        ".vscode": true,
-        "submodules": true,
+        "**/CVS": true,
+        "**/bin": true,
         "**/obj": true,
-        "**/bin": true
-    },
-    "sqltools.connections": [{
-            "database": "ookbee-ads",
-            "driver": "PostgreSQL",
-            "group": "loc",
-            "name": "ookbee-ads",
-            "password": "1234",
-            "port": 5432,
-            "previewLimit": 50,
-            "server": "localhost",
-            "username": "admin"
-        },
-        {
-            "database": "ookbee-ads-analytics",
-            "driver": "PostgreSQL",
-            "group": "loc",
-            "name": "ookbee-ads-analytics",
-            "password": "1234",
-            "port": 5432,
-            "previewLimit": 50,
-            "server": "localhost",
-            "username": "admin"
-        }
-    ],
-    "compile-hero.disable-compile-files-on-did-save-code": true,
-    "explorerExclude.backup": null
+        "**/.vscode": false,
+        "**/submodules": true
+    }
 }
