@@ -16,6 +16,9 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.CreateUser
             RuleFor(p => p.Id)
                 .GreaterThan(0);
 
+              RuleFor(p => p.RoleId)
+                .GreaterThan(0);
+
             RuleFor(p => p.DisplayName)
                 .MaximumLength(500);
 
