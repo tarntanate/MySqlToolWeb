@@ -1,13 +1,14 @@
 {
     "files.exclude": {
         "**/.git": true,
-        "**/.hg": true,
         "**/.svn": true,
-        "**/.DS_Store": true,
+        "**/.hg": true,
         "**/CVS": true,
+        "**/.DS_Store": true,
         "**/bin": true,
         "**/obj": true,
-        "**/.vscode": false,
+        "**/.vscode": true,
         "**/submodules": true
-    }
+    },
+    "explorerExclude.backup": null
 }

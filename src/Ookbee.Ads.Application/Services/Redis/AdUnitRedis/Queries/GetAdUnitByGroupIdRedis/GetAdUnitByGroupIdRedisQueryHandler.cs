@@ -8,14 +8,14 @@ using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupId
+namespace Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupIdRedis
 {
-    public class GetAdUnitByGroupIdQueryHandler : IRequestHandler<GetAdUnitByGroupIdQuery, Response<string>>
+    public class GetAdUnitByGroupIdRedisQueryHandler : IRequestHandler<GetAdUnitByGroupIdRedisQuery, Response<string>>
     {
         private readonly IMediator Mediator;
         private readonly IDatabase AdsRedis;
 
-        public GetAdUnitByGroupIdQueryHandler(
+        public GetAdUnitByGroupIdRedisQueryHandler(
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitBy
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Response<string>> Handle(GetAdUnitByGroupIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<string>> Handle(GetAdUnitByGroupIdRedisQuery request, CancellationToken cancellationToken)
         {
             await Mediator.Send(new UpdateAdGroupStatsRedisCommand(request.AdGroupId, AdStatsType.Request, 1), cancellationToken);
             

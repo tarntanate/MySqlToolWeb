@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.IsExis
         public async Task<Response<bool>> Handle(IsExistsPublisherByNameQuery request, CancellationToken cancellationToken)
         {
             var isExists = await PublisherDbRepo.AnyAsync(f =>
-                f.Name == request.Name &&
+                f.Name.ToUpper() == request.Name.ToUpper() &&
                 f.DeletedAt == null
             );
 
