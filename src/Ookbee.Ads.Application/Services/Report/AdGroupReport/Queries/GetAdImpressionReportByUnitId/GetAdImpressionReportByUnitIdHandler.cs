@@ -27,27 +27,12 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpr
             var sqlCommandText = $@"SELECT time_bucket('1 day', ""CreatedAt"" ) AS ""Day"",
                 ""UnitId"" AS ""AdUnitId"", COUNT(*) as ""Total""
                 FROM public.""AdImpressionLog""
-                WHERE ""UnitId"" = " + request.AdUnitId.ToString() + @"
+                WHERE ""UnitId"" = " + request.AdUnitId.ToString() +
+                $@" AND ""CreatedAt"" BETWEEN '{request.StartDate.ToString("yyyy-MM-dd")}' AND '{request.EndDate.AddDays(1).ToString("yyyy-MM-dd")}'
                 GROUP BY ""Day"", ""UnitId"" 
                 ORDER BY ""Day"" ";
 
             var data = await dbContext.AdImpressionReports.FromSqlRaw(sqlCommandText).Select(AdReportByUnitIdDto.Projection).ToListAsync();
-
-            // Execute a query.
-            // using (var dr = await dbContext.Database.ExecuteSqlQueryAsync()
-            // {
-            //     // Output rows.
-            //     var reader = dr.DbDataReader;
-            //     while (reader.Read())
-            //     {
-            //         item.Add(new AdGroupReportDto()
-            //         {
-            //             Day = (DateTime)reader[0],
-            //             AdGroupId = (int)reader[1],
-            //             Total = (long)reader[2]
-            //         });
-            //     }
-            // }
 
             var result = new Response<List<AdReportByUnitIdDto>>();
             return (data != null)

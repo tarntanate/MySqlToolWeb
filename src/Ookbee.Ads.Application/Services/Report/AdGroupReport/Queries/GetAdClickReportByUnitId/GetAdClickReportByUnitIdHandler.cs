@@ -25,7 +25,8 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdClic
             var sqlCommandText = $@"SELECT time_bucket('1 day', ""CreatedAt"" ) AS ""Day"",
                 ""UnitId"" AS ""AdUnitId"", COUNT(*) as ""Total""
                 FROM public.""AdClickLog""
-                WHERE ""UnitId"" = " + request.UnitId.ToString() + @"
+                WHERE ""UnitId"" = " + request.UnitId.ToString() +
+                $@" AND ""CreatedAt"" BETWEEN '{request.StartDate.ToString("yyyy-MM-dd")}' AND '{request.EndDate.AddDays(1).ToString("yyyy-MM-dd")}'
                 GROUP BY ""Day"", ""UnitId"" 
                 ORDER BY ""Day"" ";
 

@@ -8,10 +8,14 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGrou
     public class GetAdGroupPlatformReportByGroupIdQuery : IRequest<Response<List<PlatformReportDto>>>
     {
         public int AdGroupId { get; set; }
+         public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
-        public GetAdGroupPlatformReportByGroupIdQuery(int adGroupId)
+        public GetAdGroupPlatformReportByGroupIdQuery(int adGroupId, DateTime startDate, DateTime endDate)
         {
             AdGroupId = adGroupId;
+            StartDate = startDate;
+            EndDate = endDate;
         }
     }
 }
