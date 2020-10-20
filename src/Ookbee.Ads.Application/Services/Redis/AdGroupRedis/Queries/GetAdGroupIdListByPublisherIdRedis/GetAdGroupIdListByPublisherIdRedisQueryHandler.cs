@@ -4,7 +4,6 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

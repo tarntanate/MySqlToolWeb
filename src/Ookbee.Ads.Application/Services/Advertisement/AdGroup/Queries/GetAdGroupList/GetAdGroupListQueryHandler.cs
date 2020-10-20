@@ -32,6 +32,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
             if (request.PublisherId.HasValue())
                 predicate = predicate.And(f => f.PublisherId == request.PublisherId);
 
+            if (request.Enabled.HasValue())
+                predicate = predicate.And(f => f.Enabled == request.Enabled);
+
             var items = await AdGroupDbRepo.FindAsync(
                 selector: AdGroupDto.Projection,
                 filter: predicate,

@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGroupIdList;
+using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGroupList;
 using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Collections.Generic;
@@ -29,23 +30,28 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
             var start = 0;
             var length = 100;
             var next = false;
-            var adGroupIds = new List<long>();
+            var adGroups = new List<AdGroupEnabledCacheDto>();
             do
             {
-                var getAdGroupIdList = await Mediator.Send(new GetAdGroupIdListQuery(start, length, null, request.PublisherId, true), cancellationToken);
-                if (getAdGroupIdList.IsSuccess)
+                var getAdGroupList = await Mediator.Send(new GetAdGroupListQuery(start, length, null, request.PublisherId, null), cancellationToken);
+                if (getAdGroupList.IsSuccess)
                 {
-                    var items = getAdGroupIdList.Data;
-                    adGroupIds.AddRange(items);
-                    next = adGroupIds.Count() == length ? true : false;
+                    var items = getAdGroupList.Data.Select(group => new AdGroupEnabledCacheDto {
+                        Id = group.Id,
+                        Enabled = group.Enabled
+                    });
+                    adGroups.AddRange(items);
+                    next = adGroups.Count() == length ? true : false;
                 }
             }
             while (next);
 
-            if (adGroupIds.Count() > 0)
+            if (adGroups.Count() > 0)
             {
+                var result = new ApiListResult<AdGroupEnabledCacheDto>();
+                result.Data.Items = adGroups;
                 var redisKey = CacheKey.GroupIdsPublisher();
-                var redisValue = new HashEntry(request.PublisherName.ToUpper(), JsonHelper.Serialize(adGroupIds));
+                var redisValue = new HashEntry(request.PublisherName.ToUpper(), JsonHelper.Serialize(result));
                 await AdsRedis.HashSetAsync(redisKey, new HashEntry[] { redisValue }, CommandFlags.FireAndForget);
             }
 

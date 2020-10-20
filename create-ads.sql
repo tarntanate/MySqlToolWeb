@@ -273,10 +273,9 @@ ALTER TABLE "public"."Campaign"
 ADD CONSTRAINT "FK_Campaign_Advertiser" FOREIGN KEY ("AdvertiserId") REFERENCES "public"."Advertiser" ("Id");
 ALTER TABLE "public"."User"
 ADD CONSTRAINT "FK_User_UserRole" FOREIGN KEY ("RoleId") REFERENCES "public"."UserRole" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."UserRoleMapping"
-ADD CONSTRAINT "FK_UserRoleMapping_User" FOREIGN KEY ("UserId") REFERENCES "public"."User" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "public"."UserRoleMapping"
-ADD CONSTRAINT "FK_UserRoleMapping_UserRole" FOREIGN KEY ("RoleId") REFERENCES "public"."UserRole" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."UserPermission"
+ADD CONSTRAINT "FK_UserPermission_UserRole" FOREIGN KEY ("RoleId") REFERENCES "public"."UserRole" ("Id") ON DELETE CASCADE ON UPDATE CASCADE;
+
 /* ---------------------------------------------------------------------- */
 /* Add data                                                               */
 /* ---------------------------------------------------------------------- */
