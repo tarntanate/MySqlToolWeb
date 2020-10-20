@@ -9,6 +9,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.UpdateUser
         public string UserName { get; private set; }
         public string DisplayName { get; private set; }
         public string AvatarUrl { get; private set; }
+        public long RoleId { get; private set; }
 
         public UpdateUserCommand(long id, UpdateUserRequest request)
         {
@@ -16,6 +17,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.UpdateUser
             UserName = request.UserName;
             DisplayName = request.DisplayName;
             AvatarUrl = request.AvatarUrl;
+            RoleId = request.RoleId;
         }
     }
 }

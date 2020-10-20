@@ -16,16 +16,13 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.ArchiveAdG
     public class ArchiveAdGroupRedisCommandHandler : IRequestHandler<ArchiveAdGroupStatsRedisCommand>
     {
         private readonly IMediator Mediator;
-        private readonly IDatabase AdsRedis;
         private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
         public ArchiveAdGroupRedisCommandHandler(
             IMediator mediator,
-            AdsRedisContext adsRedis,
             AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
             Mediator = mediator;
-            AdsRedis = adsRedis.Database();
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }
 

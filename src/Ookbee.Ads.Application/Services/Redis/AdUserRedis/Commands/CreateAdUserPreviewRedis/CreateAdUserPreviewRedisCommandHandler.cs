@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Application.Services.Identity.UserRoleMapping.Queries.GetUserRoleMappingList;
+using Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserIdListByPermissionName;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Linq;
@@ -29,17 +29,17 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.CreateAdUse
             var next = false;
             do
             {
-                var gerUserList = await Mediator.Send(new GetUserRoleMappingListQuery(start, length, null, 3), cancellationToken);
-                if (gerUserList.IsSuccess)
+                var gerUserIdList = await Mediator.Send(new GetUserIdListByPermissionNameQuery(start, length, "Preview"), cancellationToken);
+                if (gerUserIdList.IsSuccess)
                 {
-                    var users = gerUserList.Data;
-                    foreach (var user in users)
+                    var userIds = gerUserIdList.Data;
+                    foreach (var userId in userIds)
                     {
                         var redisKey = CacheKey.UserIdsPreview();
-                        var redisValue = user.Id;
+                        var redisValue = userId;
                         var hashExists = await AdsRedis.SetAddAsync(redisKey, redisValue);
                     }
-                    next = users.Count() == length ? true : false;
+                    next = userIds.Count() == length ? true : false;
                 }
             }
             while (next);

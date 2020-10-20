@@ -1,26 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateGroupRequestLog;
-using Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupId;
+using Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupIdRedis;
+using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroupIdListByPublisherIdRedis;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
-using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Infrastructure.Services.AdsRequestLog;
 using Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Services.Publish.Controllers
 {
     [ApiController]
-    [Route("api/groups")]
+    [Route("api/[controller]")]
     public class GroupsController : ApiController
     {
         private static readonly HttpClient HttpClient;
@@ -31,7 +27,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         }
 
         [HttpGet("{groupId}/units")]
-        public async Task<ContentResult> GetAdUnitCacheByGroupId([FromRoute] long groupId, [FromQuery] AdPlatform platform,  [FromQuery] string ookbeeId, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdUnitByGroupId([FromQuery] AdPlatform platform, [FromRoute] long groupId, [FromQuery] string ookbeeId, CancellationToken cancellationToken)
         {
             var kafkaKeyValue = new AdsRequestLogRecordRequest
             {
@@ -43,7 +39,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                 {
                     CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
                     AdsGroupId = (int)groupId,
-                    PlatformId = (int)platform,
+                    PlatformId = (int) platform,
                     UUID = ookbeeId ?? new Random().Next(0, 20).ToString(),
                     RequestTypeId = 1
                 }
@@ -72,8 +68,16 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             //         cancellationToken);
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
+            var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);
+            if (result.IsSuccess)
+                return Content(result.Data, "application/json");
+            return new ContentResult() { StatusCode = 404 };
+        }
 
-            var result = await Mediator.Send(new GetAdUnitByGroupIdQuery(platformString, groupId), cancellationToken);
+        [HttpGet("ids")]
+        public async Task<ContentResult> GetAdGroupIdListByPubliser([FromQuery] string publisher, CancellationToken cancellationToken)
+        {
+            var result = await Mediator.Send(new GetAdGroupIdListByPublisherIdRedisQuery(publisher), cancellationToken);
             if (result.IsSuccess)
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };

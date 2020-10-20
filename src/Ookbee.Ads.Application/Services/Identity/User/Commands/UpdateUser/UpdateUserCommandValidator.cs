@@ -23,6 +23,9 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.UpdateUser
                         context.AddFailure(result.Message);
                 });
 
+             RuleFor(p => p.RoleId)
+                .GreaterThan(0);
+
             RuleFor(p => p.DisplayName)
                 .MaximumLength(500);
 

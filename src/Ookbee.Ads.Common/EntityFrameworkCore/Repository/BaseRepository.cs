@@ -444,7 +444,6 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 query = query.Where(filter);
 
             if (selectMany != null)
-                // query = query.SelectMany(selectMany);
                 return query.SelectMany(selectMany).DefaultIfEmpty().FirstOrDefault();
 
 
