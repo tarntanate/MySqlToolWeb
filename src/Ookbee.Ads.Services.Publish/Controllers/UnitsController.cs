@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
-using Ookbee.Ads.Common.Extensions;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Services.Publish.Controllers
 {
     [ApiController]
-    [Route("api/units")]
+    [Route("api/[controller]")]
     public class UnitsController : ApiController
     {
         [HttpGet("{unitId}/ad")]
