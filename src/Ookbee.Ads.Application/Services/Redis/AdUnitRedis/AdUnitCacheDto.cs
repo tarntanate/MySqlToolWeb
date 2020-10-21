@@ -4,6 +4,6 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public AdUnitStatsCacheDto Analytics { get; set; }
+        public AnalyticsCacheDto Analytics { get; set; }
     }
 }

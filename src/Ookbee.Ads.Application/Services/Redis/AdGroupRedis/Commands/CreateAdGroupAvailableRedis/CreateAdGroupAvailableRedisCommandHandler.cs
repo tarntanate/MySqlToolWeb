@@ -36,7 +36,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
                 var getAdGroupList = await Mediator.Send(new GetAdGroupListQuery(start, length, null, request.PublisherId, null), cancellationToken);
                 if (getAdGroupList.IsSuccess)
                 {
-                    var items = getAdGroupList.Data.Select(group => new AdGroupEnabledCacheDto {
+                    var items = getAdGroupList.Data.Select(group => new AdGroupEnabledCacheDto
+                    {
                         Id = group.Id,
                         Enabled = group.Enabled
                     });
@@ -48,11 +49,14 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
 
             if (adGroups.Count() > 0)
             {
-                var result = new ApiListResult<AdGroupEnabledCacheDto>();
-                result.Data.Items = adGroups;
+                var cacheObj = new ApiListResult<AdGroupEnabledCacheDto>();
+                cacheObj.Data.Items = adGroups;
+
+                var hashField = request.PublisherName.ToUpper();
+                var hashValue = JsonHelper.Serialize(cacheObj);
+                var hashEntry = new HashEntry(hashField, hashValue);
                 var redisKey = CacheKey.GroupIdsPublisher();
-                var redisValue = new HashEntry(request.PublisherName.ToUpper(), JsonHelper.Serialize(result));
-                await AdsRedis.HashSetAsync(redisKey, new HashEntry[] { redisValue }, CommandFlags.FireAndForget);
+                await AdsRedis.HashSetAsync(redisKey, new HashEntry[] { hashEntry }, CommandFlags.FireAndForget);
             }
 
             return Unit.Value;

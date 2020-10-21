@@ -3,6 +3,7 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdById;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
@@ -37,21 +38,18 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                 var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                 foreach (var platform in platforms)
                 {
-                    var adCache = new
-                    {
+                    var adCache = new AdCacheDto() {
                         CountdownSecond = ad.CountdownSecond,
                         ForegroundColor = ad.ForegroundColor,
                         BackgroundColor = ad.BackgroundColor,
                         LinkUrl = ad.LinkUrl,
                         UnitType = ad.AdUnit.AdGroup.AdUnitType.Name,
-                        Assets = ad.Assets.Select(asset => new
-                        {
+                        Assets = ad.Assets.Select(asset => new AdAssetCacheDto {
                             Position = asset.Position,
                             AssetType = asset.AssetType,
                             AssetUrl = asset.AssetUrl,
                         }).ToList(),
-                        Analytics = new
-                        {
+                        Analytics = new AnalyticsCacheDto {
                             Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Click}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}".ToLower() },
                             Impressions = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Impression}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}".ToLower() }
                         }
@@ -59,11 +57,14 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
 
                     if (ad.Analytics.HasValue() &&
                         adCache.Analytics.HasValue())
-                        adCache.Analytics.Impressions.AddRange(ad.Analytics);
+                        adCache.Analytics.Impressions.Union(ad.Analytics);
 
-                    var redisKey = CacheKey.AdPlatforms(ad.Id);
+                    var cacheObj = new ApiItemResult<AdCacheDto>();
+                    cacheObj.Data = adCache;
+
                     var hashField = platform.ToString();
-                    var hashValue = (RedisValue)JsonHelper.Serialize(adCache);
+                    var hashValue = (RedisValue)JsonHelper.Serialize(cacheObj);
+                    var redisKey = CacheKey.AdPlatforms(ad.Id);
                     await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
                 }
             }
