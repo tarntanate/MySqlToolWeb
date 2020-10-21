@@ -4,6 +4,7 @@ using Ookbee.Ads.Application.Services.Advertisement.AdUnit;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitList;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Helpers;
+using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
@@ -51,8 +52,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                 var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                 foreach (var platform in platforms)
                 {
-                    var redisValue = adUnits.Select(unit => new
-                    {
+                    var items = adUnits.Select(unit => new AdUnitCacheDto {
                         Id = unit?.AdNetwork.Name.ToUpper() == "OOKBEE"
                             ? unit.Id.ToString()
                             : unit
@@ -63,9 +63,9 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                         Name = unit.AdNetwork.Name,
                         Analytics = unit?.AdNetwork.Name.ToUpper() == "OOKBEE"
                             ? null
-                            : new
+                            : new AnalyticsCacheDto
                             {
-                                Click = new List<string>() {
+                                Clicks = new List<string>() {
                                     $"{baseUrl}/api/units/{unit.Id}/stats?platform={platform}&type={AdStatsType.Click}".ToLower()
                                 },
                                 Impressions = new List<string>() {
@@ -73,9 +73,13 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                                 },
                             }
                     });
-                    var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
+
+                    var cacheObj = new ApiListResult<AdUnitCacheDto>();
+                    cacheObj.Data.Items = items.Where(x => !string.IsNullOrEmpty(x.Id)).ToList();
+
                     var hashField = platform.ToString();
-                    var hashValue = JsonHelper.Serialize(redisValue.Where(x => !string.IsNullOrEmpty(x.Id)));
+                    var hashValue = JsonHelper.Serialize(cacheObj);
+                    var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
                     await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
                 }
             }
