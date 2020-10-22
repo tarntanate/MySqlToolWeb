@@ -45,6 +45,24 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport
         }
     }
 
+     public class AdImpressionReportDto
+    {
+        public DateTime Day { get; set; }
+        public long Total { get; set; }
+
+        public static Expression<Func<AdImpressionReportEntity, AdImpressionReportDto>> Projection
+        {
+            get
+            {
+                return entity => new AdImpressionReportDto()
+                {
+                    Day = entity.Day,
+                    Total = entity.Total
+                };
+            }
+        }
+    }
+
     public class AdReportByAdIdDto
     {
         public DateTime Day { get; set; }
