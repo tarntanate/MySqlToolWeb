@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdImpressionReportByPublisherId;
 
 namespace Ookbee.Ads.Services.Management.Controllers
 {
@@ -60,7 +61,7 @@ namespace Ookbee.Ads.Services.Management.Controllers
         => await Mediator.Send(new GetAdImpressionPlatformReportByCampaignIdQuery(campaignId: campaignId, startDate: start, endDate: end), cancellationToken);
 
         [HttpGet("publisher/{publisherId}/impression")]
-        public async Task<Response<List<AdImpressionReportByCampaignIdDto>>> GetImpressionReportByPublisherId([FromRoute] int publisherId, [FromQuery] DateTime start, [FromQuery] DateTime end, CancellationToken cancellationToken)
-                 => await Mediator.Send(new GetImpressionReportByPublisherIdQuery(publisherId: publisherId, startDate: start, endDate: end), cancellationToken);
+        public async Task<Response<List<AdImpressionReportDto>>> GetImpressionReportByPublisherId([FromRoute] int publisherId, [FromQuery] DateTime start, [FromQuery] DateTime end, CancellationToken cancellationToken)
+                 => await Mediator.Send(new GetAdImpressionReportByPublisherIdQuery(publisherId: publisherId, startDate: start, endDate: end), cancellationToken);
     }
 }
