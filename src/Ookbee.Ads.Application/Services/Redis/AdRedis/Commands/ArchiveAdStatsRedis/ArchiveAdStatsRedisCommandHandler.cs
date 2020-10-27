@@ -42,7 +42,6 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.ArchiveAdStatsR
                     var adStatsList = getAdStatsList.Data;
                     foreach (var adStats in adStatsList)
                     {
-                        var adStatsCache = await Mediator.Send(new GetAdStatsRedisQuery(adStats.AdId), cancellationToken);
                         var adStatsDb = await AdStatsDbRepo.FirstAsync(
                             disableTracking: false,
                             filter: f =>
@@ -51,15 +50,21 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.ArchiveAdStatsR
                         );
                         if (adStatsDb.HasValue())
                         {
-                            var requestValue = adStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Click).Value;
-                            if (requestValue > adStatsDb.Click)
-                                adStatsDb.Click = requestValue;
+                            var adStatsCache = await Mediator.Send(new GetAdStatsRedisQuery(adStats.AdId), cancellationToken);
+                            if (adStatsCache.IsSuccess)
+                            {
+                                var quotaStats = adStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Quota).Value;
 
-                            var fillValue = adStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Impression).Value;
-                            if (fillValue > adStatsDb.Impression)
-                                adStatsDb.Impression = fillValue;
+                                var clickStats = adStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Click).Value;
+                                if (clickStats > adStatsDb.Click)
+                                    adStatsDb.Click = clickStats;
 
-                            await AdStatsDbRepo.SaveChangesAsync();
+                                var impressionStats = adStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Impression).Value;
+                                if (impressionStats > adStatsDb.Impression)
+                                    adStatsDb.Impression = (impressionStats > quotaStats) ? quotaStats : impressionStats;
+
+                                await AdStatsDbRepo.SaveChangesAsync();
+                            }
                         }
                     }
                     next = adStatsList.Count() == length ? true : false;

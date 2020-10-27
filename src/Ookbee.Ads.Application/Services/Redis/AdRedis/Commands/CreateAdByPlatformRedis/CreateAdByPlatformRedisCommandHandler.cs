@@ -30,26 +30,29 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
 
         public async Task<Unit> Handle(CreateAdByPlatformRedisCommand request, CancellationToken cancellationToken)
         {
-            var getAdList = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
-            if (getAdList.IsSuccess)
+            var getAdById = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
+            if (getAdById.IsSuccess)
             {
-                var ad = getAdList.Data;
+                var ad = getAdById.Data;
                 var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
                 var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                 foreach (var platform in platforms)
                 {
-                    var adCache = new AdCacheDto() {
+                    var adCache = new AdCacheDto()
+                    {
                         CountdownSecond = ad.CountdownSecond,
                         ForegroundColor = ad.ForegroundColor,
                         BackgroundColor = ad.BackgroundColor,
                         LinkUrl = ad.LinkUrl,
                         UnitType = ad.AdUnit.AdGroup.AdUnitType.Name,
-                        Assets = ad.Assets.Select(asset => new AdAssetCacheDto {
+                        Assets = ad.Assets.Select(asset => new AdAssetCacheDto
+                        {
                             Position = asset.Position,
                             AssetType = asset.AssetType,
                             AssetUrl = asset.AssetUrl,
                         }).ToList(),
-                        Analytics = new AnalyticsCacheDto {
+                        Analytics = new AnalyticsCacheDto
+                        {
                             Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Click}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}".ToLower() },
                             Impressions = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Impression}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}".ToLower() }
                         }

@@ -1,12 +1,14 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdStats;
-using Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdQuota;
 using Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdStats;
+using Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailableQuota;
+using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,10 +29,10 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdStatsRe
 
         public async Task<Unit> Handle(CreateAdStatsRedisCommand request, CancellationToken cancellationToken)
         {
-            var getAdStats = await Mediator.Send(new GetAdStatsQuery(request.AdId, request.CaculatedAt), cancellationToken);
+            var getAdStats = await Mediator.Send(new GetAdStatsQuery(request.CaculatedAt, request.AdId), cancellationToken);
             if (getAdStats.IsFail)
             {
-                var getAdQuotaById = await Mediator.Send(new GetAdQuotaQuery(request.AdId, request.CaculatedAt), cancellationToken);
+                var getAdQuotaById = await Mediator.Send(new GetAvailableQuotaQuery(request.CaculatedAt, request.AdId), cancellationToken);
                 if (getAdQuotaById.IsSuccess)
                 {
                     var adQuota = getAdQuotaById?.Data ?? 0L;
@@ -42,32 +44,29 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdStatsRe
             }
 
             var quota = getAdStats?.Data?.Quota ?? 0L;
-            var Impression = getAdStats?.Data?.Impression ?? 0L;
-            if (quota > Impression)
+            var impression = getAdStats?.Data?.Impression ?? 0L;
+            if (quota > impression)
             {
                 var redisKey = CacheKey.AdStats(request.AdId);
-                var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
-                if (!keyExists)
-                {
-                    var hashFields = new List<HashEntry>();
+                var redisValue = await AdsRedis.HashGetAllAsync(redisKey);
+                var hashFields = new List<HashEntry>();
 
-                    hashFields.Add(
-                        new HashEntry(
-                            AdStatsType.Quota.ToString(),
-                            getAdStats?.Data?.Quota ?? 0L));
+                var quotaDb = getAdStats?.Data?.Quota ?? 0L;
+                var quotaCache = (long)(redisValue?.FirstOrDefault(x => x.Name == AdStatsType.Quota.ToString()).Value ?? 0L);
+                if (quotaDb != quotaCache)
+                    hashFields.Add(new HashEntry(AdStatsType.Quota.ToString(), quotaDb));
 
-                    hashFields.Add(
-                        new HashEntry(
-                            AdStatsType.Click.ToString(),
-                            getAdStats?.Data?.Click ?? 0L));
+                var clickDb = getAdStats?.Data?.Click ?? 0L;
+                var clickCache = (long)(redisValue?.FirstOrDefault(x => x.Name == AdStatsType.Quota.ToString()).Value ?? 0L);
+                if (clickDb > clickCache)
+                    hashFields.Add(new HashEntry(AdStatsType.Click.ToString(), clickDb));
 
-                    hashFields.Add(
-                        new HashEntry(
-                            AdStatsType.Impression.ToString(),
-                            getAdStats?.Data?.Impression ?? 0L));
+                var impressionDb = getAdStats?.Data?.Impression ?? 0L;
+                var impressionCache = (long)(redisValue?.FirstOrDefault(x => x.Name == AdStatsType.Quota.ToString()).Value ?? 0L);
+                if (impressionDb > impressionCache)
+                    hashFields.Add(new HashEntry(AdStatsType.Impression.ToString(), impressionDb));
 
-                    await AdsRedis.HashSetAsync(redisKey, hashFields.ToArray(), CommandFlags.FireAndForget);
-                }
+                await AdsRedis.HashSetAsync(redisKey, hashFields.ToArray(), CommandFlags.FireAndForget);
             }
 
             return Unit.Value;
