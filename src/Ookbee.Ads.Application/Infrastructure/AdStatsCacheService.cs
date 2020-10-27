@@ -33,9 +33,13 @@ namespace Ookbee.Ads.Application.Infrastructure
                     do
                     {
                         var caculatedAt = MechineDateTime.Date;
+                        
                         await mediator.Send(new ArchiveAdGroupStatsRedisCommand(caculatedAt), cancellationToken);
+
                         await mediator.Send(new ArchiveAdUnitStatsRedisCommand(caculatedAt), cancellationToken);
+
                         await mediator.Send(new ArchiveAdStatsRedisCommand(caculatedAt), cancellationToken);
+
                         var nowDateTime = MechineDateTime.Now;
                         var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
                         var timeout = nextDateTime - nowDateTime;
@@ -43,7 +47,6 @@ namespace Ookbee.Ads.Application.Infrastructure
                     }
                     while (next);
                 }
-
             });
         }
     }
