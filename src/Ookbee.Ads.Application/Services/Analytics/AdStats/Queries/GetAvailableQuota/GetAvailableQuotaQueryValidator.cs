@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdQuota
+namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailableQuota
 {
-    public class GetAdQuotaQueryValidator : AbstractValidator<GetAdQuotaQuery>
+    public class GetAvailableQueryValidator : AbstractValidator<GetAvailableQuotaQuery>
     {
-        public GetAdQuotaQueryValidator()
+        public GetAvailableQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
 

@@ -8,14 +8,14 @@ using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdQuota
+namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailableQuota
 {
-    public class GetAdQuotaQueryHandler : IRequestHandler<GetAdQuotaQuery, Response<int>>
+    public class GetAvailableQuotaHandler : IRequestHandler<GetAvailableQuotaQuery, Response<int>>
     {
         private readonly AdsDbRepository<AdEntity> AdDbRepo;
         private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
-        public GetAdQuotaQueryHandler(
+        public GetAvailableQuotaHandler(
             AdsDbRepository<AdEntity> adDbRepo,
             AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdQuota
             AdStatsDbRepo = adStatsDbRepo;
         }
 
-        public async Task<Response<int>> Handle(GetAdQuotaQuery request, CancellationToken cancellationToken)
+        public async Task<Response<int>> Handle(GetAvailableQuotaQuery request, CancellationToken cancellationToken)
         {
             var result = new Response<int>();
 

@@ -60,7 +60,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUni
                         redisKey = CacheKey.UnitIds();
                         await AdsRedis.SetRemoveAsync(redisKey, adUnitId, CommandFlags.FireAndForget);
                     }
-                    await Mediator.Send(new DeleteAdRedisCommand(adUnitId));
+                    await Mediator.Send(new DeleteAdRedisCommand(request.CaculatedAt, adUnitId));
                 }
             }
 

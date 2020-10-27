@@ -42,7 +42,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                             await mediator.Send(new DeleteAdGroupByPublisherRedisCommand(), cancellationToken);
                             await mediator.Send(new CreateAdGroupByPublisherRedisCommand(), cancellationToken);
 
-                            await mediator.Send(new DeleteAdGroupRedisCommand(), cancellationToken);
+                            await mediator.Send(new DeleteAdGroupRedisCommand(caculatedAt), cancellationToken);
                             await mediator.Send(new CreateAdGroupRedisCommand(caculatedAt), cancellationToken);
 
                             await mediator.Send(new DeleteAdUserPreviewRedisCommand(), cancellationToken);

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdPlatformList;
-using Ookbee.Ads.Common.Extensions;
+using Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdById;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
@@ -28,50 +27,43 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdIdRedis
 
         public async Task<Unit> Handle(CreateAdIdRedisCommand request, CancellationToken cancellationToken)
         {
-            var start = 0;
-            var length = 100;
-            var next = false;
-            do
+            var getAdPlatformList = await Mediator.Send(new GetAdByIdQuery(request.AdId), cancellationToken);
+            if (getAdPlatformList.IsSuccess)
             {
-                var getAdPlatformList = await Mediator.Send(new GetAdPlatformListQuery(start, length, request.AdUnitId, null), cancellationToken);
-                if (getAdPlatformList.IsSuccess)
+                var ad = getAdPlatformList.Data;
+
+                var redisKey = CacheKey.AdIds();
+                var redisValue = (RedisValue)ad.Id;
+                await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
+
+                if (ad.Status == AdStatusType.Publish)
                 {
-                    var ads = getAdPlatformList.Data;
-                    
-                    var redisKey = CacheKey.AdIds();
-                    var redisValues = ads.Select(ad => (RedisValue)ad.Id).ToArray();
-                    await AdsRedis.SetAddAsync(redisKey, redisValues, CommandFlags.FireAndForget);
+                    redisKey = CacheKey.UnitAdIds(request.AdId);
+                    await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
+                }
 
-                    redisKey = CacheKey.UnitAdIds(request.AdUnitId);
-                    redisValues = ads.Where(ad => ad.Status == AdStatusType.Publish).Select(item => (RedisValue)item.Id).ToArray();
-                    await AdsRedis.SetAddAsync(redisKey, redisValues, CommandFlags.FireAndForget);
+                if (ad.Status == AdStatusType.Preview)
+                {
+                    redisKey = CacheKey.UnitAdIdsPreview(request.AdId);
+                    await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
+                }
 
-                    redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId);
-                    redisValues = ads.Where(ad => ad.Status == AdStatusType.Preview).Select(item => (RedisValue)item.Id).ToArray();
-                    await AdsRedis.SetAddAsync(redisKey, redisValues, CommandFlags.FireAndForget);
-
-                    var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
-                    foreach (var platform in platforms)
+                var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
+                foreach (var platform in platforms)
+                {
+                    if (ad.Status == AdStatusType.Publish && ad.Platforms.Contains(platform))
                     {
-                        redisValues = ads.Where(ad => ad.Status == AdStatusType.Publish && ad.Platforms.Contains(platform)).Select(item => (RedisValue)item.Id).ToArray();
-                        if (redisValues.HasValue())
-                        {
-                            redisKey = CacheKey.UnitAdIds(request.AdUnitId, platform);
-                            await AdsRedis.SetAddAsync(redisKey, redisValues, CommandFlags.FireAndForget);
-                        }
-
-                        redisValues = ads.Where(ad => ad.Status == AdStatusType.Preview && ad.Platforms.Contains(platform)).Select(item => (RedisValue)item.Id).ToArray();
-                        if (redisValues.HasValue())
-                        {
-                            redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, platform);
-                            await AdsRedis.SetAddAsync(redisKey, redisValues, CommandFlags.FireAndForget);
-                        }
+                        redisKey = CacheKey.UnitAdIds(request.AdId, platform);
+                        await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                     }
 
-                    next = ads.Count() == length ? true : false;
+                    if (ad.Status == AdStatusType.Preview && ad.Platforms.Contains(platform))
+                    {
+                        redisKey = CacheKey.UnitAdIdsPreview(request.AdId, platform);
+                        await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
+                    }
                 }
             }
-            while (next);
 
             return Unit.Value;
         }
