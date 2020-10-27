@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateGroupRequestLog;
 using Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupIdRedis;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroupIdListByPublisherIdRedis;
 using Ookbee.Ads.Common;
@@ -60,12 +61,12 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             var s = kafkaResponse.StatusCode;
 
             // For Testing TimeScaleDb
-            // var timescaleResult = await Mediator.Send(
-            //     new CreateGroupRequestLogCommand(
-            //         platformId: (short)platform,
-            //         adGroupId: (short)groupId,
-            //         uuid: new Random().Next(0, 20).ToString()),
-            //         cancellationToken);
+            var timescaleResult = await Mediator.Send(
+                new CreateGroupRequestLogCommand(
+                    platformId: (short)platform,
+                    adGroupId: (short)groupId,
+                    uuid: ookbeeId ?? new Random().Next(0, 20).ToString()),
+                    cancellationToken);
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
             var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);
