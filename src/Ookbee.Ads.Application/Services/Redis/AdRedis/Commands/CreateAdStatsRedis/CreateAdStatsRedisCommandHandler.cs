@@ -42,7 +42,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdStatsRe
                     }
                 }
             }
-
+            
             var quota = getAdStats?.Data?.Quota ?? 0L;
             var impression = getAdStats?.Data?.Impression ?? 0L;
             if (quota > impression)
