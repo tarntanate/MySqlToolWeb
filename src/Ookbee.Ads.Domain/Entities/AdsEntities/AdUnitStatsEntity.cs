@@ -1,7 +1,7 @@
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 using System;
 
-namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
+namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
     public class AdUnitStatsEntity : BaseEntity, IBaseIdentity, ICreatedAt, IUpdatedAt
     {

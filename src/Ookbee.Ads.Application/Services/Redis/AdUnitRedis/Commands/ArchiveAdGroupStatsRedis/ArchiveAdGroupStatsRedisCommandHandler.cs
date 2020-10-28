@@ -2,9 +2,9 @@
 using Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUnitStatsList;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdUnitStatsRedis;
 using Ookbee.Ads.Common.Extensions;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Linq;
@@ -17,12 +17,12 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.ArchiveAdUn
     {
         private readonly IMediator Mediator;
         private readonly IDatabase AdsRedis;
-        private readonly AnalyticsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo;
+        private readonly AdsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo;
 
         public ArchiveAdUnitRedisCommandHandler(
             IMediator mediator,
             AdsRedisContext adsRedis,
-            AnalyticsDbRepository<AdUnitStatsEntity> adUnitStatsDbRepo)
+            AdsDbRepository<AdUnitStatsEntity> adUnitStatsDbRepo)
         {
             Mediator = mediator;
             AdsRedis = adsRedis.Database();

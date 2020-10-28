@@ -3,7 +3,6 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdStats;
 using Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAdStats;
 using Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailableQuota;
-using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -42,7 +41,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdStatsRe
                     }
                 }
             }
-            
+
             var quota = getAdStats?.Data?.Quota ?? 0L;
             var impression = getAdStats?.Data?.Impression ?? 0L;
             if (quota > impression)
@@ -51,18 +50,18 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdStatsRe
                 var redisValue = await AdsRedis.HashGetAllAsync(redisKey);
                 var hashFields = new List<HashEntry>();
 
-                var quotaDb = getAdStats?.Data?.Quota ?? 0L;
                 var quotaCache = (long)(redisValue?.FirstOrDefault(x => x.Name == AdStatsType.Quota.ToString()).Value ?? 0L);
+                var quotaDb = getAdStats?.Data?.Quota ?? 0L;
                 if (quotaDb != quotaCache)
                     hashFields.Add(new HashEntry(AdStatsType.Quota.ToString(), quotaDb));
 
+                var clickCache = (long)(redisValue?.FirstOrDefault(x => x.Name == AdStatsType.Click.ToString()).Value ?? 0L);
                 var clickDb = getAdStats?.Data?.Click ?? 0L;
-                var clickCache = (long)(redisValue?.FirstOrDefault(x => x.Name == AdStatsType.Quota.ToString()).Value ?? 0L);
                 if (clickDb > clickCache)
                     hashFields.Add(new HashEntry(AdStatsType.Click.ToString(), clickDb));
 
+                var impressionCache = (long)(redisValue?.FirstOrDefault(x => x.Name == AdStatsType.Impression.ToString()).Value ?? 0L);
                 var impressionDb = getAdStats?.Data?.Impression ?? 0L;
-                var impressionCache = (long)(redisValue?.FirstOrDefault(x => x.Name == AdStatsType.Quota.ToString()).Value ?? 0L);
                 if (impressionDb > impressionCache)
                     hashFields.Add(new HashEntry(AdStatsType.Impression.ToString(), impressionDb));
 

@@ -3,10 +3,8 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.GetAdIdListRedis;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Linq;
@@ -20,13 +18,13 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
         private readonly IMediator Mediator;
         private readonly IDatabase AdsRedis;
         private readonly AdsDbRepository<AdEntity> AdDbRepo;
-        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
+        private readonly AdsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public DeleteAdRedisCommandHandler(
             IMediator mediator,
             AdsRedisContext adsRedis,
             AdsDbRepository<AdEntity> adDbRepo,
-            AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
+            AdsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
             Mediator = mediator;
             AdsRedis = adsRedis.Database();

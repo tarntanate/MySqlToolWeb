@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Persistence.EFCore.AnalyticsDb.Configurations
 {
-    public class AdGroupStatsConfiguration : IEntityTypeConfiguration<AdGroupStatsEntity>
+    public class AdStatsConfiguration : IEntityTypeConfiguration<AdStatsEntity>
     {
-        public void Configure(EntityTypeBuilder<AdGroupStatsEntity> builder)
+        public void Configure(EntityTypeBuilder<AdStatsEntity> builder)
         {
             builder.HasKey(e => e.Id);
 

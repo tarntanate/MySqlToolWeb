@@ -15,7 +15,6 @@ using Ookbee.Ads.Common.Swagger;
 using Ookbee.Ads.Infrastructure.Settings;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using System.Reflection;
 
@@ -60,9 +59,7 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
 
             // EFCore
             services.AddDbContext<AdsDbContext>();
-            services.AddDbContext<AnalyticsDbContext>();
             services.AddScoped(typeof(AdsDbRepository<>));
-            services.AddScoped(typeof(AnalyticsDbRepository<>));
 
             // MongoDB
             services.AddSingleton<AdsMongoContext>();
