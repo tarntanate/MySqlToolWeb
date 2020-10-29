@@ -20,6 +20,6 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public virtual PublisherEntity Publisher { get; set; }
 
         public virtual List<AdUnitEntity> AdUnits { get; set; }
-ConfigureConfigure        public virtual List<AdGroupStatsEntity> AdGroupStats { get; set; }
+        public virtual List<AdGroupStatsEntity> AdGroupStats { get; set; }
     }
 }
