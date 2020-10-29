@@ -10,6 +10,11 @@ namespace Ookbee.Ads.Persistence.EFCore.AnalyticsDb.Configurations
         {
             builder.HasKey(e => e.Id);
 
+            builder.HasOne(e => e.AdUnit)
+                   .WithMany(e => e.AdUnitStats)
+                   .HasForeignKey(e => e.AdUnitId)
+                   .IsRequired();
+
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();
         }

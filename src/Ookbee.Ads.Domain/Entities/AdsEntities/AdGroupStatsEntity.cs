@@ -11,5 +11,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public DateTimeOffset CaculatedAt { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
+
+        public virtual AdGroupEntity AdGroup { get; set; }
     }
 }
