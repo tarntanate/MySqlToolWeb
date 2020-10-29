@@ -1,6 +1,6 @@
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using System;
 using System.Linq.Expressions;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Application.Services.Analytics.AdStats
 {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,11 +11,11 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Commands.UpdateA
     public class UpdateAdGroupStatsCommandHandler : IRequestHandler<UpdateAdGroupStatsCommand, Response<bool>>
     {
         private readonly IMapper Mapper;
-        private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
+        private readonly AdsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
         public UpdateAdGroupStatsCommandHandler(
             IMapper mapper,
-            AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
+            AdsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
             Mapper = mapper;
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
