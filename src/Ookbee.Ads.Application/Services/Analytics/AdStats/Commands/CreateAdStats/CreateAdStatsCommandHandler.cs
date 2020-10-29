@@ -1,21 +1,21 @@
-﻿using AutoMapper;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
-using System.Threading;
-using System.Threading.Tasks;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 
 namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.CreateAdStats
 {
     public class CreateAdStatsCommandHandler : IRequestHandler<CreateAdStatsCommand, Response<long>>
     {
         private readonly IMapper Mapper;
-        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
+        private readonly AdsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public CreateAdStatsCommandHandler(
             IMapper mapper,
-            AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
+            AdsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
             Mapper = mapper;
             AdStatsDbRepo = adStatsDbRepo;

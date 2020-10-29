@@ -2,8 +2,8 @@
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,10 +13,10 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.GetAdGro
 {
     public class GetAdGroupStatsIdListQueryHandler : IRequestHandler<GetAdGroupStatsIdListQuery, Response<IEnumerable<long>>>
     {
-        private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
+        private readonly AdsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
         public GetAdGroupStatsIdListQueryHandler(
-            AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
+            AdsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }

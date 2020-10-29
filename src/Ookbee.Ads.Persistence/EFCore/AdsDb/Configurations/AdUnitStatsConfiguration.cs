@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Persistence.EFCore.AnalyticsDb.Configurations
 {
@@ -9,6 +9,11 @@ namespace Ookbee.Ads.Persistence.EFCore.AnalyticsDb.Configurations
         public void Configure(EntityTypeBuilder<AdUnitStatsEntity> builder)
         {
             builder.HasKey(e => e.Id);
+
+            builder.HasOne(e => e.AdUnit)
+                   .WithMany(e => e.AdUnitStats)
+                   .HasForeignKey(e => e.AdUnitId)
+                   .IsRequired();
 
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();
