@@ -1,10 +1,10 @@
 ﻿using MediatR;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,11 +13,11 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailable
     public class GetAvailableQuotaHandler : IRequestHandler<GetAvailableQuotaQuery, Response<int>>
     {
         private readonly AdsDbRepository<AdEntity> AdDbRepo;
-        private readonly AnalyticsDbRepository<AdStatsEntity> AdStatsDbRepo;
+        private readonly AdsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
         public GetAvailableQuotaHandler(
             AdsDbRepository<AdEntity> adDbRepo,
-            AnalyticsDbRepository<AdStatsEntity> adStatsDbRepo)
+            AdsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
             AdDbRepo = adDbRepo;
             AdStatsDbRepo = adStatsDbRepo;
@@ -33,16 +33,18 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailable
 
             if (ad.HasValue())
             {
-                var impressions = await AdStatsDbRepo.SumAsync(
+                var totalImpression = await AdStatsDbRepo.SumAsync(
                     filter: f =>
                         f.AdId == request.AdId &&
                         f.CaculatedAt < request.CaculatedAt,
                     selector: f =>
                         f.Impression
                 );
-                var avalible = ad.Quota - (int)impressions;
-                avalible = avalible < 0 ? 0 : avalible;
-                return result.OK(avalible);
+                var days = (int)Math.Ceiling((ad.EndAt - ad.StartAt).TotalDays) + 1;
+                var daysLeft = (int)Math.Ceiling((ad.EndAt - MechineDateTime.Date).TotalDays) + 1;
+                var remainingQuota = ad.Quota - totalImpression;
+                var todayQuota = (int)Math.Ceiling(remainingQuota / daysLeft);
+                return result.OK(todayQuota);
             }
             return result.NotFound();
         }

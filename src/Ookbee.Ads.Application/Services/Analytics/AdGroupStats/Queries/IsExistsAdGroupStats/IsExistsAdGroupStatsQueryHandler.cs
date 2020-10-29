@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,9 +9,10 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.IsExists
 {
     public class IsExistsAdGroupStatsQueryHandler : IRequestHandler<IsExistsAdGroupStatsQuery, Response<bool>>
     {
-        private readonly AnalyticsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
+        private readonly AdsDbRepository<AdGroupStatsEntity> AdGroupStatsDbRepo;
 
-        public IsExistsAdGroupStatsQueryHandler(AnalyticsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
+        public IsExistsAdGroupStatsQueryHandler(
+            AdsDbRepository<AdGroupStatsEntity> adGroupStatsDbRepo)
         {
             AdGroupStatsDbRepo = adGroupStatsDbRepo;
         }

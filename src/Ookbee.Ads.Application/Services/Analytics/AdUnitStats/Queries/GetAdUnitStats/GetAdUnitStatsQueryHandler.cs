@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
-using Ookbee.Ads.Persistence.EFCore.AnalyticsDb;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,9 +9,10 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUni
 {
     public class GetAdUnitStatsQueryHandler : IRequestHandler<GetAdUnitStatsQuery, Response<AdUnitStatsDto>>
     {
-        private readonly AnalyticsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo;
+        private readonly AdsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo;
 
-        public GetAdUnitStatsQueryHandler(AnalyticsDbRepository<AdUnitStatsEntity> adUnitStatsDbRepo)
+        public GetAdUnitStatsQueryHandler(
+            AdsDbRepository<AdUnitStatsEntity> adUnitStatsDbRepo)
         {
             AdUnitStatsDbRepo = adUnitStatsDbRepo;
         }

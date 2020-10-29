@@ -39,9 +39,10 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdRedis
                     var ads = getAdList.Data;
                     foreach (var ad in ads)
                     {
-                        var getAdQuota = await Mediator.Send(new GetAdStatsQuery(request.CaculatedAt, ad.Id), cancellationToken);
-                        if (getAdQuota.IsSuccess && 
-                            getAdQuota.Data.Quota > getAdQuota.Data.Impression)
+                        var getAdStats = await Mediator.Send(new GetAdStatsQuery(request.CaculatedAt, ad.Id), cancellationToken);
+                        var isExists = getAdStats.IsSuccess;
+                        var isAvailable = isExists ? getAdStats.Data.Quota > getAdStats.Data.Impression : false;
+                        if (isAvailable || !isExists)
                         {
                             await Mediator.Send(new CreateAdIdRedisCommand(ad.Id));
                             await Mediator.Send(new CreateAdByPlatformRedisCommand(ad.Id));

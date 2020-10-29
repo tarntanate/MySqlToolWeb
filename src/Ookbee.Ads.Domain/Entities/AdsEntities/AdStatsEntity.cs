@@ -1,7 +1,7 @@
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 using System;
 
-namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
+namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
     public class AdStatsEntity : BaseEntity, IBaseIdentity, ICreatedAt, IUpdatedAt
     {
@@ -13,5 +13,7 @@ namespace Ookbee.Ads.Domain.Entities.AnalyticsEntities
         public DateTimeOffset CaculatedAt { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
+
+        public virtual AdEntity Ad { get; set; }
     }
 }

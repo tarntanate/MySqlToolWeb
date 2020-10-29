@@ -38,13 +38,13 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdIdRedis
 
                 if (ad.Status == AdStatusType.Publish)
                 {
-                    redisKey = CacheKey.UnitAdIds(request.AdId);
+                    redisKey = CacheKey.UnitAdIds(ad.AdUnit.Id);
                     await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                 }
 
                 if (ad.Status == AdStatusType.Preview)
                 {
-                    redisKey = CacheKey.UnitAdIdsPreview(request.AdId);
+                    redisKey = CacheKey.UnitAdIdsPreview(ad.AdUnit.Id);
                     await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                 }
 
@@ -53,13 +53,13 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdIdRedis
                 {
                     if (ad.Status == AdStatusType.Publish && ad.Platforms.Contains(platform))
                     {
-                        redisKey = CacheKey.UnitAdIds(request.AdId, platform);
+                        redisKey = CacheKey.UnitAdIds(ad.AdUnit.Id, platform);
                         await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                     }
 
                     if (ad.Status == AdStatusType.Preview && ad.Platforms.Contains(platform))
                     {
-                        redisKey = CacheKey.UnitAdIdsPreview(request.AdId, platform);
+                        redisKey = CacheKey.UnitAdIdsPreview(ad.AdUnit.Id, platform);
                         await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                     }
                 }

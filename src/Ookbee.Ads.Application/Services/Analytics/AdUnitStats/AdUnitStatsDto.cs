@@ -1,4 +1,4 @@
-using Ookbee.Ads.Domain.Entities.AnalyticsEntities;
+using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
 using System.Linq.Expressions;
 
