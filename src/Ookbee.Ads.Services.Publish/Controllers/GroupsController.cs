@@ -28,20 +28,20 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         }
 
         [HttpGet("{groupId}/units")]
-        public async Task<ContentResult> GetAdUnitByGroupId([FromQuery] AdPlatform platform, [FromRoute] long groupId, [FromQuery] string ookbeeId, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdUnitByGroupId([FromQuery] AdPlatform platform, [FromRoute] long groupId, [FromQuery] string ookbeeId_query, [FromHeader(Name="Ookbee-Account-Id")] string ookbeeId_header, CancellationToken cancellationToken)
         {
             var kafkaKeyValue = new AdsRequestLogRecordRequest
             {
                 Key = new AdsRequestLogKeyRequest
                 {
-                    UUID = ookbeeId ?? "99"
+                    UUID = ookbeeId_query ?? ookbeeId_header ?? "99"
                 },
                 Value = new AdsRequestLogValueRequest
                 {
                     CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
                     AdsGroupId = (int)groupId,
                     PlatformId = (int) platform,
-                    UUID = ookbeeId ?? new Random().Next(0, 20).ToString(),
+                    UUID = ookbeeId_query ?? ookbeeId_header ?? new Random().Next(0, 20).ToString(),
                     RequestTypeId = 1
                 }
             };
@@ -65,7 +65,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                 new CreateGroupRequestLogCommand(
                     platformId: (short)platform,
                     adGroupId: (short)groupId,
-                    uuid: ookbeeId ?? new Random().Next(0, 20).ToString()),
+                    uuid: ookbeeId_query ?? ookbeeId_header ?? new Random().Next(0, 20).ToString()),
                     cancellationToken);
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
