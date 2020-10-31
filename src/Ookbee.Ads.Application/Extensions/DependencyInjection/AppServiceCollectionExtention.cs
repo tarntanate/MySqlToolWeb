@@ -64,7 +64,7 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             services.AddDbContext<TimeScaleDbContext>();
             services.AddScoped(typeof(AdsDbRepository<>));
             services.AddScoped(typeof(TimeScaleDbRepository<>));
-            services.AddScoped(typeof(AdsDbRepository<>));
+            // services.AddScoped(typeof(AdsDbRepository<>));
 
             // MongoDB
             services.AddSingleton<AdsMongoContext>();

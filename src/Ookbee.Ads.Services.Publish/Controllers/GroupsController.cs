@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                 Value = new AdGroupRequestLogValueRequest
                 {
                     CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    AdGroupId = (int)groupId,
+                    AdsGroupId = (int)groupId,
                     PlatformId = (int) platform,
                     UUID = ookbeeId_query ?? ookbeeId_header ?? new Random().Next(0, 20).ToString(),
                 }
@@ -62,12 +62,12 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             var s = kafkaResponse.StatusCode;
 
             // For Testing TimeScaleDb
-            var timescaleResult = await Mediator.Send(
-                new CreateGroupRequestLogCommand(
-                    platformId: (short)platform,
-                    adGroupId: (short)groupId,
-                    uuid: ookbeeId_query ?? ookbeeId_header ?? new Random().Next(0, 20).ToString()),
-                    cancellationToken);
+            // var timescaleResult = await Mediator.Send(
+            //     new CreateGroupRequestLogCommand(
+            //         platformId: (short)platform,
+            //         adGroupId: (short)groupId,
+            //         uuid: ookbeeId_query ?? ookbeeId_header ?? new Random().Next(0, 20).ToString()),
+            //         cancellationToken);
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
             var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);
