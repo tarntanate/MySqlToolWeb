@@ -11,7 +11,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     [Route("api/[controller]")]
     public class UnitsController : ApiController
     {
-        [HttpGet("{unitId}/ad")]      
+        [HttpGet("{unitId}/ad")]
         public async Task<ContentResult> GetAdByUnitId([FromQuery] string platform, [FromRoute] long unitId, [FromQuery] string ookbeeId_query, [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId_header, CancellationToken cancellationToken)
         {
             long? ookbeeId = Convert.ToInt32(ookbeeId_query ?? ookbeeId_header);

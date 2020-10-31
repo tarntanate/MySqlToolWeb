@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.RequestLogs.RequestLog.Commands.CreateGroupRequestLog;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupIdRedis;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroupIdListByPublisherIdRedis;
 using Ookbee.Ads.Common;
@@ -30,29 +31,29 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         [HttpGet("{groupId}/units")]
         public async Task<ContentResult> GetAdUnitByGroupId([FromQuery] AdPlatform platform, [FromRoute] long groupId, [FromQuery] string ookbeeId_query, [FromHeader(Name="Ookbee-Account-Id")] string ookbeeId_header, CancellationToken cancellationToken)
         {
-            var kafkaKeyValue = new AdsRequestLogRecordRequest
+            var kafkaKeyValue = new AdGroupRequestLogRecordRequest
             {
-                Key = new AdsRequestLogKeyRequest
+                Key = new AdGroupRequestLogKeyRequest
                 {
                     UUID = ookbeeId_query ?? ookbeeId_header ?? "99"
                 },
-                Value = new AdsRequestLogValueRequest
+                Value = new AdGroupRequestLogValueRequest
                 {
                     CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    AdsGroupId = (int)groupId,
+                    AdGroupId = (int)groupId,
                     PlatformId = (int) platform,
                     UUID = ookbeeId_query ?? ookbeeId_header ?? new Random().Next(0, 20).ToString(),
-                    RequestTypeId = 1
                 }
             };
 
-            var kafkaRequest = new AdsRequestLogRequest
+            var kafkaSchema = new GroupRequestLogSchema();
+            var kafkaRequest = new AdGroupRequestLogRequest
             {
-                Records = new List<AdsRequestLogRecordRequest>() {
+                Records = new List<AdGroupRequestLogRecordRequest>() {
                     kafkaKeyValue
                 },
-                ValueSchemaId = 45,
-                KeySchemaId = 41
+                ValueSchemaId = kafkaSchema.value_schema_id,
+                KeySchemaId = kafkaSchema.key_schema_id
             };
             
 
