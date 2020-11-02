@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models
         [JsonProperty("key")]
         public AdGroupRequestLogKeyRequest Key { get; set; }
         [JsonProperty("value")]
-        public AdGroupRequestLogValueRequest Value { get; set; }
+        public AdsRequestLogValueRequest Value { get; set; }
 
     }
 }

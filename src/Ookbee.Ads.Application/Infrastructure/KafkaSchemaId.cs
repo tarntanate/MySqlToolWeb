@@ -24,4 +24,13 @@ namespace Ookbee.Ads.Application.Infrastructure
             key_schema_id = 49;
         }
     }
+
+     public class AdClickLogSchema : KafkaSchemaId
+    {
+        public AdClickLogSchema()
+        {
+            value_schema_id = 50;
+            key_schema_id = 51;
+        }
+    }
 }

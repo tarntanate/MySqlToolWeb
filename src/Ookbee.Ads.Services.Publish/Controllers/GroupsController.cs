@@ -29,20 +29,27 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         }
 
         [HttpGet("{groupId}/units")]
-        public async Task<ContentResult> GetAdUnitByGroupId([FromQuery] AdPlatform platform, [FromRoute] long groupId, [FromQuery] string ookbeeId, [FromHeader(Name="Ookbee-Account-Id")] string ookbeeId_header, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdUnitByGroupId(
+            [FromQuery] AdPlatform platform,
+            [FromRoute] long groupId,
+            [FromQuery] string ookbeeId,
+            [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId_header,
+            [FromHeader(Name = "Ookbee-Device-Id")] string deviceId_header,
+            CancellationToken cancellationToken)
         {
+            var uuid = ookbeeId_header ?? ookbeeId ?? deviceId_header ?? "0";
             var kafkaKeyValue = new AdGroupRequestLogRecordRequest
             {
                 Key = new AdGroupRequestLogKeyRequest
                 {
-                    UUID = ookbeeId ?? ookbeeId_header ?? "99"
+                    UUID = uuid
                 },
-                Value = new AdGroupRequestLogValueRequest
+                Value = new AdsRequestLogValueRequest
                 {
                     CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
                     AdsGroupId = (int)groupId,
-                    PlatformId = (int) platform,
-                    UUID = ookbeeId ?? ookbeeId_header ?? new Random().Next(0, 20).ToString(),
+                    PlatformId = (int)platform,
+                    UUID = uuid
                 }
             };
 
@@ -55,10 +62,9 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                 ValueSchemaId = kafkaSchema.value_schema_id,
                 KeySchemaId = kafkaSchema.key_schema_id
             };
-            
 
             var adRequestLogService = new AdsRequestLogService(HttpClient);
-            var kafkaResponse = await adRequestLogService.Create(kafkaRequest, cancellationToken);
+            var kafkaResponse = await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
             var s = kafkaResponse.StatusCode;
 
             // For Testing TimeScaleDb
