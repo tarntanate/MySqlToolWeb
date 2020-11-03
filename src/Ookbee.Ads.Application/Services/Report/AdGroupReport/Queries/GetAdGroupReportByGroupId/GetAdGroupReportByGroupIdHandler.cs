@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Business.Report.AdGroupReport.Queries.GetAdGrou
             var sqlCommandText = $@"SELECT time_bucket('1 day', ""CreatedAt"" ) AS ""Day"",
                 COUNT(*) as ""Total""
                 FROM public.""GroupRequestLog""
-                WHERE ""AdGroupId"" = " + request.AdGroupId.ToString() + 
+                WHERE ""AdsGroupId"" = " + request.AdGroupId.ToString() + 
                 $@" AND ""CreatedAt"" BETWEEN '{request.StartDate.ToString("yyyy-MM-dd")}' AND '{request.EndDate.AddDays(1).ToString("yyyy-MM-dd")}'
                 GROUP BY ""Day""
                 ORDER BY ""Day"" ";
