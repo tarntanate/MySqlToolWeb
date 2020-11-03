@@ -53,8 +53,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                         }).ToList(),
                         Analytics = new AnalyticsCacheDto
                         {
-                            Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Click}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}".ToLower() },
-                            Impressions = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?platform={platform}&type={AdStatsType.Impression}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}".ToLower() }
+                            Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?type={AdStatsType.Click}&platform={platform}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}&publisherId={ad.AdUnit.AdGroup.Publisher.Id}".ToLower() },
+                            Impressions = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?type={AdStatsType.Impression}&platform={platform}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}&publisherId={ad.AdUnit.AdGroup.Publisher.Id}".ToLower() }
                         }
                     };
 
