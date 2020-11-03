@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
@@ -27,11 +28,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
             var predicate = PredicateBuilder.True<AdEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
             predicate = predicate.And(f => f.Status == AdStatusType.Preview || f.Status == AdStatusType.Publish);
+            predicate = predicate.And(f => f.StartAt <= MechineDateTime.Now && f.EndAt >= MechineDateTime.Now);
 
-            if (request.AdUnitId.HasValue() && request.AdUnitId > 0)
+            if (request.AdUnitId.HasValue())
                 predicate = predicate.And(f => f.AdUnitId == request.AdUnitId);
 
-            if (request.CampaignId.HasValue() && request.CampaignId > 0)
+            if (request.CampaignId.HasValue())
                 predicate = predicate.And(f => f.CampaignId == request.CampaignId);
 
             var items = await AdDbRepo.FindAsync(

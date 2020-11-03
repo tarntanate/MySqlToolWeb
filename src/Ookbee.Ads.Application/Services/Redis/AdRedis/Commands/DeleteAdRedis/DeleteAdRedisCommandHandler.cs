@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.GetAdIdListRedis;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
@@ -43,6 +44,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                         filter: f =>
                             f.Id == adId &&
                             f.DeletedAt == null &&
+                            f.StartAt <= MechineDateTime.Now &&
+                            f.EndAt >= MechineDateTime.Now &&
                             f.AdUnit.DeletedAt == null &&
                             f.AdUnit.AdGroup.DeletedAt == null);
 
@@ -64,6 +67,9 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
 
                         redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId);
                         await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
+
+                        redisKey = CacheKey.UnitAdFillRate(request.AdUnitId);
+                        await AdsRedis.HashDeleteAsync(redisKey, adId, CommandFlags.FireAndForget);
 
                         var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                         foreach (var platform in platforms)
