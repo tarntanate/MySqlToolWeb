@@ -12,6 +12,7 @@ using Ookbee.Ads.Common.AspNetCore.Attributes;
 using Ookbee.Ads.Common.AspNetCore.Extentions;
 using Ookbee.Ads.Common.AspNetCore.OutputFormatters;
 using Ookbee.Ads.Common.Swagger;
+using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Settings;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -28,9 +29,10 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             var appsettings = new AppSettings();
             configuration.GetSection(nameof(AppSettings)).Bind(appsettings);
             services.AddHttpContextAccessor();
-            services.AddSingleton<IConfiguration>(configuration);
+            services.AddSingleton(appsettings);
             services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
             services.Configure<ApiBehaviorOptions>((options) => options.SuppressModelStateInvalidFilter = true);
+
             // MVC
             services.AddRouting((options) =>
             {
@@ -84,6 +86,9 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+            // Build
+            GlobalVar.Services = services.BuildServiceProvider();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdUnitI
         public async Task<Response<IEnumerable<long>>> Handle(GetAdUnitIdListRedisQuery request, CancellationToken cancellationToken)
         {
             var items = new List<long>();
-            var redisKey = CacheKey.GroupUnitIds(request.AdUnitId);
+            var redisKey = CacheKey.GroupUnitIds(request.AdGroupId);
             var redisValues = await AdsRedis.SetMembersAsync(redisKey);
             if (redisValues.HasValue())
                 items = redisValues.Select(redisValue => (long)redisValue).ToList();
