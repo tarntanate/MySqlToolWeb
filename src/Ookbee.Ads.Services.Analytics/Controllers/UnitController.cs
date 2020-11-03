@@ -90,10 +90,11 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                 await adRequestLogService.Create("topics/adclicklog", kafkaRequest, cancellationToken);
             }
 
-            var result = await Mediator.Send(new UpdateAdUnitStatsRedisCommand(adUnitId, type.ToEnum<AdStatsType>()), cancellationToken);
-            if (result.IsSuccess)
-                return new ContentResult() { StatusCode = 200 };
-            return new ContentResult() { StatusCode = 404, Content = result.Message };
+            return new ContentResult() { StatusCode = 200 };
+            // var result = await Mediator.Send(new UpdateAdUnitStatsRedisCommand(adUnitId, type.ToEnum<AdStatsType>()), cancellationToken);
+            // if (result.IsSuccess)
+            //     return new ContentResult() { StatusCode = 200 };
+            // return new ContentResult() { StatusCode = 404, Content = result.Message };
         }
     }
 }
