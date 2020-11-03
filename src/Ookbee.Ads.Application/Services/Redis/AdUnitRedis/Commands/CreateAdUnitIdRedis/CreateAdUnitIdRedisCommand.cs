@@ -4,11 +4,11 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
 {
     public class CreateAdUnitIdRedisCommand : IRequest<Unit>
     {
-        public long AdUnitId { get; private set; }
+        public long AdGroupId { get; private set; }
 
-        public CreateAdUnitIdRedisCommand(long adUnitId)
+        public CreateAdUnitIdRedisCommand(long adGroupId)
         {
-            AdUnitId = adUnitId;
+            AdGroupId = adGroupId;
         }
     }
 }

@@ -5,7 +5,6 @@ using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGroupB
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGroupRedis;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.DeleteAdGroupByPublisherRedis;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.DeleteAdGroupRedis;
-using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRateRedis;
 using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUserPreviewRedis;
 using Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.CreateAdUserPreviewRedis;
 using Ookbee.Ads.Common;
@@ -48,13 +47,13 @@ namespace Ookbee.Ads.Application.Infrastructure
 
                             await mediator.Send(new DeleteAdUserPreviewRedisCommand(), cancellationToken);
                             await mediator.Send(new CreateAdUserPreviewRedisCommand(), cancellationToken);
-                            
+
                             var nowDateTime = MechineDateTime.Now;
                             var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
                             var timeout = nextDateTime - nowDateTime;
                             Thread.Sleep(timeout);
                         }
-                        catch (Exception ex)
+                        catch
                         {
                             Thread.Sleep(TimeSpan.FromSeconds(5));
                         }

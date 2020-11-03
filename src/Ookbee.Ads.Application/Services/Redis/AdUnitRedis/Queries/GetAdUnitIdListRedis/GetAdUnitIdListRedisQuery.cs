@@ -6,11 +6,11 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdUnitI
 {
     public class GetAdUnitIdListRedisQuery : IRequest<Response<IEnumerable<long>>>
     {
-        public long AdUnitId { get; set; }
+        public long AdGroupId { get; set; }
 
-        public GetAdUnitIdListRedisQuery(long adUnitId)
+        public GetAdUnitIdListRedisQuery(long adGroupId)
         {
-            AdUnitId = adUnitId;
+            AdGroupId = adGroupId;
         }
     }
 }

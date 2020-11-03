@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                     var adUnitIds = getAdUnitIdList.Data;
                     foreach (var adUnitId in adUnitIds)
                     {
-                        await Mediator.Send(new CreateAdUnitIdRedisCommand(adUnitId));
+                        await Mediator.Send(new CreateAdUnitIdRedisCommand(request.AdGroupId));
                         await Mediator.Send(new CreateAdUnitByPlatformRedisCommand(request.AdGroupId));
                         await Mediator.Send(new CreateAdUnitStatsRedisCommand(request.CaculatedAt, adUnitId));
                         await Mediator.Send(new CreateAdRedisCommand(request.CaculatedAt, adUnitId));
