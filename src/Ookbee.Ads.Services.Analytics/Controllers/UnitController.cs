@@ -33,7 +33,6 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
             [FromRoute] long adUnitId,
             [FromQuery] AdPlatform platform,
             [FromQuery] int campaignId,
-            [FromQuery] int publisherId,
             [FromQuery] string type,
             [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId_header,
             [FromHeader(Name = "Ookbee-Device-Id")] string deviceId_header,
@@ -59,7 +58,6 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                     AdUnitId = (int)adUnitId,
                     UnitId = (int)adUnitId,
                     CampaignId = (int)campaignId,
-                    PublisherId = (int)publisherId,
                     PlatformId = (int)platform,
                     UUID = uuid
                 }
