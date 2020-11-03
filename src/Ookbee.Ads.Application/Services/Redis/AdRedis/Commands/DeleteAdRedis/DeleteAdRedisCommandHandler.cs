@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.GetAdIdListRedis;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.Helpers;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
@@ -43,6 +44,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                         filter: f =>
                             f.Id == adId &&
                             f.DeletedAt == null &&
+                            f.StartAt <= MechineDateTime.Now &&
+                            f.EndAt >= MechineDateTime.Now &&
                             f.AdUnit.DeletedAt == null &&
                             f.AdUnit.AdGroup.DeletedAt == null);
 
