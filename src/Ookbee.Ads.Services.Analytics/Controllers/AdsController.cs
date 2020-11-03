@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Business.RequestLogs.AdClickLog.Commands.CreateAdClickLog;
 using Ookbee.Ads.Application.Business.RequestLogs.AdImpressionLog.Commands.CreateAdImpressionLog;
+using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.UpdateAdStatsRedis;
 using Ookbee.Ads.Common;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
@@ -76,33 +77,17 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
             var _type = type.ToEnum<AdStatsType>();
             if (_type == AdStatsType.Impression)
             {
-                kafkaRequest.KeySchemaId = 49;
-                kafkaRequest.ValueSchemaId = 48;
+                var adImpressionLogSchema = new AdImpressionLogSchema();
+                kafkaRequest.KeySchemaId = adImpressionLogSchema.KeySchemaId;
+                kafkaRequest.ValueSchemaId = adImpressionLogSchema.ValueSchemaId;
                 var kafkaResponse = await adRequestLogService.Create("topics/adimpressionlog", kafkaRequest, cancellationToken);
-                var s = kafkaResponse.StatusCode;
-                // var timescaleResult = await Mediator.Send(
-                //     new CreateAdImpressionLogCommand(
-                //         platformId: (short)platform,
-                //         adId: (int)adId,
-                //         unitId: unitId,
-                //         campaignId: campaignId,
-                //         uuid: new Random().Next(0, 20).ToString()),
-                //         cancellationToken);
             }
             if (_type == AdStatsType.Click)
             {
-                kafkaRequest.KeySchemaId = 51;
-                kafkaRequest.ValueSchemaId = 50;
+                var adClickLogSchema = new AdClickLogSchema();
+                kafkaRequest.KeySchemaId = adClickLogSchema.KeySchemaId;
+                kafkaRequest.ValueSchemaId = adClickLogSchema.ValueSchemaId;
                 var kafkaResponse = await adRequestLogService.Create("topics/adclicklog", kafkaRequest, cancellationToken);
-                var s = kafkaResponse.StatusCode;
-                // var timescaleResult = await Mediator.Send(
-                //     new CreateAdClickLogCommand(
-                //         platformId: (short)platform,
-                //         adId: (int)adId,
-                //         unitId: unitId,
-                //         campaignId: campaignId,
-                //         uuid: new Random().Next(0, 20).ToString()),
-                //         cancellationToken);
             }
 
             var result = await Mediator.Send(new UpdateAdStatsRedisCommand(adId, type.ToEnum<AdStatsType>(), 1), cancellationToken);

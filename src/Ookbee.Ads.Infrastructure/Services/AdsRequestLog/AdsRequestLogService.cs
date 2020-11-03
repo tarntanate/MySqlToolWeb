@@ -45,17 +45,17 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog
         {
             var request = this.CreateHttpRequest(HttpMethod.Post, $"{BaseUrl}/{url}", data, contentType); // HttpClientHelper.PrepareContent(data);
             var httpResponse = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-            // httpResponse.EnsureSuccessStatusCode();
+            httpResponse.EnsureSuccessStatusCode();
             var response = await HttpClientHelper.ConvertToItemResult<AdsRequestLogResponse>(httpResponse);
             return response;
         }
 
-        // public async Task<Response<ApiItemResult<AdsRequestLogResponse>>> Create(IEnumerable<AdGroupRequestLogRequest> data, CancellationToken cancellationToken)
-        // {
-        //     var content = HttpClientHelper.PrepareContent(data);
-        //     var httpResponse = await Client.PostAsync($"{BaseUrl}/topics/adsrequestlog", content, cancellationToken);
-        //     var response = await HttpClientHelper.ConvertToItemResult<ApiItemResult<AdsRequestLogResponse>>(httpResponse);
-        //     return response;
-        // }
+        public async Task<Response<ApiItemResult<AdsRequestLogResponse>>> Create(string url, IEnumerable<AdGroupRequestLogRequest> data, CancellationToken cancellationToken)
+        {
+            var content = HttpClientHelper.PrepareContent(data);
+            var httpResponse = await Client.PostAsync($"{BaseUrl}/{url}", content, cancellationToken);
+            var response = await HttpClientHelper.ConvertToItemResult<ApiItemResult<AdsRequestLogResponse>>(httpResponse);
+            return response;
+        }
     }
 }

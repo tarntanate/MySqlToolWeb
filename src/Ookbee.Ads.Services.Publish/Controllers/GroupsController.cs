@@ -59,8 +59,8 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                 Records = new List<AdGroupRequestLogRecordRequest>() {
                     kafkaKeyValue
                 },
-                ValueSchemaId = kafkaSchema.value_schema_id,
-                KeySchemaId = kafkaSchema.key_schema_id
+                ValueSchemaId = kafkaSchema.ValueSchemaId,
+                KeySchemaId = kafkaSchema.KeySchemaId
             };
 
             var adRequestLogService = new AdsRequestLogService(HttpClient);
