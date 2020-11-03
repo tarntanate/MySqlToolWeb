@@ -12,8 +12,8 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
-        protected DbContext DbContext { get; }
-        protected DbSet<TEntity> DbSet { get; }
+        protected readonly DbContext DbContext;
+        protected readonly DbSet<TEntity> DbSet;
 
         public BaseRepository(DbContext context)
         {

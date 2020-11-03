@@ -11,7 +11,9 @@ namespace Ookbee.Ads.Application.Extensions.Builder
     {
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            GlobalVar.Services = app.ApplicationServices;
+            if (GlobalVar.Services == null)
+                GlobalVar.Services = app.ApplicationServices;
+                
             if (env.IsProduction())
             {
                 app.UseHttpsRedirection();
