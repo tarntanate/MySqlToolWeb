@@ -66,10 +66,10 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                             : new AnalyticsCacheDto
                             {
                                 Clicks = new List<string>() {
-                                    $"{baseUrl}/api/units/{unit.Id}/stats?platform={platform}&type={AdStatsType.Click}".ToLower()
+                                    $"{baseUrl}/api/units/{unit.Id}/stats?type={AdStatsType.Click}&platform={platform}&publisherId={unit.AdGroup.Publisher.Id}".ToLower()
                                 },
                                 Impressions = new List<string>() {
-                                    $"{baseUrl}/api/units/{unit.Id}/stats?platform={platform}&type={AdStatsType.Impression}".ToLower()
+                                    $"{baseUrl}/api/units/{unit.Id}/stats?type={AdStatsType.Impression}&platform={platform}&publisherId={unit.AdGroup.Publisher.Id}".ToLower()
                                 },
                             }
                     });

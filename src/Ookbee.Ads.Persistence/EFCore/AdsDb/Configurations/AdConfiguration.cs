@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
@@ -33,8 +35,15 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 
             builder.Property(e => e.Platforms)
                    .HasConversion(
-                        v => v.ConvertAll(x => x.ToString()),
+                        v => v.ToList().ConvertAll(x => x.ToString()),
                         v => v.Select(x => (AdPlatform)Enum.Parse(typeof(AdPlatform), x)).ToList());
+
+            builder.Property(e => e.Platforms)
+                   .Metadata
+                   .SetValueComparer(new ValueComparer<List<AdPlatform>>(
+                     (c1, c2) => c1.Equals(c2),
+                            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                            c => c.ToList()));
         }
     }
 }

@@ -16,7 +16,6 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public DateTimeOffset? DeletedAt { get; set; }
 
         public virtual AdvertiserEntity Advertiser { get; set; }
-
         public virtual List<AdEntity> Ads { get; set; }
     }
 }

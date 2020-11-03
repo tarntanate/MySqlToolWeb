@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitIdList;
+using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRateRedis;
 using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdRedis;
 using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUnitByPlatformRedis;
 using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUnitIdRedis;
@@ -43,6 +43,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                         await Mediator.Send(new CreateAdUnitByPlatformRedisCommand(request.AdGroupId));
                         await Mediator.Send(new CreateAdUnitStatsRedisCommand(request.CaculatedAt, adUnitId));
                         await Mediator.Send(new CreateAdRedisCommand(request.CaculatedAt, adUnitId));
+                        await Mediator.Send(new CreateAdFillRateRedisCommand(request.CaculatedAt, adUnitId), cancellationToken);
                     }
                     next = adUnitIds.Count() == length ? true : false;
                 }
