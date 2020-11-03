@@ -10,6 +10,9 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static string AdPlatforms(long adId)
             => $"ads/{adId}/platforms".ToUpper();
 
+        public static string AdStats(long adId)
+            => $"ads/{adId}/stats".ToUpper();
+
         public static string GroupIds()
             => $"groups/ids".ToUpper();
 
@@ -40,34 +43,13 @@ namespace Ookbee.Ads.Application.Infrastructure
         public static string UnitAdIdsPreview(long adUnitId, AdPlatform platform)
             => $"units/{adUnitId}/ads/ids-{platform}/preview".ToUpper();
 
+        public static string UnitAdFillRate(long adUnitId)
+            => $"units/{adUnitId}/ads/fill-rate".ToUpper();
+
         public static string UnitStats(long adUnitId)
             => $"units/{adUnitId}/stats".ToUpper();
 
         public static string UserIdsPreview()
             => $"users/ids/preview".ToUpper();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public static string AdStats(long adId)
-            => $"ads/{adId}/stats".ToUpper();
-
-        public static string Groups()
-            => $"groups/info".ToUpper();
-
-        public static string UnitsAdIdsPreview(long adUnitId, AdPlatform platform)
-            => $"units/{adUnitId}/ads/{platform}/preview".ToUpper();
-
     }
 }

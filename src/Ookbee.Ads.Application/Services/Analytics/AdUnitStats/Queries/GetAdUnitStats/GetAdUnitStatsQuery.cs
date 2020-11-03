@@ -6,13 +6,13 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Queries.GetAdUni
 {
     public class GetAdUnitStatsQuery : IRequest<Response<AdUnitStatsDto>>
     {
-        public long AdUnitId { get; set; }
         public DateTimeOffset CaculatedAt { get; set; }
+        public long AdUnitId { get; set; }
 
-        public GetAdUnitStatsQuery(long adUnitId, DateTimeOffset caculatedAt)
+        public GetAdUnitStatsQuery(DateTimeOffset caculatedAt, long adUnitId)
         {
-            AdUnitId = adUnitId;
             CaculatedAt = caculatedAt;
+            AdUnitId = adUnitId;
         }
     }
 }

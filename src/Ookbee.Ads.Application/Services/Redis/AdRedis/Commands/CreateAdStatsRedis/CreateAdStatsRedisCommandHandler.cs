@@ -38,6 +38,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdStatsRe
                     if (adQuota > 0)
                     {
                         await Mediator.Send(new CreateAdStatsCommand(request.AdId, request.CaculatedAt, adQuota), cancellationToken);
+                        getAdStats = await Mediator.Send(new GetAdStatsQuery(request.CaculatedAt, request.AdId), cancellationToken);
                     }
                 }
             }

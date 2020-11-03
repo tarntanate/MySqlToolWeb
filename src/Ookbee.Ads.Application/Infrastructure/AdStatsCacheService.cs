@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                     do
                     {
                         var caculatedAt = MechineDateTime.Date;
-                        
+
                         await mediator.Send(new ArchiveAdGroupStatsRedisCommand(caculatedAt), cancellationToken);
 
                         await mediator.Send(new ArchiveAdUnitStatsRedisCommand(caculatedAt), cancellationToken);

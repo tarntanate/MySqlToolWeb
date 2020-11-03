@@ -1,12 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitIdList;
-using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdRedis;
-using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUnitByPlatformRedis;
-using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUnitStatsRedis;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 

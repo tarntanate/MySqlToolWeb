@@ -7,6 +7,9 @@ using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,23 +47,46 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
 
             if (!adId.HasValue())
             {
-                var redisKey = CacheKey.UnitAdIds(request.AdUnitId, request.Platform);
-                adId = (long?)await AdsRedis.SetRandomMemberAsync(redisKey);
+                var redisKey = CacheKey.UnitAdFillRate(request.AdUnitId);
+                var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
+                if (hashEntries.HasValue())
+                {
+                    var elements = hashEntries.Select(x => new KeyValuePair<long, double>((long)x.Name, (double)x.Value)).ToList();
+                    var r = new Random();
+                    var diceRoll = r.NextDouble() * 100;
+                    var cumulative = 0.0;
+                    foreach (var element in elements)
+                    {
+                        cumulative += element.Value;
+                        if (diceRoll < cumulative)
+                        {
+                            adId = element.Key;
+                            break;
+                        }
+                    }
+                }
             }
 
             if (adId.HasValue())
             {
                 var redisKey = CacheKey.AdPlatforms(adId.Value);
                 redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
+                if (redisValue.HasValue())
+                {
+                    await Mediator.Send(new UpdateAdUnitStatsRedisCommand(request.AdUnitId, AdStatsType.Fill, 1));
+                }
             }
 
             var result = new Response<string>();
-            if (redisValue.HasValue())
-            {
-                await Mediator.Send(new UpdateAdUnitStatsRedisCommand(request.AdUnitId, AdStatsType.Fill, 1));
-                return result.OK(redisValue);
-            }
-            return result.NotFound();
+            return redisValue.HasValue()
+                ? result.OK(redisValue)
+                : result.NotFound();
+        }
+
+        private long? RandomElementsBasedOnProbability(ICollection<KeyValuePair<long, double>> elements)
+        {
+
+            return null;
         }
     }
 }

@@ -65,6 +65,9 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                         redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId);
                         await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
 
+                        redisKey = CacheKey.UnitAdFillRate(request.AdUnitId);
+                        await AdsRedis.HashDeleteAsync(redisKey, adId, CommandFlags.FireAndForget);
+
                         var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                         foreach (var platform in platforms)
                         {
