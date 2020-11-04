@@ -8,15 +8,15 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
     {
         public int Start { get; private set; }
         public int Length { get; private set; }
-        public long? AdUnitTypeId { get; private set; }
+        public long? AdGroupTypeId { get; private set; }
         public long? PublisherId { get; private set; }
         public bool? Enabled { get; private set; }
 
-        public GetAdGroupIdListQuery(int start, int length, long? adUnitTypeId, long? publisherId, bool? enabled = false)
+        public GetAdGroupIdListQuery(int start, int length, long? adGroupTypeId, long? publisherId, bool? enabled = false)
         {
             Start = start;
             Length = length;
-            AdUnitTypeId = adUnitTypeId;
+            AdGroupTypeId = adGroupTypeId;
             PublisherId = publisherId;
             Enabled = enabled;
         }

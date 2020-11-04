@@ -26,8 +26,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
             var predicate = PredicateBuilder.True<AdGroupEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
 
-            if (request.AdUnitTypeId.HasValue())
-                predicate = predicate.And(f => f.AdUnitTypeId == request.AdUnitTypeId);
+            if (request.AdGroupTypeId.HasValue())
+                predicate = predicate.And(f => f.AdGroupTypeId == request.AdGroupTypeId);
 
             if (request.PublisherId.HasValue())
                 predicate = predicate.And(f => f.PublisherId == request.PublisherId);

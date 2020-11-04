@@ -18,7 +18,7 @@ namespace Ookbee.Ads.Application.Infrastructure
 
         protected override bool IsExecuteOnServerRestart => true;
 
-        protected override string Schedule => GlobalVar.AppSettings.Schedules.CacheGenerator;
+        protected override string Schedule => GlobalVar.AppSettings.CronJobs.CacheGenerator;
 
         protected override async Task ProcessInScope(IServiceProvider serviceProvider, CancellationToken stoppingToken)
         {
