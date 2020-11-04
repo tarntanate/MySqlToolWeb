@@ -27,6 +27,9 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStat.Queries.GetAdStatsLis
             if (request.AdId.HasValue())
                 predicate = predicate.And(f => f.AdId == request.AdId);
 
+            if (request.AdUnitId.HasValue())
+                predicate = predicate.And(f => f.Ad.AdUnitId == request.AdUnitId);
+
             if (request.CaculatedAt.HasValue())
                 predicate = predicate.And(f => f.CaculatedAt == request.CaculatedAt);
 

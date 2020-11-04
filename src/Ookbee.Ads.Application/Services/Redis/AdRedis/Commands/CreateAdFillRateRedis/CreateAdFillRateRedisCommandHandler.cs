@@ -45,7 +45,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
             do
             {
                 next = false;
-                var getAdStatsList = await Mediator.Send(new GetAdStatsListQuery(start, length, null, request.CaculatedAt), cancellationToken);
+                var getAdStatsList = await Mediator.Send(new GetAdStatsListQuery(start, length, request.AdUnitId, null, request.CaculatedAt), cancellationToken);
                 if (getAdStatsList.IsSuccess)
                 {
                     var adStats = getAdStatsList.Data;
