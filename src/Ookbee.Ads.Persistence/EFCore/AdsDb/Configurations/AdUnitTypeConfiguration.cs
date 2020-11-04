@@ -4,9 +4,9 @@ using Ookbee.Ads.Domain.Entities.AdsEntities;
 
 namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
 {
-    public class AdUnitTypeConfiguration : IEntityTypeConfiguration<AdUnitTypeEntity>
+    public class AdGroupTypeConfiguration : IEntityTypeConfiguration<AdGroupTypeEntity>
     {
-        public void Configure(EntityTypeBuilder<AdUnitTypeEntity> builder)
+        public void Configure(EntityTypeBuilder<AdGroupTypeEntity> builder)
         {
             builder.HasKey(e => e.Id);
             

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExistsAdGroupByName;
-using Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.IsExistsAdUnitTypeById;
+using Ookbee.Ads.Application.Services.Advertisement.AdGroupType.Queries.IsExistsAdGroupTypeById;
 using Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.IsExistsPublisherById;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateAdGroup
@@ -15,11 +15,11 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            RuleFor(p => p.AdUnitTypeId)
+            RuleFor(p => p.AdGroupTypeId)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new IsExistsAdGroupTypeByIdQuery(value), cancellationToken);
                     if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });

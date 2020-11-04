@@ -2,7 +2,7 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdAsset;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit;
-using Ookbee.Ads.Application.Services.Advertisement.AdUnitType;
+using Ookbee.Ads.Application.Services.Advertisement.AdGroupType;
 using Ookbee.Ads.Application.Services.Advertisement.Advertiser;
 using Ookbee.Ads.Application.Services.Advertisement.Campaign;
 using Ookbee.Ads.Application.Services.Advertisement.Publisher;
@@ -69,11 +69,11 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
                             Id = entity.AdUnit.AdGroup.Id,
                             Name = entity.AdUnit.AdGroup.Name,
                             Description = entity.AdUnit.AdGroup.Description,
-                            AdUnitType = new AdUnitTypeDto()
+                            AdGroupType = new AdGroupTypeDto()
                             {
-                                Id = entity.AdUnit.AdGroup.AdUnitType.Id,
-                                Name = entity.AdUnit.AdGroup.AdUnitType.Name,
-                                Description = entity.AdUnit.AdGroup.AdUnitType.Description,
+                                Id = entity.AdUnit.AdGroup.AdGroupType.Id,
+                                Name = entity.AdUnit.AdGroup.AdGroupType.Name,
+                                Description = entity.AdUnit.AdGroup.AdGroupType.Description,
                             },
                             Publisher = new PublisherDto()
                             {
