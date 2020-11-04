@@ -2,7 +2,7 @@
 using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGroupByName;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExistsAdGroupById;
-using Ookbee.Ads.Application.Services.Advertisement.AdUnitType.Queries.IsExistsAdUnitTypeById;
+using Ookbee.Ads.Application.Services.Advertisement.AdGroupType.Queries.IsExistsAdGroupTypeById;
 using Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.IsExistsPublisherById;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.UpdateAdGroup
@@ -25,11 +25,11 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.UpdateA
                         context.AddFailure(result.Message);
                 });
 
-            RuleFor(p => p.AdUnitTypeId)
+            RuleFor(p => p.AdGroupTypeId)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new IsExistsAdUnitTypeByIdQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new IsExistsAdGroupTypeByIdQuery(value), cancellationToken);
                     if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });

@@ -44,7 +44,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                         ForegroundColor = ad.ForegroundColor,
                         BackgroundColor = ad.BackgroundColor,
                         LinkUrl = ad.LinkUrl,
-                        UnitType = ad.AdUnit.AdGroup.AdUnitType.Name,
+                        UnitType = ad.AdUnit.AdGroup.AdGroupType.Name,
                         Assets = ad.Assets.Select(asset => new AdAssetCacheDto
                         {
                             Position = asset.Position,

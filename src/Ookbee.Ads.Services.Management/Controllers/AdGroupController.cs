@@ -19,8 +19,8 @@ namespace Ookbee.Ads.Services.Management.Controllers
     public class AdGroupsController : ApiController
     {
         [HttpGet]
-        public async Task<Response<IEnumerable<AdGroupDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? adUnitTypeId, [FromQuery] long? publisherId, [FromQuery] bool? enabled, CancellationToken cancellationToken)
-            => await Mediator.Send(new GetAdGroupListQuery(start, length, adUnitTypeId, publisherId, enabled), cancellationToken);
+        public async Task<Response<IEnumerable<AdGroupDto>>> GetList([FromQuery] int start, [FromQuery] int length, [FromQuery] long? adGroupTypeId, [FromQuery] long? publisherId, [FromQuery] bool? enabled, CancellationToken cancellationToken)
+            => await Mediator.Send(new GetAdGroupListQuery(start, length, adGroupTypeId, publisherId, enabled), cancellationToken);
 
         [HttpGet("{id}")]
         public async Task<Response<AdGroupDto>> GetById([FromRoute] long id, CancellationToken cancellationToken)
