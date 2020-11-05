@@ -9,6 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
         public long PublisherId { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
+        public string Placement { get; private set; }
 
         public CreateAdGroupCommand(CreateAdGroupRequest request)
         {
@@ -16,6 +17,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
             PublisherId = request.PublisherId;
             Name = request.Name;
             Description = request.Description;
+            Placement = request.Placement;
         }
     }
 }
