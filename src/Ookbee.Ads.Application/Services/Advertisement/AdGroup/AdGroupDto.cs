@@ -3,6 +3,7 @@ using Ookbee.Ads.Application.Services.Advertisement.AdGroupType;
 using Ookbee.Ads.Application.Services.Advertisement.Publisher;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
@@ -13,6 +14,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
         public string Description { get; set; }
         public string Placement { get; set; }
         public bool Enabled { get; set; }
+        public int TotalAdUnit { get; set; }
         public AdGroupTypeDto AdGroupType { get; set; }
         public PublisherDto Publisher { get; set; }
 
@@ -27,6 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
                     Description = entity.Description,
                     Enabled = entity.Enabled,
                     Placement = entity.Placement,
+                    TotalAdUnit = entity.AdUnits.Where(adunit => adunit.DeletedAt == null).Count(),
                     AdGroupType = new AdGroupTypeDto()
                     {
                         Id = entity.AdGroupType.Id,
