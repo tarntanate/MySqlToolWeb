@@ -39,6 +39,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
                     var items = getAdGroupList.Data.Select(group => new AdGroupEnabledCacheDto
                     {
                         Id = group.Id,
+                        Placement = group.Placement,
                         Enabled = group.Enabled
                     });
                     adGroups.AddRange(items);
