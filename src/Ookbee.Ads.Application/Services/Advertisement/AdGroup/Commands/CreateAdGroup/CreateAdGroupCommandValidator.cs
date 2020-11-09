@@ -33,12 +33,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
                         context.AddFailure(result.Message);
                 });
 
-            RuleFor(p => p.Name)
+            RuleFor(p => new { p.PublisherId, p.Name })
                 .NotNull()
                 .NotEmpty()
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new IsExistsAdGroupByNameQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new IsExistsAdGroupByNameQuery(value.PublisherId, value.Name), cancellationToken);
                     if (result.IsSuccess)
                         context.AddFailure("'{PropertyName}' already exists.");
                 });

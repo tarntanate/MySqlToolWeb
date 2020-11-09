@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -19,11 +20,14 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
 
         public async Task<Response<AdGroupDto>> Handle(GetAdGroupByNameQuery request, CancellationToken cancellationToken)
         {
+            var predicate = PredicateBuilder.True<AdGroupEntity>();
+            predicate = predicate.And(f => f.DeletedAt == null);
+            predicate = predicate.And(f => f.Name == request.Name);
+            predicate = predicate.And(f => f.PublisherId == request.PublisherId);
+            
             var item = await AdGroupDbRepo.FirstAsync(
-                selector: AdGroupDto.Projection,
-                filter: f =>
-                    f.Name == request.Name &&
-                    f.DeletedAt == null
+                filter: predicate,
+                selector: AdGroupDto.Projection
             );
 
             var result = new Response<AdGroupDto>();
