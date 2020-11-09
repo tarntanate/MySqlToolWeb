@@ -9,6 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string ImagePath { get; private set; }
+        public string CountryCode { get; set; }
 
         public UpdatePublisherCommand(long id, UpdatePublisherRequest request)
         {
@@ -16,6 +17,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
             Name = request.Name;
             Description = request.Description;
             ImagePath = request.ImagePath;
+            CountryCode = request.CountryCode;
         }
     }
 }

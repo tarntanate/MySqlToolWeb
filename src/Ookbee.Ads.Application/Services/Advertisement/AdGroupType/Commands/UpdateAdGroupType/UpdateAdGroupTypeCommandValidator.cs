@@ -27,10 +27,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroupType.Commands.Upd
                 .NotEmpty()
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var validate = context.InstanceToValidate as UpdateAdGroupTypeCommand;
+                    var command = context.InstanceToValidate as UpdateAdGroupTypeCommand;
                     var result = await Mediator.Send(new GetAdGroupTypeByNameQuery(value), cancellationToken);
                     if (result.IsSuccess &&
-                        result.Data.Id != validate.Id &&
+                        result.Data.Id != command.Id &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });

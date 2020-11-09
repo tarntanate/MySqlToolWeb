@@ -6,10 +6,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
     public class GetPublisherByNameQuery : IRequest<Response<PublisherDto>>
     {
         public string Name { get; private set; }
+        public string CountryCode { get; private set; }
 
-        public GetPublisherByNameQuery(string name)
+        public GetPublisherByNameQuery(string name, string countryCode)
         {
             Name = name;
+            CountryCode = countryCode;
         }
     }
 }

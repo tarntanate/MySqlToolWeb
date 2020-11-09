@@ -19,7 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.Upda
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var validate = context.InstanceToValidate as UpdateAdvertiserCommand;
+                    var command = context.InstanceToValidate as UpdateAdvertiserCommand;
                     var result = await Mediator.Send(new GetAdvertiserByIdQuery(value), cancellationToken);
                     if (!result.IsSuccess)
                         context.AddFailure(result.Message);
@@ -31,10 +31,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Commands.Upda
                 .MaximumLength(40)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var validate = context.InstanceToValidate as UpdateAdvertiserCommand;
+                    var command = context.InstanceToValidate as UpdateAdvertiserCommand;
                     var result = await Mediator.Send(new GetAdvertiserByNameQuery(value), cancellationToken);
                     if (result.IsSuccess &&
-                        result.Data.Id != validate.Id &&
+                        result.Data.Id != command.Id &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });

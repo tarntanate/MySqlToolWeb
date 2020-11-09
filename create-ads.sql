@@ -204,6 +204,7 @@ CREATE TABLE "public"."Publisher" (
     "Name" CHARACTER VARYING(40) NOT NULL,
     "Description" CHARACTER VARYING(500) NULL,
     "ImagePath" CHARACTER VARYING(255),
+    "CountryCode" CHARACTER VARYING(10),
     "CreatedAt" TIMESTAMP WITH TIME ZONE,
     "UpdatedAt" TIMESTAMP WITH TIME ZONE,
     "DeletedAt" TIMESTAMP WITH TIME ZONE,
@@ -305,9 +306,9 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 /* ---------------------------------------------------------------------- */
 /* Add data                                                               */
 /* ---------------------------------------------------------------------- */	
-INSERT INTO public."Publisher" ("Name", "Description", "ImagePath", "CreatedAt", "UpdatedAt", "DeletedAt")
-VALUES 		('Joylada', 'Joylada แอปฯ อ่านนิยายแชทรูปแบบใหม่ น้องสาวของเว็บอ่านนิยายธัญวลัย ภายใต้บริษัท Ookbee U ที่เกิดจากการร่วมทุนกันระหว่าง Ookbee และ Tencent', null, '2020-08-13 18:05:54+07', null, null),
-			('Tunwalai', 'ธัญวลัย', null, '2020-08-13 18:06:10+07', null, null);
+INSERT INTO public."Publisher" ("Name", "Description", "ImagePath", "CountryCode", "CreatedAt", "UpdatedAt", "DeletedAt")
+VALUES 		('Joylada', 'Joylada แอปฯ อ่านนิยายแชท่', null, 'TH', '2020-08-13 18:05:54+07', null, null),
+			('Tunwalai', 'ธัญวลัย แอปฯ อ่านนิยาย', null, 'TH', '2020-08-13 18:06:10+07', null, null);
 	
 INSERT INTO public."AdGroupType" ("Name","Description","CreatedAt","UpdatedAt","DeletedAt")
 VALUES		('tab','tabchat','2020-08-13 18:06:30+07',NULL,NULL),

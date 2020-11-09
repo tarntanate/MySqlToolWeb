@@ -30,10 +30,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
                 .MaximumLength(40)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var validate = context.InstanceToValidate as UpdatePublisherCommand;
-                    var result = await Mediator.Send(new GetPublisherByNameQuery(value), cancellationToken);
+                    var command = context.InstanceToValidate as UpdatePublisherCommand;
+                    var result = await Mediator.Send(new GetPublisherByNameQuery(command.Name, command.CountryCode), cancellationToken);
                     if (result.IsSuccess &&
-                        result.Data.Id != validate.Id &&
+                        result.Data.Id != command.Id &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
@@ -45,6 +45,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidUri())
                 .WithMessage("'{PropertyName}' address is not valid");
+
+            RuleFor(p => p.CountryCode)
+                .NotNull()
+                .NotEmpty()
+                .MinimumLength(2)
+                .MaximumLength(10);
         }
     }
 }
