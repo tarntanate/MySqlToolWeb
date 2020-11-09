@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.UpdateA
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new IsExistsAdGroupByIdQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new IsExistsAdGroupByIdQuery(value, null), cancellationToken);
                     if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
