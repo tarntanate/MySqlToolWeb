@@ -47,17 +47,14 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
             }
             while (next);
 
-            if (adGroups.Count() > 0)
-            {
-                var cacheObj = new ApiListResult<AdGroupEnabledCacheDto>();
-                cacheObj.Data.Items = adGroups;
+            var cacheObj = new ApiListResult<AdGroupEnabledCacheDto>();
+            cacheObj.Data.Items = adGroups;
 
-                var hashField = request.PublisherName.ToUpper();
-                var hashValue = JsonHelper.Serialize(cacheObj);
-                var hashEntry = new HashEntry(hashField, hashValue);
-                var redisKey = CacheKey.GroupIdsPublisher();
-                await AdsRedis.HashSetAsync(redisKey, new HashEntry[] { hashEntry }, CommandFlags.FireAndForget);
-            }
+            var hashField = request.PublisherName.ToUpper();
+            var hashValue = JsonHelper.Serialize(cacheObj);
+            var hashEntry = new HashEntry(hashField, hashValue);
+            var redisKey = CacheKey.GroupIdsPublisher();
+            await AdsRedis.HashSetAsync(redisKey, new HashEntry[] { hashEntry }, CommandFlags.FireAndForget);
 
             return Unit.Value;
         }

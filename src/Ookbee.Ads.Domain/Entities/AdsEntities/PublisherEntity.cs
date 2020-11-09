@@ -1,6 +1,6 @@
+using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 using System;
 using System.Collections.Generic;
-using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 
 namespace Ookbee.Ads.Domain.Entities.AdsEntities
 {
@@ -10,6 +10,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImagePath { get; set; }
+        public string CountryCode { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public DateTimeOffset? DeletedAt { get; set; }

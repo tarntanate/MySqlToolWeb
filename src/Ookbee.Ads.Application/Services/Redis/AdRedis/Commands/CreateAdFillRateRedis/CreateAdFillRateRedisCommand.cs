@@ -6,11 +6,13 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
     public class CreateAdFillRateRedisCommand : IRequest<Unit>
     {
         public DateTimeOffset CaculatedAt { get; set; }
+        public long AdGroupId { get; set; }
         public long AdUnitId { get; set; }
 
-        public CreateAdFillRateRedisCommand(DateTimeOffset caculatedAt, long adUnitId)
+        public CreateAdFillRateRedisCommand(DateTimeOffset caculatedAt, long adGroupId, long adUnitId)
         {
             CaculatedAt = caculatedAt;
+            AdGroupId = adGroupId;
             AdUnitId = adUnitId;
         }
     }

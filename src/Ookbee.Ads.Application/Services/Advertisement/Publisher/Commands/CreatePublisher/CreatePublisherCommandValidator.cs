@@ -20,7 +20,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Creat
                 .MaximumLength(40)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new GetPublisherByNameQuery(value), cancellationToken);
+                    var command = context.InstanceToValidate as CreatePublisherCommand;
+                    var result = await Mediator.Send(new GetPublisherByNameQuery(command.Name, command.CountryCode), cancellationToken);
                     if (result.IsSuccess)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
@@ -32,6 +33,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Creat
                 .MaximumLength(255)
                 .Must(value => !value.HasValue() || value.IsValidUri())
                 .WithMessage("'{PropertyName}' address is not valid");
+
+            RuleFor(p => p.CountryCode)
+                .NotNull()
+                .NotEmpty()
+                .MinimumLength(2)
+                .MaximumLength(10);
         }
     }
 }

@@ -22,7 +22,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
             var item = await PublisherDbRepo.FirstAsync(
                 selector: PublisherDto.Projection,
                 filter: f =>
-                    f.Name == request.Name &&
+                    f.Name.ToUpper() == request.Name.ToUpper() &&
+                    f.CountryCode.ToUpper() == request.CountryCode.ToUpper() &&
                     f.DeletedAt == null
             );
 

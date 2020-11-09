@@ -12,6 +12,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(40);
+
+            RuleFor(p => p.CountryCode)
+                .NotNull()
+                .NotEmpty()
+                .MinimumLength(2)
+                .MaximumLength(10);
         }
     }
 }

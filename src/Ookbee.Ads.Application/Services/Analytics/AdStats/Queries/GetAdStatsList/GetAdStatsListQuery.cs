@@ -10,15 +10,17 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStat.Queries.GetAdStatsLis
     {
         public int Start { get; set; }
         public int Length { get; set; }
-        public long? AdId { get; set; }
         public DateTimeOffset? CaculatedAt { get; set; }
+        public long? AdUnitId { get; set; }
+        public long? AdId { get; set; }
 
-        public GetAdStatsListQuery(int start, int length, long? adId, DateTimeOffset? caculatedAt)
+        public GetAdStatsListQuery(int start, int length, DateTimeOffset? caculatedAt, long? adUnitId, long? adId)
         {
             Start = start;
             Length = length;
-            AdId = adId;
             CaculatedAt = caculatedAt;
+            AdUnitId = adUnitId;
+            AdId = adId;
         }
     }
 }

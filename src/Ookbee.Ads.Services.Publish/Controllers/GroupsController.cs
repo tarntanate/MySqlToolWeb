@@ -83,9 +83,9 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         }
 
         [HttpGet("ids")]
-        public async Task<ContentResult> GetAdGroupIdListByPubliser([FromQuery] string publisher, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdGroupIdListByPubliser([FromHeader(Name = "Ookbee-App-Language")] string lange, [FromQuery] string publisher, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new GetAdGroupIdListByPublisherIdRedisQuery(publisher), cancellationToken);
+            var result = await Mediator.Send(new GetAdGroupIdListByPublisherIdRedisQuery(publisher, lange), cancellationToken);
             if (result.IsSuccess)
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };

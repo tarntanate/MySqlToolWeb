@@ -22,7 +22,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroup
         public async Task<Response<string>> Handle(GetAdGroupIdListByPublisherIdRedisQuery request, CancellationToken cancellationToken)
         {
             var redisKey = CacheKey.GroupIdsPublisher();
-            var hashField = request.PublisherName.ToUpper();
+            var hashField = $"{request.PublisherName}-{request.PublisherCountry}".ToUpper();
             var hashValue = await AdsRedis.HashGetAsync(redisKey, hashField);
 
             var result = new Response<string>();
