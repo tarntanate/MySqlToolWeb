@@ -16,6 +16,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser
         public string PhoneNumber { get; set; }
         public int TotalCampaign { get; set; }
 
+        public static AdvertiserDto FromEntity(AdvertiserEntity entity)
+        {
+            return entity == null
+                ? null
+                : Projection.Compile().Invoke(entity);
+        }
+
         public static Expression<Func<AdvertiserEntity, AdvertiserDto>> Projection
         {
             get
