@@ -8,12 +8,14 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Creat
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string ImagePath { get; private set; }
+        public string CountryCode { get; set; }
 
         public CreatePublisherCommand(CreatePublisherRequest request)
         {
             Name = request.Name;
             Description = request.Description;
             ImagePath = request.ImagePath;
+            CountryCode = request.CountryCode;
         }
     }
 }

@@ -39,10 +39,10 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Commands.Updat
                 .MaximumLength(40)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var validate = context.InstanceToValidate as UpdateUserPermissionCommand;
+                    var command = context.InstanceToValidate as UpdateUserPermissionCommand;
                     var result = await Mediator.Send(new GetUserPermissionByNameQuery(value), cancellationToken);
                     if (result.IsSuccess &&
-                        result.Data.Id != validate.Id &&
+                        result.Data.Id != command.Id &&
                         result.Data.ExtensionName == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });

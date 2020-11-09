@@ -10,6 +10,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImagePath { get; set; }
+        public string CountryCode { get; set; }
 
         public static Expression<Func<PublisherEntity, PublisherDto>> Projection
         {
@@ -20,7 +21,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher
                     Id = entity.Id,
                     Name = entity.Name,
                     Description = entity.Description,
-                    ImagePath = entity.ImagePath
+                    ImagePath = entity.ImagePath,
+                    CountryCode = entity.CountryCode
                 };
             }
         }
