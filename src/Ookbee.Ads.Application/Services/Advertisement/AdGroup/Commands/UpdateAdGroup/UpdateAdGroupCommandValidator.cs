@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.UpdateA
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new IsExistsAdGroupByIdQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new IsExistsAdGroupByIdQuery(value, null), cancellationToken);
                     if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });
@@ -43,16 +43,17 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.UpdateA
                         context.AddFailure(result.Message);
                 });
 
-            RuleFor(p => p.Name)
+            RuleFor(p => new { p.PublisherId, p.Name })
                 .NotNull()
                 .NotEmpty()
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
                     var command = context.InstanceToValidate as UpdateAdGroupCommand;
-                    var result = await Mediator.Send(new GetAdGroupByNameQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new GetAdGroupByNameQuery(value.PublisherId, value.Name), cancellationToken);
                     if (result.IsSuccess &&
                         result.Data.Id != command.Id &&
-                        result.Data.Name == value)
+                        result.Data.Publisher.Id == value.PublisherId &&
+                        result.Data.Name == value.Name)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
 

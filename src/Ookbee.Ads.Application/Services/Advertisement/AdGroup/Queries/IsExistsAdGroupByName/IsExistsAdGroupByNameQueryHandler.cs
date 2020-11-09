@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -19,10 +20,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExists
 
         public async Task<Response<bool>> Handle(IsExistsAdGroupByNameQuery request, CancellationToken cancellationToken)
         {
-            var isExists = await AdGroupDbRepo.AnyAsync(f =>
-                f.Name == request.Name &&
-                f.DeletedAt == null
-            );
+            var predicate = PredicateBuilder.True<AdGroupEntity>();
+            predicate = predicate.And(f => f.DeletedAt == null);
+            predicate = predicate.And(f => f.Name == request.Name);
+            predicate = predicate.And(f => f.PublisherId == request.PublisherId);
+            
+            var isExists = await AdGroupDbRepo.AnyAsync(predicate);
 
             var result = new Response<bool>();
             return (isExists)
