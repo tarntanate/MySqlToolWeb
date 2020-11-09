@@ -40,7 +40,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
                     {
                         Id = entity.Publisher.Id,
                         Name = entity.Publisher.Name,
-                        Description = entity.Publisher.Description
+                        Description = entity.Publisher.Description,
+                        CountryCode = entity.Publisher.CountryCode
                     }
                 };
             }
