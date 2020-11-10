@@ -57,7 +57,7 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
 
             // Health
             services.AddHealthChecks()
-                    .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
+                    // .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
                     .AddNpgSql(appsettings.ConnectionStrings.TimescaleDb.Analytics)
                     .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
 
