@@ -27,7 +27,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Commands.UpdateAdSta
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var result = await Mediator.Send(new IsExistsAdGroupByIdQuery(value), cancellationToken);
+                    var result = await Mediator.Send(new IsExistsAdGroupByIdQuery(value, true), cancellationToken);
                     if (!result.IsSuccess)
                         context.AddFailure(result.Message);
                 });

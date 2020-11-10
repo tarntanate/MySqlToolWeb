@@ -5,10 +5,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExists
 {
     public class IsExistsAdGroupByNameQuery : IRequest<Response<bool>>
     {
+        public long PublisherId { get; private set; }
         public string Name { get; private set; }
 
-        public IsExistsAdGroupByNameQuery(string name)
+        public IsExistsAdGroupByNameQuery(long publisherId, string name)
         {
+            PublisherId = publisherId;
             Name = name;
         }
     }

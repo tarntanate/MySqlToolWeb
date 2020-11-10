@@ -11,6 +11,7 @@ namespace Ookbee.Ads.Domain.Entities.AdsEntities
         public long PublisherId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Placement { get; set; }        
         public bool Enabled { get; set; }        
         public DateTimeOffset? CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

@@ -11,9 +11,17 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Placement { get; set; }
         public bool Enabled { get; set; }
         public AdGroupTypeDto AdGroupType { get; set; }
         public PublisherDto Publisher { get; set; }
+
+        public static AdGroupDto FromEntity(AdGroupEntity entity)
+        {
+            return entity == null
+                ? null
+                : Projection.Compile().Invoke(entity);
+        }
 
         public static Expression<Func<AdGroupEntity, AdGroupDto>> Projection
         {
@@ -24,20 +32,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
                     Id = entity.Id,
                     Name = entity.Name,
                     Description = entity.Description,
+                    Placement = entity.Placement,
                     Enabled = entity.Enabled,
-                    AdGroupType = new AdGroupTypeDto()
-                    {
-                        Id = entity.AdGroupType.Id,
-                        Name = entity.AdGroupType.Name,
-                        Description = entity.AdGroupType.Description
-                    },
-                    Publisher = new PublisherDto()
-                    {
-                        Id = entity.Publisher.Id,
-                        Name = entity.Publisher.Name,
-                        Description = entity.Publisher.Description,
-                        CountryCode = entity.Publisher.CountryCode
-                    }
+                    AdGroupType = AdGroupTypeDto.FromEntity(entity.AdGroupType),
+                    Publisher = PublisherDto.FromEntity(entity.Publisher),
                 };
             }
         }
