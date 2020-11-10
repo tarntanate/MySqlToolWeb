@@ -1,5 +1,7 @@
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup;
+using Ookbee.Ads.Application.Services.Advertisement.AdGroupType;
+using Ookbee.Ads.Application.Services.Advertisement.Publisher;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
 using System.Linq;
@@ -13,13 +15,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
         public AdUnitNetworkDto AdNetwork { get; set; }
         public int? SortSeq { get; set; }
 
-        public static AdUnitDto FromEntity(AdUnitEntity entity)
-        {
-            return entity == null
-                ? null
-                : Projection.Compile().Invoke(entity);
-        }
-
         public static Expression<Func<AdUnitEntity, AdUnitDto>> Projection
         {
             get
@@ -27,14 +22,35 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
                 return entity => new AdUnitDto()
                 {
                     Id = entity.Id,
-                    AdGroup = AdGroupDto.FromEntity(entity.AdGroup),
+                    AdGroup = new AdGroupDto()
+                    {
+                        Id = entity.AdGroup.Id,
+                        Name = entity.AdGroup.Name,
+                        Description = entity.AdGroup.Description,
+                        AdGroupType = new AdGroupTypeDto()
+                        {
+                            Id = entity.AdGroup.AdGroupType.Id,
+                            Name = entity.AdGroup.AdGroupType.Name,
+                            Description = entity.AdGroup.AdGroupType.Description
+                        },
+                        Publisher = new PublisherDto()
+                        {
+                            Id = entity.AdGroup.Publisher.Id,
+                            Name = entity.AdGroup.Publisher.Name,
+                            Description = entity.AdGroup.Publisher.Description
+                        }
+                    },
                     AdNetwork = new AdUnitNetworkDto()
                     {
                         Name = entity.AdNetwork,
                         AdNetworkUnits = entity.AdNetworks
-                            .AsQueryable()
-                            .Where(adNetwork => adNetwork.DeletedAt == null)
-                            .Select(AdUnitNetworkUnitIdDto.Projection)
+                            .Where(item => item.DeletedAt == null)
+                            .Select(adNetwork => new AdUnitNetworkUnitIdDto()
+                            {
+                                Id = adNetwork.Id,
+                                Platform = adNetwork.Platform,
+                                AdNetworkUnitId = adNetwork.AdNetworkUnitId
+                            })
                     },
                     SortSeq = entity.SortSeq,
                 };
