@@ -427,32 +427,6 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             return await query.Select(selector).FirstOrDefaultAsync();
         }
 
-        public async Task<TResult> FirstAsync2<TResult>(
-            Expression<Func<TEntity, TResult>> selector,
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            Func<TEntity, IEnumerable<TResult>> selectMany = null,
-            bool disableTracking = true)
-        {
-            IQueryable<TEntity> query = DbSet;
-
-            if (disableTracking)
-                query = query.AsNoTracking();
-
-
-            if (filter != null)
-                query = query.Where(filter);
-
-            if (selectMany != null)
-                return query.SelectMany(selectMany).DefaultIfEmpty().FirstOrDefault();
-
-
-            if (orderBy != null)
-                return await orderBy(query).Select(selector).FirstOrDefaultAsync();
-
-            return await query.Select(selector).FirstOrDefaultAsync();
-        }
-
         /// <summary>
         /// fetch all rows in table with paging
         /// </summary>
