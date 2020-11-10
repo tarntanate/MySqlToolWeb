@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser
                     CreatedAt = entity.CreatedAt,
                     UpdatedAt = entity.UpdatedAt,
                     DeletedAt = entity.DeletedAt,
-                    TotalCampaign = entity.Campaigns.Where(campaign => campaign.DeletedAt == null).Count()
+                    TotalCampaign = entity.Campaigns != null ? entity.Campaigns.AsQueryable().Where(campaign => campaign.DeletedAt == null).Count() : 0
                 };
             }
         }
