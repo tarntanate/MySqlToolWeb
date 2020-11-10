@@ -31,10 +31,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
                     AdNetwork = new AdUnitNetworkDto()
                     {
                         Name = entity.AdNetwork,
-                        AdNetworkUnits = entity.AdNetworks
+                        AdNetworkUnits = entity.AdNetworks != null ? entity.AdNetworks
                             .AsQueryable()
                             .Where(adNetwork => adNetwork.DeletedAt == null)
-                            .Select(AdUnitNetworkUnitIdDto.Projection)
+                            .Select(AdUnitNetworkUnitIdDto.Projection) : null
                     },
                     SortSeq = entity.SortSeq,
                 };
