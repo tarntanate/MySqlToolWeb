@@ -45,6 +45,11 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
 
             RuleFor(p => p.Description)
                 .MaximumLength(500);
+
+            RuleFor(p => p.Placement)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(50);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Placement { get; set; }
         public bool Enabled { get; set; }
         public AdGroupTypeDto AdGroupType { get; set; }
         public PublisherDto Publisher { get; set; }
@@ -31,6 +32,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
                     Id = entity.Id,
                     Name = entity.Name,
                     Description = entity.Description,
+                    Placement = entity.Placement,
                     Enabled = entity.Enabled,
                     AdGroupType = AdGroupTypeDto.FromEntity(entity.AdGroupType),
                     Publisher = PublisherDto.FromEntity(entity.Publisher),

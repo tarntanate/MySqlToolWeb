@@ -2,6 +2,7 @@ using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
@@ -27,7 +28,14 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
                 {
                     Id = entity.Id,
                     AdGroup = AdGroupDto.FromEntity(entity.AdGroup),
-                    AdNetwork = AdUnitNetworkDto.FromEntity(entity),
+                    AdNetwork = new AdUnitNetworkDto()
+                    {
+                        Name = entity.AdNetwork,
+                        AdNetworkUnits = entity.AdNetworks
+                            .AsQueryable()
+                            .Where(adNetwork => adNetwork.DeletedAt == null)
+                            .Select(AdUnitNetworkUnitIdDto.Projection)
+                    },
                     SortSeq = entity.SortSeq,
                 };
             }
