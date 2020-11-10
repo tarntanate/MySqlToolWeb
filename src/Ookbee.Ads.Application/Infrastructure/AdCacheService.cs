@@ -53,7 +53,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                             var timeout = nextDateTime - nowDateTime;
                             Thread.Sleep(timeout);
                         }
-                        catch
+                        catch (Exception ex)
                         {
                             Thread.Sleep(TimeSpan.FromSeconds(5));
                         }
