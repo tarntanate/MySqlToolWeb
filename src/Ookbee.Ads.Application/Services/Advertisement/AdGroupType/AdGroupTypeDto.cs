@@ -10,13 +10,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroupType
         public string Name { get; set; }
         public string Description { get; set; }
         
-        public static AdGroupTypeDto FromEntity(AdGroupTypeEntity entity)
-        {
-            return entity == null 
-                ? null 
-                : Projection.Compile().Invoke(entity);
-        }
-
         public static Expression<Func<AdGroupTypeEntity, AdGroupTypeDto>> Projection
         {
             get

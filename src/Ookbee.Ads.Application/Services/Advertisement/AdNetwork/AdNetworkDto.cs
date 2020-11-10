@@ -13,13 +13,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork
         public string AdNetwork { get; set; }
         public string AdNetworkUnitId { get; set; }
 
-        public static AdNetworkDto FromEntity(AdNetworkEntity entity)
-        {
-            return entity == null
-                ? null
-                : Projection.Compile().Invoke(entity);
-        }
-
         public static Expression<Func<AdNetworkEntity, AdNetworkDto>> Projection
         {
             get
