@@ -31,8 +31,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
 
             var items = await AdUnitDbRepo.FindAsync(
                 include: f => 
-                    f.Include(x => x.AdGroup.Publisher)
-                     .Include(x => x.AdGroup.AdGroupType),
+                    f.Include(x => x.AdGroup.Publisher),
                 selector: AdUnitDto.Projection,
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.SortSeq),

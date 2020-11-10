@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
