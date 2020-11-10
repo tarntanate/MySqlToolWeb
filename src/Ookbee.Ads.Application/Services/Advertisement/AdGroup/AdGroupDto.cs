@@ -36,7 +36,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
                     Description = entity.Description,
                     Enabled = entity.Enabled,
                     Placement = entity.Placement,
-                    TotalAdUnit = entity.AdUnits.Where(adunit => adunit.DeletedAt == null).Count(),
+                    TotalAdUnit = entity.AdUnits != null ? entity.AdUnits.Where(adunit => adunit.DeletedAt == null).Count() : 0,
                     AdGroupType = AdGroupTypeDto.FromEntity(entity.AdGroupType),
                     Publisher = PublisherDto.FromEntity(entity.Publisher),
                 };
