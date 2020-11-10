@@ -32,6 +32,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset
         public string AssetType { get; set; }
         public AdPosition Position { get; set; }
 
+        public static AdAssetDto FromEntity(AdAssetEntity entity)
+        {
+            return entity == null
+                ? null
+                : Projection.Compile().Invoke(entity);
+        }
+
         public static Expression<Func<AdAssetEntity, AdAssetDto>> Projection
         {
             get
