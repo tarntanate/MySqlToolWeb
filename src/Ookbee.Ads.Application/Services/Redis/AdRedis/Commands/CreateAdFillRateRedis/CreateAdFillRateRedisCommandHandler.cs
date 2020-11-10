@@ -62,7 +62,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
                         var predicted = inventory * 1.2M;
                         var probability = (score / predicted) * 100;
 
-                        var redisKey = CacheKey.UnitAdFillRate(request.AdGroupId);
+                        var redisKey = CacheKey.UnitAdFillRate(request.AdUnitId);
                         var hashField = item.AdId;
                         var hashValue = probability.ToString("0.00");
                         await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
