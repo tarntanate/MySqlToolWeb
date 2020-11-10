@@ -14,13 +14,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign
         public int TotalAds { get; set; }
         public AdvertiserDto Advertiser { get; set; }
 
-        public static CampaignDto FromEntity(CampaignEntity entity)
-        {
-            return entity == null
-                ? null
-                : Projection.Compile().Invoke(entity);
-        }
-
         public static Expression<Func<CampaignEntity, CampaignDto>> Projection
         {
             get
@@ -33,8 +26,21 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign
                     DeletedAt = entity.DeletedAt,
                     Name = entity.Name,
                     Description = entity.Description,
-                    TotalAds = entity.Ads != null ? entity.Ads.Where(ad => ad.DeletedAt == null).Count() : 0,
-                    Advertiser = AdvertiserDto.FromEntity(entity.Advertiser)
+                    TotalAds = entity.Ads.Where(ad => ad.DeletedAt == null).Count(),
+                    Advertiser = new AdvertiserDto()
+                    {
+                        Id = entity.Advertiser.Id,
+                        Name = entity.Advertiser.Name,
+                        Description = entity.Advertiser.Description,
+                        ImagePath = entity.Advertiser.ImagePath,
+                        Contact = entity.Advertiser.Contact,
+                        Email = entity.Advertiser.Email,
+                        PhoneNumber = entity.Advertiser.PhoneNumber,
+                        CreatedAt = entity.Advertiser.CreatedAt,
+                        UpdatedAt = entity.Advertiser.UpdatedAt,
+                        DeletedAt = entity.Advertiser.DeletedAt,
+                        TotalCampaign = entity.Advertiser.Campaigns.Where(campaign => campaign.DeletedAt == null).Count()
+                    }
                 };
             }
         }

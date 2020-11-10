@@ -15,13 +15,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
         public AdUnitNetworkDto AdNetwork { get; set; }
         public int? SortSeq { get; set; }
 
-        public static AdUnitDto FromEntity(AdUnitEntity entity)
-        {
-            return entity == null
-                ? null
-                : Projection.Compile().Invoke(entity);
-        }
-
         public static Expression<Func<AdUnitEntity, AdUnitDto>> Projection
         {
             get
@@ -50,10 +43,14 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
                     AdNetwork = new AdUnitNetworkDto()
                     {
                         Name = entity.AdNetwork,
-                        AdNetworkUnits = entity.AdNetworks != null ? entity.AdNetworks
-                            .AsQueryable()
-                            .Where(adNetwork => adNetwork.DeletedAt == null)
-                            .Select(AdUnitNetworkUnitIdDto.Projection) : null
+                        AdNetworkUnits = entity.AdNetworks
+                            .Where(item => item.DeletedAt == null)
+                            .Select(adNetwork => new AdUnitNetworkUnitIdDto()
+                            {
+                                Id = adNetwork.Id,
+                                Platform = adNetwork.Platform,
+                                AdNetworkUnitId = adNetwork.AdNetworkUnitId
+                            })
                     },
                     SortSeq = entity.SortSeq,
                 };

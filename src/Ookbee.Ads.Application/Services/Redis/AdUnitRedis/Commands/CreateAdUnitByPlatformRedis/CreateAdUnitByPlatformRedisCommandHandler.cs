@@ -31,71 +31,64 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
 
         public async Task<Unit> Handle(CreateAdUnitByPlatformRedisCommand request, CancellationToken cancellationToken)
         {
-            try
+            var start = 0;
+            var length = 100;
+            var next = false;
+            var adUnits = new List<AdUnitDto>();
+            do
             {
-                var start = 0;
-                var length = 100;
-                var next = false;
-                var adUnits = new List<AdUnitDto>();
-                do
+                var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
+                if (getAdUnitList.IsSuccess)
                 {
-                    var getAdUnitList = await Mediator.Send(new GetAdUnitListQuery(start, length, request.AdGroupId), cancellationToken);
-                    if (getAdUnitList.IsSuccess)
-                    {
-                        adUnits.AddRange(getAdUnitList.Data);
-                        next = adUnits.Count() == length ? true : false;
-                    }
+                    adUnits.AddRange(getAdUnitList.Data);
+                    next = adUnits.Count() == length ? true : false;
                 }
-                while (next);
+            }
+            while (next);
 
-                if (adUnits.HasValue())
+            if (adUnits.HasValue())
+            {
+                var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
+                var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
+                foreach (var platform in platforms)
                 {
-                    var baseUrl = GlobalVar.AppSettings.Services.Ads.Analytics.BaseUri.External;
-                    var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
-                    foreach (var platform in platforms)
+                    var items = adUnits.Select(unit => new AdUnitCacheDto
                     {
-                        var items = adUnits.Select(unit => new AdUnitCacheDto
-                        {
-                            Id = unit?.AdNetwork.Name.ToUpper() == "OOKBEE"
-                                ? unit.Id.ToString()
-                                : unit
-                                    ?.AdNetwork
-                                        ?.AdNetworkUnits
-                                            ?.FirstOrDefault(x => x.Platform == platform)
-                                                ?.AdNetworkUnitId,
-                            Name = unit.AdNetwork.Name,
-                            Analytics = unit?.AdNetwork.Name.ToUpper() == "OOKBEE"
-                                ? null
-                                : new AnalyticsCacheDto
-                                {
-                                    Clicks = new List<string>() {
+                        Id = unit?.AdNetwork.Name.ToUpper() == "OOKBEE"
+                            ? unit.Id.ToString()
+                            : unit
+                                ?.AdNetwork
+                                    ?.AdNetworkUnits
+                                        ?.FirstOrDefault(x => x.Platform == platform)
+                                            ?.AdNetworkUnitId,
+                        Name = unit.AdNetwork.Name,
+                        Analytics = unit?.AdNetwork.Name.ToUpper() == "OOKBEE"
+                            ? null
+                            : new AnalyticsCacheDto
+                            {
+                                Clicks = new List<string>() {
                                         $"{baseUrl}/api/units/{unit.Id}/stats?type={AdStatsType.Click}&platform={platform}&publisherId={unit.AdGroup.Publisher.Id}".ToLower()
-                                    },
-                                    Impressions = new List<string>() {
+                                },
+                                Impressions = new List<string>() {
                                         $"{baseUrl}/api/units/{unit.Id}/stats?type={AdStatsType.Impression}&platform={platform}&publisherId={unit.AdGroup.Publisher.Id}".ToLower()
-                                    },
-                                }
-                        }).ToList();
+                                },
+                            }
+                    }).ToList();
 
-                        if (items.Count() > 0)
-                        {
-                            var cacheObj = new ApiListResult<AdUnitCacheDto>();
-                            cacheObj.Data.Items = items.Where(x => !string.IsNullOrEmpty(x.Id)).ToList();
+                    if (items.Count() > 0)
+                    {
+                        var cacheObj = new ApiListResult<AdUnitCacheDto>();
+                        cacheObj.Data.Items = items.Where(x => !string.IsNullOrEmpty(x.Id)).ToList();
 
-                            var hashField = platform.ToString();
-                            var hashValue = JsonHelper.Serialize(cacheObj);
-                            var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
-                            await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
-                        }
+                        var hashField = platform.ToString();
+                        var hashValue = JsonHelper.Serialize(cacheObj);
+                        var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
+                        await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
                     }
                 }
+            }
 
-                return Unit.Value;
-            }
-            catch (System.Exception ex )
-            {
-                throw;
-            }
+            return Unit.Value;
         }
     }
 }

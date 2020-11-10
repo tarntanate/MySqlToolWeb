@@ -12,13 +12,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher
         public string ImagePath { get; set; }
         public string CountryCode { get; set; }
 
-        public static PublisherDto FromEntity(PublisherEntity entity)
-        {
-            return entity == null
-                ? null
-                : Projection.Compile().Invoke(entity);
-        }
-
         public static Expression<Func<PublisherEntity, PublisherDto>> Projection
         {
             get

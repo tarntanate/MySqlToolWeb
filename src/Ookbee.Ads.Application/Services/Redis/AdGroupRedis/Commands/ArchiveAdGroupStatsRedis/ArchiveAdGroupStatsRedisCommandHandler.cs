@@ -38,19 +38,22 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.ArchiveAdG
                     foreach (var adGroupStats in adGroupStatsList)
                     {
                         var adGroupStatsCache = await Mediator.Send(new GetAdGroupStatsRedisQuery(adGroupStats.AdGroupId), cancellationToken);
-                        var adGroupStatsDb = await AdGroupStatsDbRepo.FirstAsync(
-                            disableTracking: false,
-                            filter: f =>
-                                f.AdGroupId == adGroupStats.AdGroupId &&
-                                f.CaculatedAt == request.CaculatedAt
-                        );
-                        if (adGroupStatsDb.HasValue())
+                        if (adGroupStatsCache.IsSuccess)
                         {
-                            var requestValue = adGroupStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Request).Value;
-                            if (requestValue > adGroupStatsDb.Request)
-                                adGroupStatsDb.Request = requestValue;
+                            var adGroupStatsDb = await AdGroupStatsDbRepo.FirstAsync(
+                                disableTracking: false,
+                                filter: f =>
+                                    f.AdGroupId == adGroupStats.AdGroupId &&
+                                    f.CaculatedAt == request.CaculatedAt
+                            );
+                            if (adGroupStatsDb.HasValue())
+                            {
+                                var requestValue = adGroupStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Request).Value;
+                                if (requestValue > adGroupStatsDb.Request)
+                                    adGroupStatsDb.Request = requestValue;
 
-                            await AdGroupStatsDbRepo.SaveChangesAsync();
+                                await AdGroupStatsDbRepo.SaveChangesAsync();
+                            }
                         }
                     }
                     next = adGroupStatsList.Count() == length ? true : false;

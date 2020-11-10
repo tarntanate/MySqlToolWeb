@@ -43,23 +43,26 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.ArchiveAdUn
                     foreach (var adUnitStats in adUnitStatsList)
                     {
                         var adUnitStatsCache = await Mediator.Send(new GetAdUnitStatsRedisQuery(adUnitStats.AdUnitId), cancellationToken);
-                        var adUnitStatsDb = await AdUnitStatsDbRepo.FirstAsync(
-                            disableTracking: false,
-                            filter: f =>
-                                f.AdUnitId == adUnitStats.AdUnitId &&
-                                f.CaculatedAt == request.CaculatedAt
-                        );
-                        if (adUnitStatsDb.HasValue())
+                        if (adUnitStatsCache.IsSuccess)
                         {
-                            var requestValue = adUnitStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Request).Value;
-                            if (requestValue > adUnitStatsDb.Request)
-                                adUnitStatsDb.Request = requestValue;
+                            var adUnitStatsDb = await AdUnitStatsDbRepo.FirstAsync(
+                                disableTracking: false,
+                                filter: f =>
+                                    f.AdUnitId == adUnitStats.AdUnitId &&
+                                    f.CaculatedAt == request.CaculatedAt
+                            );
+                            if (adUnitStatsDb.HasValue())
+                            {
+                                var requestValue = adUnitStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Request).Value;
+                                if (requestValue > adUnitStatsDb.Request)
+                                    adUnitStatsDb.Request = requestValue;
 
-                            var fillValue = adUnitStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Fill).Value;
-                            if (fillValue > adUnitStatsDb.Fill)
-                                adUnitStatsDb.Fill = fillValue;
+                                var fillValue = adUnitStatsCache.Data.SingleOrDefault(x => x.Key == AdStatsType.Fill).Value;
+                                if (fillValue > adUnitStatsDb.Fill)
+                                    adUnitStatsDb.Fill = fillValue;
 
-                            await AdUnitStatsDbRepo.SaveChangesAsync();
+                                await AdUnitStatsDbRepo.SaveChangesAsync();
+                            }
                         }
                     }
                     next = adUnitStatsList.Count() == length ? true : false;

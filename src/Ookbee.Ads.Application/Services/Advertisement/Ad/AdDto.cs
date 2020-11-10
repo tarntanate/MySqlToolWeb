@@ -33,13 +33,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
         public AdUnitDto AdUnit { get; set; }
         public CampaignDto Campaign { get; set; }
 
-        public static AdDto FromEntity(AdEntity entity)
-        {
-            return entity == null
-                ? null
-                : Projection.Compile().Invoke(entity);
-        }
-
         public static Expression<Func<AdEntity, AdDto>> Projection
         {
             get
