@@ -55,7 +55,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
                     LinkUrl = entity.WebLink,
                     Analytics = entity.Analytics,
                     Platforms = entity.Platforms,
-                    Assets = entity.AdAssets.Where(asset => asset.DeletedAt == null).AsQueryable().Select(AdAssetDto.Projection),
+                    Assets = entity.AdAssets
+                                   .AsQueryable()
+                                   .Select(AdAssetDto.Projection)
+                                   .Where(asset => asset.DeletedAt == null),
                     AdUnit = AdUnitDto.FromEntity(entity.AdUnit),
                     Campaign = CampaignDto.FromEntity(entity.Campaign)
                 };

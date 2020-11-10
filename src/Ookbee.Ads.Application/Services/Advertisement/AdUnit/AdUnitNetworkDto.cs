@@ -1,4 +1,3 @@
-using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
 using System.Collections.Generic;
@@ -14,9 +13,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
 
         public static AdUnitNetworkDto FromEntity(AdUnitEntity entity)
         {
-            return entity == null
-                ? null
-                : Projection.Compile().Invoke(entity);
+            return entity == null ? null : Projection.Compile().Invoke(entity);
         }
 
         public static Expression<Func<AdUnitEntity, AdUnitNetworkDto>> Projection
@@ -26,9 +23,12 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit
                 return entity => new AdUnitNetworkDto()
                 {
                     Name = entity.AdNetwork,
-                    AdNetworkUnits = entity.AdNetworks.HasValue()
-                        ? entity.AdNetworks.AsQueryable().Select(AdUnitNetworkUnitIdDto.Projection).Where(item => item.DeletedAt == null)
-                        : null
+                    AdNetworkUnits = entity.AdNetworks == null
+                        ? null
+                        : entity.AdNetworks
+                                .AsQueryable()
+                                .Select(AdUnitNetworkUnitIdDto.Projection)
+                                .Where(item => item.DeletedAt == null)
                 };
             }
         }
