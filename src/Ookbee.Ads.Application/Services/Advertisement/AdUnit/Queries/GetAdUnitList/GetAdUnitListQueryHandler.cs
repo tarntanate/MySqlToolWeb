@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
@@ -29,6 +30,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
                 predicate = predicate.And(f => f.AdGroupId == request.AdGroupId);
 
             var items = await AdUnitDbRepo.FindAsync(
+                include: f => 
+                    f.Include(x => x.AdGroup.Publisher)
+                     .Include(x => x.AdGroup.AdGroupType),
                 selector: AdUnitDto.Projection,
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.SortSeq),

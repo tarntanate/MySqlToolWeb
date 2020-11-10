@@ -3,6 +3,7 @@ using Ookbee.Ads.Application.Services.Advertisement.AdGroupType;
 using Ookbee.Ads.Application.Services.Advertisement.Publisher;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup

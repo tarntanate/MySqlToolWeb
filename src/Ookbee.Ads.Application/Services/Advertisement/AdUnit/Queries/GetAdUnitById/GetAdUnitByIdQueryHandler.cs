@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -19,11 +21,16 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
 
         public async Task<Response<AdUnitDto>> Handle(GetAdUnitByIdQuery request, CancellationToken cancellationToken)
         {
+            var predicate = PredicateBuilder.True<AdUnitEntity>();
+            predicate = predicate.And(f => f.Id == request.Id);
+            predicate = predicate.And(f => f.DeletedAt == null);
+                
             var item = await AdUnitDbRepo.FirstAsync(
+                include: f => 
+                    f.Include(x => x.AdGroup.Publisher)
+                     .Include(x => x.AdGroup.AdGroupType),
                 selector: AdUnitDto.Projection,
-                filter: f =>
-                    f.Id == request.Id &&
-                    f.DeletedAt == null
+                filter: predicate
             );
 
             var result = new Response<AdUnitDto>();
