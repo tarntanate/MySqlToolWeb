@@ -19,8 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
 
         public async Task<Response<AdNetworkDto>> Handle(GetAdNetworkByPlatformQuery request, CancellationToken cancellationToken)
         {
-            var item = await AdNetworkDbRepo.FirstAsync(
-                selector: AdNetworkDto.Projection,
+            var item = await AdNetworkDbRepo.FirstAsync<AdNetworkDto>(
                 filter: f =>
                     f.AdUnitId == request.AdUnitId &&
                     f.Platform == request.Platform &&

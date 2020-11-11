@@ -22,8 +22,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPub
 
         public async Task<Response<IEnumerable<PublisherDto>>> Handle(GetPublisherListQuery request, CancellationToken cancellationToken)
         {
-            var items = await PublisherDbRepo.FindAsync(
-                selector: PublisherDto.Projection,
+            var items = await PublisherDbRepo.FindAsync<PublisherDto>(
                 filter: f => f.DeletedAt == null,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,
