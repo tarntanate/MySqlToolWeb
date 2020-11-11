@@ -28,8 +28,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
             if (request.AdUnitId.HasValue())
                 predicate = predicate.And(f => f.AdUnitId == request.AdUnitId);
 
-            var items = await AdNetworkDbRepo.FindAsync(
-                selector: AdNetworkDto.Projection,
+            var items = await AdNetworkDbRepo.FindAsync<AdNetworkDto>(
                 filter: predicate,
                 start: request.Start,
                 length: request.Length

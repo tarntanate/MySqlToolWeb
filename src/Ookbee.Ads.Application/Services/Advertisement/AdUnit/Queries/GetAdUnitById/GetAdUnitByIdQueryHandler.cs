@@ -25,8 +25,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
             predicate = predicate.And(f => f.Id == request.Id);
             predicate = predicate.And(f => f.DeletedAt == null);
                 
-            var item = await AdUnitDbRepo.FirstAsync(
-                selector: AdUnitDto.Projection,
+            var item = await AdUnitDbRepo.FirstAsync<AdUnitDto>(
                 filter: predicate
             );
 

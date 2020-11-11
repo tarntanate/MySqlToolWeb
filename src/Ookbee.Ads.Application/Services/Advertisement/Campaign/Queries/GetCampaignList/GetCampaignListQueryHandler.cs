@@ -29,8 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
             if (request.AdvertiserId.HasValue() && request.AdvertiserId > 0)
                 predicate = predicate.And(f => f.AdvertiserId == request.AdvertiserId);
 
-            var items = await CampaignDbRepo.FindAsync(
-                selector: CampaignDto.Projection,
+            var items = await CampaignDbRepo.FindAsync<CampaignDto>(
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,

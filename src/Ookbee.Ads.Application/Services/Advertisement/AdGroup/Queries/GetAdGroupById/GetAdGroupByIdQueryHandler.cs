@@ -19,8 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
 
         public async Task<Response<AdGroupDto>> Handle(GetAdGroupByIdQuery request, CancellationToken cancellationToken)
         {
-            var item = await AdGroupDbRepo.FirstAsync(
-                selector: AdGroupDto.Projection,
+            var item = await AdGroupDbRepo.FirstAsync<AdGroupDto>(
                 filter: f => 
                     f.Id == request.Id &&
                     f.DeletedAt == null
