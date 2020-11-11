@@ -29,8 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
             if (request.AdId.HasValue() && request.AdId > 0)
                 predicate = predicate.And(f => f.AdId == request.AdId);
 
-            var items = await AdAssetDbRepo.FindAsync(
-                selector: AdAssetDto.Projection,
+            var items = await AdAssetDbRepo.FindAsync<AdAssetDto>(
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.AdId).ThenBy(o => o.Position),
                 start: request.Start,

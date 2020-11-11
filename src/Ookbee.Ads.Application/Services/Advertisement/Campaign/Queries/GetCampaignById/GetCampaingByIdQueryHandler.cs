@@ -19,8 +19,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.GetCamp
 
         public async Task<Response<CampaignDto>> Handle(GetCampaignByIdQuery request, CancellationToken cancellationToken)
         {
-            var item = await CampaignDbRepo.FirstAsync(
-                selector: CampaignDto.Projection,
+            var item = await CampaignDbRepo.FirstAsync<CampaignDto>(
                 filter: f =>
                     f.Id == request.Id &&
                     f.DeletedAt == null

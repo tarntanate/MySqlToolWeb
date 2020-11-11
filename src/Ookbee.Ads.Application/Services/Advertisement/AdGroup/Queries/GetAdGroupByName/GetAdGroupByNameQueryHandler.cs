@@ -25,9 +25,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
             predicate = predicate.And(f => f.Name == request.Name);
             predicate = predicate.And(f => f.PublisherId == request.PublisherId);
             
-            var item = await AdGroupDbRepo.FirstAsync(
-                filter: predicate,
-                selector: AdGroupDto.Projection
+            var item = await AdGroupDbRepo.FirstAsync<AdGroupDto>(
+                filter: predicate
             );
 
             var result = new Response<AdGroupDto>();

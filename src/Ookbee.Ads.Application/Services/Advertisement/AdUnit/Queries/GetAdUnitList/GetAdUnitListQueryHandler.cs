@@ -29,8 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
             if (request.AdGroupId.HasValue())
                 predicate = predicate.And(f => f.AdGroupId == request.AdGroupId);
 
-            var items = await AdUnitDbRepo.FindAsync(
-                selector: AdUnitDto.Projection,
+            var items = await AdUnitDbRepo.FindAsync<AdUnitDto>(
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.SortSeq),
                 start: request.Start,

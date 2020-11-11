@@ -1,9 +1,6 @@
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroupType;
 using Ookbee.Ads.Application.Services.Advertisement.Publisher;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
-using System;
-using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
 {
@@ -15,34 +12,5 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup
         public bool Enabled { get; set; }
         public AdGroupTypeDto AdGroupType { get; set; }
         public PublisherDto Publisher { get; set; }
-
-        public static Expression<Func<AdGroupEntity, AdGroupDto>> Projection
-        {
-            get
-            {
-                return entity => new AdGroupDto()
-                {
-                    Id = entity.Id,
-                    Name = entity.Name,
-                    Description = entity.Description,
-                    Placement = entity.Placement,
-                    Enabled = entity.Enabled,
-                    AdGroupType = new AdGroupTypeDto()
-                    {
-                        Id = entity.AdGroupType.Id,
-                        Name = entity.AdGroupType.Name,
-                        Description = entity.AdGroupType.Description
-                    },
-                    Publisher = new PublisherDto()
-                    {
-                        Id = entity.Publisher.Id,
-                        Name = entity.Publisher.Name,
-                        Description = entity.Publisher.Description,
-                        ImagePath = entity.Publisher.ImagePath,
-                        CountryCode = entity.Publisher.CountryCode
-                    },
-                };
-            }
-        }
     }
 }
