@@ -42,9 +42,6 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
                 selector: f => f.Quota
             );
 
-            if (totalRequest < totalQuota)
-                return Unit.Value;
-
             var start = 0;
             var length = 100;
             var next = false;
