@@ -20,8 +20,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdAsset.Queries.GetAdAss
 
         public async Task<Response<IEnumerable<AdAssetDto>>> Handle(GetAdAssetByAdIdQuery request, CancellationToken cancellationToken)
         {
-            var items = await AdAssetDbRepo.FindAsync(
-                selector: AdAssetDto.Projection,
+            var items = await AdAssetDbRepo.FindAsync<AdAssetDto>(
                 filter: f =>
                     f.Id == request.AdId &&
                     f.DeletedAt == null

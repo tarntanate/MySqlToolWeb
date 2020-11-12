@@ -29,10 +29,10 @@ namespace Ookbee.Ads.Application.Services.Identity.UserRole.Commands.UpdateUserR
                 .MaximumLength(40)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var validate = context.InstanceToValidate as UpdateUserRoleCommand;
+                    var command = context.InstanceToValidate as UpdateUserRoleCommand;
                     var result = await Mediator.Send(new GetUserRoleByNameQuery(value), cancellationToken);
                     if (result.IsSuccess &&
-                        result.Data.Id != validate.Id &&
+                        result.Data.Id != command.Id &&
                         result.Data.Name == value)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });

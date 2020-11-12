@@ -84,6 +84,7 @@ CREATE TABLE "public"."AdGroup" (
     "PublisherId" INTEGER NOT NULL,
     "Name" CHARACTER VARYING(40) NOT NULL,
     "Description" CHARACTER VARYING(500),
+    "Placement" CHARACTER VARYING(50),
     "Enabled" BOOLEAN DEFAULT TRUE NOT NULL,
     "CreatedAt" TIMESTAMP WITH TIME ZONE,
     "UpdatedAt" TIMESTAMP WITH TIME ZONE,
@@ -204,6 +205,7 @@ CREATE TABLE "public"."Publisher" (
     "Name" CHARACTER VARYING(40) NOT NULL,
     "Description" CHARACTER VARYING(500) NULL,
     "ImagePath" CHARACTER VARYING(255),
+    "CountryCode" CHARACTER VARYING(10),
     "CreatedAt" TIMESTAMP WITH TIME ZONE,
     "UpdatedAt" TIMESTAMP WITH TIME ZONE,
     "DeletedAt" TIMESTAMP WITH TIME ZONE,
@@ -305,45 +307,47 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 /* ---------------------------------------------------------------------- */
 /* Add data                                                               */
 /* ---------------------------------------------------------------------- */	
-INSERT INTO public."Publisher" ("Name", "Description", "ImagePath", "CreatedAt", "UpdatedAt", "DeletedAt")
-VALUES 		('Joylada', 'Joylada แอปฯ อ่านนิยายแชทรูปแบบใหม่ น้องสาวของเว็บอ่านนิยายธัญวลัย ภายใต้บริษัท Ookbee U ที่เกิดจากการร่วมทุนกันระหว่าง Ookbee และ Tencent', null, '2020-08-13 18:05:54+07', null, null),
-			('Tunwalai', 'ธัญวลัย', null, '2020-08-13 18:06:10+07', null, null);
+INSERT INTO public."Publisher" ("Name", "Description", "ImagePath", "CountryCode", "CreatedAt", "UpdatedAt", "DeletedAt")
+VALUES 		('Joylada', 'สำหรับประเทศไทย', null, 'TH', '2020-08-13 18:05:54+07', null, null),
+			('Joylada', 'สำหรับประเทศอินโดนีเซีย', null, 'ID', '2020-08-13 18:05:54+07', null, null);
 	
 INSERT INTO public."AdGroupType" ("Name","Description","CreatedAt","UpdatedAt","DeletedAt")
 VALUES		('tab','tabchat','2020-08-13 18:06:30+07',NULL,NULL),
 	 		('mRec','medium rectangle banner','2020-08-13 18:06:39+07',NULL,NULL);
 		
-INSERT INTO public."AdGroup" ("AdGroupTypeId","PublisherId","Name","Description","Enabled","CreatedAt","UpdatedAt","DeletedAt")
-VALUES 		(1,1,'Tab Chat',NULL,true,'2020-08-13 18:07:51+07',NULL,NULL),
-	 		(2,1,'Bottom Novel',NULL,true,'2020-08-31 15:34:07+07',NULL,NULL),
-	 		(2,1,'Recommend',NULL,true,'2020-09-17 11:10:18+07',NULL,NULL),
-	 		(2,1,'Bottom Chat',NULL,true,'2020-08-31 15:33:51+07',NULL,NULL),
-	 		(2,1,'Top Bubble Ad (Chat)',NULL,true,'2020-08-17 12:12:13+07',NULL,NULL),
-	 		(2,1,'Chapter List',NULL,true,'2020-08-31 15:33:14+07',NULL,NULL);
-	 	
+INSERT INTO public."AdGroup" ("AdGroupTypeId","PublisherId","Name","Description","Placement","Enabled","CreatedAt","UpdatedAt","DeletedAt")
+VALUES 		(1,1,'Tab Chat',NULL,'TAB_CHAT',true,'2020-08-13 18:07:51+07',NULL,NULL),
+	 		(2,1,'Top Bubble Ad (Chat)',NULL,'TOP_CHAT',true,'2020-08-17 12:12:13+07',NULL,NULL),
+	 		(2,1,'Chapter List',NULL,'CHAPTER_LIST',true,'2020-08-31 15:33:14+07',NULL,NULL),
+	 		(2,1,'Bottom Chat',NULL,'BOTTOM_CHAT',true,'2020-08-31 15:33:51+07','2020-11-09 18:26:20+07',NULL),
+	 		(2,1,'Bottom Novel',NULL,'BOTTOM_NOVEL',true,'2020-08-31 15:34:07+07',NULL,NULL),
+	 		(2,1,'Recommend',NULL,'RECOMMEND',true,'2020-09-17 11:10:18+07',NULL,NULL);
+		
 INSERT INTO public."AdUnit" ("AdGroupId","AdNetwork","SortSeq","CreatedAt","UpdatedAt","DeletedAt")
-VALUES 		(1,'ookbee',1,'2020-08-26 14:31:39.071804+07',NULL,NULL),
-	 		(2,'admob',2,'2020-09-17 15:13:08+07',NULL,NULL),
-	 		(2,'ookbee',1,'2020-08-27 07:40:10+07',NULL,NULL),
-	 		(4,'admob',2,'2020-09-17 15:17:44+07',NULL,NULL),
-	 		(4,'ookbee',1,'2020-09-17 15:16:25+07',NULL,NULL),
-	 		(5,'admob',2,'2020-09-17 15:19:20+07',NULL,NULL),
-	 		(5,'ookbee',1,'2020-09-17 15:18:55+07',NULL,NULL),
-	 		(6,'admob',2,'2020-09-17 15:22:44+07',NULL,NULL),
-	 		(6,'ookbee',1,'2020-10-26 16:59:56+07',NULL,NULL);
-
+VALUES      (1,'ookbee',1,'2020-08-26 14:31:39.071804+07',NULL,NULL),
+            (2,'admob',2,'2020-09-17 15:13:08.802629+07',NULL,NULL),
+            (2,'ookbee',1,'2020-08-27 07:40:10.155673+07',NULL,NULL),
+            (3,'admob',2,'2020-09-17 15:17:44.699423+07',NULL,NULL),
+            (3,'ookbee',1,'2020-09-17 15:16:25.477228+07',NULL,NULL),
+            (4,'admob',2,'2020-09-17 15:19:20.275636+07',NULL,NULL),
+            (4,'ookbee',1,'2020-09-17 15:18:55.358688+07',NULL,NULL),
+            (5,'ookbee',1,'2020-10-26 16:59:56.865267+07',NULL,NULL),
+            (5,'admob',2,'2020-09-17 15:22:44.309285+07',NULL,NULL),
+            (6,'ookbee',2,'2020-09-17 15:15:54.512154+07',NULL,NULL),
+            (6,'admob',1,'2020-09-17 15:15:18.835995+07',NULL,NULL);
+		
 INSERT INTO public."AdNetwork" ("AdUnitId","AdNetworkUnitId","Platform","CreatedAt","UpdatedAt","DeletedAt")
-VALUES 		(1,'ca-app-pub-8034539772302467/5199748887','Android','2020-08-26 14:31:39+07',NULL,NULL),
-	 		(1,'ca-app-pub-8034539772302467/8927327516','iOS','2020-09-21 15:17:02.929298+07',NULL,NULL),
-	 		(2,'ca-app-pub-8034539772302467/9585803061','iOS','2020-09-17 15:15:18+07',NULL,NULL),
-	 		(2,'ca-app-pub-8034539772302467/1071257915','Android','2020-09-17 15:15:18+07',NULL,NULL),
-	 		(3,'ca-app-pub-8034539772302467/4837567941','Android','2020-09-17 15:17:44+07',NULL,NULL),
-	 		(3,'ca-app-pub-8034539772302467/4221795741','iOS','2020-09-17 15:17:44+07',NULL,NULL),
-	 		(4,'ca-app-pub-8034539772302467/9665694116','iOS','2020-09-17 15:19:20+07',NULL,NULL),
-	 		(4,'ca-app-pub-8034539772302467/9825389602','Android','2020-09-17 15:19:20+07',NULL,NULL),
-	 		(5,'ca-app-pub-8034539772302467/6286380981','Android','2020-09-17 15:22:44+07',NULL,NULL),
-	 		(5,'ca-app-pub-8034539772302467/8959240810','iOS','2020-09-17 15:22:44+07',NULL,NULL);
-
+VALUES      (2,'ca-app-pub-8034539772302467/8927327516','iOS','2020-09-21 15:17:02+07',NULL,NULL),
+            (2,'ca-app-pub-8034539772302467/5199748887','Android','2020-08-26 14:31:39+07',NULL,NULL),
+            (4,'ca-app-pub-8034539772302467/4837567941','Android','2020-09-17 15:17:44+07',NULL,NULL),
+            (4,'ca-app-pub-8034539772302467/4221795741','iOS','2020-09-17 15:17:44+07',NULL,NULL),
+            (6,'ca-app-pub-8034539772302467/9825389602','Android','2020-09-17 15:19:20+07',NULL,NULL),
+            (6,'ca-app-pub-8034539772302467/9665694116','iOS','2020-09-17 15:19:20+07',NULL,NULL),
+            (9,'ca-app-pub-8034539772302467/8959240810','iOS','2020-09-17 15:22:44+07',NULL,NULL),
+            (9,'ca-app-pub-8034539772302467/6286380981','Android','2020-09-17 15:22:44+07',NULL,NULL),
+            (11,'ca-app-pub-8034539772302467/1071257915','Android','2020-09-17 15:15:18+07',NULL,NULL),
+            (11,'ca-app-pub-8034539772302467/9585803061','iOS','2020-09-17 15:15:18+07',NULL,NULL);
+	
 INSERT INTO public."UserRole" ("Name","Description","CreatedAt","UpdatedAt","DeletedAt") 
 VALUES 		('Administrator','Admin can Create, Update, Delete Ads','2020-09-01 12:54:32+07','2020-10-01 17:48:57+07',NULL);
        

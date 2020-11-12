@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Ookbee.Ads.Common.Builders;
 using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Common.Response;
@@ -32,8 +33,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdList
             if (request.CampaignId.HasValue() && request.CampaignId > 0)
                 predicate = predicate.And(f => f.CampaignId == request.CampaignId);
 
-            var items = await AdDbRepo.FindAsync(
-                selector: AdDto.Projection,
+            var items = await AdDbRepo.FindAsync<AdDto>(
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,

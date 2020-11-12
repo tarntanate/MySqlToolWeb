@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.ArchiveAdStatsR
             var next = false;
             do
             {
-                var getAdStatsList = await Mediator.Send(new GetAdStatsListQuery(start, length, null, null, request.CaculatedAt), cancellationToken);
+                var getAdStatsList = await Mediator.Send(new GetAdStatsListQuery(start, length, request.CaculatedAt, null, null), cancellationToken);
                 if (getAdStatsList.IsSuccess)
                 {
                     var adStatsList = getAdStatsList.Data;

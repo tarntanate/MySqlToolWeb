@@ -20,6 +20,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.IsExis
         {
             var isExists = await PublisherDbRepo.AnyAsync(f =>
                 f.Name.ToUpper() == request.Name.ToUpper() &&
+                f.CountryCode.ToUpper() == request.CountryCode.ToUpper() &&
                 f.DeletedAt == null
             );
 

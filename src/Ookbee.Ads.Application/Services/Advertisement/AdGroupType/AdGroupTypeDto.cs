@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroupType
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
+        
         public static Expression<Func<AdGroupTypeEntity, AdGroupTypeDto>> Projection
         {
             get

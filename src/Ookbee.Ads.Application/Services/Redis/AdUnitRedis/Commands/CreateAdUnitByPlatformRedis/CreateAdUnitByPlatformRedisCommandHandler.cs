@@ -52,13 +52,14 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                 var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                 foreach (var platform in platforms)
                 {
-                    var items = adUnits.Select(unit => new AdUnitCacheDto {
+                    var items = adUnits.Select(unit => new AdUnitCacheDto
+                    {
                         Id = unit?.AdNetwork.Name.ToUpper() == "OOKBEE"
                             ? unit.Id.ToString()
                             : unit
                                 ?.AdNetwork
                                     ?.AdNetworkUnits
-                                        ?.SingleOrDefault(x => x.Platform == platform)
+                                        ?.FirstOrDefault(x => x.Platform == platform)
                                             ?.AdNetworkUnitId,
                         Name = unit.AdNetwork.Name,
                         Analytics = unit?.AdNetwork.Name.ToUpper() == "OOKBEE"
@@ -66,21 +67,24 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                             : new AnalyticsCacheDto
                             {
                                 Clicks = new List<string>() {
-                                    $"{baseUrl}/api/units/{unit.Id}/stats?type={AdStatsType.Click}&platform={platform}&publisherId={unit.AdGroup.Publisher.Id}".ToLower()
+                                        $"{baseUrl}/api/units/{unit.Id}/stats?type={AdStatsType.Click}&platform={platform}&publisherId={unit.AdGroup.Publisher.Id}".ToLower()
                                 },
                                 Impressions = new List<string>() {
-                                    $"{baseUrl}/api/units/{unit.Id}/stats?type={AdStatsType.Impression}&platform={platform}&publisherId={unit.AdGroup.Publisher.Id}".ToLower()
+                                        $"{baseUrl}/api/units/{unit.Id}/stats?type={AdStatsType.Impression}&platform={platform}&publisherId={unit.AdGroup.Publisher.Id}".ToLower()
                                 },
                             }
-                    });
+                    }).ToList();
 
-                    var cacheObj = new ApiListResult<AdUnitCacheDto>();
-                    cacheObj.Data.Items = items.Where(x => !string.IsNullOrEmpty(x.Id)).ToList();
+                    if (items.Count() > 0)
+                    {
+                        var cacheObj = new ApiListResult<AdUnitCacheDto>();
+                        cacheObj.Data.Items = items.Where(x => !string.IsNullOrEmpty(x.Id)).ToList();
 
-                    var hashField = platform.ToString();
-                    var hashValue = JsonHelper.Serialize(cacheObj);
-                    var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
-                    await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
+                        var hashField = platform.ToString();
+                        var hashValue = JsonHelper.Serialize(cacheObj);
+                        var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
+                        await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
+                    }
                 }
             }
 

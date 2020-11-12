@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Commands.Create
                 .MaximumLength(40)
                 .CustomAsync(async (value, context, cancellationToken) =>
                 {
-                    var validate = context.InstanceToValidate as CreateCampaignCommand;
+                    var command = context.InstanceToValidate as CreateCampaignCommand;
                     var result = await Mediator.Send(new GetCampaignByNameQuery(value), cancellationToken);
                     if (result.IsSuccess &&
                         result.Data.Name == value)

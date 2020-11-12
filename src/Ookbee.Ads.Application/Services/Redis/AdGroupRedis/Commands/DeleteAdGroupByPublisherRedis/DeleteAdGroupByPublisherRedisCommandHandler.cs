@@ -33,7 +33,9 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.DeleteAdGr
                 {
                     foreach(var publisher in publishers)
                     {
-                        var isExistsAdGroupById = await Mediator.Send(new IsExistsPublisherByNameQuery(publisher.Key));
+                        var publisherName = publisher.Key.Split("-")[0];
+                        var publisherCountryCode = publisher.Key.Split("-")[1];
+                        var isExistsAdGroupById = await Mediator.Send(new IsExistsPublisherByNameQuery(publisherName, publisherCountryCode));
                         if (isExistsAdGroupById.IsFail)
                         {
                             var redisKey = CacheKey.GroupIdsPublisher();

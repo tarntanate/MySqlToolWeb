@@ -6,10 +6,12 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroup
     public class GetAdGroupIdListByPublisherIdRedisQuery : IRequest<Response<string>>
     {
         public string PublisherName { get; set; }
+        public string PublisherCountry { get; set; }
 
-        public GetAdGroupIdListByPublisherIdRedisQuery(string publisherName)
+        public GetAdGroupIdListByPublisherIdRedisQuery(string publisherName, string publisherCountry)
         {
             PublisherName = publisherName;
+            PublisherCountry = publisherCountry;
         }
     }
 }
