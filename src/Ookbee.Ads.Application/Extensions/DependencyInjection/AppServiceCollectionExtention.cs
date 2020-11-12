@@ -16,6 +16,7 @@ using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Infrastructure.Settings;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
+using Ookbee.Ads.Persistence.EFCore.TimescaleDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using System.Reflection;
 
@@ -61,6 +62,7 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
 
             // EFCore
             services.AddDbContext<AdsDbContext>();
+            services.AddDbContext<TimescaleDbContext>();
             services.AddScoped(typeof(AdsDbRepository<>));
 
             // MongoDB
