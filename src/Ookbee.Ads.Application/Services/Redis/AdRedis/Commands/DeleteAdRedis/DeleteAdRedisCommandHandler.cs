@@ -46,6 +46,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                             f.DeletedAt == null &&
                             f.StartAt <= MechineDateTime.Now &&
                             f.EndAt >= MechineDateTime.Now &&
+                            (f.Status == AdStatusType.Publish || f.Status == AdStatusType.Preview) && 
                             f.AdUnit.DeletedAt == null &&
                             f.AdUnit.AdGroup.DeletedAt == null);
 
