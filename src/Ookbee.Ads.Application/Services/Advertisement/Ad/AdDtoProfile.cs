@@ -7,7 +7,9 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad
     {
         public AdDtoProfile()
         {
-            CreateMap<AdEntity, AdDto>();
+            CreateMap<AdEntity, AdDto>()
+                .ForMember(d => d.LinkUrl, opt => opt.MapFrom(s => s.WebLink))
+                .ForMember(d => d.Assets, opt => opt.MapFrom(s => s.AdAssets));
         }
     }
 }
