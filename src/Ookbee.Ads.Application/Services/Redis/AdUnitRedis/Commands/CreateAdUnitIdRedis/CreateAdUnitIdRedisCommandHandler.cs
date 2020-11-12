@@ -23,12 +23,14 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
         public async Task<Unit> Handle(CreateAdUnitIdRedisCommand request, CancellationToken cancellationToken)
         {
             var redisKey = string.Empty;
-            var redisValue = request.AdGroupId;
-
-            redisKey = CacheKey.UnitIds();
-            await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
+            var redisValue = string.Empty;
 
             redisKey = CacheKey.GroupUnitIds(request.AdGroupId);
+            redisValue = (RedisValue)request.AdUnitId;
+            await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
+
+            redisKey = CacheKey.UnitIds();
+            redisValue = (RedisValue)request.AdUnitId;
             await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
 
             return Unit.Value;
