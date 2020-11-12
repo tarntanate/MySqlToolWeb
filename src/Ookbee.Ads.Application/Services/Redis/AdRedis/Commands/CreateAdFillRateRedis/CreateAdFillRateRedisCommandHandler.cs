@@ -2,6 +2,7 @@
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Analytics.AdStat.Queries.GetAdStatsList;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
+using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
@@ -38,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
             );
 
             var totalQuota = await AdStatsDbRepo.SumAsync(
-                filter: f => f.CaculatedAt == request.CaculatedAt && f.Ad.AdUnitId == request.AdUnitId,
+                filter: f => f.CaculatedAt == request.CaculatedAt && f.Ad.AdUnitId == request.AdUnitId && f.Ad.Status == AdStatusType.Publish,
                 selector: f => f.Quota
             );
 
