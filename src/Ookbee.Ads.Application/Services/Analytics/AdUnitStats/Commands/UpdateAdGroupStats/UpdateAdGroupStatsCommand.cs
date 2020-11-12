@@ -1,24 +1,23 @@
 ﻿using MediatR;
-using Ookbee.Ads.Infrastructure.Models;
 using System;
 
 namespace Ookbee.Ads.Application.Services.Analytics.AdUnitStats.Commands.UpdateAdUnitStats
 {
     public class UpdateAdUnitStatsCommand : IRequest<Unit>
     {
-        public long Id { get; set; }
-        public long AdUnitId { get; set; }
-        public DateTimeOffset CaculatedAt { get; set; }
-        public AdPlatform Platform { get; set; }
-        public long Request { get; set; }
+        public DateTimeOffset CaculatedAt { get; private set; }
+        public long Id { get; private set; }
+        public long AdUnitId { get; private set; }
+        public long Request { get; private set; }
+        public long Fill { get; private set; }
 
-        public UpdateAdUnitStatsCommand(long id, long adUnitId, DateTimeOffset caculatedAt, AdPlatform platform, long request)
+        public UpdateAdUnitStatsCommand(DateTimeOffset caculatedAt, long id, long adUnitId, long request, long fill)
         {
             Id = id;
             AdUnitId = adUnitId;
-            CaculatedAt = caculatedAt;
-            Platform = platform;
             Request = request;
+            Fill = fill;
+            CaculatedAt = caculatedAt;
         }
     }
 }
