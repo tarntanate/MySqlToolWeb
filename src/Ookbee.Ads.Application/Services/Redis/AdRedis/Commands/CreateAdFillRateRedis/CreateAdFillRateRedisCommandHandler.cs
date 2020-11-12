@@ -32,17 +32,18 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
 
         public async Task<Unit> Handle(CreateAdFillRateRedisCommand request, CancellationToken cancellationToken)
         {
-            var inventory = await AdUnitStatsDbRepo.SumAsync(
-                filter: f => f.CaculatedAt == request.CaculatedAt.AddDays(-7) && f.AdUnitId == request.AdUnitId,
+            var totalRequest = await AdUnitStatsDbRepo.SumAsync(
+                filter: f => f.CaculatedAt == request.CaculatedAt.AddDays(-1) && f.AdUnitId == request.AdUnitId,
                 selector: f => f.Request
             );
-            if (inventory < 1)
-            {
-                inventory = (await AdStatsDbRepo.SumAsync(
-                    filter: f => f.CaculatedAt == request.CaculatedAt && f.Ad.AdUnitId == request.AdUnitId,
-                    selector: f => f.Quota
-                )) * 1.25M;
-            }
+
+            var totalQuota = await AdStatsDbRepo.SumAsync(
+                filter: f => f.CaculatedAt == request.CaculatedAt && f.Ad.AdUnitId == request.AdUnitId,
+                selector: f => f.Quota
+            );
+
+            if (totalRequest < totalQuota)
+                return Unit.Value;
 
             var start = 0;
             var length = 100;
@@ -53,18 +54,15 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
                 var getAdStatsList = await Mediator.Send(new GetAdStatsListQuery(start, length, request.CaculatedAt, request.AdUnitId, null), cancellationToken);
                 if (getAdStatsList.IsSuccess)
                 {
-                    var adStats = getAdStatsList.Data;
-                    foreach (var item in adStats)
+                    foreach (var adStats in getAdStatsList.Data)
                     {
-                        var score = item.Quota;
-                        var predicted = inventory;
-                        var probability = (score / predicted) * 100;
-                        var redisKey =  CacheKey.UnitAdFillRate(request.AdUnitId);
-                        var hashField = item.AdId;
+                        var probability = (adStats.Quota / totalRequest) * 100;
+                        var redisKey = CacheKey.UnitAdFillRate(request.AdUnitId);
+                        var hashField = adStats.AdId;
                         var hashValue = probability.ToString("0.00");
                         await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
                     }
-                    next = adStats.Count() == length ? true : false;
+                    next = getAdStatsList.Data.Count() == length ? true : false;
                 }
             }
             while (next);

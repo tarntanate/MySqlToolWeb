@@ -45,12 +45,12 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                         BackgroundColor = ad.BackgroundColor,
                         LinkUrl = ad.LinkUrl,
                         UnitType = ad.AdUnit.AdGroup.AdGroupType.Name,
-                        Assets = ad.Assets.Select(asset => new AdAssetCacheDto
+                        Assets = ad.Assets?.Select(asset => new AdAssetCacheDto
                         {
                             Position = asset.Position,
                             AssetType = asset.AssetType,
                             AssetUrl = asset.AssetUrl,
-                        }).ToList(),
+                        }) ?? null,
                         Analytics = new AnalyticsCacheDto
                         {
                             Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?type={AdStatsType.Click}&platform={platform}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}&publisherId={ad.AdUnit.AdGroup.Publisher.Id}".ToLower() },
