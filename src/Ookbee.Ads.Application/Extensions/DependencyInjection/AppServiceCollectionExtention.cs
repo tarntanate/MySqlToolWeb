@@ -76,7 +76,7 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
 
             // AutoMapper
             services.AddAutoMapper(cfg => { cfg.AllowNullCollections = true; }, Assembly.GetExecutingAssembly());
-            
+
             // Fluent Validation
             AssemblyScanner
                 .FindValidatorsInAssembly(Assembly.GetExecutingAssembly())

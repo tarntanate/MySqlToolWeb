@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExists
         public IsExistsAdGroupByNameQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            
+
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()

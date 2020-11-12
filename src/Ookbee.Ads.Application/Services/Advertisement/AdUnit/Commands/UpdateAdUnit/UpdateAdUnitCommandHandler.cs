@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.UpdateAd
     public class UpdateAdUnitCommandHandler : IRequestHandler<UpdateAdUnitCommand, Response<bool>>
     {
         private readonly IMapper Mapper;
-        private readonly IMediator Mediator;
         private readonly AdsDbRepository<AdUnitEntity> AdUnitDbRepo;
 
         public UpdateAdUnitCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             AdUnitDbRepo = adUnitDbRepo;
         }
 

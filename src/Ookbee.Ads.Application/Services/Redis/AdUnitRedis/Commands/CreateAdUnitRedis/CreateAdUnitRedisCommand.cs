@@ -1,5 +1,5 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
+using System;
 
 namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUnitRedis
 {

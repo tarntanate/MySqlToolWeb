@@ -38,7 +38,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
                     var redisKey = CacheKey.GroupIds();
                     foreach (var adGroupId in adGroupIds)
                     {
-                        await AdsRedis.SetAddAsync(redisKey, adGroupId, CommandFlags.FireAndForget);  
+                        await AdsRedis.SetAddAsync(redisKey, adGroupId, CommandFlags.FireAndForget);
                         await Mediator.Send(new CreateAdGroupStatsRedisCommand(request.CaculatedAt, adGroupId));
                         await Mediator.Send(new CreateAdUnitRedisCommand(request.CaculatedAt, adGroupId));
                     }

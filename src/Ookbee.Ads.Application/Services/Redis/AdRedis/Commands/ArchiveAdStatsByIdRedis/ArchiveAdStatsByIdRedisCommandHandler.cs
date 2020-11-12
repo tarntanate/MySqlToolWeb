@@ -4,8 +4,6 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using Ookbee.Ads.Persistence.Redis.AdsRedis;
-using StackExchange.Redis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

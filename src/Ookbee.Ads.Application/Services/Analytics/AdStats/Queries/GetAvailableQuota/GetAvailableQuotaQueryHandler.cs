@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailable
             var result = new Response<int>();
 
             var ad = await AdDbRepo.FirstAsync(
-                filter: f => 
+                filter: f =>
                     f.Id == request.AdId &&
                     f.StartAt <= request.CaculatedAt &&
                     f.EndAt >= request.CaculatedAt

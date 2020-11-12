@@ -1,5 +1,4 @@
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
-using Ookbee.Ads.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 

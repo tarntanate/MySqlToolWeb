@@ -76,11 +76,11 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                         {
                             redisKey = CacheKey.UnitAdIds(request.AdUnitId, platform);
                             await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
-                        
+
                             redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, platform);
                             await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
                         }
-                        
+
                         redisKey = CacheKey.AdStats(adId);
                         await AdsRedis.KeyDeleteAsync(redisKey);
 

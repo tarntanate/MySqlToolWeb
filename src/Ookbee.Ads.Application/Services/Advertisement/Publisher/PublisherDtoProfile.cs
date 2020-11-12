@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 

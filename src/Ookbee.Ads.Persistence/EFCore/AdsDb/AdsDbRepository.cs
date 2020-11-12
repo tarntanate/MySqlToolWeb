@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Persistence.EFCore.AdsDb
     {
         public AdsDbRepository(IMapper mapper, AdsDbContext context) : base(mapper, context)
         {
-            
+
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.DeleteAdGr
                 var publishers = getAdGroupIdListByPublisher.Data;
                 if (publishers.HasValue())
                 {
-                    foreach(var publisher in publishers)
+                    foreach (var publisher in publishers)
                     {
                         var publisherName = publisher.Key.Split("-")[0];
                         var publisherCountryCode = publisher.Key.Split("-")[1];

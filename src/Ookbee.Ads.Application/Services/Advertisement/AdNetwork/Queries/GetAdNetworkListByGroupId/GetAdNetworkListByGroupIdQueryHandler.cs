@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
             AdNetworkDbRepo = adNetworkDbRepo;
         }
 
-        public async Task<Response<IEnumerable<AdNetworkDto>>>  Handle(GetAdNetworkListByGroupIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdNetworkDto>>> Handle(GetAdNetworkListByGroupIdQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<AdNetworkEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);

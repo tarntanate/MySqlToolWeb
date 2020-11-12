@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.IsExis
         public IsExistsAdNetworkByIdQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            
+
             RuleFor(p => p.Id)
                 .GreaterThan(0);
         }

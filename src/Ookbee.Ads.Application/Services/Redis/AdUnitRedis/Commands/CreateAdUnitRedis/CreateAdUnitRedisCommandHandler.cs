@@ -5,8 +5,6 @@ using Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdRedis;
 using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUnitByPlatformRedis;
 using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUnitIdRedis;
 using Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUnitStatsRedis;
-using Ookbee.Ads.Persistence.Redis.AdsRedis;
-using StackExchange.Redis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,14 +14,11 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
     public class CreateAdUnitRedisCommandHandler : IRequestHandler<CreateAdUnitRedisCommand>
     {
         private readonly IMediator Mediator;
-        private readonly IDatabase AdsRedis;
 
         public CreateAdUnitRedisCommandHandler(
-            IMediator mediator,
-            AdsRedisContext adsRedis)
+            IMediator mediator)
         {
             Mediator = mediator;
-            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(CreateAdUnitRedisCommand request, CancellationToken cancellationToken)

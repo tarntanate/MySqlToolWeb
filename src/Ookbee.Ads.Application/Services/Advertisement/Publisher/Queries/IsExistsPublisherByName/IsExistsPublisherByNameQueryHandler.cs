@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.IsExis
     {
         private readonly AdsDbRepository<PublisherEntity> PublisherDbRepo;
 
-        public IsExistsPublisherByNameQueryHandler(AdsDbRepository<PublisherEntity> publisherDbRepo)
+        public IsExistsPublisherByNameQueryHandler(
+            AdsDbRepository<PublisherEntity> publisherDbRepo)
         {
             PublisherDbRepo = publisherDbRepo;
         }

@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdGroupStat.Queries.GetAdGro
         public GetAdGroupStatsListQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            
+
             RuleFor(p => p.Start)
                 .GreaterThanOrEqualTo(0);
 

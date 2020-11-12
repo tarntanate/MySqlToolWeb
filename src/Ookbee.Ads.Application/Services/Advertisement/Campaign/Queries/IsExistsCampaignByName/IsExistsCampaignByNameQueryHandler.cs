@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Campaign.Queries.IsExist
     {
         private readonly AdsDbRepository<CampaignEntity> CampaignDbRepo;
 
-        public IsExistsCampaignByNameQueryHandler(AdsDbRepository<CampaignEntity> campaignDbRepo)
+        public IsExistsCampaignByNameQueryHandler(
+            AdsDbRepository<CampaignEntity> campaignDbRepo)
         {
             CampaignDbRepo = campaignDbRepo;
         }

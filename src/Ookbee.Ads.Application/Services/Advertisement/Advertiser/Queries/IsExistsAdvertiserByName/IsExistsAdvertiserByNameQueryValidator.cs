@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Advertiser.Queries.IsExi
         public IsExistsAdvertiserByNameQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            
+
             RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()
