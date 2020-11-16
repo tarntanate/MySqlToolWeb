@@ -49,7 +49,7 @@ namespace Ookbee.Ads.Infrastructure
         {
             get
             {
-                if (hostingEnvironment == null)
+                if (httpContext == null)
                     httpContext = (services.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor)?.HttpContext;
 
                 return httpContext;

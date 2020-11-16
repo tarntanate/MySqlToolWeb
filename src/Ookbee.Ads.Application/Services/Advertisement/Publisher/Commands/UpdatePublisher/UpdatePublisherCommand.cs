@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Publisher.Commands.Updat
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string ImagePath { get; private set; }
-        public string CountryCode { get; set; }
+        public string CountryCode { get; private set; }
 
         public UpdatePublisherCommand(long id, UpdatePublisherRequest request)
         {

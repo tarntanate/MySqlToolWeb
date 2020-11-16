@@ -12,7 +12,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.GetAdGro
         public long? PublisherId { get; private set; }
         public bool? Enabled { get; private set; }
 
-        public GetAdGroupIdListQuery(int start, int length, long? adGroupTypeId, long? publisherId, bool? enabled = false)
+        public GetAdGroupIdListQuery(int start, int length, long? adGroupTypeId, long? publisherId, bool? enabled)
         {
             Start = start;
             Length = length;

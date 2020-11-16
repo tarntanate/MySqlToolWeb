@@ -1,5 +1,4 @@
-﻿
-using Anna.Common.MongoDB;
+﻿using Anna.Common.MongoDB;
 using Anna.Common.MongoDB.Domain;
 
 namespace Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo

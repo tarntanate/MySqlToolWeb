@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Identity.UserPermission.Queries.IsExis
         public IsExistsUserPermissionByNameQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            
+
             RuleFor(p => p.ExtensionName)
                 .NotNull()
                 .NotEmpty()

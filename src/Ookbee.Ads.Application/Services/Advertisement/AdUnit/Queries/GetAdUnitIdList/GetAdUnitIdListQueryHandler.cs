@@ -15,7 +15,8 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
     {
         private readonly AdsDbRepository<AdUnitEntity> AdUnitDbRepo;
 
-        public GetAdUnitIdListQueryHandler(AdsDbRepository<AdUnitEntity> adUnitDbRepo)
+        public GetAdUnitIdListQueryHandler(
+            AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
             AdUnitDbRepo = adUnitDbRepo;
         }

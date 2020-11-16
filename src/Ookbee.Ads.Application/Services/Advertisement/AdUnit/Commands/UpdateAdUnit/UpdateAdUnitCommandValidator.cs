@@ -32,7 +32,6 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.UpdateAd
                         getAdUnitByAdNetwork.Data.AdGroup.Id == value.AdGroupId)
                         context.AddFailure($"'{context.PropertyName}' already exists.");
                 });
-
         }
     }
 }

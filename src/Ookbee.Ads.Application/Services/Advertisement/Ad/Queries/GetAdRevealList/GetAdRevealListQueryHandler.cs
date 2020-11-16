@@ -36,8 +36,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Queries.GetAdRevealLi
             if (request.CampaignId.HasValue())
                 predicate = predicate.And(f => f.CampaignId == request.CampaignId);
 
-            var items = await AdDbRepo.FindAsync(
-                selector: AdDto.Projection,
+            var items = await AdDbRepo.FindAsync<AdDto>(
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.Name),
                 start: request.Start,

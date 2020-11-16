@@ -9,7 +9,7 @@ namespace Ookbee.Ads.Persistence.EFCore.AdDb.Configurations
         public void Configure(EntityTypeBuilder<PublisherEntity> builder)
         {
             builder.HasKey(e => e.Id);
-            
+
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
         }
     }

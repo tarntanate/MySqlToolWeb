@@ -13,7 +13,7 @@ namespace Ookbee.Ads.Application.Extensions.Builder
         {
             if (GlobalVar.Services == null)
                 GlobalVar.Services = app.ApplicationServices;
-                
+
             if (env.IsProduction())
             {
                 app.UseHttpsRedirection();

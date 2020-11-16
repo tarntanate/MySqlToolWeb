@@ -1,6 +1,9 @@
 using Ookbee.Ads.Application.Infrastructure;
+using Ookbee.Ads.Application.Services.Identity.UserRole;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Ookbee.Ads.Application.Services.Identity.User
@@ -10,6 +13,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User
         public string UserName { get; set; }
         public string DisplayName { get; set; }
         public string AvatarUrl { get; set; }
+        public long RoleId { get; set; }
+        public string RoleName { get; set; }
 
         public static Expression<Func<UserEntity, UserDto>> Projection
         {
@@ -21,6 +26,8 @@ namespace Ookbee.Ads.Application.Services.Identity.User
                     UserName = entity.UserName,
                     DisplayName = entity.DisplayName,
                     AvatarUrl = entity.AvatarUrl,
+                    RoleId = entity.Role.Id,
+                    RoleName = entity.Role.Name
                 };
             }
         }

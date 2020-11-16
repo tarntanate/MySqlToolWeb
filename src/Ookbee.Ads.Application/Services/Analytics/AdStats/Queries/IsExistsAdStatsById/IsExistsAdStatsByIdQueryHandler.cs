@@ -11,7 +11,8 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.IsExistsAdSt
     {
         private readonly AdsDbRepository<AdStatsEntity> AdStatsDbRepo;
 
-        public IsExistsAdStatsByIdQueryHandler(AdsDbRepository<AdStatsEntity> adStatsDbRepo)
+        public IsExistsAdStatsByIdQueryHandler(
+            AdsDbRepository<AdStatsEntity> adStatsDbRepo)
         {
             AdStatsDbRepo = adStatsDbRepo;
         }

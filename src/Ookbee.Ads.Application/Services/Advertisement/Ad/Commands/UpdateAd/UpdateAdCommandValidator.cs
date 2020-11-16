@@ -16,10 +16,10 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.UpdateAd
         {
             Mediator = mediator;
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            
+
             RuleFor(p => p.Quota)
                 .GreaterThan(0);
-                
+
             RuleFor(p => p.Id)
                 .GreaterThan(0)
                 .CustomAsync(async (value, context, cancellationToken) =>

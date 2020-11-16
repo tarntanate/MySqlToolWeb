@@ -51,7 +51,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
                 var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
                 if (hashEntries.HasValue())
                 {
-                    var elements = hashEntries.Select(x => new KeyValuePair<long, double>((long)x.Name, (double)x.Value)).ToList();
+                    var elements = hashEntries.Select(x => new KeyValuePair<long, double>((long)x.Name, (double)x.Value)).OrderBy(x => x.Value).ToList();
                     var r = new Random();
                     var diceRoll = r.NextDouble() * 100;
                     var cumulative = 0.0;

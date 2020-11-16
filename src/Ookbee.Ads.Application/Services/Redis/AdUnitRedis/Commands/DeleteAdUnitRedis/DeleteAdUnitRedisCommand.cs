@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUni
     {
         public DateTimeOffset CaculatedAt { get; private set; }
         public long AdGroupId { get; private set; }
-        
+
         public DeleteAdUnitRedisCommand(DateTimeOffset caculatedAt, long adGroupId)
         {
             CaculatedAt = caculatedAt;

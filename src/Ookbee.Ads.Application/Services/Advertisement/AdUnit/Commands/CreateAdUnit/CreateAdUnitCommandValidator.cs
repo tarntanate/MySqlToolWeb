@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.IsExistsAdUnitByAdGroupId;
-using System.Threading;
 
 namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Commands.CreateAdUnit
 {

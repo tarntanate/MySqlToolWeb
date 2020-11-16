@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Ookbee.Ads.Common.EntityFrameworkCore.Domain;
 using System;
@@ -10,15 +12,18 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
 {
+
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
+        protected readonly IMapper Mapper;
         protected readonly DbContext DbContext;
         protected readonly DbSet<TEntity> DbSet;
 
-        public BaseRepository(DbContext context)
+        public BaseRepository(IMapper mapper, DbContext context)
         {
             DbContext = context ?? throw new ArgumentException(nameof(context));
             DbSet = DbContext.Set<TEntity>();
+            Mapper = mapper;
         }
 
         public DbSet<TEntity> GetDbSet()
@@ -72,6 +77,10 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
             return query.Select(selector).Sum();
         }
 
+
+
+
+
         /// <summary>
         /// get first item in table
         /// </summary>
@@ -105,10 +114,85 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 query = query.Where(filter);
 
             if (orderBy != null)
-                return orderBy(query).FirstOrDefault();
+                query = orderBy(query);
 
             return query.FirstOrDefault();
         }
+
+        /// <summary>
+        /// get first item in table
+        /// </summary>
+        /// <param name="filter">expression filter</param>
+        /// <param name="order">ordering parameters</param>
+        /// <param name="include">include parameters</param>
+        /// <param name="disableTracking">change tracking in entity</param>
+        /// <returns>entity of <typeparamref name="TEntity"/></returns>
+        public TResult First<TResult>(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            bool disableTracking = true)
+        {
+            IQueryable<TEntity> query = DbSet;
+
+            if (disableTracking)
+                query = query.AsNoTracking();
+
+            if (include != null)
+                query = include(query);
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            return query.ProjectTo<TResult>(Mapper.ConfigurationProvider).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// get first item in table
+        /// </summary>
+        /// <param name="filter">expression filter</param>
+        /// <param name="order">ordering parameters</param>
+        /// <param name="include">include parameters</param>
+        /// <param name="disableTracking">change tracking in entity</param>
+        /// <returns>entity of <typeparamref name="TEntity"/></returns>
+        public TResult First<TResult>(
+            Expression<Func<TEntity, TResult>> selector,
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            bool disableTracking = true)
+        {
+            IQueryable<TEntity> query = DbSet;
+
+            if (disableTracking)
+                query = query.AsNoTracking();
+
+            if (include != null)
+                query = include(query);
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            return query.Select(selector).FirstOrDefault();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// fetch all rows in table with paging
@@ -143,6 +227,41 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 return orderBy(query).Skip(start).Take(length).ToList();
 
             return query.Skip(start).Take(length).ToList();
+        }
+
+        /// <summary>
+        /// fetch all rows in table with paging
+        /// </summary>
+        /// <param name="filter">expression filter</param>
+        /// <param name="order">ordering parameters</param>
+        /// <param name="include">include parameters</param>
+        /// <param name="start">The index of the rows.</param>
+        /// <param name="length">The size of the page.</param>
+        /// <param name="disableTracking">change tracking in entity</param>
+        /// <returns>entity of <typeparamref name="IEnumerable{TResult}"/></returns>
+        public IEnumerable<TResult> Find<TResult>(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            int start = 0,
+            int length = 20,
+            bool disableTracking = true) where TResult : class
+        {
+            IQueryable<TEntity> query = DbSet;
+
+            if (disableTracking)
+                query = query.AsNoTracking();
+
+            if (include != null)
+                query = include(query);
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (orderBy != null)
+                return orderBy(query).ProjectTo<TResult>(Mapper.ConfigurationProvider).Skip(start).Take(length).ToList();
+
+            return query.ProjectTo<TResult>(Mapper.ConfigurationProvider).Skip(start).Take(length).ToList();
         }
 
         /// <summary>
@@ -390,9 +509,40 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 query = query.Where(filter);
 
             if (orderBy != null)
-                return await orderBy(query).FirstOrDefaultAsync();
+                query = orderBy(query);
 
             return await query.FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// get first item in table
+        /// </summary>
+        /// <param name="filter">expression filter</param>
+        /// <param name="order">ordering parameters</param>
+        /// <param name="include">include parameters</param>
+        /// <param name="disableTracking">change tracking in entity</param>
+        /// <returns>entity of <typeparamref name="TEntity"/></returns>
+        public async Task<TResult> FirstAsync<TResult>(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            bool disableTracking = true)
+        {
+            IQueryable<TEntity> query = DbSet;
+
+            if (disableTracking)
+                query = query.AsNoTracking();
+
+            if (include != null)
+                query = include(query);
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            return await query.ProjectTo<TResult>(Mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -422,7 +572,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 query = query.Where(filter);
 
             if (orderBy != null)
-                return await orderBy(query).Select(selector).FirstOrDefaultAsync();
+                query = orderBy(query);
 
             return await query.Select(selector).FirstOrDefaultAsync();
         }
@@ -465,6 +615,41 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
         /// <summary>
         /// fetch all rows in table with paging
         /// </summary>
+        /// <param name="filter">expression filter</param>
+        /// <param name="order">ordering parameters</param>
+        /// <param name="include">include parameters</param>
+        /// <param name="start">The index of the rows.</param>
+        /// <param name="length">The size of the page.</param>
+        /// <param name="disableTracking">change tracking in entity</param>
+        /// <returns>entity of <typeparamref name="IEnumerable{TResult}"/></returns>
+        public async Task<IEnumerable<TResult>> FindAsync<TResult>(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            int start = 0,
+            int length = 20,
+            bool disableTracking = true) where TResult : class
+        {
+            IQueryable<TEntity> query = DbSet;
+
+            if (disableTracking)
+                query = query.AsNoTracking();
+
+            if (include != null)
+                query = include(query);
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            return await query.ProjectTo<TResult>(Mapper.ConfigurationProvider).Skip(start).Take(length).ToListAsync();
+        }
+
+        /// <summary>
+        /// fetch all rows in table with paging
+        /// </summary>
         /// <param name="selector">expression selector</param>
         /// <param name="filter">expression filter</param>
         /// <param name="order">ordering parameters</param>
@@ -494,7 +679,7 @@ namespace Ookbee.Ads.Common.EntityFrameworkCore.Repository
                 query = query.Where(filter);
 
             if (orderBy != null)
-                return await orderBy(query).Select(selector).Skip(start).Take(length).ToListAsync();
+                query = orderBy(query);
 
             return await query.Select(selector).Skip(start).Take(length).ToListAsync();
         }

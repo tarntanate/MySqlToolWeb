@@ -2,8 +2,6 @@
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Advertisement.Publisher.Queries.GetPublisherList;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGroupAvailableRedis;
-using Ookbee.Ads.Persistence.Redis.AdsRedis;
-using StackExchange.Redis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,14 +11,11 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
     public class CreateAdGroupByPublisherRedisCommandHandler : IRequestHandler<CreateAdGroupByPublisherRedisCommand>
     {
         private readonly IMediator Mediator;
-        private readonly IDatabase AdsRedis;
 
         public CreateAdGroupByPublisherRedisCommandHandler(
-            IMediator mediator,
-            AdsRedisContext adsRedis)
+            IMediator mediator)
         {
             Mediator = mediator;
-            AdsRedis = adsRedis.Database();
         }
 
         public async Task<Unit> Handle(CreateAdGroupByPublisherRedisCommand request, CancellationToken cancellationToken)

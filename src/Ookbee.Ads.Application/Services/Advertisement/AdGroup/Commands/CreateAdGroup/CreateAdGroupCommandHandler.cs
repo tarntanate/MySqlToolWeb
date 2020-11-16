@@ -11,16 +11,13 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Commands.CreateA
     public class CreateAdGroupCommandHandler : IRequestHandler<CreateAdGroupCommand, Response<long>>
     {
         private readonly IMapper Mapper;
-        private readonly IMediator Mediator;
         private readonly AdsDbRepository<AdGroupEntity> AdGroupDbRepo;
 
         public CreateAdGroupCommandHandler(
             IMapper mapper,
-            IMediator mediator,
             AdsDbRepository<AdGroupEntity> adGroupDbRepo)
         {
             Mapper = mapper;
-            Mediator = mediator;
             AdGroupDbRepo = adGroupDbRepo;
         }
 

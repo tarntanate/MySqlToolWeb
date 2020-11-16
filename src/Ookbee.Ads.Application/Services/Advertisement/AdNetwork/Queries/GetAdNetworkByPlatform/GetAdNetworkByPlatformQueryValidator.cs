@@ -8,7 +8,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
         public GetAdNetworkByPlatformQueryValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            
+
             RuleFor(p => p.Platform)
                 .Custom((value, context) =>
                {

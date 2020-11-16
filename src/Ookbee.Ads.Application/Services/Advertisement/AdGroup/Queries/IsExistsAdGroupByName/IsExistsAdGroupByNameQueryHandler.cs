@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExists
             predicate = predicate.And(f => f.DeletedAt == null);
             predicate = predicate.And(f => f.Name == request.Name);
             predicate = predicate.And(f => f.PublisherId == request.PublisherId);
-            
+
             var isExists = await AdGroupDbRepo.AnyAsync(predicate);
 
             var result = new Response<bool>();

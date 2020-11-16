@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
             AdNetworkDbRepo = adNetworkDbRepo;
         }
 
-        public async Task<Response<IEnumerable<AdNetworkDto>>>  Handle(GetAdNetworkListByGroupIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<AdNetworkDto>>> Handle(GetAdNetworkListByGroupIdQuery request, CancellationToken cancellationToken)
         {
             var predicate = PredicateBuilder.True<AdNetworkEntity>();
             predicate = predicate.And(f => f.DeletedAt == null);
@@ -29,8 +29,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdNetwork.Queries.GetAdN
             if (request.AdGroupId.HasValue())
                 predicate = predicate.And(f => f.AdUnit.AdGroupId == request.AdGroupId);
 
-            var items = await AdNetworkDbRepo.FindAsync(
-                selector: AdNetworkDto.Projection,
+            var items = await AdNetworkDbRepo.FindAsync<AdNetworkDto>(
                 filter: predicate,
                 orderBy: f => f.OrderBy(o => o.AdUnit.AdNetwork),
                 start: request.Start,

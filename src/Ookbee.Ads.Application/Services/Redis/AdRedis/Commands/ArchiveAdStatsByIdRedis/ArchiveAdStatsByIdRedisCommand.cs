@@ -7,7 +7,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.ArchiveAdStatsB
     {
         public DateTimeOffset CaculatedAt { get; private set; }
         public long AdId { get; private set; }
-        
+
         public ArchiveAdStatsByIdRedisCommand(DateTimeOffset caculatedAt, long adId)
         {
             CaculatedAt = caculatedAt;

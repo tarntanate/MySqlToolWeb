@@ -5,8 +5,6 @@ using Ookbee.Ads.Common.Extensions;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using Ookbee.Ads.Persistence.Redis.AdsRedis;
-using StackExchange.Redis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,16 +14,13 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.ArchiveAdUn
     public class ArchiveAdUnitRedisCommandHandler : IRequestHandler<ArchiveAdUnitStatsRedisCommand>
     {
         private readonly IMediator Mediator;
-        private readonly IDatabase AdsRedis;
         private readonly AdsDbRepository<AdUnitStatsEntity> AdUnitStatsDbRepo;
 
         public ArchiveAdUnitRedisCommandHandler(
             IMediator mediator,
-            AdsRedisContext adsRedis,
             AdsDbRepository<AdUnitStatsEntity> adUnitStatsDbRepo)
         {
             Mediator = mediator;
-            AdsRedis = adsRedis.Database();
             AdUnitStatsDbRepo = adUnitStatsDbRepo;
         }
 
