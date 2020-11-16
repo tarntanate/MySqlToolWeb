@@ -26,26 +26,25 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailable
         public async Task<Response<int>> Handle(GetAvailableQuotaQuery request, CancellationToken cancellationToken)
         {
             var result = new Response<int>();
-
             var ad = await AdDbRepo.FirstAsync(
                 filter: f =>
                     f.Id == request.AdId &&
-                    f.StartAt <= request.CaculatedAt &&
-                    f.EndAt >= request.CaculatedAt
+                    f.StartAt <= MechineDateTime.Now &&
+                    f.EndAt >= MechineDateTime.Now
             );
 
             if (ad.HasValue())
             {
-                var totalImpression = await AdStatsDbRepo.SumAsync(
+                var usedImpression = await AdStatsDbRepo.SumAsync(
                     filter: f =>
                         f.AdId == request.AdId &&
                         f.CaculatedAt < request.CaculatedAt,
                     selector: f =>
                         f.Impression
                 );
-                var days = (int)Math.Ceiling((ad.EndAt - ad.StartAt).TotalDays) + 1;
+
                 var daysLeft = (int)Math.Ceiling((ad.EndAt - MechineDateTime.Date).TotalDays) + 1;
-                var remainingQuota = ad.Quota - totalImpression;
+                var remainingQuota = ad.Quota - usedImpression;
                 var todayQuota = (int)Math.Ceiling(remainingQuota / daysLeft);
                 return result.OK(todayQuota);
             }
