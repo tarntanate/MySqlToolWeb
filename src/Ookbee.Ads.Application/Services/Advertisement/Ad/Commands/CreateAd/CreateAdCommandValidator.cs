@@ -47,9 +47,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.Ad.Commands.CreateAd
                 .GreaterThan(0);
 
             RuleFor(p => p.StartAt)
-                .Must(value =>
-                    value >= MechineDateTime.Date &&
-                    value <= MechineDateTime.Now)
+                .Must(value => value >= MechineDateTime.Date)
                 .WithMessage("'{PropertyName}' is not valid");
 
             RuleFor(p => new { p.StartAt, p.EndAt })
