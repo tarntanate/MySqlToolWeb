@@ -42,7 +42,7 @@ namespace Ookbee.Ads.Application.Services.Analytics.AdStats.Queries.GetAvailable
                     selector: f =>
                         f.Impression
                 );
-                var daysLeft = (int)Math.Ceiling((ad.EndAt.Date - MechineDateTime.Date).TotalDays) + 1;
+                var daysLeft = (ad.EndAt.Date - MechineDateTime.Date.Date).Days + 1;
                 var remainingQuota = ad.Quota - usedImpression;
                 var todayQuota = (int)Math.Ceiling(remainingQuota / daysLeft);
                 return result.OK(todayQuota);
