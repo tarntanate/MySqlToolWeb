@@ -3,6 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.CreateAdGroupIdCache;
 using Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.DeleteAdGroupIdCache;
+using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUnitIdByGroupIdCache;
+using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUnitIdCache;
+using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUnitIdByGroupIdCache;
+using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUnitIdCache;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Common;
 using System;
@@ -11,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
-    public class AdGroupCacheGeneratorTask : ScheduledProcessor
+    public class AdGroupIdCacheTask : ScheduledProcessor
     {
-        public AdGroupCacheGeneratorTask(
+        public AdGroupIdCacheTask(
             IServiceScopeFactory serviceScopeFactory,
-            ILogger<AdGroupCacheGeneratorTask> logger) : base(logger, serviceScopeFactory) { }
+            ILogger<AdGroupIdCacheTask> logger) : base(logger, serviceScopeFactory) { }
 
         protected override bool IsExecuteOnServerRestart => true;
 

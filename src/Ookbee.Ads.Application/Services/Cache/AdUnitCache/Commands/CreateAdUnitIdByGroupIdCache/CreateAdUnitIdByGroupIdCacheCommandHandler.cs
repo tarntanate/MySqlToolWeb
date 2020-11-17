@@ -8,14 +8,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUnitIdCache
+namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUnitIdByGroupIdCache
 {
-    public class CreateAdUnitRedisCommandHandler : IRequestHandler<CreateAdUnitIdCacheCommand>
+    public class CreateAdUnitIdByGroupIdCacheCommandHandler : IRequestHandler<CreateAdUnitIdByGroupIdCacheCommand>
     {
         private readonly IDatabase AdsRedis;
         private readonly AdsDbRepository<AdUnitEntity> AdUnitDbRepo;
 
-        public CreateAdUnitRedisCommandHandler(
+        public CreateAdUnitIdByGroupIdCacheCommandHandler(
             AdsRedisContext adsRedis,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
@@ -23,7 +23,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
             AdUnitDbRepo = adUnitDbRepo;
         }
 
-        public async Task<Unit> Handle(CreateAdUnitIdCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateAdUnitIdByGroupIdCacheCommand request, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -33,15 +33,19 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
                 next = false;
                 var items = await AdUnitDbRepo.FindAsync(
                     filter: AdUnitFilter.Available(),
-                    selector: f => new { f.Id },
+                    selector: f => new { f.Id, f.AdGroupId },
                     start: start,
                     length: length
                 );
                 if (items.HasValue())
                 {
-                    var key = AdUnitKey.Ids();
-                    var value = items.Select(item => (RedisValue)item.Id).ToArray();
-                    await AdsRedis.SetAddAsync(key, value, CommandFlags.FireAndForget);
+                    var adGroupIds = items.Select(item => item.AdGroupId).Distinct();
+                    foreach (var adGroupId in adGroupIds)
+                    {
+                        var key = AdUnitKey.Ids(adGroupId);
+                        var values = items.Where(item => item.AdGroupId == adGroupId).Select(item => (RedisValue)item.Id).ToArray();
+                        await AdsRedis.SetAddAsync(key, values, CommandFlags.FireAndForget);
+                    }
 
                     next = items.Count() == length ? true : false;
                     start += length;
