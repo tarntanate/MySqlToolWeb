@@ -37,7 +37,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.DeleteAdGr
                     );
                     if (!isExists)
                     {
-                        var redisKey = AdGroupCacheKey.GroupIdList();
+                        var redisKey = AdGroupKey.GroupIdList();
                         var redisValue = (RedisValue)adGroupId;
                         await AdsRedis.SetRemoveAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                     }
