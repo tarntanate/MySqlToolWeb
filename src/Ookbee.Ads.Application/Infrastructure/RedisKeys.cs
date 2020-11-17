@@ -2,7 +2,7 @@ using Ookbee.Ads.Infrastructure.Models;
 
 namespace Ookbee.Ads.Application.Infrastructure
 {
-    public static class CacheKey
+    public static class RedisKeys
     {
         public static string AdIds()
             => $"ads/ids".ToUpper();

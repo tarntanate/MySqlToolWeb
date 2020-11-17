@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdUnitS
         public async Task<Response<Dictionary<AdStatsType, long>>> Handle(GetAdUnitStatsRedisQuery request, CancellationToken cancellationToken)
         {
             var result = new Response<Dictionary<AdStatsType, long>>();
-            var redisKey = CacheKey.UnitStats(request.AdUnitId);
+            var redisKey = RedisKeys.UnitStats(request.AdUnitId);
             var redisValues = await AdsRedis.HashGetAllAsync(redisKey);
             if (redisValues.HasValue())
             {

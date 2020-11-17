@@ -35,7 +35,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.CreateAdUse
                     var userIds = gerUserIdList.Data;
                     foreach (var userId in userIds)
                     {
-                        var redisKey = CacheKey.UserIdsPreview();
+                        var redisKey = RedisKeys.UserIdsPreview();
                         var redisValue = userId;
                         var hashExists = await AdsRedis.SetAddAsync(redisKey, redisValue);
                     }

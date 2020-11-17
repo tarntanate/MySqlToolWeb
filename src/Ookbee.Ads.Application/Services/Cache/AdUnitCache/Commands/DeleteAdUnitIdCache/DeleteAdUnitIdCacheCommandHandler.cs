@@ -40,7 +40,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
                     );
                     if (!item.HasValue())
                     {
-                        var unitIdListKey = AdUnitKey.Ids();
+                        var unitIdListKey = CacheKey.UnitIdList();
                         var unitIdListValue = (RedisValue)item.Id;
                         await AdsRedis.SetRemoveAsync(unitIdListKey, unitIdListValue, CommandFlags.FireAndForget);
                         var getAdGroupIds = await Mediator.Send(new GetAdGroupIdListCacheQuery(), cancellationToken);
@@ -48,7 +48,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
                         {
                             foreach (var adGroupId in getAdGroupIds.Data)
                             {
-                                var groupUnitIdListKey = AdUnitKey.Ids(adGroupId);
+                                var groupUnitIdListKey = CacheKey.UnitIdListByGroupId(adGroupId);
                                 var groupUnitIdListvalue = (RedisValue)item.Id;
                                 await AdsRedis.SetRemoveAsync(groupUnitIdListKey, groupUnitIdListvalue, CommandFlags.FireAndForget);
                             }

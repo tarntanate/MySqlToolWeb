@@ -25,11 +25,11 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
             var redisKey = string.Empty;
             var redisValue = string.Empty;
 
-            redisKey = CacheKey.GroupUnitIds(request.AdGroupId);
+            redisKey = RedisKeys.GroupUnitIds(request.AdGroupId);
             redisValue = (RedisValue)request.AdUnitId;
             await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
 
-            redisKey = CacheKey.UnitIds();
+            redisKey = RedisKeys.UnitIds();
             redisValue = (RedisValue)request.AdUnitId;
             await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
 

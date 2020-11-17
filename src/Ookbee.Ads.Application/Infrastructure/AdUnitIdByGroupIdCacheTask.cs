@@ -1,12 +1,8 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.CreateAdGroupIdCache;
-using Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.DeleteAdGroupIdCache;
 using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUnitIdByGroupIdCache;
-using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUnitIdCache;
 using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUnitIdByGroupIdCache;
-using Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUnitIdCache;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Common;
 using System;

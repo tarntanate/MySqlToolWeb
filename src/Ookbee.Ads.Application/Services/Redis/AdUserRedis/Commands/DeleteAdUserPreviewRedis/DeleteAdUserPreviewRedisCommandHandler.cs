@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.DeleteAdUse
                 var userIds = getAdUserList.Data;
                 foreach (var userId in userIds)
                 {
-                    var redisKey = CacheKey.UserIdsPreview();
+                    var redisKey = RedisKeys.UserIdsPreview();
                     var redisValue = userId;
                     await AdsRedis.SetRemoveAsync(redisKey, redisValue);
                 }

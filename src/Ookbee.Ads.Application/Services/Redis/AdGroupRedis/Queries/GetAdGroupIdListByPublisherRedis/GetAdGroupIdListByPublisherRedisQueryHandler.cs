@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroup
 
         public async Task<Response<Dictionary<string, ApiListResult<AdGroupEnabledCacheDto>>>> Handle(GetAdGroupIdListByPublisherRedisQuery request, CancellationToken cancellationToken)
         {
-            var redisKey = CacheKey.GroupIdsPublisher();
+            var redisKey = RedisKeys.GroupIdsPublisher();
             var hashValue = await AdsRedis.HashGetAllAsync(redisKey);
             var obj = hashValue.ToDictionary(v => v.Name.ToString(), v => JsonHelper.Deserialize<ApiListResult<AdGroupEnabledCacheDto>>(v.Value));
 

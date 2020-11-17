@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
                 );
                 if (items.HasValue())
                 {
-                    var key = AdUnitKey.Ids();
+                    var key = CacheKey.UnitIdList();
                     var value = items.Select(item => (RedisValue)item.Id).ToArray();
                     await AdsRedis.SetAddAsync(key, value, CommandFlags.FireAndForget);
 

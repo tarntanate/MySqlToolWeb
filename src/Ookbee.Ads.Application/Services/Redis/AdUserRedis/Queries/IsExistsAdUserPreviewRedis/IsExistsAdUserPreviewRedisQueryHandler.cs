@@ -20,7 +20,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.IsExistsAdU
 
         public async Task<Response<bool>> Handle(IsExistsAdUserPreviewRedisQuery request, CancellationToken cancellationToken)
         {
-            var redisKey = CacheKey.UserIdsPreview();
+            var redisKey = RedisKeys.UserIdsPreview();
             var redisValue = request.UserId;
             var isExists = await AdsRedis.SetContainsAsync(redisKey, redisValue);
 

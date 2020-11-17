@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Cache.AdGroupRedis.Commands.UpdateAdGroupStatsRedis;
 using Ookbee.Ads.Common.Response;
 using Ookbee.Ads.Infrastructure.Models;
@@ -8,14 +7,14 @@ using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupIdRedis
+namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.GetAdUnitByGroupIdCache
 {
-    public class GetAdUnitByGroupIdRedisQueryHandler : IRequestHandler<GetAdUnitByGroupIdRedisQuery, Response<string>>
+    public class GetAdUnitByGroupIdCacheQueryHandler : IRequestHandler<GetAdUnitByGroupIdCacheQuery, Response<string>>
     {
         private readonly IMediator Mediator;
         private readonly IDatabase AdsRedis;
 
-        public GetAdUnitByGroupIdRedisQueryHandler(
+        public GetAdUnitByGroupIdCacheQueryHandler(
             IMediator mediator,
             AdsRedisContext adsRedis)
         {
@@ -23,11 +22,9 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitBy
             AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Response<string>> Handle(GetAdUnitByGroupIdRedisQuery request, CancellationToken cancellationToken)
+        public async Task<Response<string>> Handle(GetAdUnitByGroupIdCacheQuery request, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new UpdateAdGroupStatsRedisCommand(request.AdGroupId, AdStatsType.Request, 1), cancellationToken);
-
-            var redisKey = RedisKeys.GroupUnitPlatforms(request.AdGroupId);
+            var redisKey = CacheKey.UnitListByPlatform(request.AdGroupId);
             var hashField = request.Platform.ToString();
             var redisValue = await AdsRedis.HashGetAsync(redisKey, hashField);
 

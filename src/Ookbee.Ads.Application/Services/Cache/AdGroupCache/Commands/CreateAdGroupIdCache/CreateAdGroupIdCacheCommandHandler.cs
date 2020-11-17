@@ -39,7 +39,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.CreateAdGr
                 );
                 if (items.HasValue())
                 {
-                    var redisKey = AdGroupKey.GroupIdList();
+                    var redisKey = CacheKey.GroupIdList();
                     var redisValues = items.Select(x => (RedisValue)x.Id).ToArray();
                     await AdsRedis.SetAddAsync(redisKey, redisValues, CommandFlags.FireAndForget);
                     next = items.Count() == length ? true : false;

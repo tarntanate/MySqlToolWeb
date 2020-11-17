@@ -32,19 +32,19 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdIdRedis
             {
                 var ad = getAdPlatformList.Data;
 
-                var redisKey = CacheKey.AdIds();
+                var redisKey = RedisKeys.AdIds();
                 var redisValue = (RedisValue)ad.Id;
                 await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
 
                 if (ad.Status == AdStatusType.Publish)
                 {
-                    redisKey = CacheKey.UnitAdIds(ad.AdUnit.Id);
+                    redisKey = RedisKeys.UnitAdIds(ad.AdUnit.Id);
                     await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                 }
 
                 if (ad.Status == AdStatusType.Preview)
                 {
-                    redisKey = CacheKey.UnitAdIdsPreview(ad.AdUnit.Id);
+                    redisKey = RedisKeys.UnitAdIdsPreview(ad.AdUnit.Id);
                     await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                 }
 
@@ -53,13 +53,13 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdIdRedis
                 {
                     if (ad.Status == AdStatusType.Publish && ad.Platforms.Contains(platform))
                     {
-                        redisKey = CacheKey.UnitAdIds(ad.AdUnit.Id, platform);
+                        redisKey = RedisKeys.UnitAdIds(ad.AdUnit.Id, platform);
                         await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                     }
 
                     if (ad.Status == AdStatusType.Preview && ad.Platforms.Contains(platform))
                     {
-                        redisKey = CacheKey.UnitAdIdsPreview(ad.AdUnit.Id, platform);
+                        redisKey = RedisKeys.UnitAdIdsPreview(ad.AdUnit.Id, platform);
                         await AdsRedis.SetAddAsync(redisKey, redisValue, CommandFlags.FireAndForget);
                     }
                 }

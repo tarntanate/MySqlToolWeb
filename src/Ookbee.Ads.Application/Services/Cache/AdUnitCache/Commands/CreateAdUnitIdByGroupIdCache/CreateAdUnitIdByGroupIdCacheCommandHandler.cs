@@ -42,7 +42,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.CreateAdUni
                     var adGroupIds = items.Select(item => item.AdGroupId).Distinct();
                     foreach (var adGroupId in adGroupIds)
                     {
-                        var key = AdUnitKey.Ids(adGroupId);
+                        var key = CacheKey.UnitIdListByGroupId(adGroupId);
                         var values = items.Where(item => item.AdGroupId == adGroupId).Select(item => (RedisValue)item.Id).ToArray();
                         await AdsRedis.SetAddAsync(key, values, CommandFlags.FireAndForget);
                     }

@@ -21,7 +21,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.UpdateAdUni
         public async Task<Response<bool>> Handle(UpdateAdUnitStatsRedisCommand request, CancellationToken cancellationToken)
         {
             var response = new Response<bool>();
-            var redisKey = CacheKey.UnitStats(request.AdUnitId);
+            var redisKey = RedisKeys.UnitStats(request.AdUnitId);
             var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
             if (keyExists)
             {

@@ -45,7 +45,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdUnitCache.Commands.DeleteAdUni
                         {
                             foreach (var adGroupId in getAdGroupIds.Data)
                             {
-                                var groupUnitIdListKey = AdUnitKey.Ids(adGroupId);
+                                var groupUnitIdListKey = CacheKey.UnitIdListByGroupId(adGroupId);
                                 var groupUnitIdListvalue = (RedisValue)item.Id;
                                 await AdsRedis.SetRemoveAsync(groupUnitIdListKey, groupUnitIdListvalue, CommandFlags.FireAndForget);
                             }

@@ -67,7 +67,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
 
                     var hashField = platform.ToString();
                     var hashValue = (RedisValue)JsonHelper.Serialize(cacheObj);
-                    var redisKey = CacheKey.AdPlatforms(ad.Id);
+                    var redisKey = RedisKeys.AdPlatforms(ad.Id);
                     await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
                 }
             }

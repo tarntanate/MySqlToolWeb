@@ -68,7 +68,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
                         if (isExistsAd)
                         {
                             var probability = (adStats.Quota / totalRequest) * 100;
-                            var redisKey = CacheKey.UnitAdFillRate(request.AdUnitId);
+                            var redisKey = RedisKeys.UnitAdFillRate(request.AdUnitId);
                             var hashField = adStats.AdId;
                             var hashValue = probability.ToString("0.00");
                             await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
