@@ -20,12 +20,12 @@ namespace Ookbee.Ads.Services.Management
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
-            // services.AddHostedService<AdCacheService>();
-            // services.AddHostedService<AdStatsCacheService>();
-            services.AddHostedService<AdGroupIdCacheTask>();
-            services.AddHostedService<AdUnitIdCacheTask>();
-            services.AddHostedService<AdUnitIdByGroupIdCacheTask>();
-            services.AddHostedService<AdUnitIdByPlatformCacheTask>();
+            services.AddHostedService<AdCacheService>();
+            services.AddHostedService<AdStatsCacheService>();
+            // services.AddHostedService<AdGroupIdCacheTask>();
+            // services.AddHostedService<AdUnitIdCacheTask>();
+            // services.AddHostedService<AdUnitIdByGroupIdCacheTask>();
+            // services.AddHostedService<AdUnitIdByPlatformCacheTask>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
