@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Ookbee.Ads.Application.Services.CacheManager.AdGroupCache.Commands.CreateAdGroupCache;
-using Ookbee.Ads.Common;
+using Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.CreateAdGroupIdCache;
+using Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.DeleteAdGroupIdCache;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Common;
 using System;
@@ -23,9 +23,9 @@ namespace Ookbee.Ads.Application.Infrastructure
 
         protected override async Task ProcessInScope(IServiceProvider serviceProvider, CancellationToken stoppingToken)
         {
-            var caculatedAt = MechineDateTime.Date;
             var mediator = serviceProvider.GetRequiredService<IMediator>();
-            await mediator.Send(new CreateAdGroupCacheCommand(caculatedAt), stoppingToken);
+            await mediator.Send(new DeleteAdGroupIdCacheCommand(), stoppingToken);
+            await mediator.Send(new CreateAdGroupIdCacheCommand(), stoppingToken);
         }
     }
 }

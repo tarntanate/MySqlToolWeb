@@ -1,14 +1,12 @@
 ﻿using MediatR;
 
-namespace Ookbee.Ads.Application.Services.CacheManager.AdGroupCache.Commands.DeleteAdGroupIdCache
+namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache.Commands.DeleteAdGroupIdCache
 {
     public class DeleteAdGroupIdCacheCommand : IRequest<Unit>
     {
-        public long AdGroupId { get; private set; }
-
-        public DeleteAdGroupIdCacheCommand(long adGroupId)
+        public DeleteAdGroupIdCacheCommand()
         {
-            AdGroupId = adGroupId;
+            
         }
     }
 }

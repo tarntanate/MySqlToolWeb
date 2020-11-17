@@ -42,6 +42,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                 {
                     adUnits.AddRange(getAdUnitList.Data);
                     next = adUnits.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

@@ -36,6 +36,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
                         await Mediator.Send(new CreateAdGroupAvailableRedisCommand(publisher.Id, publisherName), cancellationToken);
                     }
                     next = publishers.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

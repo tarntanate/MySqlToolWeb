@@ -40,6 +40,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.CreateAdUse
                         var hashExists = await AdsRedis.SetAddAsync(redisKey, redisValue);
                     }
                     next = userIds.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

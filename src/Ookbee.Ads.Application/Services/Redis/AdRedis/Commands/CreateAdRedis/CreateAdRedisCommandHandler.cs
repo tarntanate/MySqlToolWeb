@@ -45,6 +45,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdRedis
                         }
                     }
                     next = ads.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

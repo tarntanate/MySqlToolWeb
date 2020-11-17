@@ -45,6 +45,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
                     });
                     adGroups.AddRange(items);
                     next = adGroups.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

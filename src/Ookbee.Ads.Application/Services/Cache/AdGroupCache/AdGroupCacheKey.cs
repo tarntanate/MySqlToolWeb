@@ -1,10 +1,8 @@
-using Ookbee.Ads.Infrastructure.Models;
-
-namespace Ookbee.Ads.Application.Services.CacheManager.AdGroupCache
+namespace Ookbee.Ads.Application.Services.Cache.AdGroupCache
 {
     public static class AdGroupCacheKey
     {
-        public static string GroupIds()
-            => $"GROUPS/IDS".ToUpper();
+        public static string GroupIdList()
+            => $"GROUPS:IDS".ToUpper();
     }
 }

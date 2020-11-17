@@ -82,11 +82,5 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
                 ? result.OK(redisValue)
                 : result.NotFound();
         }
-
-        private long? RandomElementsBasedOnProbability(ICollection<KeyValuePair<long, double>> elements)
-        {
-
-            return null;
-        }
     }
 }

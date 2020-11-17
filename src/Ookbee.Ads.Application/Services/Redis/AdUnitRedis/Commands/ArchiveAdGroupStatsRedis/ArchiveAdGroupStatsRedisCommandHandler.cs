@@ -61,6 +61,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.ArchiveAdUn
                         }
                     }
                     next = adUnitStatsList.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

@@ -67,6 +67,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
                         }
                     }
                     next = getAdStatsList.Data.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);
