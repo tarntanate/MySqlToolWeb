@@ -1,31 +1,27 @@
 ﻿using MediatR;
+using Ookbee.Ads.Application.Services.Cache.Commands.DeleteAdGroupIdCache;
 using Ookbee.Ads.Application.Services.Cache.Queries.GetAdGroupIdListCache;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
-using Ookbee.Ads.Persistence.Redis.AdsRedis;
-using StackExchange.Redis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Services.Cache.Commands.DeleteAdGroupUnavailableCache
+namespace Ookbee.Ads.Application.Services.Cache.Commands.DeleteUnavailableAdGroupCache
 {
-    public class DeleteAdGroupUnavailableCacheCommandHandler : IRequestHandler<DeleteAdGroupUnavailableCacheCommand>
+    public class DeleteUnavailableAdGroupCacheCommandHandler : IRequestHandler<DeleteUnavailableAdGroupCacheCommand>
     {
         private readonly IMediator Mediator;
-        private readonly IDatabase AdsRedis;
         private readonly AdsDbRepository<AdGroupEntity> AdGroupDbRepo;
 
-        public DeleteAdGroupUnavailableCacheCommandHandler(
+        public DeleteUnavailableAdGroupCacheCommandHandler(
             IMediator mediator,
-            AdsDbRepository<AdGroupEntity> adGroupDbRepo,
-            AdsRedisContext adsRedis)
+            AdsDbRepository<AdGroupEntity> adGroupDbRepo)
         {
             Mediator = mediator;
             AdGroupDbRepo = adGroupDbRepo;
-            AdsRedis = adsRedis.Database();
         }
 
-        public async Task<Unit> Handle(DeleteAdGroupUnavailableCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteUnavailableAdGroupCacheCommand request, CancellationToken cancellationToken)
         {
             var getAdGroupIds = await Mediator.Send(new GetAdGroupIdListCacheQuery(), cancellationToken);
             if (getAdGroupIds.IsSuccess)
@@ -37,9 +33,7 @@ namespace Ookbee.Ads.Application.Services.Cache.Commands.DeleteAdGroupUnavailabl
                     );
                     if (!isExists)
                     {
-                        var redisKey = CacheKey.GroupIdList();
-                        var redisValue = (RedisValue)adGroupId;
-                        //await Mediator.Send(new DeleteAdGroupIdCacheCommand(adGroupId), cancellationToken);
+                        await Mediator.Send(new DeleteAdGroupIdCacheCommand(adGroupId), cancellationToken);
                     }
                 }
             }
