@@ -43,7 +43,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
             );
 
             var totalQuota = await AdStatsDbRepo.SumAsync(
-                filter: f => f.CaculatedAt == request.CaculatedAt.AddDays(-1) && f.Ad.AdUnitId == request.AdUnitId,
+                filter: f => f.CaculatedAt == request.CaculatedAt && f.Ad.AdUnitId == request.AdUnitId,
                 selector: f => f.Quota
             );
 
