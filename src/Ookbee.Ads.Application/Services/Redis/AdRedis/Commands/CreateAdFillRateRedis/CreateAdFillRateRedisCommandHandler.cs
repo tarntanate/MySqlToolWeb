@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Infrastructure;
 using Ookbee.Ads.Application.Services.Analytics.AdStat.Queries.GetAdStatsList;
+using Ookbee.Ads.Common;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -63,6 +64,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdFillRat
                         var isExistsAd = await AdDbRepo.AnyAsync(
                             filter: f =>
                             f.Id == adStats.AdId &&
+                            f.StartAt <= MechineDateTime.Now &&
+                            f.EndAt >= MechineDateTime.Now &&
                             f.Status == AdStatusType.Publish
                         );
                         if (isExistsAd)
