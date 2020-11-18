@@ -11,6 +11,7 @@ using Ookbee.Ads.Infrastructure.Services.AdsRequestLog;
 using Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,6 +72,8 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                     kafkaKeyValue
                 }
             };
+            var _timer = new Stopwatch();
+            _timer.Start();
 
             var adRequestLogService = new AdsRequestLogService(HttpClient);
 
@@ -89,10 +92,16 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                 kafkaRequest.ValueSchemaId = adClickLogSchema.ValueSchemaId;
                 var kafkaResponse = await adRequestLogService.Create("topics/adclicklog", kafkaRequest, cancellationToken);
             }
-
+            _timer.Stop();
+            var debugTime = String.Empty;
+            debugTime = _timer.ElapsedMilliseconds.ToString() + "\n";
+            _timer.Reset();
+            _timer.Start();
             var result = await Mediator.Send(new UpdateAdStatsRedisCommand(adId, type.ToEnum<AdStatsType>(), 1), cancellationToken);
+            _timer.Stop();
+            debugTime += _timer.ElapsedMilliseconds.ToString();
             if (result.IsSuccess)
-                return new ContentResult() { StatusCode = 200 };
+                return new ContentResult() { Content = debugTime, StatusCode = 200 };
             return new ContentResult() { StatusCode = 404, Content = result.Message };
         }
     }
