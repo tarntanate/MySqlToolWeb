@@ -11,9 +11,9 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     public class UnitsController : ApiController
     {
         [HttpGet("{unitId}/ad")]
-        public async Task<ContentResult> GetAdByUnitId([FromQuery] string platform, [FromRoute] long unitId, [FromHeader(Name="Ookbee-Account-Id")] long? userId, CancellationToken cancellationToken)
+        public async Task<ContentResult> GetAdByUnitId([FromQuery] string platform, [FromRoute] long unitId, [FromHeader(Name="Ookbee-Account-Id")] string userIdText, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new GetAdRedisQuery(platform, unitId, userId), cancellationToken);
+            var result = await Mediator.Send(new GetAdRedisQuery(platform, unitId, userIdText), cancellationToken);
             if (result.IsSuccess)
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };
