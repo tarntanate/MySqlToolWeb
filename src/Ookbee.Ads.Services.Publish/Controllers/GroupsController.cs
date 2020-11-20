@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ookbee.Ads.Application.Services.Cache.Commands.GetAdUnitByGroupIdCache;
+using Ookbee.Ads.Application.Services.Cache.AdUnitRedis.Commands.GetAdUnitByGroupIdRedis;
 using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdGroupIdListByPublisherIdRedis;
+using Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.GetAdUnitIdListRedis;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         [HttpGet("{groupId}/units")]
         public async Task<ContentResult> GetAdUnitByGroupId([FromQuery] string platform, [FromRoute] long groupId, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new GetAdUnitByGroupIdCacheQuery(platform, groupId), cancellationToken);
+            var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platform, groupId), cancellationToken);
             if (result.IsSuccess)
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };
