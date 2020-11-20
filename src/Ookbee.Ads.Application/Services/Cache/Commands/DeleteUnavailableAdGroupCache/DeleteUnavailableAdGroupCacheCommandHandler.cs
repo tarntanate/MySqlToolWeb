@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Ookbee.Ads.Application.Services.Cache.Commands.DeleteAdGroupIdCache;
+using Ookbee.Ads.Application.Services.Cache.Commands.DeleteAdGroupUnitIdKeyCache;
 using Ookbee.Ads.Application.Services.Cache.Queries.GetAdGroupIdListCache;
 using Ookbee.Ads.Domain.Entities.AdsEntities;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
@@ -28,12 +29,14 @@ namespace Ookbee.Ads.Application.Services.Cache.Commands.DeleteUnavailableAdGrou
             {
                 foreach (var adGroupId in getAdGroupIds.Data)
                 {
+                    var predicate = AdGroupCacheFilter.Available(adGroupId);
                     var isExists = await AdGroupDbRepo.AnyAsync(
-                        filter: f => f.DeletedAt == null
+                        filter: predicate
                     );
                     if (!isExists)
                     {
                         await Mediator.Send(new DeleteAdGroupIdCacheCommand(adGroupId), cancellationToken);
+                        await Mediator.Send(new DeleteAdGroupUnitIdKeyCacheCommand(adGroupId), cancellationToken);
                     }
                 }
             }

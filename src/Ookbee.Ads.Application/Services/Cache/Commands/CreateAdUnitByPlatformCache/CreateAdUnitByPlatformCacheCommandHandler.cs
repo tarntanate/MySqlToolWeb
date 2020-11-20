@@ -13,14 +13,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ookbee.Ads.Application.Services.Cache.Commands.CreateAdUnitIdByPlatformCache
+namespace Ookbee.Ads.Application.Services.Cache.Commands.CreateAdUnitByPlatformCache
 {
-    public class CreateAdUnitIdByPlatformCacheCommandHandler : IRequestHandler<CreateAdUnitIdByPlatformCacheCommand>
+    public class CreateAdUnitByPlatformCacheCommandHandler : IRequestHandler<CreateAdUnitByPlatformCacheCommand>
     {
         private readonly IDatabase AdsRedis;
         private readonly AdsDbRepository<AdUnitEntity> AdUnitDbRepo;
 
-        public CreateAdUnitIdByPlatformCacheCommandHandler(
+        public CreateAdUnitByPlatformCacheCommandHandler(
             AdsRedisContext adsRedis,
             AdsDbRepository<AdUnitEntity> adUnitDbRepo)
         {
@@ -28,7 +28,7 @@ namespace Ookbee.Ads.Application.Services.Cache.Commands.CreateAdUnitIdByPlatfor
             AdUnitDbRepo = adUnitDbRepo;
         }
 
-        public async Task<Unit> Handle(CreateAdUnitIdByPlatformCacheCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateAdUnitByPlatformCacheCommand request, CancellationToken cancellationToken)
         {
             var start = 0;
             var length = 100;
@@ -75,10 +75,10 @@ namespace Ookbee.Ads.Application.Services.Cache.Commands.CreateAdUnitIdByPlatfor
                                 Name = item.AdNetwork
                             });
                             var cacheObj = new ApiListResult<AdUnitCacheDto>();
-                            cacheObj.Data.Items = obj.ToList();
+                            cacheObj.Data.Items = obj.Where(x => x.Id != null).ToList();
+                            var redisKey = CacheKey.UnitListByPlatform(adGroupId);
                             var hashField = platform.ToString();
                             var hashValue = JsonHelper.Serialize(cacheObj);
-                            var redisKey = CacheKey.UnitListByPlatform(adGroupId);
                             await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
                         }
                     }

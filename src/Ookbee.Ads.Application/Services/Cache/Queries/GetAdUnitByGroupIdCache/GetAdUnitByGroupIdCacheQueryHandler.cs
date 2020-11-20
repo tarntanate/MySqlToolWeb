@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Cache.AdGroupRedis.Commands.UpdateAdGroupStatsRedis;
 using Ookbee.Ads.Common.Response;
-using Ookbee.Ads.Infrastructure.Models;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Threading;

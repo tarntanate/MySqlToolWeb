@@ -4,10 +4,9 @@ namespace Ookbee.Ads.Application.Services.Cache.Commands.DeleteUnavailableAdGrou
 {
     public class DeleteUnavailableAdGroupCacheCommand : IRequest<Unit>
     {
-        public long AdGroupId { get; private set; }
-        public DeleteUnavailableAdGroupCacheCommand(long adGroupId)
+        public DeleteUnavailableAdGroupCacheCommand()
         {
-            AdGroupId = adGroupId;
+            
         }
     }
 }

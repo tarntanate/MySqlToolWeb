@@ -1,7 +1,4 @@
 ﻿using MediatR;
-using Ookbee.Ads.Application.Services.Cache.Queries.GetAdGroupIdListCache;
-using Ookbee.Ads.Domain.Entities.AdsEntities;
-using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using StackExchange.Redis;
 using System.Threading;

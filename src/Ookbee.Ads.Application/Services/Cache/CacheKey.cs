@@ -8,10 +8,10 @@ namespace Ookbee.Ads.Application.Services.Cache
         public static string UnitIdList()
             => $"UNIT:ID".ToUpper();
 
-        public static string UnitIdListByGroupId(long adGroupId)
+        public static string AdGroupUnitId(long adGroupId)
             => $"GROUP:{adGroupId}:UNIT-ID".ToUpper();
 
         public static string UnitListByPlatform(long adGroupId)
-            => $"GROUP:{adGroupId}:UNIT-PLATFORM".ToUpper();
+            => $"GROUP:{adGroupId}:UNIT-BY-PLATFORM".ToUpper();
     }
 }
