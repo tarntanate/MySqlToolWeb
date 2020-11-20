@@ -26,26 +26,33 @@ namespace Ookbee.Ads.Application.Infrastructure
         {
             return Task.Factory.StartNew(async () =>
             {
-                using (var scope = ServiceProvider.CreateScope())
+                try
                 {
-                    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                    var next = true;
-                    do
+                    using (var scope = ServiceProvider.CreateScope())
                     {
-                        var caculatedAt = MechineDateTime.Date;
+                        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                        var next = true;
+                        do
+                        {
+                            var caculatedAt = MechineDateTime.Date;
 
-                        await mediator.Send(new ArchiveAdGroupStatsRedisCommand(caculatedAt), cancellationToken);
+                            await mediator.Send(new ArchiveAdGroupStatsRedisCommand(caculatedAt), cancellationToken);
 
-                        await mediator.Send(new ArchiveAdUnitStatsRedisCommand(caculatedAt), cancellationToken);
+                            await mediator.Send(new ArchiveAdUnitStatsRedisCommand(caculatedAt), cancellationToken);
 
-                        await mediator.Send(new ArchiveAdStatsRedisCommand(caculatedAt), cancellationToken);
+                            await mediator.Send(new ArchiveAdStatsRedisCommand(caculatedAt), cancellationToken);
 
-                        var nowDateTime = MechineDateTime.Now;
-                        var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
-                        var timeout = nextDateTime - nowDateTime;
-                        Thread.Sleep(timeout);
+                            var nowDateTime = MechineDateTime.Now;
+                            var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
+                            var timeout = nextDateTime - nowDateTime;
+                            Thread.Sleep(timeout);
+                        }
+                        while (next);
                     }
-                    while (next);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
                 }
             });
         }
