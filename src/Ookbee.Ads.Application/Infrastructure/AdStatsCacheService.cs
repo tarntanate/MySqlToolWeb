@@ -26,13 +26,13 @@ namespace Ookbee.Ads.Application.Infrastructure
         {
             return Task.Factory.StartNew(async () =>
             {
-                try
+                using (var scope = ServiceProvider.CreateScope())
                 {
-                    using (var scope = ServiceProvider.CreateScope())
+                    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                    var next = true;
+                    do
                     {
-                        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                        var next = true;
-                        do
+                        try
                         {
                             var caculatedAt = MechineDateTime.Date;
 
@@ -47,12 +47,12 @@ namespace Ookbee.Ads.Application.Infrastructure
                             var timeout = nextDateTime - nowDateTime;
                             Thread.Sleep(timeout);
                         }
-                        while (next);
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
+                    while (next);
                 }
             });
         }
