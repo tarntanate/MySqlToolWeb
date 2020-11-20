@@ -52,8 +52,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                             Assets = ad.Assets?.Select(asset => new AdAssetCacheDto
                             {
                                 Position = asset.Position,
-                                AssetType = asset.AssetType,
-                                AssetUrl = asset.AssetUrl,
+                                Type = asset.AssetType,
+                                Url = asset.AssetUrl,
                             }),
                             Analytics = new AnalyticsCacheDto
                             {
@@ -83,3 +83,5 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
         }
     }
 }
+
+

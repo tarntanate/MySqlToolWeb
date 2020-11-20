@@ -4,8 +4,8 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis
 {
     public class AdAssetCacheDto
     {
-        public string AssetType { get; set; }
-        public string AssetUrl { get; set; }
+        public string Type { get; set; }
+        public string Url { get; set; }
         public AdPosition Position { get; set; }
     }
 }
