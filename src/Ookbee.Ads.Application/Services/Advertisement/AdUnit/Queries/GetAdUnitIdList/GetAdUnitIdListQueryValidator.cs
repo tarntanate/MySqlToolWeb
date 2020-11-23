@@ -2,9 +2,9 @@
 using MediatR;
 using Ookbee.Ads.Application.Services.Advertisement.AdGroup.Queries.IsExistsAdGroupById;
 
-namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitList
+namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnitIdList
 {
-    public class GetAdUnitIdListQueryValidator : AbstractValidator<GetAdUnitListQuery>
+    public class GetAdUnitIdListQueryValidator : AbstractValidator<GetAdUnitIdListQuery>
     {
         private readonly IMediator Mediator;
 
@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
                 {
                     if (value != null)
                     {
-                        var isExistsAdGroupResult = await Mediator.Send(new IsExistsAdGroupByIdQuery(value.Value, true), cancellationToken);
+                        var isExistsAdGroupResult = await Mediator.Send(new IsExistsAdGroupByIdQuery(value.Value, null), cancellationToken);
                         if (!isExistsAdGroupResult.IsSuccess)
                             context.AddFailure(isExistsAdGroupResult.Message);
                     }

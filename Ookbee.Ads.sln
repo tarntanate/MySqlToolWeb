@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Persistence", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Analytics", "src\Ookbee.Ads.Services.Analytics\Ookbee.Ads.Services.Analytics.csproj", "{0AF3D5C2-CF2E-4877-A868-C0589A1E82BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ookbee.Ads.Services.CacheGenerator", "src\Ookbee.Ads.Services.CacheGenerator\Ookbee.Ads.Services.CacheGenerator.csproj", "{F0817A3B-83E7-404E-AC23-578F22AE2008}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Identity", "src\Ookbee.Ads.Services.Identity\Ookbee.Ads.Services.Identity.csproj", "{3ED517F9-4CD5-4FD8-B997-6279271A5031}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ookbee.Ads.Services.Management", "src\Ookbee.Ads.Services.Management\Ookbee.Ads.Services.Management.csproj", "{C0CC04C9-EFE3-4957-A863-9AAEDCB9EFD3}"
@@ -117,6 +119,18 @@ Global
 		{0AF3D5C2-CF2E-4877-A868-C0589A1E82BD}.Release|x64.Build.0 = Release|Any CPU
 		{0AF3D5C2-CF2E-4877-A868-C0589A1E82BD}.Release|x86.ActiveCfg = Release|Any CPU
 		{0AF3D5C2-CF2E-4877-A868-C0589A1E82BD}.Release|x86.Build.0 = Release|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Debug|x64.Build.0 = Debug|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Debug|x86.Build.0 = Debug|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Release|x64.ActiveCfg = Release|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Release|x64.Build.0 = Release|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Release|x86.ActiveCfg = Release|Any CPU
+		{F0817A3B-83E7-404E-AC23-578F22AE2008}.Release|x86.Build.0 = Release|Any CPU
 		{3ED517F9-4CD5-4FD8-B997-6279271A5031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3ED517F9-4CD5-4FD8-B997-6279271A5031}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ED517F9-4CD5-4FD8-B997-6279271A5031}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -155,6 +169,7 @@ Global
 		{0AF3D5C2-CF2E-4877-A868-C0589A1E82BD} = {399DC711-394E-46BB-89A3-5600E392DD69}
 		{3ED517F9-4CD5-4FD8-B997-6279271A5031} = {399DC711-394E-46BB-89A3-5600E392DD69}
 		{E854BF65-32F8-453D-A447-D2BBF1158DE0} = {399DC711-394E-46BB-89A3-5600E392DD69}
+		{F0817A3B-83E7-404E-AC23-578F22AE2008} = {399DC711-394E-46BB-89A3-5600E392DD69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61E3BA37-ACF4-4EB3-83A3-764E2FD0D967}

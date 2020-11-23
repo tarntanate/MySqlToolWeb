@@ -21,7 +21,16 @@ namespace Ookbee.Ads.Application.Services.Advertisement.AdUnit.Queries.GetAdUnit
                 .LessThanOrEqualTo(100);
 
             RuleFor(p => p.AdGroupId)
-                .GreaterThan(0);
+                .GreaterThan(0)
+                .CustomAsync(async (value, context, cancellationToken) =>
+                {
+                    if (value != null)
+                    {
+                        var isExistsAdGroupResult = await Mediator.Send(new IsExistsAdGroupByIdQuery(value.Value, null), cancellationToken);
+                        if (!isExistsAdGroupResult.IsSuccess)
+                            context.AddFailure(isExistsAdGroupResult.Message);
+                    }
+                });
         }
     }
 }

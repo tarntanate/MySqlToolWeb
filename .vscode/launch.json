@@ -37,6 +37,36 @@
       }
     },
     {
+      "name": "CacheGenerator-Loc",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.CacheGenerator/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.CacheGenerator.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "justMyCode": false,
+      "requireExactSource": false,
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Local"
+      }
+    },
+    {
+      "name": "CacheGenerator-Dev",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Ookbee.Ads.Services.CacheGenerator/bin/Debug/netcoreapp3.1/Ookbee.Ads.Services.CacheGenerator.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "justMyCode": false,
+      "requireExactSource": false,
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    {
       "name": "Identity-Loc",
       "type": "coreclr",
       "request": "launch",

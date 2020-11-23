@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Ookbee.Ads.Application.Extensions.Builder;
 using Ookbee.Ads.Application.Extensions.DependencyInjection;
 using Ookbee.Ads.Application.Infrastructure;
-using Ookbee.Ads.Application.Infrastructure.Tasks;
 
 namespace Ookbee.Ads.Services.Management
 {
@@ -23,8 +22,6 @@ namespace Ookbee.Ads.Services.Management
             services.AddInfrastructure(Configuration);
             services.AddHostedService<AdCacheService>();
             services.AddHostedService<AdStatsCacheService>();
-            // services.AddHostedService<AdGroupCachingTask>();
-            // services.AddHostedService<AdUnitCachingTask>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
