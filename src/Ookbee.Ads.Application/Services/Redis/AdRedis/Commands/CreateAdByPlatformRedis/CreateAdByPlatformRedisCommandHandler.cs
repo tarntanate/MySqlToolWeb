@@ -38,37 +38,44 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
                 var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                 foreach (var platform in platforms)
                 {
-                    var adCache = new AdCacheDto()
-                    {
-                        CountdownSecond = ad.CountdownSecond,
-                        ForegroundColor = ad.ForegroundColor,
-                        BackgroundColor = ad.BackgroundColor,
-                        LinkUrl = ad.LinkUrl,
-                        UnitType = ad.AdUnit.AdGroup.AdGroupType.Name,
-                        Assets = ad.Assets?.Select(asset => new AdAssetCacheDto
-                        {
-                            Position = asset.Position,
-                            AssetType = asset.AssetType,
-                            AssetUrl = asset.AssetUrl,
-                        }),
-                        Analytics = new AnalyticsCacheDto
-                        {
-                            Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?type={AdStatsType.Click}&platform={platform}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}&publisherId={ad.AdUnit.AdGroup.Publisher.Id}".ToLower() },
-                            Impressions = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?type={AdStatsType.Impression}&platform={platform}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}&publisherId={ad.AdUnit.AdGroup.Publisher.Id}".ToLower() }
-                        }
-                    };
-
-                    if (ad.Analytics.HasValue() &&
-                        adCache.Analytics.HasValue())
-                        adCache.Analytics.Impressions.Union(ad.Analytics);
-
-                    var cacheObj = new ApiItemResult<AdCacheDto>();
-                    cacheObj.Data = adCache;
-
+                    var redisKey = RedisKeys.AdPlatforms(ad.Id);
                     var hashField = platform.ToString();
-                    var hashValue = (RedisValue)JsonHelper.Serialize(cacheObj);
-                    var redisKey = CacheKey.AdPlatforms(ad.Id);
-                    await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
+                    if (ad.Platforms.Contains(platform))
+                    {
+                        var adCache = new AdCacheDto()
+                        {
+                            CountdownSecond = ad.CountdownSecond,
+                            ForegroundColor = ad.ForegroundColor,
+                            BackgroundColor = ad.BackgroundColor,
+                            LinkUrl = ad.LinkUrl,
+                            UnitType = ad.AdUnit.AdGroup.AdGroupType.Name,
+                            Assets = ad.Assets?.Select(asset => new AdAssetCacheDto
+                            {
+                                Position = asset.Position,
+                                Type = asset.AssetType,
+                                Url = asset.AssetUrl,
+                            }),
+                            Analytics = new AnalyticsCacheDto
+                            {
+                                Clicks = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?type={AdStatsType.Click}&platform={platform}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}&publisherId={ad.AdUnit.AdGroup.Publisher.Id}".ToLower() },
+                                Impressions = new List<string>() { $"{baseUrl}/api/ads/{ad.Id}/stats?type={AdStatsType.Impression}&platform={platform}&campaignId={ad.Campaign.Id}&unitId={ad.AdUnit.Id}&publisherId={ad.AdUnit.AdGroup.Publisher.Id}".ToLower() }
+                            }
+                        };
+
+                        if (ad.Analytics.HasValue() &&
+                            adCache.Analytics.HasValue())
+                            adCache.Analytics.Impressions.Union(ad.Analytics);
+
+                        var cacheObj = new ApiItemResult<AdCacheDto>();
+                        cacheObj.Data = adCache;
+
+                        var hashValue = (RedisValue)JsonHelper.Serialize(cacheObj);
+                        await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
+                    }
+                    else
+                    {
+                        await AdsRedis.HashDeleteAsync(redisKey, hashField, CommandFlags.FireAndForget);
+                    }
                 }
             }
 
@@ -76,3 +83,5 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdByPlatf
         }
     }
 }
+
+

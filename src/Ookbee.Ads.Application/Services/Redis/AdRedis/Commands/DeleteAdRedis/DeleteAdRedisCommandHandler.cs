@@ -60,32 +60,32 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.DeleteAdRedis
                     {
                         string redisKey;
 
-                        redisKey = CacheKey.AdPlatforms(adId);
+                        redisKey = RedisKeys.AdPlatforms(adId);
                         await AdsRedis.KeyDeleteAsync(redisKey);
 
-                        redisKey = CacheKey.UnitAdIds(request.AdUnitId);
+                        redisKey = RedisKeys.UnitAdIds(request.AdUnitId);
                         await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
 
-                        redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId);
+                        redisKey = RedisKeys.UnitAdIdsPreview(request.AdUnitId);
                         await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
 
-                        redisKey = CacheKey.UnitAdFillRate(request.AdUnitId);
+                        redisKey = RedisKeys.UnitAdFillRate(request.AdUnitId);
                         await AdsRedis.HashDeleteAsync(redisKey, adId, CommandFlags.FireAndForget);
 
                         var platforms = EnumHelper.GetValues<AdPlatform>().Where(platform => platform != AdPlatform.Unknown);
                         foreach (var platform in platforms)
                         {
-                            redisKey = CacheKey.UnitAdIds(request.AdUnitId, platform);
+                            redisKey = RedisKeys.UnitAdIds(request.AdUnitId, platform);
                             await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
 
-                            redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, platform);
+                            redisKey = RedisKeys.UnitAdIdsPreview(request.AdUnitId, platform);
                             await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
                         }
 
-                        redisKey = CacheKey.AdStats(adId);
+                        redisKey = RedisKeys.AdStats(adId);
                         await AdsRedis.KeyDeleteAsync(redisKey);
 
-                        redisKey = CacheKey.AdIds();
+                        redisKey = RedisKeys.AdIds();
                         await AdsRedis.SetRemoveAsync(redisKey, adId, CommandFlags.FireAndForget);
                     }
                 }

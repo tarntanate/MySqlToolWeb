@@ -57,6 +57,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.ArchiveAdG
                         }
                     }
                     next = adGroupStatsList.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

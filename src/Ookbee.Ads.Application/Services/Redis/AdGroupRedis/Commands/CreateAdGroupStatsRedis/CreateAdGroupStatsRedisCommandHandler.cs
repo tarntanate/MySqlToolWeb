@@ -30,7 +30,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
             if (getAdGroupStat.IsFail)
                 await Mediator.Send(new CreateAdGroupStatsCommand(request.CaculatedAt, request.AdGroupId, 0), cancellationToken);
 
-            var redisKey = CacheKey.GroupStats(request.AdGroupId);
+            var redisKey = RedisKeys.GroupStats(request.AdGroupId);
             var hashField = AdStatsType.Request.ToString();
             var hashExists = await AdsRedis.HashExistsAsync(redisKey, hashField);
             if (!hashExists)

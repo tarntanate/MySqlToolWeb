@@ -33,6 +33,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.ArchiveAdStatsR
                         await Mediator.Send(new ArchiveAdStatsByIdRedisCommand(request.CaculatedAt, adStats.AdId), cancellationToken);
                     }
                     next = adStatsList.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

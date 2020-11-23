@@ -42,6 +42,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                 {
                     adUnits.AddRange(getAdUnitList.Data);
                     next = adUnits.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);
@@ -82,7 +83,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
 
                         var hashField = platform.ToString();
                         var hashValue = JsonHelper.Serialize(cacheObj);
-                        var redisKey = CacheKey.GroupUnitPlatforms(request.AdGroupId);
+                        var redisKey = RedisKeys.GroupUnitPlatforms(request.AdGroupId);
                         await AdsRedis.HashSetAsync(redisKey, hashField, hashValue, When.Always, CommandFlags.FireAndForget);
                     }
                 }

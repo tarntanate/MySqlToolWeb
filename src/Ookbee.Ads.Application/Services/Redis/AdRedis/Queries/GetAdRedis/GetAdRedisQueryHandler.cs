@@ -40,14 +40,14 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
                 var isExistsAdUserPreview = await Mediator.Send(new IsExistsAdUserPreviewRedisQuery(request.UserId.Value), cancellationToken);
                 if (isExistsAdUserPreview.IsSuccess)
                 {
-                    var redisKey = CacheKey.UnitAdIdsPreview(request.AdUnitId, request.Platform);
+                    var redisKey = RedisKeys.UnitAdIdsPreview(request.AdUnitId, request.Platform);
                     adId = (long?)await AdsRedis.SetRandomMemberAsync(redisKey);
                 }
             }
 
             if (!adId.HasValue())
             {
-                var redisKey = CacheKey.UnitAdFillRate(request.AdUnitId);
+                var redisKey = RedisKeys.UnitAdFillRate(request.AdUnitId);
                 var hashEntries = await AdsRedis.HashGetAllAsync(redisKey);
                 if (hashEntries.HasValue())
                 {
@@ -69,7 +69,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
 
             if (adId.HasValue())
             {
-                var redisKey = CacheKey.AdPlatforms(adId.Value);
+                var redisKey = RedisKeys.AdPlatforms(adId.Value);
                 redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
                 if (redisValue.HasValue())
                 {
@@ -81,12 +81,6 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
             return redisValue.HasValue()
                 ? result.OK(redisValue)
                 : result.NotFound();
-        }
-
-        private long? RandomElementsBasedOnProbability(ICollection<KeyValuePair<long, double>> elements)
-        {
-
-            return null;
         }
     }
 }

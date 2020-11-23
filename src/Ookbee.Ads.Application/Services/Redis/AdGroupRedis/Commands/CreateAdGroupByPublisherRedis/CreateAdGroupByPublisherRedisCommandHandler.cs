@@ -31,11 +31,12 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
                     var publishers = getPublisherList.Data;
                     foreach (var publisher in publishers)
                     {
-                        var redisKey = CacheKey.GroupIdsPublisher();
+                        var redisKey = RedisKeys.GroupIdsPublisher();
                         var publisherName = $"{publisher.Name}-{publisher.CountryCode}".ToUpper();
                         await Mediator.Send(new CreateAdGroupAvailableRedisCommand(publisher.Id, publisherName), cancellationToken);
                     }
                     next = publishers.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

@@ -45,6 +45,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
                     });
                     adGroups.AddRange(items);
                     next = adGroups.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);
@@ -55,7 +56,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdGroupRedis.Commands.CreateAdGr
             var hashField = request.PublisherName.ToUpper();
             var hashValue = JsonHelper.Serialize(cacheObj);
             var hashEntry = new HashEntry(hashField, hashValue);
-            var redisKey = CacheKey.GroupIdsPublisher();
+            var redisKey = RedisKeys.GroupIdsPublisher();
             await AdsRedis.HashSetAsync(redisKey, new HashEntry[] { hashEntry }, CommandFlags.FireAndForget);
 
             return Unit.Value;

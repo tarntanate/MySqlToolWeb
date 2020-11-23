@@ -47,7 +47,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.CreateAdStatsRe
             var impression = getAdStats?.Data?.Impression ?? 0L;
             if (quota > impression)
             {
-                var redisKey = CacheKey.AdStats(request.AdId);
+                var redisKey = RedisKeys.AdStats(request.AdId);
                 var redisValue = await AdsRedis.HashGetAllAsync(redisKey);
                 var hashFields = new List<HashEntry>();
 

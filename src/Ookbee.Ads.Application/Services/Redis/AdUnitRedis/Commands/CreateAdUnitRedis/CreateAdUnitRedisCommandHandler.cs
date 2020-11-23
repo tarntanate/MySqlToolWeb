@@ -41,6 +41,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUnitRedis.Commands.CreateAdUni
                         await Mediator.Send(new CreateAdFillRateRedisCommand(request.CaculatedAt, adUnitId), cancellationToken);
                     }
                     next = adUnitIds.Count() == length ? true : false;
+                    start += length;
                 }
             }
             while (next);

@@ -29,7 +29,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis.Commands.UpdateAdStatsRe
         public async Task<Response<bool>> Handle(UpdateAdStatsRedisCommand request, CancellationToken cancellationToken)
         {
             var response = new Response<bool>();
-            var redisKey = CacheKey.AdStats(request.AdId);
+            var redisKey = RedisKeys.AdStats(request.AdId);
             var keyExists = await AdsRedis.KeyExistsAsync(redisKey);
             if (keyExists)
             {

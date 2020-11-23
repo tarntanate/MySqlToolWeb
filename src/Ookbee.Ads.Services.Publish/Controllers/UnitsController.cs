@@ -15,13 +15,11 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         public async Task<ContentResult> GetAdByUnitId(
             [FromQuery] string platform, 
             [FromRoute] long unitId, 
-            [FromQuery] string ookbeeId, 
-            [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId_header, 
+            [FromHeader(Name = "Ookbee-Account-Id")] string userId, 
             [FromHeader(Name = "Ookbee-Device-Id")] string deviceId, 
             CancellationToken cancellationToken)
         {
-            long? userId = Convert.ToInt32(ookbeeId_header ?? ookbeeId ?? deviceId);
-            var result = await Mediator.Send(new GetAdRedisQuery(platform, unitId, userId: userId), cancellationToken);
+            var result = await Mediator.Send(new GetAdRedisQuery(platform, unitId, userId ?? deviceId), cancellationToken);
             if (result.IsSuccess)
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };

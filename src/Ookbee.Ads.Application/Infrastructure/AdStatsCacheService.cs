@@ -32,18 +32,25 @@ namespace Ookbee.Ads.Application.Infrastructure
                     var next = true;
                     do
                     {
-                        var caculatedAt = MechineDateTime.Date;
+                        try
+                        {
+                            var caculatedAt = MechineDateTime.Date;
 
-                        await mediator.Send(new ArchiveAdGroupStatsRedisCommand(caculatedAt), cancellationToken);
+                            await mediator.Send(new ArchiveAdGroupStatsRedisCommand(caculatedAt), cancellationToken);
 
-                        await mediator.Send(new ArchiveAdUnitStatsRedisCommand(caculatedAt), cancellationToken);
+                            await mediator.Send(new ArchiveAdUnitStatsRedisCommand(caculatedAt), cancellationToken);
 
-                        await mediator.Send(new ArchiveAdStatsRedisCommand(caculatedAt), cancellationToken);
+                            await mediator.Send(new ArchiveAdStatsRedisCommand(caculatedAt), cancellationToken);
 
-                        var nowDateTime = MechineDateTime.Now;
-                        var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
-                        var timeout = nextDateTime - nowDateTime;
-                        Thread.Sleep(timeout);
+                            var nowDateTime = MechineDateTime.Now;
+                            var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
+                            var timeout = nextDateTime - nowDateTime;
+                            Thread.Sleep(timeout);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
                     }
                     while (next);
                 }

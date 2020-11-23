@@ -24,7 +24,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdUserRedis.Commands.GetAdUserPr
         public async Task<Response<IEnumerable<long>>> Handle(GetAdUserPreviewListRedisQuery request, CancellationToken cancellationToken)
         {
             var items = new List<long>();
-            var redisKey = CacheKey.UserIdsPreview();
+            var redisKey = RedisKeys.UserIdsPreview();
             var redisValues = await AdsRedis.SetMembersAsync(redisKey);
             if (redisValues.HasValue())
                 items = redisValues.Select(redisValue => (long)redisValue).ToList();
