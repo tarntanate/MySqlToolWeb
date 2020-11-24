@@ -39,6 +39,9 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             CancellationToken cancellationToken)
         {
             var uuid = ookbeeId_header ?? ookbeeId ?? deviceId_header ?? "0";
+            if (uuid.Length > 32) {
+                uuid = uuid.Substring(0, 32);
+            }
             var kafkaKeyValue = new AdGroupRequestLogRecordRequest
             {
                 Key = new AdGroupRequestLogKeyRequest
@@ -67,14 +70,6 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             var adRequestLogService = new AdsRequestLogService(HttpClient);
             var kafkaResponse = await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
             var s = kafkaResponse.StatusCode;
-
-            // For Testing TimeScaleDb
-            // var timescaleResult = await Mediator.Send(
-            //     new CreateGroupRequestLogCommand(
-            //         platformId: (short)platform,
-            //         adGroupId: (short)groupId,
-            //         uuid: ookbeeId_query ?? ookbeeId_header ?? new Random().Next(0, 20).ToString()),
-            //         cancellationToken);
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
             var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);

@@ -47,6 +47,10 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
             }
 
             var uuid = ookbeeId_header ?? deviceId_header ?? "0";
+            if (uuid.Length > 32)
+            {
+                uuid = uuid.Substring(0, 32);
+            }
             var kafkaKeyValue = new AdGroupRequestLogRecordRequest
             {
                 Key = new AdGroupRequestLogKeyRequest
