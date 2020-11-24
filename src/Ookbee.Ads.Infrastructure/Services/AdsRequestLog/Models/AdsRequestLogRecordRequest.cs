@@ -1,8 +1,12 @@
+using Newtonsoft.Json;
+
 namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models
 {
-    public class AdsRequestLogRecordRequest
+    public class AdGroupRequestLogRecordRequest
     {
-        public AdsRequestLogKeyRequest Key { get; set; }
+        [JsonProperty("key")]
+        public AdGroupRequestLogKeyRequest Key { get; set; }
+        [JsonProperty("value")]
         public AdsRequestLogValueRequest Value { get; set; }
 
     }

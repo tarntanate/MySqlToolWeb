@@ -15,13 +15,15 @@ namespace Ookbee.Ads.Common.Helpers
             return result;
         }
 
-        public static string Serialize(object obj)
+        public static string Serialize(object obj, bool useCamelCasePropertyName = true)
         {
             if (obj == null)
                 return default;
 
             var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            if (useCamelCasePropertyName) {
+                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            }
             serializerSettings.Converters.Add(new StringEnumConverter());
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

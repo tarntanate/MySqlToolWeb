@@ -17,6 +17,7 @@ using Ookbee.Ads.Infrastructure.Settings;
 using Ookbee.Ads.Persistence.Advertising.Mongo.AdsMongo;
 using Ookbee.Ads.Persistence.EFCore.AdsDb;
 using Ookbee.Ads.Persistence.EFCore.TimescaleDb;
+using Ookbee.Ads.Persistence.EFCore.TimeScaleDb;
 using Ookbee.Ads.Persistence.Redis.AdsRedis;
 using System.Reflection;
 
@@ -57,13 +58,16 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
 
             // Health
             services.AddHealthChecks()
-                    .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
+                    // .AddNpgSql(appsettings.ConnectionStrings.PostgreSQL.Ads)
+                    .AddNpgSql(appsettings.ConnectionStrings.TimescaleDb.Analytics)
                     .AddRedis(appsettings.ConnectionStrings.Redis.Ads);
 
             // EFCore
             services.AddDbContext<AdsDbContext>();
             services.AddDbContext<TimescaleDbContext>();
             services.AddScoped(typeof(AdsDbRepository<>));
+            services.AddScoped(typeof(TimeScaleDbRepository<>));
+            // services.AddScoped(typeof(AdsDbRepository<>));
 
             // MongoDB
             services.AddSingleton<AdsMongoContext>();

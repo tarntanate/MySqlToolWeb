@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Ookbee.Ads.Infrastructure;
 using Ookbee.Ads.Domain.Entities.ReportEntities;
-// using Ookbee.Ads.Application.Business.Report.AdGroupReport;
+
 
 namespace Ookbee.Ads.Persistence.EFCore.TimescaleDb
 {
