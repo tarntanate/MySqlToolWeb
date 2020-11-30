@@ -244,3 +244,5 @@ _Pvt_Extensions
 !.vscode/tasks.json
 !.vscode/launch.json
 *.code-workspace
+**/*.diff
+*.diff

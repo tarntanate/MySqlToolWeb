@@ -1,17 +1,66 @@
 {
   "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "build",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "build",
-        "${workspaceFolder}/Ookbee.Ads.sln",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    }
-  ]
+   "tasks": [
+      {
+         "label": "build",
+         "command": "dotnet",
+         "type": "process",
+         "args": [
+            "build",
+            "${workspaceFolder}/src/Ookbee.Ads.Services.Management/Ookbee.Ads.Services.Management.csproj",
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary"
+         ],
+         "problemMatcher": "$msCompile"
+      },
+      {
+         "label": "build-publish",
+         "command": "dotnet",
+         "type": "process",
+         "args": [
+            "build",
+            "${workspaceFolder}/src/Ookbee.Ads.Services.Publish/Ookbee.Ads.Services.Publish.csproj",
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary"
+         ],
+         "problemMatcher": "$msCompile"
+      },
+      {
+         "label": "build-analytics",
+         "command": "dotnet",
+         "type": "process",
+         "args": [
+           "build",
+           "${workspaceFolder}/src/Ookbee.Ads.Services.Analytics/Ookbee.Ads.Services.Analytics.csproj",
+           "/property:GenerateFullPaths=true",
+           "/consoleloggerparameters:NoSummary"
+         ],
+         "problemMatcher": "$msCompile"
+       },
+      {
+         "label": "publish",
+         "command": "dotnet",
+         "type": "process",
+         "args": [
+            "publish",
+            "${workspaceFolder}/src/Ookbee.Ads.Services.Management/Ookbee.Ads.Services.Management.csproj",
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary"
+         ],
+         "problemMatcher": "$msCompile"
+      },
+      {
+         "label": "watch",
+         "command": "dotnet",
+         "type": "process",
+         "args": [
+            "watch",
+            "run",
+            "${workspaceFolder}/src/Ookbee.Ads.Services.Management/Ookbee.Ads.Services.Management.csproj",
+            "/property:GenerateFullPaths=true",
+            "/consoleloggerparameters:NoSummary"
+         ],
+         "problemMatcher": "$msCompile"
+      }
+   ]
 }
