@@ -7,7 +7,7 @@
         "**/.DS_Store": true,
         "**/bin": true,
         "**/obj": true,
-        "**/.vscode": false,
+        "**/.vscode": true,
         "**/submodules": true
     },
     "explorerExclude.backup": null
