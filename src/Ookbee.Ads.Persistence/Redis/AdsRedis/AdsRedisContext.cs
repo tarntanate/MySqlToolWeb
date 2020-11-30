@@ -12,6 +12,7 @@ namespace Ookbee.Ads.Persistence.Redis.AdsRedis
             config.EndPoints.Add(GlobalVar.AppSettings.Redis.EndPoint);
             config.Password = GlobalVar.AppSettings.Redis.Password;
             config.ConnectTimeout = GlobalVar.AppSettings.Redis.TimeoutMS;
+            config.SyncTimeout = GlobalVar.AppSettings.Redis.TimeoutMS;
 
             var redisConnectionPoolConfig = new RedisConnectionPoolConfig();
             redisConnectionPoolConfig.ConfigurationOptions = config;
