@@ -23,8 +23,7 @@ namespace Ookbee.Ads.Application.Services.Identity.User.Commands.DeleteUser
 
         public async Task<Response<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = Mapper.Map<UserEntity>(request);
-            await UserDbRepo.DeleteAsync(entity.Id);
+            await UserDbRepo.DeleteAsync(request.Id);
             await UserDbRepo.SaveChangesAsync(cancellationToken);
             return new Response<bool>().OK(true);
         }
