@@ -33,7 +33,7 @@ namespace Ookbee.Ads.Services.Management.Controllers
         public async Task<Response<bool>> Update([FromRoute] long id, [FromBody] UpdateUserRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdateUserCommand(id, request), cancellationToken);
 
-        [HttpPut("{id}")]
+        [HttpDelete("{id}")]
         public async Task<Response<bool>> Delete([FromRoute] long id, CancellationToken cancellationToken)
             => await Mediator.Send(new DeleteUserCommand(id), cancellationToken);
     }
