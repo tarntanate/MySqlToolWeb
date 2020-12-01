@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Services.Identity.User;
 using Ookbee.Ads.Application.Services.Identity.User.Commands.CreateUser;
+using Ookbee.Ads.Application.Services.Identity.User.Commands.DeleteUser;
 using Ookbee.Ads.Application.Services.Identity.User.Commands.UpdateUser;
 using Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserById;
 using Ookbee.Ads.Application.Services.Identity.User.Queries.GetUserList;
@@ -31,5 +32,9 @@ namespace Ookbee.Ads.Services.Management.Controllers
         [HttpPut("{id}")]
         public async Task<Response<bool>> Update([FromRoute] long id, [FromBody] UpdateUserRequest request, CancellationToken cancellationToken)
             => await Mediator.Send(new UpdateUserCommand(id, request), cancellationToken);
+
+        [HttpPut("{id}")]
+        public async Task<Response<bool>> Delete([FromRoute] long id, CancellationToken cancellationToken)
+            => await Mediator.Send(new DeleteUserCommand(id), cancellationToken);
     }
 }
