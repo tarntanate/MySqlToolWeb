@@ -10,7 +10,7 @@ namespace Ookbee.Ads.Application.Services.Redis.AdRedis
         public string BackgroundColor { get; set; }
         public string LinkUrl { get; set; }
         public string UnitType { get; set; }
-        public string EndAt { get; set; }
+        public string ExpiresAt { get; set; }
         public IEnumerable<AdAssetCacheDto> Assets { get; set; }
         public AnalyticsCacheDto Analytics { get; set; }
     }
