@@ -16,10 +16,9 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             [FromQuery] string platform, 
             [FromRoute] long unitId, 
             [FromHeader(Name = "Ookbee-Account-Id")] string userId, 
-            [FromHeader(Name = "Ookbee-Device-Id")] string deviceId, 
             CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new GetAdRedisQuery(platform, unitId, userId ?? deviceId), cancellationToken);
+            var result = await Mediator.Send(new GetAdRedisQuery(platform, unitId, userId), cancellationToken);
             if (result.IsSuccess)
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };
