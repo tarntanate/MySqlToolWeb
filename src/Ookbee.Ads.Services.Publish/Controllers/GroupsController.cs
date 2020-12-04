@@ -64,9 +64,9 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                 KeySchemaId = kafkaSchema.KeySchemaId
             };
 
-            var adRequestLogService = new AdsRequestLogService(HttpClient);
-            var kafkaResponse = await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
-            var s = kafkaResponse.StatusCode;
+            // var adRequestLogService = new AdsRequestLogService(HttpClient);
+            // var kafkaResponse = await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
+            // var s = kafkaResponse.StatusCode;
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
             var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);
