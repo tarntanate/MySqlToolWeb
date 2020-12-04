@@ -29,6 +29,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             [FromHeader(Name = "Ookbee-Device-Id")] string deviceId_header,
             CancellationToken cancellationToken)
         {
+            throw new System.Exception("TEST");
             var redisValues = string.Empty;
             await Task.Run(() => { redisValues = "{\"test\": \"HelloWorld\"}"; });
             return Content(redisValues, "application/json");
