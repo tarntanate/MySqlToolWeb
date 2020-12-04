@@ -3,7 +3,6 @@ using Ookbee.Ads.Application.Services.LoadTesting.HelloWorld.Queries.GetHelloWor
 using Ookbee.Ads.Application.Services.LoadTesting.HelloWorld.Queries.GetHelloWorldRedis;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
 using Ookbee.Ads.Infrastructure.Models;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,15 +12,8 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     [Route("api/load-testing")]
     public class LoadTestingController : ApiController
     {
-        private static readonly HttpClient HttpClient;
-
-        static LoadTestingController()
-        {
-            HttpClient = new HttpClient();
-        }
-
         [HttpGet("hello-world-1")]
-        public async Task<ContentResult> GetValue1(
+        public async Task<ContentResult> GetValueOnController(
             [FromQuery] AdPlatform platform,
             [FromRoute] long groupId,
             [FromQuery] string ookbeeId,
@@ -35,7 +27,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         }
 
         [HttpGet("hello-world-2")]
-        public async Task<ContentResult> GetValue2(
+        public async Task<ContentResult> GetValueOnMediatR(
             [FromQuery] AdPlatform platform,
             [FromRoute] long groupId,
             [FromQuery] string ookbeeId,
@@ -50,7 +42,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         }
 
         [HttpGet("hello-world-3")]
-        public async Task<ContentResult> GetValue3(
+        public async Task<ContentResult> GetValueOnRedis(
             [FromQuery] AdPlatform platform,
             [FromRoute] long groupId,
             [FromQuery] string ookbeeId,
