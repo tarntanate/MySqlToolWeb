@@ -26,7 +26,7 @@ namespace Ookbee.Ads.Application.Services.LoadTesting.HelloWorld.Queries.GetHell
             var redisValues = await AdsRedis.StringGetAsync(redisKey);
             if (redisValues.HasValue())
                 return result.OK(redisValues);
-            return result.NotFound();
+            return result.NotFound("Data not found.");
         }
     }
 }

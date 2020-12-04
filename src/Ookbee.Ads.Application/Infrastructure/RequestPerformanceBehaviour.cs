@@ -22,7 +22,7 @@ namespace Ookbee.Ads.Application.Infrastructure
             _timer.Start();
             var response = await next();
             _timer.Stop();
-            if (_timer.ElapsedMilliseconds > 200)
+            if (_timer.ElapsedMilliseconds > 1500)
             {
                 var name = typeof(TRequest).Name;
                 _logger.LogWarning($"Mediator Long Running Request: {name} ({ _timer.ElapsedMilliseconds} milliseconds) {request}");
