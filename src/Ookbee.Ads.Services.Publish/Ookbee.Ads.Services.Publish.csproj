@@ -21,6 +21,7 @@
   
   <ItemGroup>
     <PackageReference Include="Sentry" Version="2.1.8" />
+    <PackageReference Include="Sentry.AspNetCore" Version="2.1.8" />
     <PackageReference Include="Sentry.Extensions.Logging" Version="2.1.8" />
   </ItemGroup>
 

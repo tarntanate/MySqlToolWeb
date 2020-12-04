@@ -9,7 +9,10 @@ namespace Ookbee.Ads.Services.Publish
         public static void Main(string[] args)
         {
             AppBuilder.CreateDefaultBuilder(args)
-                      .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                      .ConfigureWebHostDefaults(webBuilder => {
+                          webBuilder.UseSentry();
+                          webBuilder.UseStartup<Startup>();
+                      })
                       .Build()
                       .Run();
         }
