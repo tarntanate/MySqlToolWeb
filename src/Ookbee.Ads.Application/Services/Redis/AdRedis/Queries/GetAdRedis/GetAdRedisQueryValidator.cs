@@ -15,7 +15,7 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
                {
                    if (value.HasValue() && !Int64.TryParse(value, out long number))
                    {
-                       context.AddFailure("RequestHeader 'Ookbee-Account-Id' is invalid");
+                       context.AddFailure($"RequestHeader 'Ookbee-Account-Id' is invalid [{value}]");
                    }
                });
         }
