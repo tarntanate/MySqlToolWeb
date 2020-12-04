@@ -4,6 +4,8 @@ namespace Ookbee.Ads.Application.Infrastructure
 {
     public static class RedisKeys
     {
+        public static string HelloWorld()
+            => $"HELLO_WORLD".ToUpper();
         public static string AdIds()
             => $"ads/ids".ToUpper();
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis;
 using Ookbee.Ads.Common.AspNetCore.Controllers;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 

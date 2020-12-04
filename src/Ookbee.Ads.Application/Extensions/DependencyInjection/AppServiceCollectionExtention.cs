@@ -67,12 +67,11 @@ namespace Ookbee.Ads.Application.Extensions.DependencyInjection
             services.AddDbContext<TimescaleDbContext>();
             services.AddScoped(typeof(AdsDbRepository<>));
             services.AddScoped(typeof(TimeScaleDbRepository<>));
-            // services.AddScoped(typeof(AdsDbRepository<>));
 
             // MongoDB
-            services.AddSingleton<AdsMongoContext>();
-            services.AddScoped(typeof(AdsMongoRepository<>));
-            ConventionRegistry.Register("CamelCaseElementName", new ConventionPack { new CamelCaseElementNameConvention() }, _ => true);
+            // services.AddSingleton<AdsMongoContext>();
+            // services.AddScoped(typeof(AdsMongoRepository<>));
+            // ConventionRegistry.Register("CamelCaseElementName", new ConventionPack { new CamelCaseElementNameConvention() }, _ => true);
 
             // Redis
             services.AddSingleton<AdsRedisContext>();
