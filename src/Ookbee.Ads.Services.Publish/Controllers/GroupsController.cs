@@ -21,10 +21,10 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     {
         private static readonly HttpClient HttpClient;
 
-        // static GroupsController()
-        // {
-        //     HttpClient = new HttpClient();
-        // }
+        static GroupsController()
+        {
+            HttpClient = new HttpClient();
+        }
 
         [HttpGet("{groupId}/units")]
         public async Task<ContentResult> GetAdUnitByGroupId(
@@ -35,34 +35,34 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             [FromHeader(Name = "Ookbee-Device-Id")] string deviceId_header,
             CancellationToken cancellationToken)
         {
-            // var uuid = ookbeeId_header ?? ookbeeId ?? deviceId_header ?? "0";
-            // if (uuid.Length > 32) {
-            //     uuid = uuid.Substring(0, 32);
-            // }
-            // var kafkaKeyValue = new AdGroupRequestLogRecordRequest
-            // {
-            //     Key = new AdGroupRequestLogKeyRequest
-            //     {
-            //         UUID = uuid
-            //     },
-            //     Value = new AdsRequestLogValueRequest
-            //     {
-            //         CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
-            //         AdsGroupId = (int)groupId,
-            //         PlatformId = (int)platform,
-            //         UUID = uuid
-            //     }
-            // };
+            var uuid = ookbeeId_header ?? ookbeeId ?? deviceId_header ?? "0";
+            if (uuid.Length > 32) {
+                uuid = uuid.Substring(0, 32);
+            }
+            var kafkaKeyValue = new AdGroupRequestLogRecordRequest
+            {
+                Key = new AdGroupRequestLogKeyRequest
+                {
+                    UUID = uuid
+                },
+                Value = new AdsRequestLogValueRequest
+                {
+                    CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    AdsGroupId = (int)groupId,
+                    PlatformId = (int)platform,
+                    UUID = uuid
+                }
+            };
 
-            // var kafkaSchema = new GroupRequestLogSchema();
-            // var kafkaRequest = new AdGroupRequestLogRequest
-            // {
-            //     Records = new List<AdGroupRequestLogRecordRequest>() {
-            //         kafkaKeyValue
-            //     },
-            //     ValueSchemaId = kafkaSchema.ValueSchemaId,
-            //     KeySchemaId = kafkaSchema.KeySchemaId
-            // };
+            var kafkaSchema = new GroupRequestLogSchema();
+            var kafkaRequest = new AdGroupRequestLogRequest
+            {
+                Records = new List<AdGroupRequestLogRecordRequest>() {
+                    kafkaKeyValue
+                },
+                ValueSchemaId = kafkaSchema.ValueSchemaId,
+                KeySchemaId = kafkaSchema.KeySchemaId
+            };
 
             // var adRequestLogService = new AdsRequestLogService(HttpClient);
             // var kafkaResponse = await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
