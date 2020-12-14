@@ -12,12 +12,12 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
 
             RuleFor(p => p.UserIdText)
                 .Custom((value, context) =>
-               {
-                   if (value.HasValue() && !Int64.TryParse(value, out long number))
-                   {
-                       context.AddFailure($"RequestHeader 'Ookbee-Account-Id' is invalid [{value}]");
-                   }
-               });
+                {
+                    if (value.HasValue() && !Int64.TryParse(value, out long number))
+                    {
+                        context.AddFailure($"RequestHeader 'Ookbee-Account-Id' is invalid [{value}]");
+                    }
+                });
         }
     }
 }
