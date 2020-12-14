@@ -52,18 +52,21 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
                 if (hashEntries.HasValue())
                 {
                     var elements = hashEntries.Select(x => new KeyValuePair<long, double>((long)x.Name, (double)x.Value)).OrderBy(x => x.Value).ToList();
-                    var r = new Random();
-                    var diceRoll = r.NextDouble() * 100;
-                    var cumulative = 0.0;
-                    foreach (var element in elements)
-                    {
-                        cumulative += element.Value;
-                        if (diceRoll < cumulative)
-                        {
-                            adId = element.Key;
-                            break;
-                        }
+                    // var r = new Random();
+                    // var diceRoll = r.NextDouble() * 100;
+                    // var cumulative = 0.0;
+                    if (elements.Count > 0) {
+                        adId = elements[0].Key;
                     }
+                    // foreach (var element in elements)
+                    // {
+                    //     cumulative += element.Value;
+                    //     if (diceRoll < cumulative)
+                    //     {
+                    //         adId = element.Key;
+                    //         break;
+                    //     }
+                    // }
                 }
             }
 
