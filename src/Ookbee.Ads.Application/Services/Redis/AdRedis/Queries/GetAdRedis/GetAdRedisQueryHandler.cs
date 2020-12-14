@@ -35,15 +35,15 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
             var adId = (long?)null;
             var redisValue = (RedisValue?)null;
 
-            // if (request.UserId != null)
-            // {
-            //     var isExistsAdUserPreview = await Mediator.Send(new IsExistsAdUserPreviewRedisQuery(request.UserId.Value), cancellationToken);
-            //     if (isExistsAdUserPreview.IsSuccess)
-            //     {
-            //         var redisKey = RedisKeys.UnitAdIdsPreview(request.AdUnitId, request.Platform);
-            //         adId = (long?)await AdsRedis.SetRandomMemberAsync(redisKey);
-            //     }
-            // }
+            if (request.UserId != null)
+            {
+                var isExistsAdUserPreview = await Mediator.Send(new IsExistsAdUserPreviewRedisQuery(request.UserId.Value), cancellationToken);
+                if (isExistsAdUserPreview.IsSuccess)
+                {
+                    var redisKey = RedisKeys.UnitAdIdsPreview(request.AdUnitId, request.Platform);
+                    adId = (long?)await AdsRedis.SetRandomMemberAsync(redisKey);
+                }
+            }
 
             if (!adId.HasValue())
             {
@@ -52,21 +52,18 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
                 if (hashEntries.HasValue())
                 {
                     var elements = hashEntries.Select(x => new KeyValuePair<long, double>((long)x.Name, (double)x.Value)).OrderBy(x => x.Value).ToList();
-                    // var r = new Random();
-                    // var diceRoll = r.NextDouble() * 100;
-                    // var cumulative = 0.0;
-                    if (elements.Count > 0) {
-                        adId = elements[0].Key;
+                    var r = new Random();
+                    var diceRoll = r.NextDouble() * 100;
+                    var cumulative = 0.0;
+                    foreach (var element in elements)
+                    {
+                        cumulative += element.Value;
+                        if (diceRoll < cumulative)
+                        {
+                            adId = element.Key;
+                            break;
+                        }
                     }
-                    // foreach (var element in elements)
-                    // {
-                    //     cumulative += element.Value;
-                    //     if (diceRoll < cumulative)
-                    //     {
-                    //         adId = element.Key;
-                    //         break;
-                    //     }
-                    // }
                 }
             }
 
@@ -74,10 +71,10 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
             {
                 var redisKey = RedisKeys.AdPlatforms(adId.Value);
                 redisValue = await AdsRedis.HashGetAsync(redisKey, request.Platform.ToString());
-                if (redisValue.HasValue())
-                {
-                    await Mediator.Send(new UpdateAdUnitStatsRedisCommand(request.AdUnitId, AdStatsType.Fill, 1));
-                }
+                // if (redisValue.HasValue())
+                // {
+                //     await Mediator.Send(new UpdateAdUnitStatsRedisCommand(request.AdUnitId, AdStatsType.Fill, 1));
+                // }
             }
 
             var result = new Response<string>();
