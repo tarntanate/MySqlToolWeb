@@ -35,15 +35,15 @@ namespace Ookbee.Ads.Application.Services.Cache.AdRedis.Commands.GetAdRedis
             var adId = (long?)null;
             var redisValue = (RedisValue?)null;
 
-            if (request.UserId != null)
-            {
-                var isExistsAdUserPreview = await Mediator.Send(new IsExistsAdUserPreviewRedisQuery(request.UserId.Value), cancellationToken);
-                if (isExistsAdUserPreview.IsSuccess)
-                {
-                    var redisKey = RedisKeys.UnitAdIdsPreview(request.AdUnitId, request.Platform);
-                    adId = (long?)await AdsRedis.SetRandomMemberAsync(redisKey);
-                }
-            }
+            // if (request.UserId != null)
+            // {
+            //     var isExistsAdUserPreview = await Mediator.Send(new IsExistsAdUserPreviewRedisQuery(request.UserId.Value), cancellationToken);
+            //     if (isExistsAdUserPreview.IsSuccess)
+            //     {
+            //         var redisKey = RedisKeys.UnitAdIdsPreview(request.AdUnitId, request.Platform);
+            //         adId = (long?)await AdsRedis.SetRandomMemberAsync(redisKey);
+            //     }
+            // }
 
             if (!adId.HasValue())
             {
