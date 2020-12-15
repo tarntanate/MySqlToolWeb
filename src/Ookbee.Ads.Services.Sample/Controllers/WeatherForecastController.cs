@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace Ookbee.Ads.Services.Sample.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/weather-forecast")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
