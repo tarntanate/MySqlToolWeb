@@ -32,9 +32,9 @@ namespace Ookbee.Ads.Application.Infrastructure.Tencent.Cos.CopyObject
                 var sourceKey = request.SourceKey;
                 var copySourceStruct = new CopySourceStruct(sourceAppid, sourceBucket, sourceRegion, sourceKey);
                 var copyObjectRequest = new CopyObjectRequest(request.DestinationBucket, request.DestinationKey);
-                copyObjectRequest.SetSign(TimeUtils.GetCurrentTime(TimeUnit.SECONDS), 600);
+                copyObjectRequest.SetSign(TimeUtils.GetCurrentTime(TimeUnit.Seconds), 600);
                 copyObjectRequest.SetCopySource(copySourceStruct);
-                copyObjectRequest.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.COPY);
+                copyObjectRequest.SetCopyMetaDataDirective(COSXML.Common.CosMetaDataDirective.Copy);
                 var copyObjectResult = cosXml.CopyObject(copyObjectRequest);
                 if (copyObjectResult.httpCode == 200)
                     return result.OK(true);
