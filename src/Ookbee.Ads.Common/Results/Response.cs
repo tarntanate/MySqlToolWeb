@@ -24,6 +24,17 @@ namespace Ookbee.Ads.Common.Response
             };
         }
 
+        public Response<T> FAIL(T data = default(T))
+        {
+            return new Response<T>()
+            {
+                IsSuccess = false,
+                Message = "Something wrong.",
+                StatusCode = HttpStatusCode.InternalServerError,
+                Data = data,
+            };
+        }
+
         public Response<T> NotFound(string message = "Data not found.", Dictionary<string, string[]> reasons = default)
         {
             return new Response<T>()

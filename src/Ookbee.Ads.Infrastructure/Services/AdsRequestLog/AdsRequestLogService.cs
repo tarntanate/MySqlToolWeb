@@ -44,9 +44,17 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog
         public async Task<Response<AdsRequestLogResponse>> Create(string url, Models.AdsRequestLog data, CancellationToken cancellationToken)
         {
             var request = this.CreateHttpRequest(HttpMethod.Post, $"{BaseUrl}/{url}", data, contentType); // HttpClientHelper.PrepareContent(data);
-            var httpResponse = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            Response<AdsRequestLogResponse> response;
+            try
+            {
+                var httpResponse = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response = await HttpClientHelper.ConvertToItemResult<AdsRequestLogResponse>(httpResponse);
+            }
+            catch {
+                response = new Response<AdsRequestLogResponse>().FAIL();
+             }
             // httpResponse.EnsureSuccessStatusCode();
-            var response = await HttpClientHelper.ConvertToItemResult<AdsRequestLogResponse>(httpResponse);
+            // var response = await HttpClientHelper.ConvertToItemResult<AdsRequestLogResponse>(httpResponse);
             return response;
         }
 
