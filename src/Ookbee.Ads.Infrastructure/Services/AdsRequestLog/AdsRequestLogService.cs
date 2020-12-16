@@ -45,7 +45,7 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog
         {
             var request = this.CreateHttpRequest(HttpMethod.Post, $"{BaseUrl}/{url}", data, contentType); // HttpClientHelper.PrepareContent(data);
             var httpResponse = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-            httpResponse.EnsureSuccessStatusCode();
+            // httpResponse.EnsureSuccessStatusCode();
             var response = await HttpClientHelper.ConvertToItemResult<AdsRequestLogResponse>(httpResponse);
             return response;
         }

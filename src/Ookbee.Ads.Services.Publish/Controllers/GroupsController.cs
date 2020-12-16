@@ -19,11 +19,13 @@ namespace Ookbee.Ads.Services.Publish.Controllers
     [Route("api/[controller]")]
     public class GroupsController : ApiController
     {
-        private static readonly HttpClient HttpClient;
+        private static readonly HttpClient httpClient;
+        private static readonly AdsRequestLogService adsRequestLogService;
 
         static GroupsController()
         {
-            HttpClient = new HttpClient();
+            httpClient = new HttpClient();
+            adsRequestLogService = new AdsRequestLogService(httpClient);
         }
 
         [HttpGet("{groupId}/units")]
@@ -36,8 +38,8 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         {
             AdsRequestLog kafkaRequest = CreateAdGroupRequestLog(platform, groupId, ookbeeId, deviceId);
 
-            var adRequestLogService = new AdsRequestLogService(HttpClient);
-            await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
+            // var adRequestLogService = new AdsRequestLogService(HttpClient);
+            await adsRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
             var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);
