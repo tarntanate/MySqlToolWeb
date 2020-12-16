@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models
 {
-    public class AdGroupRequestLogRequest
+    public class AdsRequestLog
     {
         [JsonProperty("records")]
-        public List<AdGroupRequestLogRecordRequest> Records { get; set; }
+        public List<AdsRequestLogRecord> Records { get; set; }
 
         [JsonProperty("key_schema_id")]
         public int KeySchemaId { get; set; }

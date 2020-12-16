@@ -35,8 +35,8 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
             [FromQuery] int campaignId,
             [FromQuery] int publisherId,
             [FromQuery] string type,
-            [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId_header,
-            [FromHeader(Name = "Ookbee-Device-Id")] string deviceId_header,
+            [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId,
+            [FromHeader(Name = "Ookbee-Device-Id")] string deviceId,
             CancellationToken cancellationToken)
         {
             if (platform == AdPlatform.Unknown)
@@ -44,37 +44,7 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                 return new ContentResult() { StatusCode = 500, Content = "Require 'platform' parameter!" };
             }
 
-            var uuid = ookbeeId_header ?? deviceId_header ?? "0";
-            if (uuid.Length > 32)
-            {
-                uuid = uuid.Substring(0, 32);
-            }
-            var kafkaKeyValue = new AdGroupRequestLogRecordRequest
-            {
-                Key = new AdGroupRequestLogKeyRequest
-                {
-                    UUID = uuid
-                },
-                Value = new AdsRequestLogValueRequest
-                {
-                    CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    AdsGroupId = 0,
-                    AdId = 0,
-                    AdUnitId = (int)adUnitId,
-                    UnitId = (int)adUnitId,
-                    CampaignId = (int)campaignId,
-                    PlatformId = (int)platform,
-                    PublisherId = (int)publisherId,
-                    UUID = uuid
-                }
-            };
-
-            var kafkaRequest = new AdGroupRequestLogRequest
-            {
-                Records = new List<AdGroupRequestLogRecordRequest>() {
-                    kafkaKeyValue
-                }
-            };
+            AdsRequestLog kafkaRequest = CreateAdRequestLog(adUnitId, platform, campaignId, publisherId, ookbeeId, deviceId);
 
             var adRequestLogService = new AdsRequestLogService(HttpClient);
 
@@ -94,11 +64,46 @@ namespace Ookbee.Ads.Services.Analytics.Controllers
                 await adRequestLogService.Create("topics/adclicklog", kafkaRequest, cancellationToken);
             }
 
-            return new ContentResult() { StatusCode = 200 };
-            // var result = await Mediator.Send(new UpdateAdUnitStatsRedisCommand(adUnitId, type.ToEnum<AdStatsType>()), cancellationToken);
-            // if (result.IsSuccess)
-            //     return new ContentResult() { StatusCode = 200 };
-            // return new ContentResult() { StatusCode = 404, Content = result.Message };
+            var result = await Mediator.Send(new UpdateAdUnitStatsRedisCommand(adUnitId, type.ToEnum<AdStatsType>()), cancellationToken);
+            if (result.IsSuccess)
+                return new ContentResult() { StatusCode = 200 };
+            return new ContentResult() { StatusCode = 404, Content = result.Message };
+        }
+
+        private static AdsRequestLog CreateAdRequestLog(long adUnitId, AdPlatform platform, int campaignId, int publisherId, string ookbeeId, string deviceId)
+        {
+            var uuid = ookbeeId ?? deviceId ?? "0";
+            if (uuid.Length > 32)
+            {
+                uuid = uuid.Substring(0, 32);
+            }
+            var kafkaKeyValue = new AdsRequestLogRecord
+            {
+                Key = new AdsRequestLogKey
+                {
+                    UUID = uuid
+                },
+                Value = new AdsRequestLogValue
+                {
+                    CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    AdsGroupId = 0,
+                    AdId = 0,
+                    AdUnitId = (int)adUnitId,
+                    UnitId = (int)adUnitId,
+                    CampaignId = (int)campaignId,
+                    PlatformId = (int)platform,
+                    PublisherId = (int)publisherId,
+                    UUID = uuid
+                }
+            };
+
+            var kafkaRequest = new AdsRequestLog
+            {
+                Records = new List<AdsRequestLogRecord>() {
+                    kafkaKeyValue
+                }
+            };
+            return kafkaRequest;
         }
     }
 }

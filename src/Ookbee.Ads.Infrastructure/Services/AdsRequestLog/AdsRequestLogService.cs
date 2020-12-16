@@ -41,7 +41,7 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog
             return request;
         }
 
-        public async Task<Response<AdsRequestLogResponse>> Create(string url, AdGroupRequestLogRequest data, CancellationToken cancellationToken)
+        public async Task<Response<AdsRequestLogResponse>> Create(string url, Models.AdsRequestLog data, CancellationToken cancellationToken)
         {
             var request = this.CreateHttpRequest(HttpMethod.Post, $"{BaseUrl}/{url}", data, contentType); // HttpClientHelper.PrepareContent(data);
             var httpResponse = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
@@ -50,7 +50,7 @@ namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog
             return response;
         }
 
-        public async Task<Response<ApiItemResult<AdsRequestLogResponse>>> Create(string url, IEnumerable<AdGroupRequestLogRequest> data, CancellationToken cancellationToken)
+        public async Task<Response<ApiItemResult<AdsRequestLogResponse>>> Create(string url, IEnumerable<Models.AdsRequestLog> data, CancellationToken cancellationToken)
         {
             var content = HttpClientHelper.PrepareContent(data);
             var httpResponse = await Client.PostAsync($"{BaseUrl}/{url}", content, cancellationToken);

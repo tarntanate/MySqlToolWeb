@@ -30,43 +30,14 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         public async Task<ContentResult> GetAdUnitByGroupId(
             [FromQuery] AdPlatform platform,
             [FromRoute] long groupId,
-            [FromQuery] string ookbeeId,
-            [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId_header,
-            [FromHeader(Name = "Ookbee-Device-Id")] string deviceId_header,
+            [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId,
+            [FromHeader(Name = "Ookbee-Device-Id")] string deviceId,
             CancellationToken cancellationToken)
         {
-            var uuid = ookbeeId_header ?? ookbeeId ?? deviceId_header ?? "0";
-            if (uuid.Length > 32) {
-                uuid = uuid.Substring(0, 32);
-            }
-            var kafkaKeyValue = new AdGroupRequestLogRecordRequest
-            {
-                Key = new AdGroupRequestLogKeyRequest
-                {
-                    UUID = uuid
-                },
-                Value = new AdsRequestLogValueRequest
-                {
-                    CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    AdsGroupId = (int)groupId,
-                    PlatformId = (int)platform,
-                    UUID = uuid
-                }
-            };
+            AdsRequestLog kafkaRequest = CreateAdGroupRequestLog(platform, groupId, ookbeeId, deviceId);
 
-            var kafkaSchema = new GroupRequestLogSchema();
-            var kafkaRequest = new AdGroupRequestLogRequest
-            {
-                Records = new List<AdGroupRequestLogRecordRequest>() {
-                    kafkaKeyValue
-                },
-                ValueSchemaId = kafkaSchema.ValueSchemaId,
-                KeySchemaId = kafkaSchema.KeySchemaId
-            };
-
-            // var adRequestLogService = new AdsRequestLogService(HttpClient);
-            // var kafkaResponse = await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
-            // var s = kafkaResponse.StatusCode;
+            var adRequestLogService = new AdsRequestLogService(HttpClient);
+            await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
 
             string platformString = Enum.GetName(typeof(AdPlatform), platform);
             var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);
@@ -82,6 +53,40 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             if (result.IsSuccess)
                 return Content(result.Data, "application/json");
             return new ContentResult() { StatusCode = 404 };
+        }
+
+        private static AdsRequestLog CreateAdGroupRequestLog(AdPlatform platform, long groupId, string ookbeeId, string deviceId)
+        {
+            var uuid = ookbeeId ?? deviceId ?? "0";
+            if (uuid.Length > 32)
+            {
+                uuid = uuid.Substring(0, 32);
+            }
+            var kafkaKeyValue = new AdsRequestLogRecord
+            {
+                Key = new AdsRequestLogKey
+                {
+                    UUID = uuid
+                },
+                Value = new AdsRequestLogValue
+                {
+                    CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    AdsGroupId = (int)groupId,
+                    PlatformId = (int)platform,
+                    UUID = uuid
+                }
+            };
+
+            var adGroupKafkaSchema = new GroupRequestLogSchema();
+            var kafkaRequest = new AdsRequestLog
+            {
+                Records = new List<AdsRequestLogRecord>() {
+                    kafkaKeyValue
+                },
+                ValueSchemaId = adGroupKafkaSchema.ValueSchemaId,
+                KeySchemaId = adGroupKafkaSchema.KeySchemaId
+            };
+            return kafkaRequest;
         }
     }
 }

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Ookbee.Ads.Infrastructure.Services.AdsRequestLog.Models
 {
-    public class AdsRequestLogValueRequest
+    public class AdsRequestLogValue
     {
         [JsonProperty("CreatedAt")]
         public string CreatedAt { get; set; }
