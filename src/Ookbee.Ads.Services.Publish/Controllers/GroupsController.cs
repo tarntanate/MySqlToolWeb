@@ -34,7 +34,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             [FromHeader(Name = "Ookbee-Device-Id")] string deviceId,
             CancellationToken cancellationToken)
         {
-            AdGroupRequestLogRequest kafkaRequest = CreateAdGroupRequestLog(platform, groupId, ookbeeId, deviceId);
+            AdsRequestLog kafkaRequest = CreateAdGroupRequestLog(platform, groupId, ookbeeId, deviceId);
 
             var adRequestLogService = new AdsRequestLogService(HttpClient);
             await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
@@ -55,20 +55,20 @@ namespace Ookbee.Ads.Services.Publish.Controllers
             return new ContentResult() { StatusCode = 404 };
         }
 
-        private static AdGroupRequestLogRequest CreateAdGroupRequestLog(AdPlatform platform, long groupId, string ookbeeId, string deviceId)
+        private static AdsRequestLog CreateAdGroupRequestLog(AdPlatform platform, long groupId, string ookbeeId, string deviceId)
         {
             var uuid = ookbeeId ?? deviceId ?? "0";
             if (uuid.Length > 32)
             {
                 uuid = uuid.Substring(0, 32);
             }
-            var kafkaKeyValue = new AdGroupRequestLogRecordRequest
+            var kafkaKeyValue = new AdsRequestLogRecord
             {
-                Key = new AdGroupRequestLogKeyRequest
+                Key = new AdsRequestLogKey
                 {
                     UUID = uuid
                 },
-                Value = new AdsRequestLogValueRequest
+                Value = new AdsRequestLogValue
                 {
                     CreatedAt = MechineDateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
                     AdsGroupId = (int)groupId,
@@ -77,14 +77,14 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                 }
             };
 
-            var kafkaSchema = new GroupRequestLogSchema();
-            var kafkaRequest = new AdGroupRequestLogRequest
+            var adGroupKafkaSchema = new GroupRequestLogSchema();
+            var kafkaRequest = new AdsRequestLog
             {
-                Records = new List<AdGroupRequestLogRecordRequest>() {
+                Records = new List<AdsRequestLogRecord>() {
                     kafkaKeyValue
                 },
-                ValueSchemaId = kafkaSchema.ValueSchemaId,
-                KeySchemaId = kafkaSchema.KeySchemaId
+                ValueSchemaId = adGroupKafkaSchema.ValueSchemaId,
+                KeySchemaId = adGroupKafkaSchema.KeySchemaId
             };
             return kafkaRequest;
         }

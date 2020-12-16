@@ -49,7 +49,7 @@ namespace Ookbee.Ads.Application.Infrastructure
                             await mediator.Send(new CreateAdUserPreviewRedisCommand(), cancellationToken);
 
                             var nowDateTime = MechineDateTime.Now;
-                            var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(5));
+                            var nextDateTime = nowDateTime.RoundUp(TimeSpan.FromSeconds(10));
                             var timeout = nextDateTime - nowDateTime;
                             Thread.Sleep(timeout);
                         }
