@@ -30,13 +30,36 @@ namespace Ookbee.Ads.Services.Publish.Controllers
         public async Task<ContentResult> GetAdUnitByGroupId(
             [FromQuery] AdPlatform platform,
             [FromRoute] long groupId,
-            [FromQuery] string ookbeeId,
-            [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId_header,
-            [FromHeader(Name = "Ookbee-Device-Id")] string deviceId_header,
+            [FromHeader(Name = "Ookbee-Account-Id")] string ookbeeId,
+            [FromHeader(Name = "Ookbee-Device-Id")] string deviceId,
             CancellationToken cancellationToken)
         {
-            var uuid = ookbeeId_header ?? ookbeeId ?? deviceId_header ?? "0";
-            if (uuid.Length > 32) {
+            AdGroupRequestLogRequest kafkaRequest = CreateAdGroupRequestLog(platform, groupId, ookbeeId, deviceId);
+
+            var adRequestLogService = new AdsRequestLogService(HttpClient);
+            await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
+
+            string platformString = Enum.GetName(typeof(AdPlatform), platform);
+            var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);
+            if (result.IsSuccess)
+                return Content(result.Data, "application/json");
+            return new ContentResult() { StatusCode = 404 };
+        }
+
+        [HttpGet("ids")]
+        public async Task<ContentResult> GetAdGroupIdListByPubliser([FromHeader(Name = "Ookbee-App-Language")] string lange, [FromQuery] string publisher, CancellationToken cancellationToken)
+        {
+            var result = await Mediator.Send(new GetAdGroupIdListByPublisherIdRedisQuery(publisher, lange), cancellationToken);
+            if (result.IsSuccess)
+                return Content(result.Data, "application/json");
+            return new ContentResult() { StatusCode = 404 };
+        }
+
+        private static AdGroupRequestLogRequest CreateAdGroupRequestLog(AdPlatform platform, long groupId, string ookbeeId, string deviceId)
+        {
+            var uuid = ookbeeId ?? deviceId ?? "0";
+            if (uuid.Length > 32)
+            {
                 uuid = uuid.Substring(0, 32);
             }
             var kafkaKeyValue = new AdGroupRequestLogRecordRequest
@@ -63,25 +86,7 @@ namespace Ookbee.Ads.Services.Publish.Controllers
                 ValueSchemaId = kafkaSchema.ValueSchemaId,
                 KeySchemaId = kafkaSchema.KeySchemaId
             };
-
-            // var adRequestLogService = new AdsRequestLogService(HttpClient);
-            // var kafkaResponse = await adRequestLogService.Create("topics/grouprequestlog", kafkaRequest, cancellationToken);
-            // var s = kafkaResponse.StatusCode;
-
-            string platformString = Enum.GetName(typeof(AdPlatform), platform);
-            var result = await Mediator.Send(new GetAdUnitByGroupIdRedisQuery(platformString, groupId), cancellationToken);
-            if (result.IsSuccess)
-                return Content(result.Data, "application/json");
-            return new ContentResult() { StatusCode = 404 };
-        }
-
-        [HttpGet("ids")]
-        public async Task<ContentResult> GetAdGroupIdListByPubliser([FromHeader(Name = "Ookbee-App-Language")] string lange, [FromQuery] string publisher, CancellationToken cancellationToken)
-        {
-            var result = await Mediator.Send(new GetAdGroupIdListByPublisherIdRedisQuery(publisher, lange), cancellationToken);
-            if (result.IsSuccess)
-                return Content(result.Data, "application/json");
-            return new ContentResult() { StatusCode = 404 };
+            return kafkaRequest;
         }
     }
 }
